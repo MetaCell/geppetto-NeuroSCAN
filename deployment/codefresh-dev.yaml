@@ -1,0 +1,56 @@
+version: '1.0'
+stages:
+- prepare
+- build
+- deploy
+steps:
+  main_clone:
+    title: Clone main repository
+    type: git-clone
+    stage: prepare
+    repo: '${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}'
+    revision: '${{CF_BRANCH}}'
+    git: github
+  build_application_images:
+    type: parallel
+    stage: build
+    steps:
+      backend:
+        type: build
+        stage: build
+        tag: '${{CF_BUILD_ID}}'
+        dockerfile: Dockerfile
+        registry: '${{CODEFRESH_REGISTRY}}'
+        image_name: geppetto-yale-neuro-scan-backend
+        title: NeuroSCAN-Backend
+        working_directory: backend
+      frontend:
+        type: build
+        stage: build
+        tag: '${{CF_BUILD_ID}}'
+        dockerfile: Dockerfile
+        registry: '${{CODEFRESH_REGISTRY}}'
+        image_name: geppetto-yale-neuro-scan-frontend
+        title: NeuroSCAN-Frontend
+        working_directory: frontend
+  deployment:
+    stage: deploy
+    image: codefresh/cfstep-helm:3.4.1
+    title: Installing chart
+    environment:
+    - CHART_REF=./deployment/helm
+    - RELEASE_NAME=${{NAMESPACE}}
+    - KUBE_CONTEXT=${{CLUSTER_NAME}}
+    - NAMESPACE=${{NAMESPACE}}
+    - CHART_VERSION=${{DEPLOYMENT_PUBLISH_TAG}}
+    - HELM_REPO_USE_HTTP=false
+    - HELM_REPO_CONTEXT_PATH=
+    - TIMEOUT=600s
+    - VALUESFILE_values=./deployment/helm/values.yaml
+    - CUSTOM_tag=${{CF_BUILD_ID}}
+    - CUSTOM_local=false
+    - CUSTOM_tls=true
+    - CUSTOM_ingress_redirect=true
+    - CUSTOM_apps_backend_harness_deployment_image=${{REGISTRY}}/geppetto-yale-neuro-scan-backend:${{CF_BUILD_ID}}
+    - CUSTOM_apps_frontend_harness_deployment_image=${{REGISTRY}}/geppetto-yale-neuro-scan-frontend:${{CF_BUILD_ID}}
+    - CUSTOM_namespace=${{NAMESPACE}}
