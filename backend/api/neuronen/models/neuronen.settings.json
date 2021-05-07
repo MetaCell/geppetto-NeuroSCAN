@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "neuronens",
+  "info": {
+    "name": "Neuron",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "objFile": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    }
+  }
+}

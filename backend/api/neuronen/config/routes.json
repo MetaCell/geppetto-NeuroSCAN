@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/neuronens",
+      "handler": "neuronen.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/neuronens/count",
+      "handler": "neuronen.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/neuronens/:id",
+      "handler": "neuronen.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/neuronens",
+      "handler": "neuronen.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/neuronens/:id",
+      "handler": "neuronen.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/neuronens/:id",
+      "handler": "neuronen.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
