@@ -33,6 +33,8 @@ steps:
         image_name: geppetto-yale-neuro-scan-frontend
         title: NeuroSCAN-Frontend
         working_directory: frontend
+        build_arguments:
+          - REACT_APP_BACKEND_URL=${{BACKEND_URL}}
   deployment:
     stage: deploy
     image: codefresh/cfstep-helm:3.4.1
