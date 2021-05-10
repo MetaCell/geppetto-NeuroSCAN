@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "05/07/2021 1:09:52 PM"
+    "x-generation-date": "05/10/2021 12:09:03 PM"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -45,7 +45,7 @@
     }
   ],
   "paths": {
-    "/neuronens": {
+    "/neurons": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -57,7 +57,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Neuronen"
+                    "$ref": "#/components/schemas/Neuron"
                   }
                 }
               }
@@ -96,7 +96,7 @@
         },
         "summary": "",
         "tags": [
-          "Neuronen"
+          "Neuron"
         ],
         "parameters": [
           {
@@ -246,7 +246,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Neuronen"
+                  "$ref": "#/components/schemas/Neuron"
                 }
               }
             }
@@ -284,7 +284,7 @@
         },
         "summary": "",
         "tags": [
-          "Neuronen"
+          "Neuron"
         ],
         "requestBody": {
           "description": "",
@@ -292,14 +292,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewNeuronen"
+                "$ref": "#/components/schemas/NewNeuron"
               }
             }
           }
         }
       }
     },
-    "/neuronens/count": {
+    "/neurons/count": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -351,12 +351,12 @@
         },
         "summary": "",
         "tags": [
-          "Neuronen"
+          "Neuron"
         ],
         "parameters": []
       }
     },
-    "/neuronens/{id}": {
+    "/neurons/{id}": {
       "get": {
         "deprecated": false,
         "description": "",
@@ -366,7 +366,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Neuronen"
+                  "$ref": "#/components/schemas/Neuron"
                 }
               }
             }
@@ -404,7 +404,7 @@
         },
         "summary": "",
         "tags": [
-          "Neuronen"
+          "Neuron"
         ],
         "parameters": [
           {
@@ -428,7 +428,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Neuronen"
+                  "$ref": "#/components/schemas/Neuron"
                 }
               }
             }
@@ -466,7 +466,7 @@
         },
         "summary": "",
         "tags": [
-          "Neuronen"
+          "Neuron"
         ],
         "requestBody": {
           "description": "",
@@ -474,7 +474,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewNeuronen"
+                "$ref": "#/components/schemas/NewNeuron"
               }
             }
           }
@@ -540,7 +540,7 @@
         },
         "summary": "",
         "tags": [
-          "Neuronen"
+          "Neuron"
         ],
         "parameters": [
           {
@@ -2785,7 +2785,7 @@
   },
   "components": {
     "schemas": {
-      "Neuronen": {
+      "Neuron": {
         "required": [
           "id"
         ],
@@ -2793,7 +2793,7 @@
           "id": {
             "type": "string"
           },
-          "Name": {
+          "name": {
             "type": "string"
           },
           "objFile": {
@@ -2869,9 +2869,9 @@
           }
         }
       },
-      "NewNeuronen": {
+      "NewNeuron": {
         "properties": {
-          "Name": {
+          "name": {
             "type": "string"
           },
           "published_at": {
@@ -3173,7 +3173,7 @@
   },
   "tags": [
     {
-      "name": "Neuronen"
+      "name": "Neuron"
     },
     {
       "name": "Email - Email"

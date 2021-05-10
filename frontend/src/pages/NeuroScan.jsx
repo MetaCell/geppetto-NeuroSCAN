@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import apiClient from '../api/client';
 
-const NeuroScan = () => ({
+const NeuroScan = () => {
+  useEffect(() => {
+    apiClient.get('/neurons')
+      .then((response) => console.log(response));
+  });
 
-  render() {
-    return <h1>Neuro SCAN</h1>;
-  },
-});
+  return (
+    <h1>Neuro SCAN</h1>
+  );
+};
 
 export default NeuroScan;
