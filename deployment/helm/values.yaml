@@ -99,7 +99,7 @@ privenv:
 ingress:
   enabled: true
   name: geppetto-yale-ingress
-  ssl_redirect: false
+  ssl_redirect: true
   letsencrypt:
     email: filippo@metacell.us
 backup:

@@ -52,7 +52,6 @@ steps:
     - CUSTOM_tag=${{CF_BUILD_ID}}
     - CUSTOM_local=false
     - CUSTOM_tls=true
-    - CUSTOM_ingress_redirect=true
-    - CUSTOM_apps_backend_harness_deployment_image=${{REGISTRY}}/geppetto-yale-neuro-scan-backend:${{CF_BUILD_ID}}
+    - CUSTOM_apps_strapi_harness_deployment_image=${{REGISTRY}}/geppetto-yale-neuro-scan-backend:${{CF_BUILD_ID}}
     - CUSTOM_apps_frontend_harness_deployment_image=${{REGISTRY}}/geppetto-yale-neuro-scan-frontend:${{CF_BUILD_ID}}
     - CUSTOM_namespace=${{NAMESPACE}}
