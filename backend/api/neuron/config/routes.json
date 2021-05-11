@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/neurons",
+      "handler": "neuron.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/neurons/count",
+      "handler": "neuron.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/neurons/:id",
+      "handler": "neuron.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/neurons",
+      "handler": "neuron.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/neurons/:id",
+      "handler": "neuron.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/neurons/:id",
+      "handler": "neuron.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
