@@ -9,7 +9,9 @@ const {
 
 module.exports = {
   babel: {
-    presets: ['@babel/preset-react'],
+    presets: [
+      '@babel/preset-react',
+    ],
     plugins: [],
   },
 };

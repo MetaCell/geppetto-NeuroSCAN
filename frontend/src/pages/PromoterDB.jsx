@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const PromoterDB = () => (
-  <h1>PromoterDB</h1>
-);
+const PromoterDB = () => {
+  useEffect(() => {
+  });
+
+  return (
+    <div>
+      <h1>PromoterDB</h1>
+    </div>
+  );
+};
 
 export default PromoterDB;

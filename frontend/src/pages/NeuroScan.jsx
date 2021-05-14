@@ -8,7 +8,9 @@ const NeuroScan = () => {
   });
 
   return (
-    <h1>Neuro SCAN</h1>
+    <div>
+      <h1>Neuro SCAN</h1>
+    </div>
   );
 };
 

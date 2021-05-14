@@ -1,0 +1,12 @@
+{
+  "version": "v1",
+  "packages": {
+    "@geppettoengine/geppetto-client": {
+      "signature": "03426bca18846ea65fc158b9a5e0a901"
+    },
+    "@geppettoengine/geppetto-ui": {
+      "signature": "b15f446596481946724983139a48e87d",
+      "file": true
+    }
+  }
+}
