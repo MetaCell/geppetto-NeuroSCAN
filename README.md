@@ -1,9 +1,30 @@
 # Geppetto - NeuroSCAN & PromoterDB
 
-Yale NeuroSCAN &amp; Promoter DB Project
+The Yale NeuroSCAN &amp; Promoter DB Project
 
 ## Folder Structure
 
 * `backend/` strapi - headless CMS
 * `frontend/` React application composed of NeuroSCAN and PromoterDB application
 * `deployment/` Helm chart and Codefresh pipeline definition
+
+## Local Development
+
+Follow the respective README in the `frontend` and `backend` project to start up a development server for each project.
+
+The default configuration is already set up so that no modification of ENV variables or configuration is required.
+
+The first time you start up StrapiCMS you will need to create an admin account.
+
+## Minikube
+
+Optionally, you can also deploy to a local minikube cluster to test any changes in context of Kubernetes.
+
+Two scripts are available to take off some work:
+
+* `build.sh` - builds the required Docker images
+* `deploy_minikube.sh` - installs the helm chart, located in `deployment` folder, in the minikube cluster
+
+## Deployment
+
+A commit to development branch will trigger the deployment pipeline in Codefresh for the development stage.
