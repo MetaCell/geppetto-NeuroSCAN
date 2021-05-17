@@ -9,6 +9,7 @@ WORKDIR /app
 # YARN REQUIRES GIT BINARY
 RUN apk add git
 RUN yarn global add yalc
+RUN yarn global add typescript
 
 # INSTALL geppetto-ui as dependency
 RUN git clone https://github.com/MetaCell/geppetto-meta.git
