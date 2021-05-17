@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import BigImageViewerExample
+  from '@geppettoengine/geppetto-ui/dist/big-image-viewer/showcase/examples/BigImageViewerExample';
 import apiClient from '../api/client';
 
 const NeuroScan = () => {
@@ -10,6 +12,7 @@ const NeuroScan = () => {
   return (
     <div>
       <h1>Neuro SCAN</h1>
+      <BigImageViewerExample />
     </div>
   );
 };

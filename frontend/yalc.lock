@@ -1,11 +1,8 @@
 {
   "version": "v1",
   "packages": {
-    "@geppettoengine/geppetto-client": {
-      "signature": "03426bca18846ea65fc158b9a5e0a901"
-    },
     "@geppettoengine/geppetto-ui": {
-      "signature": "b15f446596481946724983139a48e87d",
+      "signature": "d848c7d5076b764235e097e6ec0b0f4b",
       "file": true
     }
   }

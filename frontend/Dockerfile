@@ -8,10 +8,21 @@ WORKDIR /app
 
 # YARN REQUIRES GIT BINARY
 RUN apk add git
+RUN yarn global add yalc
+
+# INSTALL geppetto-ui as dependency
+RUN git clone https://github.com/MetaCell/geppetto-meta.git
+WORKDIR /app/geppetto-meta/geppetto.js/geppetto-ui
+RUN git checkout feature/66_geppetto_ui_package
+RUN yarn && yarn build
+RUN yalc publish
 
 # INSTALL PACKAGES
+WORKDIR /app/frontend
 COPY ./package.json ./
 COPY ./yarn.lock ./
+
+RUN yalc add @geppettoengine/geppetto-ui
 RUN yarn
 
 # COPY SOURCE CODE
@@ -23,7 +34,7 @@ RUN yarn build
 ####################################################################
 
 FROM nginx:alpine
-COPY --from=build-stage /app/build/ /usr/share/nginx/html
+COPY --from=build-stage /app/frontend/build/ /usr/share/nginx/html
 
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx/nginx.conf /etc/nginx/conf.d
