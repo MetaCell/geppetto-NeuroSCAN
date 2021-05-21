@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "neurons",
   "info": {
-    "name": "Neuron"
+    "name": "Neuron",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -14,8 +15,8 @@
     "name": {
       "type": "string"
     },
-    "objFile": {
-      "model": "file",
+    "files": {
+      "collection": "file",
       "via": "related",
       "allowedTypes": [
         "files"
@@ -23,6 +24,15 @@
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
+    },
+    "developmental_stages": {
+      "collection": "developmental-stage"
+    },
+    "metadata": {
+      "type": "text"
+    },
+    "wormatlas": {
+      "type": "string"
     }
   }
 }

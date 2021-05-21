@@ -1,5 +1,9 @@
+# The NeuroSCAN & PomoterDB Frontend
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using
 the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+
+We use [craco](https://www.npmjs.com/package/@craco/craco) to extend the CRA setup.
 
 ## Getting Started
 
@@ -11,6 +15,17 @@ Install yarn
 
 ```bash
 npm install -g yarn
+```
+
+Install geppetto-meta dependencies (e.g. geppetto-ui)
+
+```bash
+yarn global add yalc 
+yarn global add typescript
+git clone https://github.com/MetaCell/geppetto-meta.git --branch feature/66_geppetto_ui_package
+cd geppetto-meta/geppetto.js/geppetto-ui
+yarn && yarn build
+yalc publish
 ```
 
 Install dependencies
