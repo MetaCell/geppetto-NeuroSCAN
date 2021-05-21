@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "developmental_stages",
+  "info": {
+    "name": "DevelopmentalStage"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "uid"
+    }
+  }
+}

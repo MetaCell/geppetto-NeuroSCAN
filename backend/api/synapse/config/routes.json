@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/synapses",
+      "handler": "synapse.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/synapses/count",
+      "handler": "synapse.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/synapses/:id",
+      "handler": "synapse.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/synapses",
+      "handler": "synapse.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/synapses/:id",
+      "handler": "synapse.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/synapses/:id",
+      "handler": "synapse.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
