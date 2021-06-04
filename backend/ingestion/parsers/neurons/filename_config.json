@@ -5,6 +5,10 @@
     "id":{
       "expression": "_(.*)_\\1",
       "group": 1
+    },
+    "name":{
+      "expression": "_(.*)_\\1",
+      "group": 1
     }
   }
 }

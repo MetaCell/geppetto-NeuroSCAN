@@ -2,6 +2,7 @@
   "filepath": "../../data/promoter_db/DCR_PromoterPipeline_Revised2021_Updated.xlsx",
   "column_id": "Neuron",
   "column_of_interest": {
+    "Neuron": "name",
     "Lineage Name": "lineage",
     "Location": "location"
   }
