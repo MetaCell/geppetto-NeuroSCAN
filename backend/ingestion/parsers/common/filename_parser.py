@@ -1,12 +1,14 @@
-from backend.ingestion.common.utils import Config, without_keys
 import os
 import re
 import logging
 
+from backend.ingestion.parsers.common.IParser import IParser
+from backend.ingestion.parsers.common.utils import Config, get_dict_without_keys
+
 logging.basicConfig(filename='filename_parser_errors.log', level=logging.ERROR)
 
 
-class FilenameParser:
+class FilenameParser(IParser):
   mandatory_attributes = ['directory', 'regex']
 
   def __init__(self, config: Config):
@@ -49,9 +51,9 @@ class FilenameParser:
 
   def _update_data(self, fields, filename):
     if fields['id'] in self.data:
-      self.data[fields['id']][filename] = without_keys(fields, ['id'])
+      self.data[fields['id']][filename] = get_dict_without_keys(fields, ['id'])
     else:
-      self.data[fields['id']] = {filename: without_keys(fields, ['id'])}
+      self.data[fields['id']] = {filename: get_dict_without_keys(fields, ['id'])}
 
   def get_data(self):
     return self.data
