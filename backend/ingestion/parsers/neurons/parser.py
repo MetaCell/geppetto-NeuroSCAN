@@ -3,14 +3,20 @@ from backend.ingestion.parsers.common.filename_parser import FilenameParser
 from backend.ingestion.parsers.common.utils import Config, merge_dict
 
 
-def main():
+def get_obj_data():
   obj_parser = FilenameParser(Config('./filename_config.json').get_config())
   obj_parser.parse()
-  obj_data = obj_parser.get_data()
+  return obj_parser.get_data()
+
+
+def get_csv_data():
   csv_parser = CSVParser(Config('csv_config.json').get_config())
   csv_parser.parse()
-  csv_data = csv_parser.get_data()
-  merged_data = merge_dict(obj_data, csv_data)
+  return csv_parser.get_data()
+
+
+def main():
+  merged_data = merge_dict(get_obj_data(), get_csv_data())
   print(merged_data)
 
 

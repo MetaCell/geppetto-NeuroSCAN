@@ -32,11 +32,11 @@ class FilenameParser(IParser):
         continue
 
   def _filename_check(self, filename):
-    if self.cfg.extension is None:
+    if self.cfg.extension is None:  # No extension means we will look into all the files
       return True
     return any(filename.endswith(e) for e in self.cfg.extension)
 
-  def _get_fields(self, filename):
+  def _get_fields(self, filename):  # Returns dictionary with all the pairs (key, applied regex) for the regex specified in config file.
     return {key: self._apply_regex(filename, key) for key in self.cfg.regex.__dict__.keys()}
 
   def _apply_regex(self, test_string: str, key):
@@ -50,10 +50,11 @@ class FilenameParser(IParser):
       logging.error(f"{test_string} failed to get fields")
 
   def _update_data(self, fields, filename):
+    augmented_fields = {**fields, 'files': filename}
     if fields['id'] in self.data:
-      self.data[fields['id']][filename] = get_dict_without_keys(fields, ['id'])
+      self.data[fields['id']][filename] = get_dict_without_keys(augmented_fields, ['id'])
     else:
-      self.data[fields['id']] = {filename: get_dict_without_keys(fields, ['id'])}
+      self.data[fields['id']] = {filename: get_dict_without_keys(augmented_fields, ['id'])}
 
   def get_data(self):
     return self.data
