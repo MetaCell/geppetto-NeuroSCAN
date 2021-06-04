@@ -7,7 +7,9 @@ def merge_dict(dict1, dict2):
   dict3 = {**dict1, **dict2}
   for key, value in dict3.items():
     if key in dict1 and key in dict2:
-      dict3[key] = [value, dict1[key]]
+      source1 = list(value.keys())[0]
+      source2 = list(dict1[key].keys())[0]
+      dict3[key] = {source1: value[source1], source2: dict1[key][source2]}
   return dict3
 
 

@@ -16,7 +16,7 @@ class CSVParser(IParser):
 
   def parse(self):
     df = pd.read_excel(self.cfg.filepath)
-    column_of_interest = [self.cfg.column_id] + self.cfg.column_of_interest
+    column_of_interest = [self.cfg.column_id] + list(self.cfg.column_of_interest.__dict__.keys())
     [self._update_data(row) for row in df[column_of_interest].to_numpy()]
 
   def _update_data(self, row):
@@ -30,7 +30,7 @@ class CSVParser(IParser):
   def _get_dict_from_row(self, row):
     d = {}
     for i in range(0, len(row)):
-      d[self.cfg.column_of_interest[i]] = row[i]
+      d[list(self.cfg.column_of_interest.__dict__.values())[i]] = row[i]
     return d
 
   def get_data(self):

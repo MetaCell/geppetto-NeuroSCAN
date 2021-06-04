@@ -1,7 +1,8 @@
 {
   "filepath": "../../data/promoter_db/DCR_PromoterPipeline_Revised2021_Updated.xlsx",
   "column_id": "Neuron",
-  "column_of_interest": [
-    "Lineage Name", "Location"
-  ]
+  "column_of_interest": {
+    "Lineage Name": "lineage",
+    "Location": "location"
+  }
 }
