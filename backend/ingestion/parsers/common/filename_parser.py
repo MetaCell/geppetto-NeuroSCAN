@@ -59,7 +59,7 @@ class FilenameParser(IParser):
     return result
 
   def _update_data(self, fields, filename):
-    augmented_fields = {**fields, 'files': filename}
+    augmented_fields = {**fields, 'files': self._get_filepath(filename)}
     if fields['id'] in self.data:
       self.data[fields['id']][filename] = get_dict_without_keys(augmented_fields, ['id'])
     else:
@@ -67,3 +67,7 @@ class FilenameParser(IParser):
 
   def get_data(self):
     return self.data
+
+  # todo: update when know ftp file structure
+  def _get_filepath(self, filename):
+    return os.path.join(self.cfg.directory, filename)
