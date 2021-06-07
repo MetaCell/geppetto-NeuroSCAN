@@ -4,7 +4,7 @@
   "regex": {
     "id":{
       "expression": "_([^_]*)(chemical|electrical)([^_]*)_",
-      "match": "$1-$3"
+      "match": "$1-$3-$2"
     },
     "name":{
       "expression": "_([^_]*)(chemical|electrical)([^_]*)_",

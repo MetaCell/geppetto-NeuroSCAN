@@ -34,7 +34,10 @@ class DataExporter:
         if source1[h] == source2[h]:
           merged_data[h] = source1[h]
         else:
-          merged_data[h] = [source1[h], source2[h]]
+          if isinstance(source1[h], list):
+            merged_data[h] = [*source1[h], source2[h]]
+          else:
+            merged_data[h] = [source1[h], source2[h]]
         continue
       if source1[h]:
         merged_data[h] = source1[h]
