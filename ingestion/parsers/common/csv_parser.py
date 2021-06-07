@@ -49,7 +49,10 @@ class CSVParser(IParser):
         cols = get_columns_from_expression(expression)
         if cols:
             for match in cols:
-                value = value.replace(f'$\u007b{match}\u007d', row[column_of_interest.index(match)])
+                try:
+                    value = value.replace(f'$\u007b{match}\u007d', row[column_of_interest.index(match)])
+                except TypeError:
+                    return None
             return value
         return row[column_of_interest.index(expression)]
 

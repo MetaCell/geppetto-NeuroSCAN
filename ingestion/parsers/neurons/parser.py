@@ -35,7 +35,7 @@ def get_web_data():
 
 def main():
   merged_data = merge_dict(get_web_data(), merge_dict(get_obj_data(), get_xlsx_data()))
-  DataExporter(merged_data).to_csv(headers=HEADER)
+  DataExporter(merged_data).to_csv(output_file='neurons.csv', headers=HEADER)
 
 
 if __name__ == '__main__':
