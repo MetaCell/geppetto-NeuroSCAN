@@ -12,18 +12,26 @@ RUN yarn global add yalc
 RUN yarn global add typescript
 
 # INSTALL geppetto-ui as dependency
-RUN git clone https://github.com/MetaCell/geppetto-meta.git
+RUN git clone -b development https://github.com/MetaCell/geppetto-meta.git
+
 WORKDIR /app/geppetto-meta/geppetto.js/geppetto-ui
-RUN git checkout feature/66_geppetto_ui_package
-RUN yarn && yarn build
-RUN yalc publish
+RUN git pull
+RUN yarn && yarn build && yarn publish:yalc
+
+WORKDIR /app/geppetto-meta/geppetto.js/geppetto-core
+RUN yarn && yarn build && yarn publish:yalc
+
+WORKDIR /app/geppetto-meta/geppetto.js/geppetto-client
+RUN yarn && yarn build && yarn publish:yalc
 
 # INSTALL PACKAGES
 WORKDIR /app/frontend
 COPY ./package.json ./
 COPY ./yarn.lock ./
 
-RUN yalc add @geppettoengine/geppetto-ui
+RUN yalc link @metacell/geppetto-ui
+RUN yalc link @metacell/geppetto-meta-client
+RUN yalc link @metacell/geppetto-meta-core
 RUN yarn
 
 # COPY SOURCE CODE

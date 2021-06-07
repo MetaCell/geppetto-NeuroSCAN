@@ -7,5 +7,9 @@ module.exports = {
   },
   rules: {
     'react/jsx-filename-extension': 0,
+    '@typescript-eslint/no-unused-vars': 1,
   },
+  globals: {
+    window: true,
+  }
 };
