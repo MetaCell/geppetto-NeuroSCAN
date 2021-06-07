@@ -36,18 +36,27 @@ class FilenameParser(IParser):
       return True
     return any(filename.endswith(e) for e in self.cfg.extension)
 
-  def _get_fields(self, filename):  # Returns dictionary with all the pairs (key, applied regex) for the regex specified in config file.
+  def _get_fields(self,
+                  filename):  # Returns dictionary with all the pairs (key, applied regex) for the regex specified in config file.
     return {key: self._apply_regex(filename, key) for key in self.cfg.regex.__dict__.keys()}
 
   def _apply_regex(self, test_string: str, key):
     pattern = self.cfg.regex.__dict__[key]
     try:
-      if pattern.group:
-        return re.search(rf'{pattern.expression}', test_string).group(pattern.group)
+      if pattern.match:
+        return self._construct_match(pattern, test_string)
       else:
         return re.findall(rf'{pattern.expression}', test_string)[0]
     except:
       logging.error(f"{test_string} failed to get fields")
+
+  def _construct_match(self, pattern, test_string):
+    re_search = re.search(rf'{pattern.expression}', test_string)
+    groups = re.findall('\$([1-9]*)', pattern.match)
+    result = pattern.match
+    for groupId in groups:
+      result = result.replace(f'${groupId}', re_search.group(int(groupId)))
+    return result
 
   def _update_data(self, fields, filename):
     augmented_fields = {**fields, 'files': filename}

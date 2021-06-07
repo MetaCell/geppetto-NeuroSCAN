@@ -4,11 +4,11 @@
   "regex": {
     "id":{
       "expression": "_(.*)_\\1",
-      "group": 1
+      "match": "$1"
     },
     "name":{
       "expression": "_(.*)_\\1",
-      "group": 1
+      "match": "$1"
     }
   }
 }

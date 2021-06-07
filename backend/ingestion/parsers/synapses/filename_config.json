@@ -1,0 +1,14 @@
+{
+  "directory": "../../data/pre_synapses",
+  "extension": [".obj"],
+  "regex": {
+    "id":{
+      "expression": "_([^_]*)(chemical|electrical)([^_]*)_",
+      "match": "$1-$3"
+    },
+    "name":{
+      "expression": "_([^_]*)(chemical|electrical)([^_]*)_",
+      "match": "$1-$3"
+    }
+  }
+}
