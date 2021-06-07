@@ -1,8 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
-from backend.ingestion.parsers.common.IParser import IParser
-from backend.ingestion.parsers.common.utils import Config, get
+from ingestion.parsers.common.IParser import IParser
+from ingestion.parsers.common.utils import Config, get
 
 
 class WebParser(IParser):

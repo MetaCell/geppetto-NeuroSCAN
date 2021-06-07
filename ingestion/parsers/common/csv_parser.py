@@ -1,7 +1,10 @@
-from backend.ingestion.parsers.common.IParser import IParser
-from backend.ingestion.parsers.common.utils import Config, get_dict_without_keys
+
 import pandas as pd
 import os
+
+from ingestion.parsers.common.IParser import IParser
+from ingestion.parsers.common.utils import Config
+
 
 class CSVParser(IParser):
 

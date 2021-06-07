@@ -1,8 +1,8 @@
-from backend.ingestion.parsers.common.csv_parser import CSVParser
-from backend.ingestion.parsers.common.data_exporter import DataExporter
-from backend.ingestion.parsers.common.filename_parser import FilenameParser
-from backend.ingestion.parsers.common.utils import Config, merge_dict
-from backend.ingestion.parsers.common.web_parser import WebParser
+from ingestion.parsers.common.csv_parser import CSVParser
+from ingestion.parsers.common.data_exporter import DataExporter
+from ingestion.parsers.common.filename_parser import FilenameParser
+from ingestion.parsers.common.utils import Config, merge_dict
+from ingestion.parsers.common.web_parser import WebParser
 
 HEADER = ['name', 'metadata', 'timepoints', 'files', 'wormatlas', 'lineage', 'location']
 PREFIX_URL = 'https://www.wormatlas.org/neurons/Individual%20Neurons/'

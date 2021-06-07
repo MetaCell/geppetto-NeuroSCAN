@@ -2,8 +2,8 @@ import os
 import re
 import logging
 
-from backend.ingestion.parsers.common.IParser import IParser
-from backend.ingestion.parsers.common.utils import Config, get_dict_without_keys
+from ingestion.parsers.common.IParser import IParser
+from ingestion.parsers.common.utils import Config, get_dict_without_keys
 
 logging.basicConfig(filename='filename_parser_errors.log', level=logging.ERROR)
 
