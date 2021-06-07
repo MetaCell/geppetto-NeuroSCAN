@@ -1,0 +1,22 @@
+{
+  "directory": "../../data/contacts",
+  "extension": [".obj"],
+  "regex": {
+    "id":{
+      "expression": "_(.*?)by(.*?)_",
+      "match": "$1-$2"
+    },
+    "name":{
+      "expression": "_(.*?)by(.*?)_",
+      "match": "$1-$2"
+    },
+    "neuronA":{
+      "expression": "_(.*?)by(.*?)_",
+      "match": "$1"
+    },
+    "neuronB":{
+      "expression": "_(.*?)by(.*?)_",
+      "match": "$2"
+    }
+  }
+}

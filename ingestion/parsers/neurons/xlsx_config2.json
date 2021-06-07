@@ -1,6 +1,6 @@
 {
   "filepath": "../../data/20181025_JSH_NCB_from_20180814_brain(1-282)_Counter_v2_MetaCellEdit.xlsx",
-  "column_id": "Neuron list",
+  "column_id": "${Neuron list}",
   "column_of_interest": {
     "Neuron list": "name"
   }
