@@ -1,0 +1,10 @@
+{
+  "filepath": "../../data/promoter_db/DCR_PromoterPipeline_Revised2021_Updated_sheet1.xlsx",
+  "column_id": "${Promoter}",
+  "column_of_interest": {
+    "Promoter": "name",
+    "Beginning of expression": "expressionBegin",
+    "Termination of expression:": "expressionTermination",
+    "Neurons": "cellularExpressionPattern"
+  }
+}

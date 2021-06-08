@@ -50,7 +50,7 @@ class CSVParser(IParser):
         if cols:
             for match in cols:
                 try:
-                    value = value.replace(f'$\u007b{match}\u007d', row[column_of_interest.index(match)])
+                    value = value.replace(f'$\u007b{match}\u007d', str(row[column_of_interest.index(match)]))
                 except TypeError:
                     return None
             return value
