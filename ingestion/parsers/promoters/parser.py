@@ -47,9 +47,11 @@ def get_promoters_from_string(promoter_string):
 
 
 def main():
-    DataExporter(
-        merge_dict(get_xlsx_data(), merge_dict(get_id_mapper_data(), invert_dict(get_inverse_xlsx_data())))).to_csv(
-        output_file='promoters.csv', headers=HEADER)
+    DataExporter(merge_dict(
+        get_id_mapper_data(),
+        merge_dict(get_xlsx_data(), invert_dict(get_inverse_xlsx_data())),
+        only_update=True)
+    ).to_csv(output_file='promoters.csv', headers=HEADER)
 
 
 if __name__ == '__main__':

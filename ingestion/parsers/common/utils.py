@@ -1,9 +1,9 @@
 import json
 import sys
 
-def merge_dict(dict1, dict2):
+def merge_dict(dict1, dict2, only_update=False):
   ''' Merge dictionaries and keep values of common keys in list'''
-  dict3 = {**dict1, **dict2}
+  dict3 = {**dict1, **dict2} if not only_update else {**dict2}
   for key, value in dict3.items():
     if key in dict1 and key in dict2:
       dict3[key] = {}
