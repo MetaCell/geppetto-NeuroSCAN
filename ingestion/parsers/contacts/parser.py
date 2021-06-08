@@ -1,6 +1,6 @@
 import re
 
-from ingestion.parsers.common.csv_parser import CSVParser
+from ingestion.parsers.common.spreadsheet_parser import SpreadsheetParser
 from ingestion.parsers.common.data_exporter import DataExporter
 from ingestion.parsers.common.filename_parser import FilenameParser
 from ingestion.parsers.common.utils import Config, merge_dict
@@ -9,9 +9,9 @@ HEADER = ['name', 'neuronA', 'neuronB', 'stages', 'files', 'weight', 'metadata']
 
 
 def get_xlsx_data():
-    csv_parser = CSVParser(Config('xlsx_config.json').get_config())
-    csv_parser.parse()
-    return csv_parser.get_data()
+    xlsx_parser = SpreadsheetParser(Config('xlsx_config.json').get_config())
+    xlsx_parser.parse()
+    return xlsx_parser.get_data()
 
 
 def get_obj_data():

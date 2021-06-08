@@ -12,25 +12,26 @@ def get_columns_from_expression(expression):
     return [match.replace('${', '').replace('}', '') for match in matches]
 
 
-class CSVParser(IParser):
+class SpreadsheetParser(IParser):
     mandatory_attributes = ['filepath', 'column_id']
 
-    def __init__(self, config: Config):
+    def __init__(self, config: Config, is_csv=False):
         if all(item in list(config.__dict__.keys()) for item in self.mandatory_attributes):
             self.cfg = config
             self.data = {}
+            self.is_csv = is_csv
         else:
-            raise Exception('Wrong configuration for CSVParser')
+            raise Exception('Wrong configuration for SpreadsheetParser')
 
     def parse(self):
-        df = pd.read_excel(self.cfg.filepath)
+        df = pd.read_excel(self.cfg.filepath) if not self.is_csv else pd.read_csv(self.cfg.filepath)
         column_of_interest = list(set(get_columns_from_expression(self.cfg.column_id) + self._get_list_of_coi()))
         [self._update_data(row, column_of_interest) for row in df[column_of_interest].to_numpy()]
 
     def _get_list_of_coi(self):
         list_of_coi = []
         for coi in self.cfg.column_of_interest.__dict__.keys():
-            if re.match(r'\${.*?}', coi):
+            if len(re.findall(r'\${.*?}', coi))!=0:
                 list_of_coi.extend(get_columns_from_expression(coi))
             else:
                 list_of_coi.append(coi)

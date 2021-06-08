@@ -1,4 +1,4 @@
-from ingestion.parsers.common.csv_parser import CSVParser
+from ingestion.parsers.common.spreadsheet_parser import SpreadsheetParser
 from ingestion.parsers.common.data_exporter import DataExporter
 from ingestion.parsers.common.filename_parser import FilenameParser
 from ingestion.parsers.common.utils import Config, merge_dict
@@ -15,11 +15,11 @@ def get_obj_data():
 
 
 def get_xlsx_data():
-  csv_parser1 = CSVParser(Config('xlsx_config.json').get_config())
-  csv_parser1.parse()
-  csv_parser2 = CSVParser(Config('xlsx_config2.json').get_config())
-  csv_parser2.parse()
-  return merge_dict(csv_parser1.get_data(), csv_parser2.get_data())
+  xlsx_parser1 = SpreadsheetParser(Config('xlsx_config.json').get_config())
+  xlsx_parser1.parse()
+  xlsx_parser2 = SpreadsheetParser(Config('xlsx_config2.json').get_config())
+  xlsx_parser2.parse()
+  return merge_dict(xlsx_parser1.get_data(), xlsx_parser2.get_data())
 
 
 def get_web_data():
