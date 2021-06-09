@@ -1,0 +1,10 @@
+{
+  "directory": "../../data/cphate",
+  "extension": [".obj"],
+  "regex": {
+    "id":{
+      "expression": "i([\\d]*).g([\\d]*)",
+      "match": "$1-$2"
+    }
+  }
+}
