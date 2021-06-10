@@ -13,10 +13,10 @@ export default function NeuroScan() {
         <LeftSidebar />
         <Box className="MuiBox-content">
           <Box className="MuiBox-empty">
-            <Typography variant="caption">
+            <Typography variant="h2">
               No Elements Added yet.
             </Typography>
-            <Typography variant="caption">
+            <Typography variant="h2">
               You can add one with the Search Component.
             </Typography>
           </Box>

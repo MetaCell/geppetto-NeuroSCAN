@@ -1,35 +1,36 @@
 import React from 'react';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
+import {
+  Typography, Box, Link, Divider,
+} from '@material-ui/core';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import MagnifyingGlass from '../images/svg/magnifying-glass.svg';
 
-const drawerWidth = 240;
-
-const useStyles = makeStyles((theme) => createStyles({
-  root: {
-    display: 'flex',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-}));
-
-const RightSidebar = () => {
-  const classes = useStyles();
-
-  return (
-    <Drawer
-      className={classes.drawer}
-      variant="permanent"
-      classes={{
-        paper: classes.drawerPaper,
-      }}
-      anchor="right"
-    />
-  );
-};
+const RightSidebar = () => (
+  <Drawer
+    variant="permanent"
+    anchor="right"
+  >
+    <Box>
+      <Typography variant="h5">Details</Typography>
+    </Box>
+    <Divider />
+    <Box>
+      <img src={MagnifyingGlass} alt="Search" />
+      <Typography>
+        To see details of an Element,
+        please add one in the list on the left or search in
+        the Search component.
+      </Typography>
+    </Box>
+    <Box>
+      <HelpOutlineIcon />
+      <Typography>
+        If you need any help, you can
+        <Link href="/"> read the documentation.</Link>
+      </Typography>
+    </Box>
+  </Drawer>
+);
 
 export default RightSidebar;

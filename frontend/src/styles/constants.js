@@ -1,6 +1,7 @@
 const vars = {
-  font: 'Roboto, Helvetica, Arial, sans-serif',
-  primary: 'rgb(206, 17, 38)',
+  fontFamily: "'IBM Plex Sans', sans-serif",
+  primary: '#A41A45',
+  gutter: '16px',
 };
 
 export default vars;
