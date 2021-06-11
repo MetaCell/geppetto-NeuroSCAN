@@ -6,48 +6,94 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import PausePresentationIcon from '@material-ui/icons/PausePresentation';
+import { Divider, Menu, MenuItem } from '@material-ui/core';
+import CallMadeIcon from '@material-ui/icons/CallMade';
+import MenuIcon from '../images/svg/icon-menu.svg';
 import IconSync from '../images/svg/icon-synchronise.svg';
 import IconRecord from '../images/svg/icon-record.svg';
 import IconCopy from '../images/svg/icon-copy.svg';
+import IconPause from '../images/svg/icon-pause.svg';
 
-const Header = () => (
-  <AppBar position="fixed" color="secondary">
-    <Toolbar>
-      <Box className="MuiBox-menu">
-        <IconButton edge="start" color="inherit" aria-label="menu">
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6">
-          NeuroSCAN
+const Header = () => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>About NeuroSCAN</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Tutorial</MenuItem>
+      <Divider />
+      <MenuItem onClick={handleMenuClose}>
+        <Typography component="strong" variant="strong">
+          Promoter DB
+          <CallMadeIcon />
         </Typography>
-      </Box>
-      <Box className="MuiBox-link">
-        <Link href="/">
-          <PausePresentationIcon />
-          <Typography variant="button">Pause Animation</Typography>
-        </Link>
-        <Link href="/">
-          <img src={IconSync} alt="Sync" />
-          <Typography variant="button">Synchronise</Typography>
-        </Link>
-        <Link href="/">
-          <img src={IconRecord} alt="Record" />
-          <Typography variant="button">Record</Typography>
-        </Link>
-      </Box>
-      <Box className="MuiBox-button">
-        <Link href="/">
-          <Typography variant="button">Copy link</Typography>
-          <img src={IconCopy} alt="Copy" />
-        </Link>
-        <Button color="primary" variant="contained">
-          Share on Twitter
-        </Button>
-      </Box>
-    </Toolbar>
-  </AppBar>
-);
+      </MenuItem>
+    </Menu>
+  );
+
+  return (
+    <>
+      <AppBar position="fixed" color="secondary">
+        <Toolbar>
+          <Box className="MuiBox-menu">
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+            >
+              <img src={MenuIcon} alt="Menu" />
+            </IconButton>
+            <Typography variant="h6">
+              NeuroSCAN
+            </Typography>
+          </Box>
+          <Box className="MuiBox-link">
+            <Button startIcon={<img src={IconPause} alt="Pause" />}>
+              Pause Animation
+            </Button>
+            <Button startIcon={<img src={IconSync} alt="Sync" />}>
+              Synchronise
+            </Button>
+            <Button startIcon={<img src={IconRecord} alt="Record" />}>
+              Record
+            </Button>
+          </Box>
+          <Box className="MuiBox-button">
+            <Button variant="outlined" endIcon={<img src={IconCopy} alt="Copy" />}>
+              Copy link
+            </Button>
+            <Button color="primary" variant="contained">
+              Share on Twitter
+            </Button>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      {renderMenu}
+    </>
+  );
+};
 
 export default Header;

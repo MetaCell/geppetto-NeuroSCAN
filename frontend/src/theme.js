@@ -3,8 +3,15 @@ import vars from './styles/constants';
 
 const {
   fontFamily,
-  primary,
+  primaryColor,
   gutter,
+  primaryBgColor,
+  primaryTextColor,
+  buttonOutlineColor,
+  radius,
+  headerBgColor,
+  buttonOrange,
+  whiteTextColor,
 } = vars;
 
 const theme = createMuiTheme({
@@ -21,6 +28,7 @@ const theme = createMuiTheme({
     h6: {
       fontSize: '0.875rem',
       fontWeight: '600',
+      letterSpacing: '0.005em',
     },
     body1: {
       fontSize: '0.75rem',
@@ -40,30 +48,62 @@ const theme = createMuiTheme({
   palette: {
     type: 'light',
     primary: {
-      main: '#A41A45',
-      dark: '#000',
+      main: primaryColor,
+      dark: headerBgColor,
     },
     secondary: {
-      main: '#000',
+      main: headerBgColor,
     },
-    button: { main: '#fc6320' },
+    button: { main: buttonOrange },
     toolbarBackground: { main: 'rgb(255,0,0,0.5)' },
   },
   overrides: {
+    MuiMenu: {
+      paper: {
+        minWidth: '10rem',
+        background: buttonOutlineColor,
+        border: '0.03125rem solid rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 .125rem .4375rem rgba(0, 0, 0, 0.15), 0 .3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
+        borderRadius: `calc(${radius} - .25rem)`,
+      },
+      list: {
+        '& .MuiDivider-root': {
+          backgroundColor: 'rgba(255, 255, 255, 0.3)',
+          marginTop: `calc(${gutter} / 2)`,
+          marginBottom: `calc(${gutter} / 4)`,
+        },
+        '& .MuiMenuItem-root': {
+          paddingTop: `calc(${gutter} / 4)`,
+          paddingBottom: `calc(${gutter} / 4)`,
+          lineHeight: 'normal',
+          color: whiteTextColor,
+          '& .MuiTypography-root': {
+            flexGrow: 1,
+            fontWeight: '500',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            '& .MuiSvgIcon-root': {
+              fontSize: `calc(${gutter} - .125rem)`,
+            },
+          },
+        },
+      },
+    },
     MuiCssBaseline: {
       '@global': {
         '*, *::before, *::after': {
           boxSizing: 'border-box',
         },
         ' body': {
-          backgroundColor: '#1c1c1c',
+          backgroundColor: primaryBgColor,
         },
         '.MuiBox-content': {
           display: 'flex',
           alignItems: 'flex-start',
           flex: 1,
           minHeight: '100vh',
-          padding: '60px 24px 24px',
+          padding: '3.75rem 1.5rem 1.5rem',
         },
         '.MuiBox-empty': {
           margin: 'auto',
@@ -108,15 +148,15 @@ const theme = createMuiTheme({
         fontWeight: '600',
       },
       containedPrimary: {
-        backgroundColor: primary,
+        backgroundColor: primaryColor,
         '&:hover': {
-          backgroundColor: primary,
+          backgroundColor: primaryColor,
         },
       },
     },
     MuiDrawer: {
       paper: {
-        width: '240px',
+        width: '15rem',
         marginTop: `calc(${gutter} / 2 * 5) !important`,
         '& .MuiSvgIcon-root': {
           fontSize: '1rem',
@@ -126,7 +166,7 @@ const theme = createMuiTheme({
         '& .MuiBox-root': {
           '& .MuiSvgIcon-root': {
             flex: 'none',
-            color: '#000',
+            color: headerBgColor,
             opacity: '0.8',
           },
           '& .MuiTypography-body1': {
@@ -146,19 +186,30 @@ const theme = createMuiTheme({
           padding: gutter,
         },
         '& img': {
-          width: '10px',
+          width: '0.625rem',
         },
       },
       paperAnchorRight: {
+        '&.MuiDrawer-paperAnchorDockedRight': {
+          borderLeft: 'none',
+        },
         '& .MuiBox-root': {
           display: 'flex',
           padding: gutter,
+          alignItems: 'flex-start',
+          '&+ .MuiBox-root': {
+            paddingTop: 0,
+          },
           '& .MuiSvgIcon-root': {
             flex: 'none',
             opacity: '0.8',
           },
+          '& img': {
+            marginTop: '0.0625rem',
+          },
           '& .MuiTypography-body1': {
             paddingLeft: gutter,
+            lineHeight: gutter,
           },
         },
       },
@@ -171,55 +222,62 @@ const theme = createMuiTheme({
     },
     MuiToolbar: {
       root: {
+        alignItems: 'inherit',
         '& .MuiBox-root': {
           display: 'flex',
           alignItems: 'center',
         },
         '& .MuiBox-menu': {
-          background: primary,
-          width: '240px',
+          background: primaryColor,
+          width: '15rem',
           paddingLeft: gutter,
+          paddingRight: gutter,
           '& .MuiIconButton-root': {
-            padding: '10px 12px',
-            opacity: 0.8,
-            '& .MuiSvgIcon-root': {
-              fontSize: '1.3rem',
-            },
+            padding: '0.75rem',
           },
           '& .MuiTypography-h6': {
-            color: 'rgba(255, 255, 255, 0.8)',
+            color: primaryTextColor,
           },
         },
         '& .MuiBox-link': {
-          margin: 'auto',
-          '& .MuiLink-root': {
-            color: 'rgba(255, 255, 255, 0.4)',
-            display: 'flex',
-            alignItems: 'center',
-            padding: '0 20px',
-            '& .MuiSvgIcon-root': {
-              fontSize: '1rem',
-            },
-            '& .MuiTypography-button': {
-              marginLeft: `calc(${gutter} / 2)`,
-            },
+          flexGrow: 1,
+          justifyContent: 'center',
+          '& .MuiButton-root': {
+            color: primaryTextColor,
+            // paddingLeft: gutter,
+            // paddingRight: gutter,
             '& img': {
-              opacity: 0.4,
+              marginRight: `calc(${gutter} / 2)`,
+            },
+            '& .MuiButton-startIcon': {
+              margin: 0,
+            },
+            '&:not(:last-child)': {
+              marginRight: gutter,
             },
           },
         },
         '& .MuiBox-button': {
-          marginRight: `calc(${gutter} / 4)`,
-          '& .MuiLink-root': {
-            background: '#222',
-            border: '2px solid rgba(255, 255, 255, 0.4)',
-            borderRadius: '6px',
-            color: 'rgba(255, 255, 255, 0.8)',
-            padding: '4px 8px',
+          paddingRight: `calc(${gutter} / 4)`,
+          width: '15rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          '& .MuiButton-contained': {
+            width: '7.25rem',
+            paddingLeft: 0,
+            borderRadius: radius,
+            paddingRight: 0,
+          },
+          '& .MuiButton-outlined': {
+            background: buttonOutlineColor,
+            border: '0.16rem solid rgba(255, 255, 255, 0.4)',
+            borderRadius: radius,
+            color: primaryTextColor,
+            padding: `calc(${gutter} / 4) calc(${gutter} / 2)`,
             display: 'flex',
             marginRight: `calc(${gutter} / 4)`,
             '& img': {
-              opacity: 0.8,
               marginLeft: `calc(${gutter} / 2)`,
             },
           },
