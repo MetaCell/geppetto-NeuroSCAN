@@ -1,19 +1,28 @@
-import React, { useEffect } from 'react';
-import BigImageViewer from '@metacell/geppetto-meta-ui/big-image-viewer/BigImageViewer';
-import apiClient from '../api/client';
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import LeftSidebar from '../components/LeftSidebar';
+import Header from '../components/Header';
+import RightSidebar from '../components/RightSidebar';
 
-const NeuroScan = () => {
-  useEffect(() => {
-    apiClient.get('/neurons')
-      .then((response) => console.log(response));
-  });
-
+export default function NeuroScan() {
   return (
-    <div>
-      <h1>Neuro SCAN</h1>
-      <BigImageViewer />
-    </div>
+    <>
+      <Header />
+      <Box display="flex">
+        <LeftSidebar />
+        <Box className="MuiBox-content">
+          <Box className="MuiBox-empty">
+            <Typography variant="h2">
+              No Elements Added yet.
+            </Typography>
+            <Typography variant="h2">
+              You can add one with the Search Component.
+            </Typography>
+          </Box>
+        </Box>
+        <RightSidebar />
+      </Box>
+    </>
   );
-};
-
-export default NeuroScan;
+}
