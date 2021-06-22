@@ -17,14 +17,13 @@ def handle_multiple_synapse_references(data: dict):
             try:
                 neurons_to_add = re.search(rf'{REGEX_EXPRESSION}', source).group(1).split('_')
                 for neuron in neurons_to_add:
-                    new_synapse_pair = f'{pre_neuron}-{neuron}'
-                    new_synapse_id = f'{new_synapse_pair}-{_type}'
-                    if new_synapse_pair in new_data:
-                        new_data[new_synapse_id][source] = get_synapse_data(name=new_synapse_pair, pre=pre_neuron,
+                    new_synapse_id = f'{pre_neuron}-{neuron}-{_type}'
+                    if new_synapse_id in new_data:
+                        new_data[new_synapse_id][source] = get_synapse_data(name=new_synapse_id, pre=pre_neuron,
                                                                             post=neuron, _type=_type, files=source)
                     else:
                         new_data[new_synapse_id] = {
-                            source: get_synapse_data(name=new_synapse_pair, pre=pre_neuron, post=neuron, _type=_type,
+                            source: get_synapse_data(name=new_synapse_id, pre=pre_neuron, post=neuron, _type=_type,
                                                      files=source)
                         }
             except AttributeError:
