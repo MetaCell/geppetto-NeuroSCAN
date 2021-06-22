@@ -37,11 +37,8 @@
         "electrical"
       ]
     },
-    "uid": {
-      "type": "uid"
-    },
     "name": {
-      "type": "string"
+      "type": "uid"
     }
   }
 }
