@@ -679,8 +679,11 @@
               "electrical"
             ]
           },
-          "name": {
+          "uid": {
             "type": "uid"
+          },
+          "name": {
+            "type": "string"
           },
           "published_at": {
             "type": "string",
@@ -703,8 +706,11 @@
               "electrical"
             ]
           },
-          "name": {
+          "uid": {
             "type": "uid"
+          },
+          "name": {
+            "type": "string"
           },
           "published_at": {
             "type": "string",
