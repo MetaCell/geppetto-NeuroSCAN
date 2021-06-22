@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "06/22/2021 5:23:32 PM"
+    "x-generation-date": "06/22/2021 5:50:50 PM"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -4873,11 +4873,8 @@
               "electrical"
             ]
           },
-          "uid": {
-            "type": "uid"
-          },
           "name": {
-            "type": "string"
+            "type": "uid"
           },
           "published_at": {
             "type": "string",
@@ -4900,11 +4897,8 @@
               "electrical"
             ]
           },
-          "uid": {
-            "type": "uid"
-          },
           "name": {
-            "type": "string"
+            "type": "uid"
           },
           "published_at": {
             "type": "string",
