@@ -2,13 +2,13 @@
   "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
-    "title": "DOCUMENTATION",
+    "title": "NeuroScan",
     "description": "",
-    "termsOfService": "YOUR_TERMS_OF_SERVICE_URL",
+    "termsOfService": "",
     "contact": {
-      "name": "TEAM",
-      "email": "contact-email@something.io",
-      "url": "mywebsite.io"
+      "name": "MetaCell",
+      "email": "info@metacell.us",
+      "url": "https://www.metacell.us/"
     },
     "license": {
       "name": "Apache 2.0",
