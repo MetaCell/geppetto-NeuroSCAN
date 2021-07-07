@@ -72,7 +72,7 @@ const Header = (props) => {
       <Divider />
       <MenuItem onClick={handleMenuClose}>
         <Typography component="strong" variant="strong">
-          {view?.linkTo}
+          {view?.title}
           <CallMadeIcon />
         </Typography>
       </MenuItem>
