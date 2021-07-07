@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Typography,
   Box,
@@ -16,6 +16,31 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
       '& .wrapper': {
         maxWidth: 'calc(100% - 4rem)',
+      },
+    },
+    [theme.breakpoints.up('sm')]: {
+      '& .sub-header': {
+        position: 'sticky',
+        top: '0',
+        left: '0',
+        '&.shrink': {
+          paddingTop: '0',
+          transition: 'all ease-in .3s',
+          '& p': {
+            fontSize: 0,
+            margin: 0,
+            transition: 'all ease-in-out .3s',
+          },
+          '& h1': {
+            fontSize: 0,
+            margin: 0,
+            transition: 'all ease-in-out .3s',
+          },
+          '& .filters': {
+            margin: 0,
+            transition: 'all ease-in-out .3s',
+          },
+        },
       },
     },
     [theme.breakpoints.down('xs')]: {
@@ -67,10 +92,18 @@ const useStyles = makeStyles((theme) => ({
 
 const PromoterDB = () => {
   const classes = useStyles();
+  const [scroll, setScroll] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      setScroll(window.scrollY > 50);
+    });
+  }, []);
+
   return (
     <Box className={classes.root}>
       <Header view={VIEWS.promoterDB} />
-      <Box className="sub-header">
+      <Box className={scroll ? 'sub-header shrink' : 'sub-header'}>
         <Box className="wrapper">
           <Typography>Promoter DB</Typography>
           <Typography component="h1">Explore Promoters and Neurons in seconds.</Typography>

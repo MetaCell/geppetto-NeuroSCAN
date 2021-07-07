@@ -130,9 +130,7 @@ const theme = createMuiTheme({
           margin: '0 auto',
         },
         '.main-content': {
-          height: 'calc(100vh - 20.75rem)',
           paddingTop: '2.625rem',
-          overflow: 'auto',
           '& .button-group': {
             padding: '4.25rem 0',
             display: 'flex',
@@ -189,10 +187,12 @@ const theme = createMuiTheme({
           },
         },
         '.sub-header': {
-          height: '16.75rem',
+          // height: '16.75rem',
           background: subHeaderBg,
           marginBottom: '4rem',
-          transition: 'height ease-in .3s',
+          transition: 'all ease-in .3s',
+          paddingTop: '5.125rem',
+          paddingBottom: '1.875rem',
 
           '& .wrapper': {
             display: 'flex',
@@ -225,7 +225,8 @@ const theme = createMuiTheme({
               alignItems: 'center',
               boxShadow: '0 .25rem 3.125rem -1.0625rem rgba(0, 0, 0, 0.7)',
               borderRadius: '0.5rem',
-              marginBottom: '-2.5rem',
+              marginBottom: '-4.375rem',
+              transition: 'all ease-in-out .3s',
               '& .MuiFormLabel-root': {
                 color: paragraphColor,
                 fontWeight: '600',
