@@ -16,8 +16,8 @@ const {
   subHeaderBg,
   filtersBgColor,
   dividerBackgroundColor,
-  paragraphColor,
   borderColor,
+  paragraphColor,
 } = vars;
 
 const theme = createMuiTheme({
@@ -127,6 +127,7 @@ const theme = createMuiTheme({
         },
         '.wrapper': {
           maxWidth: 'calc(100% - (17.7rem * 2))',
+          margin: '0 auto',
         },
         '.main-content': {
           height: 'calc(100vh - 20.75rem)',
@@ -138,7 +139,7 @@ const theme = createMuiTheme({
             alignItems: 'center',
             justifyContent: 'center',
             '& .MuiButton-outlined': {
-              borderColor: borderColor,
+              borderColor,
             },
             '& .MuiButton-root': {
               height: '3.5rem',
@@ -175,7 +176,7 @@ const theme = createMuiTheme({
             marginBottom: '2rem',
           },
           '& .results-wrap': {
-            borderBottom: `0.0625rem solid ${borderColor}`,
+            borderBottom: '0.0625rem solid rgba(255, 255, 255, 0.1)',
             paddingBottom: '3.75rem',
           },
           '& .results-box': {

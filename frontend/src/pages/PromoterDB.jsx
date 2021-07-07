@@ -9,6 +9,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import Header from '../components/Header';
+import VIEWS from '../constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,7 +69,7 @@ const PromoterDB = () => {
   const classes = useStyles();
   return (
     <Box className={classes.root}>
-      <Header />
+      <Header view={VIEWS.promoterDB} />
       <Box className="sub-header">
         <Box className="wrapper">
           <Typography>Promoter DB</Typography>

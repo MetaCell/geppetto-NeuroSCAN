@@ -3,19 +3,47 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
-import PausePresentationIcon from '@material-ui/icons/PausePresentation';
-import { Divider, Menu, MenuItem } from '@material-ui/core';
+import {
+  Divider,
+  Menu,
+  MenuItem,
+  makeStyles,
+} from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import MenuIcon from '../images/svg/icon-menu.svg';
-import IconSync from '../images/svg/icon-synchronise.svg';
-import IconRecord from '../images/svg/icon-record.svg';
 import IconCopy from '../images/svg/icon-copy.svg';
-import IconPause from '../images/svg/icon-pause.svg';
+import IconSuggest from '../images/svg/icon-suggest.svg';
+import VIEWS from '../constants';
 
-const Header = () => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    [theme.breakpoints.down('xs')]: {
+      '& .MuiToolbar-root': {
+        flexDirection: 'column',
+        '& .MuiBox-button': {
+          width: '100%',
+          justifyContent: 'center',
+          padding: '.5rem 1rem',
+          '& .MuiButton-outlined': {
+            marginRight: '.5rem',
+          },
+          '& button': {
+            flexGrow: 1,
+          },
+        },
+        '& .MuiBox-menu': {
+          width: '100%',
+        },
+      },
+    },
+  },
+}));
+
+const Header = (props) => {
+  const { view } = props;
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -39,12 +67,12 @@ const Header = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>About NeuroSCAN</MenuItem>
+      <MenuItem onClick={handleMenuClose}>{`About ${view?.title}`}</MenuItem>
       <MenuItem onClick={handleMenuClose}>Tutorial</MenuItem>
       <Divider />
       <MenuItem onClick={handleMenuClose}>
         <Typography component="strong" variant="strong">
-          Promoter DB
+          {view?.linkTo}
           <CallMadeIcon />
         </Typography>
       </MenuItem>
@@ -53,7 +81,7 @@ const Header = () => {
 
   return (
     <>
-      <AppBar position="fixed" color="secondary">
+      <AppBar position="fixed" className={classes.root} color="secondary">
         <Toolbar>
           <Box className="MuiBox-menu">
             <IconButton
@@ -67,28 +95,32 @@ const Header = () => {
               <img src={MenuIcon} alt="Menu" />
             </IconButton>
             <Typography variant="h6">
-              NeuroSCAN
+              {view?.title}
             </Typography>
           </Box>
-          <Box className="MuiBox-link">
-            <Button startIcon={<img src={IconPause} alt="Pause" />}>
-              Pause Animation
-            </Button>
-            <Button startIcon={<img src={IconSync} alt="Sync" />}>
-              Synchronise
-            </Button>
-            <Button startIcon={<img src={IconRecord} alt="Record" />}>
-              Record
-            </Button>
-          </Box>
+
           <Box className="MuiBox-button">
-            <Button variant="outlined" endIcon={<img src={IconCopy} alt="Copy" />}>
-              Copy link
-            </Button>
-            <Button color="primary" variant="contained">
-              Share on Twitter
-            </Button>
+            { view?.title === VIEWS.promoterDB.title ? (
+              <>
+                <Button variant="outlined" startIcon={<img src={IconSuggest} alt="Suggest" />}>
+                  Suggest a Promoter
+                </Button>
+                <Button color="primary" variant="contained">
+                  Contact Us
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="outlined" endIcon={<img src={IconCopy} alt="Copy" />}>
+                  Copy Link
+                </Button>
+                <Button color="primary" variant="contained">
+                  Share on Twitter
+                </Button>
+              </>
+            )}
           </Box>
+
         </Toolbar>
       </AppBar>
       {renderMenu}
