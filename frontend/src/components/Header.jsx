@@ -43,7 +43,7 @@ const Header = () => {
       <MenuItem onClick={handleMenuClose}>Tutorial</MenuItem>
       <Divider />
       <MenuItem onClick={handleMenuClose}>
-        <Typography component="strong" variant="strong">
+        <Typography component="strong" variant="h1">
           Promoter DB
           <CallMadeIcon />
         </Typography>
