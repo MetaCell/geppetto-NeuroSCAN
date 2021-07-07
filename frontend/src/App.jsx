@@ -17,15 +17,11 @@ const App = () => (
     <CssBaseline />
     <Router>
       <Switch>
-        <Route exact path="/">
-          <NeuroScan />
-        </Route>
+        <Route exact path="/" component={NeuroScan} />
         <Route path="/about">
           <About />
         </Route>
-        <Route path="/promoter">
-          <PromoterDB />
-        </Route>
+        <Route path="/promoter" component={PromoterDB} />
       </Switch>
     </Router>
   </MuiThemeProvider>
