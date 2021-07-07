@@ -66,12 +66,13 @@ const Header = (props) => {
       transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      getContentAnchorEl={null}
     >
       <MenuItem onClick={handleMenuClose}>{`About ${view?.title}`}</MenuItem>
       <MenuItem onClick={handleMenuClose}>Tutorial</MenuItem>
       <Divider />
       <MenuItem onClick={handleMenuClose}>
-        <Typography component="strong" variant="strong">
+        <Typography component="strong">
           {view?.title}
           <CallMadeIcon />
         </Typography>

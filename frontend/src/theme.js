@@ -89,6 +89,7 @@ const theme = createMuiTheme({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
+            color: whiteTextColor,
             '& .MuiSvgIcon-root': {
               fontSize: `calc(${gutter} - .125rem)`,
             },
