@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -72,10 +73,12 @@ const Header = (props) => {
       <MenuItem onClick={handleMenuClose}>Tutorial</MenuItem>
       <Divider />
       <MenuItem onClick={handleMenuClose}>
-        <Typography component="strong">
-          {view?.title}
-          <CallMadeIcon />
-        </Typography>
+        <Link to={view?.linkToRoute}>
+          <Typography component="strong">
+            {view?.linkTo}
+            <CallMadeIcon />
+          </Typography>
+        </Link>
       </MenuItem>
     </Menu>
   );
