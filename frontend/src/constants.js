@@ -1,6 +1,6 @@
 const VIEWS = {
-  promoterDB: { route: '/promoter', title: 'Promoter DB', linkTo: 'NeuroSCAN' },
-  neuroScan: { route: '/', title: 'NeuroSCAN', linkTo: 'Promoter DB' },
+  promoterDB: { title: 'Promoter DB', linkTo: 'NeuroSCAN', linkToRoute: '/' },
+  neuroScan: { title: 'NeuroSCAN', linkTo: 'Promoter DB', linkToRoute: '/promoter' },
 };
 
 export default VIEWS;
