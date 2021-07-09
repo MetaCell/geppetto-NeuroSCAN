@@ -15,11 +15,26 @@ import {
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import MenuIcon from '../images/svg/icon-menu.svg';
 import IconCopy from '../images/svg/icon-copy.svg';
+import Toggle from '../images/svg/toggle.svg';
+import ToggleIn from '../images/svg/toggle-in.svg';
 import IconSuggest from '../images/svg/icon-suggest.svg';
 import VIEWS from '../constants';
+import vars from '../styles/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    [theme.breakpoints.up('sm')]: {
+      '& .MuiBox-menu': {
+        '&.shrink': {
+          transition: vars.transition,
+          width: '2.5rem',
+          padding: 0,
+          '& .wrap': {
+            display: 'none',
+          },
+        },
+      },
+    },
     [theme.breakpoints.down('xs')]: {
       '& .MuiToolbar-root': {
         flexDirection: 'column',
@@ -43,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Header = (props) => {
-  const { view } = props;
+  const { view, toggleSidebar, shrink } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -87,20 +102,25 @@ const Header = (props) => {
     <>
       <AppBar position="fixed" className={classes.root} color="secondary">
         <Toolbar>
-          <Box className="MuiBox-menu">
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-            >
-              <img src={MenuIcon} alt="Menu" />
+          <Box className={shrink ? 'MuiBox-menu shrink' : 'MuiBox-menu'}>
+            <Box className="wrap">
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+              >
+                <img src={MenuIcon} alt="Menu" />
+              </IconButton>
+              <Typography variant="h6">
+                {view?.title}
+              </Typography>
+            </Box>
+            <IconButton className="ml-auto" color="inherit" onClick={toggleSidebar} disableFocusRipple disableRipple>
+              <img src={shrink ? ToggleIn : Toggle} alt="Toggle" />
             </IconButton>
-            <Typography variant="h6">
-              {view?.title}
-            </Typography>
           </Box>
 
           <Box className="MuiBox-button">
