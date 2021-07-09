@@ -9,6 +9,12 @@ const vars = {
   primaryTextColor: 'rgba(255, 255, 255, 0.8)',
   radius: '6px',
   whiteTextColor: '#ffffff',
+  filtersBgColor: '#323232',
+  subHeaderBg: '#282828',
+  subHeaderHeadingColor: '#F2F2F7',
+  dividerBackgroundColor: 'rgba(255, 255, 255, 0.3)',
+  borderColor: 'rgba(255, 255, 255, 0.1)',
+  paragraphColor: 'rgba(242, 242, 247, 0.6)',
 };
 
 export default vars;

@@ -4,11 +4,12 @@ import Box from '@material-ui/core/Box';
 import LeftSidebar from '../components/LeftSidebar';
 import Header from '../components/Header';
 import RightSidebar from '../components/RightSidebar';
+import VIEWS from '../constants';
 
 export default function NeuroScan() {
   return (
     <>
-      <Header />
+      <Header view={VIEWS.neuroScan} />
       <Box display="flex">
         <LeftSidebar />
         <Box className="MuiBox-content">
