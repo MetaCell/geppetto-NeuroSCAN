@@ -15,6 +15,7 @@ const vars = {
   dividerBackgroundColor: 'rgba(255, 255, 255, 0.3)',
   borderColor: 'rgba(255, 255, 255, 0.1)',
   paragraphColor: 'rgba(242, 242, 247, 0.6)',
+  transition: 'all ease-in-out .3s',
 };
 
 export default vars;
