@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Header = (props) => {
-  const { view, toggleSidebar, toggle } = props;
+  const { view, toggleSidebar, shrink } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -102,7 +102,7 @@ const Header = (props) => {
     <>
       <AppBar position="fixed" className={classes.root} color="secondary">
         <Toolbar>
-          <Box className={toggle ? 'MuiBox-menu shrink' : 'MuiBox-menu'}>
+          <Box className={shrink ? 'MuiBox-menu shrink' : 'MuiBox-menu'}>
             <Box className="wrap">
               <IconButton
                 edge="start"
@@ -119,7 +119,7 @@ const Header = (props) => {
               </Typography>
             </Box>
             <IconButton className="ml-auto" color="inherit" onClick={toggleSidebar} disableFocusRipple disableRipple>
-              <img src={toggle ? ToggleIn : Toggle} alt="Toggle" />
+              <img src={shrink ? ToggleIn : Toggle} alt="Toggle" />
             </IconButton>
           </Box>
 

@@ -17,17 +17,17 @@ const useStyles = makeStyles((theme) => ({
 export default function NeuroScan() {
   const classes = useStyles();
 
-  const [toggle, setToggle] = React.useState(false);
+  const [shrinkSidebar, setShrinkSidebar] = React.useState(false);
 
   const handleToggle = () => {
-    setToggle(!toggle);
+    setShrinkSidebar(!shrinkSidebar);
   };
 
   return (
     <Box className={classes.root}>
-      <Header toggle={toggle} toggleSidebar={handleToggle} view={VIEWS.neuroScan} />
+      <Header shrink={shrinkSidebar} toggleSidebar={handleToggle} view={VIEWS.neuroScan} />
       <Box className="primary-structure" display="flex">
-        <LeftSidebar toggle={toggle} />
+        <LeftSidebar shrink={shrinkSidebar} />
         <Box className="primary-structure_content">
           <Box className="MuiBox-empty" display="flex" flexDirection="column" alignItems="center" justifyContent="center">
             <Typography variant="h2">
