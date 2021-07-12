@@ -6,10 +6,12 @@ export default {
   ],
   layout: {
     type: 'row',
+    id: 'root',
     children: [
       {
         type: 'tabset',
         weight: 100,
+        id: 'centralPanel',
         children: [
           {
             type: 'tab',
