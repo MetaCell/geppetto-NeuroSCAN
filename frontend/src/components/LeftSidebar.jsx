@@ -13,6 +13,7 @@ import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model
 import Button from '@material-ui/core/Button';
 import neuron from '@metacell/geppetto-meta-ui/3d-canvas/showcase/examples/SketchVolumeViewer_SAAVR_SAAVR_1_1_0000.obj';
 import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
+import CameraControls from '@metacell/geppetto-meta-ui/camera-controls/CameraControls';
 import MagnifyingGlass from '../images/svg/magnifying-glass.svg';
 
 const instanceTemplate = {
@@ -25,9 +26,11 @@ const instanceTemplate = {
     obj: neuron,
   },
 };
+
 function loadInstances() {
   const instance = new SimpleInstance(instanceTemplate);
   window.Instances = [instance];
+  window.GEPPETTO.Manager.augmentInstancesArray(window.Instances);
 }
 
 function getProxyInstances() {
@@ -47,22 +50,35 @@ function getProxyInstances() {
     }));
 }
 
-const CanvasWidget = {
-  id: 'canvasExample',
-  name: 'My Canvas Exmaple',
-  component: 'canvas',
-  panelName: 'centralPanel',
-  enableClose: true,
-  enableRename: true,
-  enableDrag: true,
-  status: WidgetStatus.ACTIVE,
-  config: {
-    data: getProxyInstances(),
-  },
-};
-
 const LeftSidebar = () => {
   const dispatch = useDispatch();
+
+  const CanvasWidget = {
+    id: 'canvasExample',
+    name: 'My Canvas Exmaple',
+    component: 'canvas',
+    panelName: 'centralPanel',
+    enableClose: true,
+    enableRename: true,
+    enableDrag: true,
+    status: WidgetStatus.ACTIVE,
+    config: {
+      data: getProxyInstances(),
+      cameraOptions: {
+        angle: 50,
+        near: 0.01,
+        far: 1000,
+        baseZoom: 1,
+        cameraControls: {
+          instance: CameraControls,
+          props: { wireframeButtonEnabled: false },
+        },
+        reset: false,
+        autorotate: false,
+        wireframe: false,
+      },
+    },
+  };
 
   const onAddWidgetClick = (widget) => {
     dispatch(addWidget(widget));
