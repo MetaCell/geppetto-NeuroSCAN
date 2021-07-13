@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import neuron from '@metacell/geppetto-meta-ui/3d-canvas/showcase/examples/SketchVolumeViewer_SAAVR_SAAVR_1_1_0000.obj';
 import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
 import CameraControls from '@metacell/geppetto-meta-ui/camera-controls/CameraControls';
+import { destroyWidget } from '@metacell/geppetto-meta-client/common/layout';
 import MagnifyingGlass from '../images/svg/magnifying-glass.svg';
 
 const instanceTemplate = {
@@ -81,6 +82,7 @@ const LeftSidebar = () => {
   };
 
   const onAddWidgetClick = (widget) => {
+    dispatch(destroyWidget('empty'));
     dispatch(addWidget(widget));
   };
 
