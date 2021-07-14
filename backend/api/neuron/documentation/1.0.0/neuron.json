@@ -522,101 +522,70 @@
           "id": {
             "type": "string"
           },
-          "name": {
-            "type": "string"
-          },
-          "files": {
-            "type": "array",
-            "items": {
-              "required": [
-                "id",
-                "name",
-                "hash",
-                "mime",
-                "size",
-                "url",
-                "provider"
-              ],
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "alternativeText": {
-                  "type": "string"
-                },
-                "caption": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "integer"
-                },
-                "height": {
-                  "type": "integer"
-                },
-                "formats": {
-                  "type": "object"
-                },
-                "hash": {
-                  "type": "string"
-                },
-                "ext": {
-                  "type": "string"
-                },
-                "mime": {
-                  "type": "string"
-                },
-                "size": {
-                  "type": "number"
-                },
-                "url": {
-                  "type": "string"
-                },
-                "previewUrl": {
-                  "type": "string"
-                },
-                "provider": {
-                  "type": "string"
-                },
-                "provider_metadata": {
-                  "type": "object"
-                },
-                "related": {
-                  "type": "string"
-                },
-                "created_by": {
-                  "type": "string"
-                },
-                "updated_by": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "developmental_stages": {
-            "type": "array",
-            "items": {
-              "required": [
-                "id"
-              ],
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "uid"
-                },
-                "published_at": {
-                  "type": "string"
-                },
-                "created_by": {
-                  "type": "string"
-                },
-                "updated_by": {
-                  "type": "string"
-                }
+          "file": {
+            "required": [
+              "id",
+              "name",
+              "hash",
+              "mime",
+              "size",
+              "url",
+              "provider"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "alternativeText": {
+                "type": "string"
+              },
+              "caption": {
+                "type": "string"
+              },
+              "width": {
+                "type": "integer"
+              },
+              "height": {
+                "type": "integer"
+              },
+              "formats": {
+                "type": "object"
+              },
+              "hash": {
+                "type": "string"
+              },
+              "ext": {
+                "type": "string"
+              },
+              "mime": {
+                "type": "string"
+              },
+              "size": {
+                "type": "number"
+              },
+              "url": {
+                "type": "string"
+              },
+              "previewUrl": {
+                "type": "string"
+              },
+              "provider": {
+                "type": "string"
+              },
+              "provider_metadata": {
+                "type": "object"
+              },
+              "related": {
+                "type": "string"
+              },
+              "created_by": {
+                "type": "string"
+              },
+              "updated_by": {
+                "type": "string"
               }
             }
           },
@@ -625,6 +594,121 @@
           },
           "wormatlas": {
             "type": "string"
+          },
+          "uid": {
+            "type": "uid"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "embryonic": {
+            "type": "boolean"
+          },
+          "lineage": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "synapse": {
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "neuronPre": {
+                "type": "string"
+              },
+              "neuronsPost": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "chemical",
+                  "electrical"
+                ]
+              },
+              "uid": {
+                "type": "uid"
+              },
+              "timepoints": {
+                "type": "object"
+              },
+              "metadata": {
+                "type": "string"
+              },
+              "section": {
+                "type": "string"
+              },
+              "zs": {
+                "type": "string"
+              },
+              "position": {
+                "type": "string",
+                "enum": [
+                  "pre",
+                  "post"
+                ]
+              },
+              "published_at": {
+                "type": "string"
+              },
+              "created_by": {
+                "type": "string"
+              },
+              "updated_by": {
+                "type": "string"
+              }
+            }
+          },
+          "promoter": {
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "uid": {
+                "type": "uid"
+              },
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "cellsByLineaging": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "metadata": {
+                "type": "string"
+              },
+              "timepoints": {
+                "type": "object"
+              },
+              "published_at": {
+                "type": "string"
+              },
+              "created_by": {
+                "type": "string"
+              },
+              "updated_by": {
+                "type": "string"
+              }
+            }
           },
           "published_at": {
             "type": "string",
@@ -634,19 +718,31 @@
       },
       "NewNeuron": {
         "properties": {
-          "name": {
-            "type": "string"
-          },
-          "developmental_stages": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
           "metadata": {
             "type": "string"
           },
           "wormatlas": {
+            "type": "string"
+          },
+          "uid": {
+            "type": "uid"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "embryonic": {
+            "type": "boolean"
+          },
+          "lineage": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "synapse": {
+            "type": "string"
+          },
+          "promoter": {
             "type": "string"
           },
           "published_at": {

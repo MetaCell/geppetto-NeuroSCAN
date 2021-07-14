@@ -12,11 +12,8 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
-      "type": "string"
-    },
-    "files": {
-      "collection": "file",
+    "file": {
+      "model": "file",
       "via": "related",
       "allowedTypes": [
         "files"
@@ -25,14 +22,34 @@
       "required": false,
       "pluginOptions": {}
     },
-    "developmental_stages": {
-      "collection": "developmental-stage"
-    },
     "metadata": {
       "type": "text"
     },
     "wormatlas": {
       "type": "string"
+    },
+    "uid": {
+      "type": "uid"
+    },
+    "timepoints": {
+      "type": "json"
+    },
+    "embryonic": {
+      "type": "boolean"
+    },
+    "lineage": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "synapse": {
+      "via": "neuronsPost",
+      "model": "synapse"
+    },
+    "promoter": {
+      "via": "cellsByLineaging",
+      "model": "promoter"
     }
   }
 }
