@@ -1,5 +1,7 @@
-import React from 'react';
-import { Box, makeStyles, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { useStore } from 'react-redux';
+import { Box, CircularProgress, makeStyles } from '@material-ui/core';
+import { getLayoutManagerInstance } from '@metacell/geppetto-meta-client/common/layout/LayoutManager';
 import LeftSidebar from '../components/LeftSidebar';
 import Header from '../components/Header';
 import VIEWS from '../constants';
@@ -16,12 +18,26 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NeuroScan() {
   const classes = useStyles();
-
+  const store = useStore();
+  const [LayoutManager, setLayoutManager] = useState(undefined);
   const [shrinkSidebar, setShrinkSidebar] = React.useState(false);
 
   const handleToggle = () => {
     setShrinkSidebar(!shrinkSidebar);
   };
+
+  useEffect(() => {
+    // Workaround because getLayoutManagerInstance
+    // is undefined when calling it in global scope
+    // Need to wait until store is ready ...
+    // TODO: find better way to retrieve the LayoutManager component!
+    if (LayoutManager === undefined) {
+      const myManager = getLayoutManagerInstance();
+      if (myManager) {
+        setLayoutManager(myManager.getComponent());
+      }
+    }
+  }, [store]);
 
   return (
     <Box className={classes.root}>
@@ -29,14 +45,7 @@ export default function NeuroScan() {
       <Box className="primary-structure" display="flex">
         <LeftSidebar shrink={shrinkSidebar} />
         <Box className="primary-structure_content">
-          <Box className="MuiBox-empty" display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-            <Typography variant="h2">
-              No Elements Added yet.
-            </Typography>
-            <Typography variant="h2">
-              You can add one with the Search Component.
-            </Typography>
-          </Box>
+          {LayoutManager === undefined ? <CircularProgress /> : <LayoutManager />}
         </Box>
       </Box>
     </Box>
