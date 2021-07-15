@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -15,11 +15,27 @@ import {
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import MenuIcon from '../images/svg/icon-menu.svg';
 import IconCopy from '../images/svg/icon-copy.svg';
+import Toggle from '../images/svg/toggle.svg';
+import ToggleIn from '../images/svg/toggle-in.svg';
 import IconSuggest from '../images/svg/icon-suggest.svg';
 import VIEWS from '../constants';
+import vars from '../styles/constants';
+import AboutModal from './AboutModal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    [theme.breakpoints.up('sm')]: {
+      '& .MuiBox-menu': {
+        '&.shrink': {
+          transition: vars.transition,
+          width: '2.5rem',
+          padding: 0,
+          '& .wrap': {
+            display: 'none',
+          },
+        },
+      },
+    },
     [theme.breakpoints.down('xs')]: {
       '& .MuiToolbar-root': {
         flexDirection: 'column',
@@ -43,9 +59,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Header = (props) => {
-  const { view } = props;
+  const { view, toggleSidebar, shrink } = props;
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openAboutModal, setOpenAboutModal] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -55,6 +72,11 @@ const Header = (props) => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handeModalToggle = () => {
+    setAnchorEl(null);
+    setOpenAboutModal(true);
   };
 
   const menuId = 'primary-search-account-menu';
@@ -69,7 +91,7 @@ const Header = (props) => {
       onClose={handleMenuClose}
       getContentAnchorEl={null}
     >
-      <MenuItem onClick={handleMenuClose}>{`About ${view?.title}`}</MenuItem>
+      <MenuItem onClick={handeModalToggle}>{`About ${view?.title}`}</MenuItem>
       <MenuItem onClick={handleMenuClose}>Tutorial</MenuItem>
       <Divider />
       <MenuItem onClick={handleMenuClose}>
@@ -87,20 +109,27 @@ const Header = (props) => {
     <>
       <AppBar position="fixed" className={classes.root} color="secondary">
         <Toolbar>
-          <Box className="MuiBox-menu">
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-            >
-              <img src={MenuIcon} alt="Menu" />
-            </IconButton>
-            <Typography variant="h6">
-              {view?.title}
-            </Typography>
+          <Box className={shrink ? 'MuiBox-menu shrink' : 'MuiBox-menu'}>
+            <Box className="wrap">
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+              >
+                <img src={MenuIcon} alt="Menu" />
+              </IconButton>
+              <Typography variant="h6">
+                {view?.title}
+              </Typography>
+            </Box>
+            {view?.title === VIEWS?.neuroScan?.title ? (
+              <IconButton className="ml-auto" color="inherit" onClick={toggleSidebar} disableFocusRipple disableRipple>
+                <img src={shrink ? ToggleIn : Toggle} alt="Toggle" />
+              </IconButton>
+            ) : null}
           </Box>
 
           <Box className="MuiBox-button">
@@ -128,6 +157,11 @@ const Header = (props) => {
         </Toolbar>
       </AppBar>
       {renderMenu}
+      <AboutModal
+        open={openAboutModal}
+        handleClose={() => setOpenAboutModal(false)}
+        title={view?.title}
+      />
     </>
   );
 };
