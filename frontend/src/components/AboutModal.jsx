@@ -4,7 +4,7 @@ import { Box, Typography, Button } from '@material-ui/core';
 import CLOSE from '../images/svg/close.svg';
 
 const AboutModal = (props) => {
-  const { open, handleClose } = props;
+  const { open, handleClose, title } = props;
   return (
     <Modal
       open={open}
@@ -13,13 +13,13 @@ const AboutModal = (props) => {
     >
       <Box className="modal-dialog">
         <Box className="modal-header">
-          <Typography>About PromoterDB</Typography>
+          <Typography>{`About ${title}`}</Typography>
           <Button onClick={handleClose}><img src={CLOSE} alt="Close" /></Button>
         </Box>
         <Box className="modal-body">
           <Typography>
-            PromoterDB is an initiative from the Yale University for Neurosciences, in partnership
-            with MetaCell.
+            {`${title} is an initiative from the Yale University for Neurosciences, in partnership
+            with MetaCell.`}
           </Typography>
           <Typography>
             MetaCell is world-leader in software for neuroscience.

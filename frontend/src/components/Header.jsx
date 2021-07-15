@@ -157,7 +157,11 @@ const Header = (props) => {
         </Toolbar>
       </AppBar>
       {renderMenu}
-      <AboutModal open={openAboutModal} handleClose={() => setOpenAboutModal(false)} />
+      <AboutModal
+        open={openAboutModal}
+        handleClose={() => setOpenAboutModal(false)}
+        title={view?.title}
+      />
     </>
   );
 };
