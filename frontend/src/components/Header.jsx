@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,6 +20,7 @@ import ToggleIn from '../images/svg/toggle-in.svg';
 import IconSuggest from '../images/svg/icon-suggest.svg';
 import VIEWS from '../constants';
 import vars from '../styles/constants';
+import AboutModal from './AboutModal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,7 +61,8 @@ const useStyles = makeStyles((theme) => ({
 const Header = (props) => {
   const { view, toggleSidebar, shrink } = props;
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openAboutModal, setOpenAboutModal] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -70,6 +72,11 @@ const Header = (props) => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handeModalToggle = () => {
+    setAnchorEl(null);
+    setOpenAboutModal(true);
   };
 
   const menuId = 'primary-search-account-menu';
@@ -84,7 +91,7 @@ const Header = (props) => {
       onClose={handleMenuClose}
       getContentAnchorEl={null}
     >
-      <MenuItem onClick={handleMenuClose}>{`About ${view?.title}`}</MenuItem>
+      <MenuItem onClick={handeModalToggle}>{`About ${view?.title}`}</MenuItem>
       <MenuItem onClick={handleMenuClose}>Tutorial</MenuItem>
       <Divider />
       <MenuItem onClick={handleMenuClose}>
@@ -118,9 +125,11 @@ const Header = (props) => {
                 {view?.title}
               </Typography>
             </Box>
-            <IconButton className="ml-auto" color="inherit" onClick={toggleSidebar} disableFocusRipple disableRipple>
-              <img src={shrink ? ToggleIn : Toggle} alt="Toggle" />
-            </IconButton>
+            {view?.title === VIEWS?.neuroScan?.title ? (
+              <IconButton className="ml-auto" color="inherit" onClick={toggleSidebar} disableFocusRipple disableRipple>
+                <img src={shrink ? ToggleIn : Toggle} alt="Toggle" />
+              </IconButton>
+            ) : null}
           </Box>
 
           <Box className="MuiBox-button">
@@ -148,6 +157,7 @@ const Header = (props) => {
         </Toolbar>
       </AppBar>
       {renderMenu}
+      <AboutModal open={openAboutModal} handleClose={() => setOpenAboutModal(false)} />
     </>
   );
 };
