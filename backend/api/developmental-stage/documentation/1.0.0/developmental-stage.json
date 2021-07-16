@@ -535,8 +535,26 @@
           "id": {
             "type": "string"
           },
-          "name": {
+          "uid": {
             "type": "uid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "begin": {
+            "type": "integer"
+          },
+          "end": {
+            "type": "integer"
+          },
+          "order": {
+            "type": "integer"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "promoterDB": {
+            "type": "boolean"
           },
           "published_at": {
             "type": "string",
@@ -546,8 +564,26 @@
       },
       "NewDevelopmental-stage": {
         "properties": {
-          "name": {
+          "uid": {
             "type": "uid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "begin": {
+            "type": "integer"
+          },
+          "end": {
+            "type": "integer"
+          },
+          "order": {
+            "type": "integer"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "promoterDB": {
+            "type": "boolean"
           },
           "published_at": {
             "type": "string",

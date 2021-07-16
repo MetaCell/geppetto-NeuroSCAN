@@ -530,25 +530,34 @@
               "id": {
                 "type": "string"
               },
-              "name": {
+              "file": {
                 "type": "string"
-              },
-              "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "developmental_stages": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
               },
               "metadata": {
                 "type": "string"
               },
               "wormatlas": {
+                "type": "string"
+              },
+              "uid": {
+                "type": "uid"
+              },
+              "timepoints": {
+                "type": "object"
+              },
+              "embryonic": {
+                "type": "boolean"
+              },
+              "lineage": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              },
+              "synapse": {
+                "type": "string"
+              },
+              "promoter": {
                 "type": "string"
               },
               "published_at": {
@@ -562,105 +571,47 @@
               }
             }
           },
-          "neuronPost": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "developmental_stages": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "metadata": {
-                "type": "string"
-              },
-              "wormatlas": {
-                "type": "string"
-              },
-              "published_at": {
-                "type": "string"
-              },
-              "created_by": {
-                "type": "string"
-              },
-              "updated_by": {
-                "type": "string"
-              }
-            }
-          },
-          "files": {
+          "neuronsPost": {
             "type": "array",
             "items": {
               "required": [
-                "id",
-                "name",
-                "hash",
-                "mime",
-                "size",
-                "url",
-                "provider"
+                "id"
               ],
               "properties": {
                 "id": {
                   "type": "string"
                 },
-                "name": {
+                "file": {
                   "type": "string"
                 },
-                "alternativeText": {
+                "metadata": {
                   "type": "string"
                 },
-                "caption": {
+                "wormatlas": {
                   "type": "string"
                 },
-                "width": {
-                  "type": "integer"
+                "uid": {
+                  "type": "uid"
                 },
-                "height": {
-                  "type": "integer"
-                },
-                "formats": {
+                "timepoints": {
                   "type": "object"
                 },
-                "hash": {
+                "embryonic": {
+                  "type": "boolean"
+                },
+                "lineage": {
                   "type": "string"
                 },
-                "ext": {
+                "location": {
                   "type": "string"
                 },
-                "mime": {
+                "synapse": {
                   "type": "string"
                 },
-                "size": {
-                  "type": "number"
-                },
-                "url": {
+                "promoter": {
                   "type": "string"
                 },
-                "previewUrl": {
-                  "type": "string"
-                },
-                "provider": {
-                  "type": "string"
-                },
-                "provider_metadata": {
-                  "type": "object"
-                },
-                "related": {
+                "published_at": {
                   "type": "string"
                 },
                 "created_by": {
@@ -672,6 +623,73 @@
               }
             }
           },
+          "file": {
+            "required": [
+              "id",
+              "name",
+              "hash",
+              "mime",
+              "size",
+              "url",
+              "provider"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "alternativeText": {
+                "type": "string"
+              },
+              "caption": {
+                "type": "string"
+              },
+              "width": {
+                "type": "integer"
+              },
+              "height": {
+                "type": "integer"
+              },
+              "formats": {
+                "type": "object"
+              },
+              "hash": {
+                "type": "string"
+              },
+              "ext": {
+                "type": "string"
+              },
+              "mime": {
+                "type": "string"
+              },
+              "size": {
+                "type": "number"
+              },
+              "url": {
+                "type": "string"
+              },
+              "previewUrl": {
+                "type": "string"
+              },
+              "provider": {
+                "type": "string"
+              },
+              "provider_metadata": {
+                "type": "object"
+              },
+              "related": {
+                "type": "string"
+              },
+              "created_by": {
+                "type": "string"
+              },
+              "updated_by": {
+                "type": "string"
+              }
+            }
+          },
           "type": {
             "type": "string",
             "enum": [
@@ -679,8 +697,27 @@
               "electrical"
             ]
           },
-          "name": {
+          "uid": {
             "type": "uid"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "metadata": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "zs": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string",
+            "enum": [
+              "pre",
+              "post"
+            ]
           },
           "published_at": {
             "type": "string",
@@ -693,8 +730,11 @@
           "neuronPre": {
             "type": "string"
           },
-          "neuronPost": {
-            "type": "string"
+          "neuronsPost": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "type": {
             "type": "string",
@@ -703,8 +743,27 @@
               "electrical"
             ]
           },
-          "name": {
+          "uid": {
             "type": "uid"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "metadata": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "zs": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string",
+            "enum": [
+              "pre",
+              "post"
+            ]
           },
           "published_at": {
             "type": "string",

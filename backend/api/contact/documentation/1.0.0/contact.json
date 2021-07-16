@@ -522,7 +522,7 @@
           "id": {
             "type": "string"
           },
-          "name": {
+          "uid": {
             "type": "uid"
           },
           "neuronA": {
@@ -533,25 +533,34 @@
               "id": {
                 "type": "string"
               },
-              "name": {
+              "file": {
                 "type": "string"
-              },
-              "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "developmental_stages": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
               },
               "metadata": {
                 "type": "string"
               },
               "wormatlas": {
+                "type": "string"
+              },
+              "uid": {
+                "type": "uid"
+              },
+              "timepoints": {
+                "type": "object"
+              },
+              "embryonic": {
+                "type": "boolean"
+              },
+              "lineage": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              },
+              "synapse": {
+                "type": "string"
+              },
+              "promoter": {
                 "type": "string"
               },
               "published_at": {
@@ -573,25 +582,34 @@
               "id": {
                 "type": "string"
               },
-              "name": {
+              "file": {
                 "type": "string"
-              },
-              "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "developmental_stages": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
               },
               "metadata": {
                 "type": "string"
               },
               "wormatlas": {
+                "type": "string"
+              },
+              "uid": {
+                "type": "uid"
+              },
+              "timepoints": {
+                "type": "object"
+              },
+              "embryonic": {
+                "type": "boolean"
+              },
+              "lineage": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              },
+              "synapse": {
+                "type": "string"
+              },
+              "promoter": {
                 "type": "string"
               },
               "published_at": {
@@ -605,78 +623,81 @@
               }
             }
           },
-          "files": {
-            "type": "array",
-            "items": {
-              "required": [
-                "id",
-                "name",
-                "hash",
-                "mime",
-                "size",
-                "url",
-                "provider"
-              ],
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "alternativeText": {
-                  "type": "string"
-                },
-                "caption": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "integer"
-                },
-                "height": {
-                  "type": "integer"
-                },
-                "formats": {
-                  "type": "object"
-                },
-                "hash": {
-                  "type": "string"
-                },
-                "ext": {
-                  "type": "string"
-                },
-                "mime": {
-                  "type": "string"
-                },
-                "size": {
-                  "type": "number"
-                },
-                "url": {
-                  "type": "string"
-                },
-                "previewUrl": {
-                  "type": "string"
-                },
-                "provider": {
-                  "type": "string"
-                },
-                "provider_metadata": {
-                  "type": "object"
-                },
-                "related": {
-                  "type": "string"
-                },
-                "created_by": {
-                  "type": "string"
-                },
-                "updated_by": {
-                  "type": "string"
-                }
+          "file": {
+            "required": [
+              "id",
+              "name",
+              "hash",
+              "mime",
+              "size",
+              "url",
+              "provider"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "alternativeText": {
+                "type": "string"
+              },
+              "caption": {
+                "type": "string"
+              },
+              "width": {
+                "type": "integer"
+              },
+              "height": {
+                "type": "integer"
+              },
+              "formats": {
+                "type": "object"
+              },
+              "hash": {
+                "type": "string"
+              },
+              "ext": {
+                "type": "string"
+              },
+              "mime": {
+                "type": "string"
+              },
+              "size": {
+                "type": "number"
+              },
+              "url": {
+                "type": "string"
+              },
+              "previewUrl": {
+                "type": "string"
+              },
+              "provider": {
+                "type": "string"
+              },
+              "provider_metadata": {
+                "type": "object"
+              },
+              "related": {
+                "type": "string"
+              },
+              "created_by": {
+                "type": "string"
+              },
+              "updated_by": {
+                "type": "string"
               }
             }
           },
           "metadata": {
             "type": "string"
+          },
+          "weight": {
+            "type": "integer"
+          },
+          "timepoints": {
+            "type": "object"
           },
           "published_at": {
             "type": "string",
@@ -686,7 +707,7 @@
       },
       "NewContact": {
         "properties": {
-          "name": {
+          "uid": {
             "type": "uid"
           },
           "neuronA": {
@@ -697,6 +718,12 @@
           },
           "metadata": {
             "type": "string"
+          },
+          "weight": {
+            "type": "integer"
+          },
+          "timepoints": {
+            "type": "object"
           },
           "published_at": {
             "type": "string",

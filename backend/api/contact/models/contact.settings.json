@@ -12,7 +12,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
+    "uid": {
       "type": "uid"
     },
     "neuronA": {
@@ -21,8 +21,8 @@
     "neuronB": {
       "model": "neuron"
     },
-    "files": {
-      "collection": "file",
+    "file": {
+      "model": "file",
       "via": "related",
       "allowedTypes": [
         "images",
@@ -35,6 +35,12 @@
     },
     "metadata": {
       "type": "text"
+    },
+    "weight": {
+      "type": "integer"
+    },
+    "timepoints": {
+      "type": "json"
     }
   }
 }
