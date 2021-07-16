@@ -9,6 +9,7 @@ import {
   Typography,
   Divider,
   IconButton,
+  Slider,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MagnifyingGlass from '../images/svg/magnifying-glass.svg';
@@ -39,6 +40,31 @@ const useStyles = makeStyles((theme) => ({
 const LeftSidebar = (props) => {
   const classes = useStyles();
   const { shrink } = props;
+  const marks = [
+    {
+      value: 0,
+      label: '0°C',
+    },
+    {
+      value: 20,
+      label: '20°C',
+    },
+    {
+      value: 37,
+      label: '37°C',
+    },
+    {
+      value: 100,
+      label: '100°C',
+    },
+  ];
+  function valuetext(value) {
+    return `${value}°C`;
+  }
+
+  function valueLabelFormat(value) {
+    return marks.findIndex((mark) => mark.value === value) + 1;
+  }
   return (
     <Drawer
       variant="permanent"
@@ -55,9 +81,19 @@ const LeftSidebar = (props) => {
                 <Typography variant="h5">Add element</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
+                <Slider
+                  defaultValue={20}
+                  valueLabelFormat={valueLabelFormat}
+                  getAriaValueText={valuetext}
+                  aria-labelledby="discrete-slider-restrict"
+                  step={null}
+                  valueLabelDisplay="auto"
+                  marks={marks}
+                  scale={(x) => -x}
+                />
+                {/* <Typography>
                   Lorem ipsum dolor sit amet.
-                </Typography>
+                </Typography> */}
               </AccordionDetails>
             </Accordion>
           </Box>
