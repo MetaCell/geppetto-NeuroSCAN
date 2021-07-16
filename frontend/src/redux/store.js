@@ -5,6 +5,9 @@ import componentMap from '../components/layout/componentMap';
 const reducers = {};
 
 const INIT_STATE = {
+  viewers: {},
+  devStages: {},
+  layout: {},
 };
 
 const store = createStore(
