@@ -1,6 +1,11 @@
 import React from 'react';
 import Modal from '@material-ui/core/Modal';
-import { Box, Typography, Button } from '@material-ui/core';
+import {
+  Box,
+  Typography,
+  Button,
+  IconButton,
+} from '@material-ui/core';
 import CLOSE from '../images/svg/close.svg';
 
 const AboutModal = (props) => {
@@ -14,7 +19,14 @@ const AboutModal = (props) => {
       <Box className="modal-dialog">
         <Box className="modal-header">
           <Typography>{`About ${title}`}</Typography>
-          <Button onClick={handleClose}><img src={CLOSE} alt="Close" /></Button>
+          <IconButton
+            color="inherit"
+            onClick={handleClose}
+            disableFocusRipple
+            disableRipple
+          >
+            <img src={CLOSE} alt="Close" />
+          </IconButton>
         </Box>
         <Box className="modal-body">
           <Typography>
