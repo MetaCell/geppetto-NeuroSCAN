@@ -18,9 +18,9 @@ import IconCopy from '../images/svg/icon-copy.svg';
 import Toggle from '../images/svg/toggle.svg';
 import ToggleIn from '../images/svg/toggle-in.svg';
 import IconSuggest from '../images/svg/icon-suggest.svg';
-import VIEWS from '../constants';
 import vars from '../styles/constants';
 import AboutModal from './AboutModal';
+import { VIEWS } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import {
   ADD_INSTANCES_VIEWER, ADD_VIEWER, COLOR_INSTANCES_VIEWER, REMOVE_VIEWER,
 } from '../actions/viewers';
@@ -11,7 +10,7 @@ export default (state = VIEWERS_DEFAULT_STATUS, action) => {
     {
       return {
         ...state,
-        [uuidv4()]: {
+        [action.data.viewerId]: {
           instances: action.data.instances,
           type: action.data.type,
         },
