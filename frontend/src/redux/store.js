@@ -4,10 +4,12 @@ import componentMap from '../components/layout/componentMap';
 import reducers from './reducers/all';
 import middleware from './middleware';
 
+console.log(reducers);
+
 const INIT_STATE = {
   viewers: {},
   devStages: {},
-  layout: {},
+  misc: {},
 };
 
 const store = createStore(

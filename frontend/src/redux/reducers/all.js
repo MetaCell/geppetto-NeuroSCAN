@@ -1,10 +1,9 @@
-import { combineReducers } from 'redux';
-import viewers from './viewers';
-import devStage from './devStages';
-import misc from './misc';
+import viewersReducer from './viewers';
+import devStagesReducer from './devStages';
+import miscReducer from './misc';
 
-export default combineReducers({
-  viewers,
-  devStage,
-  misc,
-});
+export default {
+  viewers: viewersReducer,
+  devStages: devStagesReducer,
+  misc: miscReducer,
+};
