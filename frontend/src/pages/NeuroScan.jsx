@@ -14,6 +14,11 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  layoutContainer: {
+    position: 'relative',
+    width: '100%',
+    height: '90vh',
+  },
 }));
 
 export default function NeuroScan() {
@@ -44,7 +49,7 @@ export default function NeuroScan() {
       <Header shrink={shrinkSidebar} toggleSidebar={handleToggle} view={VIEWS.neuroScan} />
       <Box className="primary-structure" display="flex">
         <LeftSidebar shrink={shrinkSidebar} />
-        <Box className="primary-structure_content">
+        <Box className={`primary-structure_content ${classes.layoutContainer}`}>
           {LayoutManager === undefined ? <CircularProgress /> : <LayoutManager />}
         </Box>
       </Box>
