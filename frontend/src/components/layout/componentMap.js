@@ -1,7 +1,7 @@
 import { VIEWERS } from '../../constants';
-import MorphologyViewer from '../viewers/MorphologyViewer';
 import CphateViewer from '../viewers/CphateViewer';
 import ViewerPlaceholder from '../ViewerPlaceholder';
+import MorphologyViewer from '../viewers/MorphologyViewer';
 
 const componentMap = {
   [VIEWERS.MorphologyViewer]: MorphologyViewer,

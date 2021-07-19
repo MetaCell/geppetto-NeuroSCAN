@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MagnifyingGlass from '../images/svg/magnifying-glass.svg';
+import TestComponent from './TestComponent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,11 +55,7 @@ const LeftSidebar = (props) => {
               >
                 <Typography variant="h5">Add element</Typography>
               </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet.
-                </Typography>
-              </AccordionDetails>
+              <TestComponent />
             </Accordion>
           </Box>
           <Divider />
