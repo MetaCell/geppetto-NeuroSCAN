@@ -4,7 +4,7 @@ import {
   Typography, Box, Link, Divider,
 } from '@material-ui/core';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import MagnifyingGlass from '../images/svg/magnifying-glass.svg';
+import MagnifyingGlass from '../images/magnifying-glass.svg';
 
 const RightSidebar = () => (
   <Drawer

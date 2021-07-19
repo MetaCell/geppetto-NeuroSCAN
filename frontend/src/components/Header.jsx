@@ -13,11 +13,11 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
-import MenuIcon from '../images/svg/icon-menu.svg';
-import IconCopy from '../images/svg/icon-copy.svg';
-import Toggle from '../images/svg/toggle.svg';
-import ToggleIn from '../images/svg/toggle-in.svg';
-import IconSuggest from '../images/svg/icon-suggest.svg';
+import MenuIcon from '../images/icon-menu.svg';
+import IconCopy from '../images/icon-copy.svg';
+import Toggle from '../images/toggle.svg';
+import ToggleIn from '../images/toggle-in.svg';
+import IconSuggest from '../images/icon-suggest.svg';
 import { VIEWS } from '../constants';
 import vars from '../styles/constants';
 import AboutModal from './AboutModal';
