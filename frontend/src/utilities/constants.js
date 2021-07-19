@@ -7,3 +7,6 @@ export const VIEWERS = Object.freeze({
   MorphologyViewer: 'MorphologyViewer',
   CphateViewer: 'CphateViewer',
 });
+
+// todo: replace this with environment variable? also change on apiClient
+export const backendURL = 'http://localhost:1337';

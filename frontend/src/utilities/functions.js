@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
+import { backendURL } from './constants';
 
 // eslint-disable-next-line import/prefer-default-export
 export const useConstructor = (callBack = () => {}) => {
@@ -8,16 +10,16 @@ export const useConstructor = (callBack = () => {}) => {
   setHasBeenCalled(true);
 };
 
-export const createSimpleInstance = (instance) => ({
+export const createSimpleInstance = (instance) => (new SimpleInstance({
   eClass: 'SimpleInstance',
-  id: instance.id,
+  id: instance.uid,
   name: instance.uid,
   type: { eClass: 'SimpleType' },
   visualValue: {
     eClass: 'GLTF',
-    gltf: instance.file,
+    gltf: `${backendURL}${instance.file}`,
   },
-});
+}));
 
 const removeDuplicates = (arr) => arr.filter(
   (v, i, a) => a.findIndex((t) => (t.id === v.id)) === i,
