@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const LeftSidebar = (props) => {
   const classes = useStyles();
   const { shrink } = props;
+
   return (
     <Drawer
       variant="permanent"

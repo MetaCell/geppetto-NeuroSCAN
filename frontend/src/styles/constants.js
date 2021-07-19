@@ -16,6 +16,15 @@ const vars = {
   borderColor: 'rgba(255, 255, 255, 0.1)',
   paragraphColor: 'rgba(242, 242, 247, 0.6)',
   transition: 'all ease-in-out .3s',
+  modalTextColor: '#161616',
+  modalBorderColor: '#E5E5E5',
+  lightBlackColor: 'rgba(0, 0, 0, 0.8)',
+  captionTextColor: 'rgba(0, 0, 0, 0.3)',
+  toolbarBackground: 'rgba(255,0,0,0.5)',
+  menuPaperBG: 'rgba(0, 0, 0, 0.1)',
+  filterShadowColor: 'rgba(0, 0, 0, 0.7)',
+  scrollBarBg: 'rgba(0,0,0,0.24)',
+  outlinedBorderColor: 'rgba(255, 255, 255, 0.4)',
 };
 
 export default vars;
