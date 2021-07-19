@@ -20,7 +20,7 @@ import ToggleIn from '../images/svg/toggle-in.svg';
 import IconSuggest from '../images/svg/icon-suggest.svg';
 import vars from '../styles/constants';
 import AboutModal from './AboutModal';
-import { VIEWS } from '../constants';
+import { VIEWS } from '../utilities/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -4,7 +4,7 @@ import { Box, CircularProgress, makeStyles } from '@material-ui/core';
 import { getLayoutManagerInstance } from '@metacell/geppetto-meta-client/common/layout/LayoutManager';
 import LeftSidebar from '../components/LeftSidebar';
 import Header from '../components/Header';
-import { VIEWS } from '../constants';
+import { VIEWS } from '../utilities/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {

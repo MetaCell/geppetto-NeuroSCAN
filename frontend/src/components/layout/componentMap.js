@@ -1,4 +1,4 @@
-import { VIEWERS } from '../../constants';
+import { VIEWERS } from '../../utilities/constants';
 import CphateViewer from '../viewers/CphateViewer';
 import ViewerPlaceholder from '../ViewerPlaceholder';
 import MorphologyViewer from '../viewers/MorphologyViewer';

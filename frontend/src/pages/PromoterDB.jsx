@@ -9,7 +9,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import Header from '../components/Header';
-import { VIEWS } from '../constants';
+import { VIEWS } from '../utilities/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {

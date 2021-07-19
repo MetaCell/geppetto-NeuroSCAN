@@ -14,6 +14,15 @@ import About from './pages/About';
 import theme from './theme';
 import { addDevStages } from './redux/actions/devStages';
 
+const Manager = require('@metacell/geppetto-meta-client/common/Manager').default;
+
+const GEPPETTO = {};
+window.GEPPETTO = GEPPETTO;
+GEPPETTO.Resources = require('@metacell/geppetto-meta-core/Resources').default;
+
+GEPPETTO.Manager = new Manager();
+window.Instances = [];
+
 const App = () => {
   const dispatch = useDispatch();
 

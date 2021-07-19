@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
+import { createSimpleInstance, updateGeppettoInstances } from '../../utilities/functions';
 
 function MorphologyViewer(props) {
   const { viewerId } = props;
   const viewer = useSelector((state) => state.viewers[viewerId]);
-  const canvasData = viewer.instances.map((instance) => ({
-    instancePath: instance,
-  }));
+
+  useEffect(() => {
+    const simpleInstances = viewer.instances.map((instance) => createSimpleInstance(instance));
+    updateGeppettoInstances(simpleInstances);
+  }, [viewer.instances]);
+
   const cameraHandler = (data) => {
     console.log(data);
   };
@@ -19,7 +23,7 @@ function MorphologyViewer(props) {
   };
   return (
     <Canvas
-      data={canvasData}
+      data={[]}
       cameraOptions={viewer.cameraOptions}
       cameraHandler={cameraHandler}
       backgroundColor={0x505050}

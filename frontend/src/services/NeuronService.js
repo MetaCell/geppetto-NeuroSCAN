@@ -6,7 +6,7 @@ export class NeuronService {
   }
 
   async getNeuronById(id) {
-    return this.api.neuronsIdGet(id, undefined);
+    return this.api.neuronsIdGet(id);
   }
 }
 

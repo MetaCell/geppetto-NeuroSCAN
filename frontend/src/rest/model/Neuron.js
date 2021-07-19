@@ -58,7 +58,7 @@ class Neuron {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');
             }
             if (data.hasOwnProperty('file')) {
-                obj['file'] = ApiClient.convertToType(data['file'], 'String');
+                obj['file'] = data['file']['url'];
             }
             if (data.hasOwnProperty('metadata')) {
                 obj['metadata'] = ApiClient.convertToType(data['metadata'], 'String');
