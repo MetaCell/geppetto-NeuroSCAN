@@ -5,8 +5,8 @@ import {
   Slider,
   Typography,
 } from '@material-ui/core';
-import DOWN from '../images/chevron-down.svg';
-import vars from '../styles/constants';
+import DOWN from '../../images/chevron-down.svg';
+import vars from '../../styles/constants';
 
 const stages = ['L1', 'L2', 'L3', 'L4', 'Adult'];
 

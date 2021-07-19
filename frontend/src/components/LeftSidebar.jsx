@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Accordion,
   makeStyles,
   Box,
   Drawer,
-  AccordionSummary,
-  AccordionDetails,
   Typography,
-  Divider,
   IconButton,
 } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MagnifyingGlass from '../images/svg/magnifying-glass.svg';
+import Explorer from './Sidebar/Explorer';
+import Search from './Sidebar/Search';
+import Results from './Sidebar/Results';
+import CPhasePlot from './Sidebar/CPhasePlot';
+import MagnifyingGlass from '../images/magnifying-glass.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,11 +33,18 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  fade: {
+    opacity: 0.3,
+    filter: 'grayscale(1)',
+    pointerEvents: 'none',
+  },
 }));
 
 const LeftSidebar = (props) => {
   const classes = useStyles();
   const { shrink } = props;
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searching, setSearching] = useState(false);
 
   return (
     <Drawer
@@ -48,7 +54,30 @@ const LeftSidebar = (props) => {
     >
       {!shrink ? (
         <>
-          <Box>
+          <Box className="wrap">
+            <Typography component="h3">Add element</Typography>
+            <Search
+              setSearchTerm={setSearchTerm}
+              searchTerm={searchTerm}
+              setSearching={setSearching}
+              searching={searching}
+            />
+          </Box>
+
+          <Results searching={searching} />
+
+          <CPhasePlot />
+
+          <Box className="wrap">
+            <Typography component="h3">
+              Explorer
+              <IconButton><img src={MagnifyingGlass} alt="Search" /></IconButton>
+            </Typography>
+          </Box>
+
+          <Explorer />
+
+          {/* <Box>
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -56,9 +85,7 @@ const LeftSidebar = (props) => {
                 <Typography variant="h5">Add element</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet.
-                </Typography>
+                <Typography variant="caption">No Instance Added yet</Typography>
               </AccordionDetails>
             </Accordion>
           </Box>
@@ -70,7 +97,7 @@ const LeftSidebar = (props) => {
           <Divider />
           <Box className="MuiBox-instance">
             <Typography variant="caption">No Instance Added yet</Typography>
-          </Box>
+          </Box> */}
         </>
       ) : (
         <Typography>NeuroSCAN</Typography>
