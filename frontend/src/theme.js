@@ -18,6 +18,7 @@ const {
   dividerBackgroundColor,
   borderColor,
   paragraphColor,
+  transition,
 } = vars;
 
 const theme = createMuiTheme({
@@ -109,6 +110,9 @@ const theme = createMuiTheme({
           background: 'rgba(0,0,0,0.24)',
           borderRadius: '.25rem',
         },
+        '.ml-auto': {
+          marginLeft: 'auto',
+        },
         ' body': {
           backgroundColor: primaryBgColor,
         },
@@ -122,6 +126,7 @@ const theme = createMuiTheme({
         '.MuiBox-empty': {
           margin: 'auto',
           textAlign: 'center',
+          height: '100%',
           '& .MuiTypography-h2': {
             color: dividerBackgroundColor,
           },
@@ -207,14 +212,14 @@ const theme = createMuiTheme({
               letterSpacing: '0.005em',
               color: paragraphColor,
               marginBottom: '1.5rem',
-              transition: 'all ease-in-out .3s',
+              transition,
             },
 
             '& h1': {
               fontWeight: 'bold',
               fontSize: '2.25rem',
               lineHeight: '2.9375rem',
-              transition: 'all ease-in-out .3s',
+              transition,
               color: subHeaderHeadingColor,
               marginBottom: '1.8125rem',
             },
@@ -273,6 +278,14 @@ const theme = createMuiTheme({
             },
           },
         },
+        '.primary-structure': {
+          paddingTop: '2.5rem',
+          height: '100vh',
+
+          '&_content': {
+            flexGrow: 1,
+          },
+        },
       },
     },
     MuiAccordion: {
@@ -316,9 +329,27 @@ const theme = createMuiTheme({
       },
     },
     MuiDrawer: {
+      root: {
+        '&.shrink': {
+          '& .MuiTypography-root': {
+            fontWeight: '600',
+            fontSize: '0.875rem',
+            color: '#A41A45',
+            transform: 'rotate(-90deg)',
+            letterSpacing: '0.005em',
+            lineHeight: '1rem',
+          },
+          '& .MuiDrawer-paper': {
+            width: '2.5rem',
+            paddingTop: '4.375rem',
+            transition,
+          },
+        },
+      },
       paper: {
         width: '17.7rem',
-        marginTop: `calc(${gutter} / 2 * 5) !important`,
+        transition,
+        borderRight: 'none !important',
         '& .MuiSvgIcon-root': {
           fontSize: '1rem',
         },
@@ -392,7 +423,8 @@ const theme = createMuiTheme({
           background: primaryColor,
           width: '17.7rem',
           paddingLeft: gutter,
-          paddingRight: gutter,
+          paddingRight: '0.25rem',
+          transition,
           '& .MuiIconButton-root': {
             padding: '0.75rem',
           },
