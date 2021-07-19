@@ -7,6 +7,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import CLOSE from '../images/svg/close.svg';
+import { ABOUT_CONTENT } from '../constants';
 
 const AboutModal = (props) => {
   const { open, handleClose, title } = props;
@@ -30,20 +31,19 @@ const AboutModal = (props) => {
         </Box>
         <Box className="modal-body">
           <Typography>
-            {`${title} is an initiative from the Yale University for Neurosciences, in partnership
-            with MetaCell.`}
+            {`${title} ${ABOUT_CONTENT}`}
           </Typography>
           <Typography>
             MetaCell is world-leader in software for neuroscience.
           </Typography>
         </Box>
         <Box className="modal-footer">
-          <Button variant="outlined" onClick={handleClose}>
+          {/* <Button variant="outlined" onClick={handleClose}>
             Legal Notice
           </Button>
           <Button disableElevation color="primary" variant="contained" onClick={handleClose}>
             Share
-          </Button>
+          </Button> */}
         </Box>
       </Box>
     </Modal>

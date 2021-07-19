@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import LeftSidebar from '../components/LeftSidebar';
 import Header from '../components/Header';
-import VIEWS from '../constants';
+import { VIEWS } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +25,7 @@ export default function NeuroScan() {
 
   return (
     <Box className={classes.root}>
-      <Header shrink={shrinkSidebar} toggleSidebar={handleToggle} view={VIEWS.neuroScan} />
+      <Header shrink={shrinkSidebar} toggleSidebar={handleToggle} view={VIEWS?.neuroScan} />
       <Box className="primary-structure" display="flex">
         <LeftSidebar shrink={shrinkSidebar} />
         <Box className="primary-structure_content">
