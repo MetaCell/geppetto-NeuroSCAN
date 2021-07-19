@@ -4,9 +4,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { ADD_VIEWER } from './actions/viewers';
 import { ADD_DEVSTAGE } from './actions/devStages';
 import { raiseError, waitData } from './actions/misc';
-import { DevStagesService } from '../services/DevStagesService';
+import { DevStageService } from '../services/DevStageService';
 
-const devStagesService = new DevStagesService();
+const devStagesService = new DevStageService();
 
 const middleware = (store) => (next) => (action) => {
   function widgetFromViewerSpec(viewerSpec) {
@@ -19,7 +19,9 @@ const middleware = (store) => (next) => (action) => {
       enableRename: true,
       enableDrag: true,
       status: WidgetStatus.ACTIVE,
-      config: {},
+      config: {
+        viewerId: viewerSpec.viewerId,
+      },
     };
   }
 
@@ -31,6 +33,7 @@ const middleware = (store) => (next) => (action) => {
         action.data = stages;
         next(action);
       }, (e) => {
+        // eslint-disable-next-line no-console
         console.error('Error getting development stages', e);
         next(raiseError('Error getting development stages'));
       });
@@ -39,6 +42,7 @@ const middleware = (store) => (next) => (action) => {
     case ADD_VIEWER: {
       // eslint-disable-next-line no-param-reassign
       action.data.viewerId = uuidv4();
+      next(action);
       store.dispatch(addWidget(widgetFromViewerSpec(action.data)));
       break;
     }

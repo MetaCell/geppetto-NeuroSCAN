@@ -1,6 +1,22 @@
+import CameraControls from '@metacell/geppetto-meta-ui/camera-controls/CameraControls';
+
 import {
   ADD_INSTANCES_VIEWER, ADD_VIEWER, COLOR_INSTANCES_VIEWER, REMOVE_VIEWER,
 } from '../actions/viewers';
+
+const defaultCameraOptions = {
+  angle: 50,
+  near: 0.01,
+  far: 1000,
+  baseZoom: 1,
+  cameraControls: {
+    instance: CameraControls,
+    props: { wireframeButtonEnabled: false },
+  },
+  reset: false,
+  autorotate: false,
+  wireframe: false,
+};
 
 export const VIEWERS_DEFAULT_STATUS = {};
 
@@ -13,6 +29,7 @@ export default (state = VIEWERS_DEFAULT_STATUS, action) => {
         [action.data.viewerId]: {
           instances: action.data.instances,
           type: action.data.type,
+          cameraOptions: defaultCameraOptions,
         },
       };
     }
