@@ -17,7 +17,7 @@ import CONTACTS from '../../images/contacts.svg';
 import CHEVRON from '../../images/chevron-right.svg';
 import CircularLoader from '../Common/Loader';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   fade: {
     opacity: 0.3,
     filter: 'grayscale(1)',
