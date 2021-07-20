@@ -46,7 +46,7 @@ export default function NeuroScan() {
 
   return (
     <Box className={classes.root}>
-      <Header shrink={shrinkSidebar} toggleSidebar={handleToggle} view={VIEWS.neuroScan} />
+      <Header shrink={shrinkSidebar} toggleSidebar={handleToggle} view={VIEWS?.neuroScan} />
       <Box className="primary-structure" display="flex">
         <LeftSidebar shrink={shrinkSidebar} />
         <Box className={`primary-structure_content ${classes.layoutContainer}`}>

@@ -74,6 +74,13 @@ const theme = createMuiTheme({
     toolbarBackground: { main: toolbarBackground },
   },
   overrides: {
+    MuiIconButton: {
+      root: {
+        '&:hover': {
+          backgroundColor: 'transparent',
+        },
+      },
+    },
     MuiMenu: {
       paper: {
         minWidth: '10rem',
@@ -315,6 +322,9 @@ const theme = createMuiTheme({
               justifyContent: 'space-between',
               padding: '1rem',
               borderBottom: `0.0625rem solid ${modalBorderColor}`,
+              '& .MuiIconButton-root': {
+                padding: 0,
+              },
               '& p': {
                 fontSize: '1.25rem',
                 lineHeight: '1.625rem',
