@@ -66,7 +66,7 @@ class Contact {
                 obj['neuronB'] = Neuron.constructFromObject(data['neuronB']);
             }
             if (data.hasOwnProperty('file')) {
-                obj['file'] = ApiClient.convertToType(data['file'], 'String');
+                obj['file'] = data['file']['url'];
             }
             if (data.hasOwnProperty('metadata')) {
                 obj['metadata'] = ApiClient.convertToType(data['metadata'], 'String');

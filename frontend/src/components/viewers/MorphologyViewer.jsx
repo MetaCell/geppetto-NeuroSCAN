@@ -6,6 +6,7 @@ import { createSimpleInstance, updateGeppettoInstances } from '../../utilities/f
 function MorphologyViewer(props) {
   const { viewerId } = props;
   const [canvasData, setCanvasData] = useState([]);
+  const [scene, setScene] = useState(null);
 
   const viewer = useSelector((state) => state.viewers[viewerId]);
 
@@ -25,8 +26,9 @@ function MorphologyViewer(props) {
   const onSelection = (selectedInstances) => {
     console.log(selectedInstances);
   };
-  const onMount = (scene) => {
-    console.log(scene);
+  const onMount = (threeScene) => {
+    console.log(threeScene);
+    setScene(threeScene);
   };
   return (
     <Canvas

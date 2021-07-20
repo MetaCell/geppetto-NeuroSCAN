@@ -38,6 +38,7 @@ export default (state = VIEWERS_DEFAULT_STATUS, action) => {
       return {
         ...state,
         [action.data.viewerId]: {
+          ...state[action.data.viewerId],
           instances: [...state[action.data.viewerId].instances, ...action.data.instances],
         },
       };

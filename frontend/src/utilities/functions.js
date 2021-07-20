@@ -38,7 +38,7 @@ export const createSimpleInstance = async (instance) => {
 };
 
 const removeDuplicates = (arr) => arr.filter(
-  (v, i, a) => a.findIndex((t) => (t.id === v.id)) === i,
+  (v, i, a) => a.findIndex((t) => (t.getId() === v.getId())) === i,
 );
 
 export const updateGeppettoInstances = (newInstances) => {
