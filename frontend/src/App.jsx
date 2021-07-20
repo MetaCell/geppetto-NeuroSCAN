@@ -13,6 +13,7 @@ import PromoterDB from './pages/PromoterDB';
 import About from './pages/About';
 import theme from './theme';
 import { addDevStages } from './redux/actions/devStages';
+import '@metacell/geppetto-meta-ui/flex-layout/style/light.scss';
 
 const Manager = require('@metacell/geppetto-meta-client/common/Manager').default;
 
