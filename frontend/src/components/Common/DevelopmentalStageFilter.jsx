@@ -16,7 +16,6 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    marginBottom: '0.5625rem',
     '&.fade': {
       opacity: 0.3,
       filter: 'grayscale(1)',
@@ -85,7 +84,7 @@ const DevelopmentalStageFilter = () => {
         defaultValue={marks[1]?.value}
         aria-labelledby="developmental-stage-filter"
         step={null}
-        valueLabelDisplay="off"
+        valueLabelDisplay="auto"
         marks={marks}
         aria-label="Developmental Stages Filter"
       />

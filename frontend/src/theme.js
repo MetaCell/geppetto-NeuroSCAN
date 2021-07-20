@@ -81,7 +81,7 @@ const theme = createMuiTheme({
     MuiSlider: {
       root: {
         margin: '0',
-        padding: '0.4375rem 0',
+        padding: '0.6875rem 0',
         width: '100%',
       },
       thumb: {
@@ -89,6 +89,9 @@ const theme = createMuiTheme({
         height: '0.625rem',
         border: `0.0625rem solid ${whiteTextColor}`,
         marginLeft: '-0.3125rem',
+        '&:after': {
+          display: 'none',
+        },
       },
       mark: {
         height: '0.0625rem',
@@ -112,7 +115,7 @@ const theme = createMuiTheme({
         opacity: '1',
       },
       markLabel: {
-        top: '0',
+        top: '0 !important',
         fontSize: 0,
         '& img': {
           width: '.375rem',
@@ -120,6 +123,24 @@ const theme = createMuiTheme({
       },
       marked: {
         marginBottom: '0',
+      },
+      valueLabel: {
+        left: 'calc(-50% - 0.4375rem)',
+        top: '-0.6875rem',
+        '&>span': {
+          height: '0.875rem',
+          borderRadius: '0.0625rem',
+          transform: 'none',
+          backgroundColor: captionTextColor,
+          padding: '0',
+          width: '1.9375rem',
+          '&>span': {
+            transform: 'none',
+            fontWeight: '500',
+            fontSize: '0.625rem',
+            lineHeight: '0.625rem',
+          },
+        },
       },
     },
     MuiIconButton: {
