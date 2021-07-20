@@ -15,7 +15,10 @@ function MorphologyViewer(props) {
       viewer.instances.map(async (instance) => createSimpleInstance(instance)),
     );
     updateGeppettoInstances(simpleInstances);
-    setCanvasData(viewer.instances.map((instance) => ({
+    setCanvasData(viewer.instances.map((instance) => (instance.color ? {
+      instancePath: instance.uid,
+      color: instance.color,
+    } : {
       instancePath: instance.uid,
     })));
   }, [viewer.instances]);
