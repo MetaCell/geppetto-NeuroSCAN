@@ -10,3 +10,6 @@ export const VIEWERS = Object.freeze({
 
 // todo: replace this with environment variable? also change on apiClient
 export const backendURL = 'http://localhost:1337';
+
+export const ABOUT_CONTENT = `is an initiative from the Yale University for Neurosciences, in partnership
+with MetaCell.`;

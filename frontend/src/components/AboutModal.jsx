@@ -7,7 +7,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import CLOSE from '../images/svg/close.svg';
-import { ABOUT_CONTENT } from '../constants';
+import { ABOUT_CONTENT } from '../utilities/constants';
 
 const AboutModal = (props) => {
   const { open, handleClose, title } = props;
