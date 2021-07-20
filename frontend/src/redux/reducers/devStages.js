@@ -7,7 +7,7 @@ export default (state = DEVSTAGES_DEFAULT_STATUS, action) => {
     case ADD_DEVSTAGE:
     {
       const devStages = {};
-      action.data.forEach(({ uid, devStageData }) => { devStages[uid] = devStageData; });
+      action.data.forEach((devStage) => { devStages[devStage.uid] = devStage; });
       return {
         ...state,
         ...devStages,
