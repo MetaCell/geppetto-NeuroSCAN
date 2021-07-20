@@ -9,8 +9,10 @@ function MorphologyViewer(props) {
 
   const viewer = useSelector((state) => state.viewers[viewerId]);
 
-  useEffect(() => {
-    const simpleInstances = viewer.instances.map((instance) => createSimpleInstance(instance));
+  useEffect(async () => {
+    const simpleInstances = await Promise.all(
+      viewer.instances.map(async (instance) => createSimpleInstance(instance)),
+    );
     updateGeppettoInstances(simpleInstances);
     setCanvasData(viewer.instances.map((instance) => ({
       instancePath: instance.uid,
