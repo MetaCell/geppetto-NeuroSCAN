@@ -9,21 +9,31 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Explorer from './Sidebar/Explorer';
 import Search from './Sidebar/Search';
 import Results from './Sidebar/Results';
 import CPhasePlot from './Sidebar/CPhasePlot';
 import MagnifyingGlass from '../images/magnifying-glass.svg';
-import CHEVRON from '../images/chevron-right.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .add-element': {
-      '& .MuiAccordion-root:last-child': {
-        marginBottom: 0,
+      '& > .MuiAccordion-root > .MuiAccordionSummary-root': {
+        '& > .MuiAccordionSummary-content': {
+          order: 1,
+        },
+        '& > .MuiAccordionSummary-expandIcon': {
+          order: 2,
+        },
       },
-      '& .MuiAccordionDetails-root': {
-        padding: '0 1rem 0.5625rem',
+      '& .wrap': {
+        '& .MuiAccordion-root:last-child': {
+          marginBottom: '0.5625rem',
+        },
+        '& .MuiAccordionDetails-root': {
+          // padding: '0 1rem 0.5625rem',
+        },
       },
     },
     [theme.breakpoints.up('sm')]: {
@@ -69,7 +79,7 @@ const LeftSidebar = (props) => {
           <Box className="wrap add-element">
             <Accordion>
               <AccordionSummary
-                expandIcon={<img src={CHEVRON} width="4" height="6" alt="CHEVRON" />}
+                expandIcon={<ExpandMoreIcon />}
               >
                 <Typography component="h3">Add element</Typography>
               </AccordionSummary>
@@ -81,13 +91,13 @@ const LeftSidebar = (props) => {
                   setSearching={setSearching}
                   searching={searching}
                 />
+
+                <Results searching={searching} />
+
+                <CPhasePlot />
               </AccordionDetails>
             </Accordion>
           </Box>
-
-          <Results searching={searching} />
-
-          <CPhasePlot />
 
           <Box className="wrap">
             <Typography component="h3">

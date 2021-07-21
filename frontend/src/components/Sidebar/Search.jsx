@@ -20,7 +20,7 @@ const Search = (props) => {
   };
 
   return (
-    <>
+    <Box className="wrap">
       <TextField
         fullWidth
         placeholder="Filter by Name"
@@ -38,7 +38,7 @@ const Search = (props) => {
         { searching ? <CircularLoader /> : null }
       </Box>
       <DevelopmentalStageFilter />
-    </>
+    </Box>
   );
 };
 

@@ -559,11 +559,11 @@ const theme = createMuiTheme({
         },
 
         '& .wrap': {
-          padding: '0 1rem',
+          padding: '0 1rem ',
           '& .MuiAccordion-root': {
             margin: '0 -1rem',
             '&:last-child': {
-              marginBottom: '0.5625rem',
+              marginBottom: '0',
             },
           },
           '& .MuiAccordionSummary-root': {
