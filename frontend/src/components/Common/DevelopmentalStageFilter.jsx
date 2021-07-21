@@ -45,7 +45,7 @@ const useStyles = makeStyles(() => ({
 
 const sliderMarker = <img width="6" height="4" src={DOWN} alt="DOWN" />;
 
-const DevelopmentalStageFilter = () => {
+const DevelopmentalStageFilter = ({ setSearching }) => {
   const classes = useStyles();
   const marks = [
     {
@@ -87,6 +87,7 @@ const DevelopmentalStageFilter = () => {
         valueLabelDisplay="auto"
         marks={marks}
         aria-label="Developmental Stages Filter"
+        onChange={setSearching}
       />
       <Box className={classes.sliderValue}>
         {

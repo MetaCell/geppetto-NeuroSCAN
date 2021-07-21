@@ -3,19 +3,23 @@ import {
   TextField, Box, Typography, InputAdornment, IconButton,
 } from '@material-ui/core';
 import MagnifyingGlass from '../../images/magnifying-glass.svg';
-import CircularLoader from '../Common/Loader';
 import DevelopmentalStageFilter from '../Common/DevelopmentalStageFilter';
 import CLOSE from '../../images/icon-close.svg';
 
 const Search = (props) => {
   const {
-    searchTerm, setSearchTerm, searching, setSearching,
+    searchTerm, setSearchTerm, setSearching,
   } = props;
+
+  const searchLoader = () => {
+    setSearching(true);
+    setTimeout(() => setSearching(false), 1000);
+  };
+
   const search = (value) => {
     setSearchTerm(value);
     if (searchTerm.length >= 3) {
-      setSearching(true);
-      setTimeout(() => setSearching(false), 1000);
+      searchLoader();
     }
   };
 
@@ -35,9 +39,8 @@ const Search = (props) => {
 
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography variant="caption">Filter by Developmental Stage</Typography>
-        { searching ? <CircularLoader /> : null }
       </Box>
-      <DevelopmentalStageFilter />
+      <DevelopmentalStageFilter setSearching={searchLoader} />
     </Box>
   );
 };
