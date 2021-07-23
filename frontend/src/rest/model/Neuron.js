@@ -57,8 +57,8 @@ class Neuron {
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');
             }
-            if (data.hasOwnProperty('file')) {
-                obj['file'] = data['file']['url'];
+            if (data.hasOwnProperty('files')) {
+                obj['files'] = data['files'].map(file => file['url']);
             }
             if (data.hasOwnProperty('metadata')) {
                 obj['metadata'] = ApiClient.convertToType(data['metadata'], 'String');
@@ -103,9 +103,9 @@ class Neuron {
 Neuron.prototype['id'] = undefined;
 
 /**
- * @member {String} file
+ * @member {Array.<String>} files
  */
-Neuron.prototype['file'] = undefined;
+Neuron.prototype['files'] = undefined;
 
 /**
  * @member {String} metadata

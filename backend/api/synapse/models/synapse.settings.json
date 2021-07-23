@@ -16,11 +16,11 @@
       "model": "neuron"
     },
     "neuronsPost": {
-      "collection": "neuron",
-      "via": "synapse"
+      "via": "synapse",
+      "collection": "neuron"
     },
-    "file": {
-      "model": "file",
+    "files": {
+      "collection": "file",
       "via": "related",
       "allowedTypes": [
         "images",

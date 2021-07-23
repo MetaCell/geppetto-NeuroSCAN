@@ -21,8 +21,8 @@
     "neuronB": {
       "model": "neuron"
     },
-    "file": {
-      "model": "file",
+    "files": {
+      "collection": "file",
       "via": "related",
       "allowedTypes": [
         "images",

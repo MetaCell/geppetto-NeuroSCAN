@@ -65,8 +65,8 @@ class Contact {
             if (data.hasOwnProperty('neuronB')) {
                 obj['neuronB'] = Neuron.constructFromObject(data['neuronB']);
             }
-            if (data.hasOwnProperty('file')) {
-                obj['file'] = data['file']['url'];
+            if (data.hasOwnProperty('files')) {
+                obj['files'] = data['files'].map(file => file['url']);
             }
             if (data.hasOwnProperty('metadata')) {
                 obj['metadata'] = ApiClient.convertToType(data['metadata'], 'String');
@@ -108,9 +108,9 @@ Contact.prototype['neuronA'] = undefined;
 Contact.prototype['neuronB'] = undefined;
 
 /**
- * @member {String} file
+ * @member {Array.<String>} files
  */
-Contact.prototype['file'] = undefined;
+Contact.prototype['files'] = undefined;
 
 /**
  * @member {String} metadata

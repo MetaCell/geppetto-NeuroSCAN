@@ -62,8 +62,8 @@ class Synapse {
             if (data.hasOwnProperty('neuronsPost')) {
                 obj['neuronsPost'] = ApiClient.convertToType(data['neuronsPost'], [Object]);
             }
-            if (data.hasOwnProperty('file')) {
-                obj['file'] = ApiClient.convertToType(data['file'], 'String');
+            if (data.hasOwnProperty('files')) {
+                obj['files'] = data['files'].map(file => file['url']);
             }
             if (data.hasOwnProperty('type')) {
                 obj['type'] = ApiClient.convertToType(data['type'], 'String');
@@ -112,9 +112,9 @@ Synapse.prototype['neuronPre'] = undefined;
 Synapse.prototype['neuronsPost'] = undefined;
 
 /**
- * @member {String} file
+ * @member {Array.<String>} files
  */
-Synapse.prototype['file'] = undefined;
+Synapse.prototype['files'] = undefined;
 
 /**
  * @member {module:model/Synapse.TypeEnum} type

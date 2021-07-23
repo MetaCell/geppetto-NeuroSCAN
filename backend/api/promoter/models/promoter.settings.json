@@ -27,8 +27,8 @@
       "pluginOptions": {}
     },
     "cellsByLineaging": {
-      "collection": "neuron",
-      "via": "promoter"
+      "via": "promoter",
+      "collection": "neuron"
     },
     "metadata": {
       "type": "text"

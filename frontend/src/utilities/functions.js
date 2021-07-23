@@ -23,7 +23,8 @@ const getBase64 = async (url) => {
 };
 
 export const createSimpleInstance = async (instance) => {
-  const gltfBase64 = await getBase64(`${backendURL}${instance.file}`);
+  const file = instance.files[0];
+  const gltfBase64 = await getBase64(`${backendURL}${file}`);
 
   return new SimpleInstance({
     eClass: 'SimpleInstance',
