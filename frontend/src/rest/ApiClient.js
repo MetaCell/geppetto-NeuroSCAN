@@ -35,7 +35,7 @@ class ApiClient {
          * @type {String}
          * @default http://localhost:1337
          */
-        this.basePath = 'http://localhost:1337'.replace(/\/+$/, '');
+        this.basePath = process.env.REACT_APP_BACKEND_URL || 'http://localhost:1337'.replace(/\/+$/, '');
 
         /**
          * The authentication methods to be included for all API calls.
