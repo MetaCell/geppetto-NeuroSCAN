@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 export default function NeuroScan() {
   const classes = useStyles();
   const store = useStore();
-  const [LayoutManager, setLayoutManager] = useState(undefined);
+  const [LayoutComponent, setLayoutManager] = useState(undefined);
   const [shrinkSidebar, setShrinkSidebar] = React.useState(false);
   const viewerCount = useSelector((state) => Object.keys(state.viewers).length);
 
@@ -38,7 +38,7 @@ export default function NeuroScan() {
     // is undefined when calling it in global scope
     // Need to wait until store is ready ...
     // TODO: find better way to retrieve the LayoutManager component!
-    if (LayoutManager === undefined) {
+    if (LayoutComponent === undefined) {
       const myManager = getLayoutManagerInstance();
       if (myManager) {
         setLayoutManager(myManager.getComponent());
@@ -47,11 +47,11 @@ export default function NeuroScan() {
   }, [store]);
 
   let componentToRender = <CircularProgress />;
-  if (LayoutManager !== undefined) {
+  if (LayoutComponent !== undefined) {
     if (viewerCount === 0) {
       componentToRender = <ViewerPlaceholder />;
     } else {
-      componentToRender = <LayoutManager />;
+      componentToRender = <LayoutComponent />;
     }
   }
 
