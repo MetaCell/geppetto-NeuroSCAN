@@ -42,14 +42,6 @@
     },
     "location": {
       "type": "string"
-    },
-    "synapse": {
-      "via": "neuronsPost",
-      "model": "synapse"
-    },
-    "promoter": {
-      "via": "cellsByLineaging",
-      "model": "promoter"
     }
   }
 }

@@ -13,8 +13,6 @@
  */
 
 import ApiClient from '../ApiClient';
-import Promoter from './Promoter';
-import Synapse from './Synapse';
 
 /**
  * The Neuron model module.
@@ -81,12 +79,6 @@ class Neuron {
             if (data.hasOwnProperty('location')) {
                 obj['location'] = ApiClient.convertToType(data['location'], 'String');
             }
-            if (data.hasOwnProperty('synapse')) {
-                obj['synapse'] = Synapse.constructFromObject(data['synapse']);
-            }
-            if (data.hasOwnProperty('promoter')) {
-                obj['promoter'] = Promoter.constructFromObject(data['promoter']);
-            }
             if (data.hasOwnProperty('published_at')) {
                 obj['published_at'] = ApiClient.convertToType(data['published_at'], 'Date');
             }
@@ -141,16 +133,6 @@ Neuron.prototype['lineage'] = undefined;
  * @member {String} location
  */
 Neuron.prototype['location'] = undefined;
-
-/**
- * @member {module:model/Synapse} synapse
- */
-Neuron.prototype['synapse'] = undefined;
-
-/**
- * @member {module:model/Promoter} promoter
- */
-Neuron.prototype['promoter'] = undefined;
 
 /**
  * @member {Date} published_at

@@ -595,6 +595,12 @@
               }
             }
           },
+          "metadata": {
+            "type": "string"
+          },
+          "timepoints": {
+            "type": "object"
+          },
           "cellsByLineaging": {
             "type": "array",
             "items": {
@@ -632,12 +638,6 @@
                 "location": {
                   "type": "string"
                 },
-                "synapse": {
-                  "type": "string"
-                },
-                "promoter": {
-                  "type": "string"
-                },
                 "published_at": {
                   "type": "string"
                 },
@@ -650,12 +650,6 @@
               }
             }
           },
-          "metadata": {
-            "type": "string"
-          },
-          "timepoints": {
-            "type": "object"
-          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -667,17 +661,17 @@
           "uid": {
             "type": "uid"
           },
-          "cellsByLineaging": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
           "metadata": {
             "type": "string"
           },
           "timepoints": {
             "type": "object"
+          },
+          "cellsByLineaging": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "published_at": {
             "type": "string",

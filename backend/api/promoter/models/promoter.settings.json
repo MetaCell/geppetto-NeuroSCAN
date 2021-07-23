@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "promoters",
   "info": {
-    "name": "Promoter"
+    "name": "Promoter",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -26,15 +27,14 @@
       "required": false,
       "pluginOptions": {}
     },
-    "cellsByLineaging": {
-      "via": "promoter",
-      "collection": "neuron"
-    },
     "metadata": {
       "type": "text"
     },
     "timepoints": {
       "type": "json"
+    },
+    "cellsByLineaging": {
+      "collection": "neuron"
     }
   }
 }

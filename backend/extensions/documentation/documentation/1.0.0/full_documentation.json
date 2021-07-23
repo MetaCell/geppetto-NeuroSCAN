@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "07/23/2021 5:28:44 PM"
+    "x-generation-date": "07/23/2021 5:57:21 PM"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -4888,12 +4888,6 @@
               "location": {
                 "type": "string"
               },
-              "synapse": {
-                "type": "string"
-              },
-              "promoter": {
-                "type": "string"
-              },
               "published_at": {
                 "type": "string"
               },
@@ -4938,12 +4932,6 @@
                 "type": "string"
               },
               "location": {
-                "type": "string"
-              },
-              "synapse": {
-                "type": "string"
-              },
-              "promoter": {
                 "type": "string"
               },
               "published_at": {
@@ -5243,109 +5231,6 @@
           "location": {
             "type": "string"
           },
-          "synapse": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "neuronPre": {
-                "type": "string"
-              },
-              "neuronsPost": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "type": {
-                "type": "string",
-                "enum": [
-                  "chemical",
-                  "electrical"
-                ]
-              },
-              "uid": {
-                "type": "uid"
-              },
-              "timepoints": {
-                "type": "object"
-              },
-              "metadata": {
-                "type": "string"
-              },
-              "section": {
-                "type": "string"
-              },
-              "zs": {
-                "type": "string"
-              },
-              "position": {
-                "type": "string",
-                "enum": [
-                  "pre",
-                  "post"
-                ]
-              },
-              "published_at": {
-                "type": "string"
-              },
-              "created_by": {
-                "type": "string"
-              },
-              "updated_by": {
-                "type": "string"
-              }
-            }
-          },
-          "promoter": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "uid": {
-                "type": "uid"
-              },
-              "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "cellsByLineaging": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "metadata": {
-                "type": "string"
-              },
-              "timepoints": {
-                "type": "object"
-              },
-              "published_at": {
-                "type": "string"
-              },
-              "created_by": {
-                "type": "string"
-              },
-              "updated_by": {
-                "type": "string"
-              }
-            }
-          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -5373,12 +5258,6 @@
             "type": "string"
           },
           "location": {
-            "type": "string"
-          },
-          "synapse": {
-            "type": "string"
-          },
-          "promoter": {
             "type": "string"
           },
           "published_at": {
@@ -5474,6 +5353,12 @@
               }
             }
           },
+          "metadata": {
+            "type": "string"
+          },
+          "timepoints": {
+            "type": "object"
+          },
           "cellsByLineaging": {
             "type": "array",
             "items": {
@@ -5511,12 +5396,6 @@
                 "location": {
                   "type": "string"
                 },
-                "synapse": {
-                  "type": "string"
-                },
-                "promoter": {
-                  "type": "string"
-                },
                 "published_at": {
                   "type": "string"
                 },
@@ -5529,12 +5408,6 @@
               }
             }
           },
-          "metadata": {
-            "type": "string"
-          },
-          "timepoints": {
-            "type": "object"
-          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -5546,17 +5419,17 @@
           "uid": {
             "type": "uid"
           },
-          "cellsByLineaging": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
           "metadata": {
             "type": "string"
           },
           "timepoints": {
             "type": "object"
+          },
+          "cellsByLineaging": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "published_at": {
             "type": "string",
@@ -5613,12 +5486,6 @@
               "location": {
                 "type": "string"
               },
-              "synapse": {
-                "type": "string"
-              },
-              "promoter": {
-                "type": "string"
-              },
               "published_at": {
                 "type": "string"
               },
@@ -5627,61 +5494,6 @@
               },
               "updated_by": {
                 "type": "string"
-              }
-            }
-          },
-          "neuronsPost": {
-            "type": "array",
-            "items": {
-              "required": [
-                "id"
-              ],
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "files": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "metadata": {
-                  "type": "string"
-                },
-                "wormatlas": {
-                  "type": "string"
-                },
-                "uid": {
-                  "type": "uid"
-                },
-                "timepoints": {
-                  "type": "object"
-                },
-                "embryonic": {
-                  "type": "boolean"
-                },
-                "lineage": {
-                  "type": "string"
-                },
-                "location": {
-                  "type": "string"
-                },
-                "synapse": {
-                  "type": "string"
-                },
-                "promoter": {
-                  "type": "string"
-                },
-                "published_at": {
-                  "type": "string"
-                },
-                "created_by": {
-                  "type": "string"
-                },
-                "updated_by": {
-                  "type": "string"
-                }
               }
             }
           },
@@ -5784,6 +5596,55 @@
               "post"
             ]
           },
+          "neuronPost": {
+            "type": "array",
+            "items": {
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "metadata": {
+                  "type": "string"
+                },
+                "wormatlas": {
+                  "type": "string"
+                },
+                "uid": {
+                  "type": "uid"
+                },
+                "timepoints": {
+                  "type": "object"
+                },
+                "embryonic": {
+                  "type": "boolean"
+                },
+                "lineage": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                },
+                "published_at": {
+                  "type": "string"
+                },
+                "created_by": {
+                  "type": "string"
+                },
+                "updated_by": {
+                  "type": "string"
+                }
+              }
+            }
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -5794,12 +5655,6 @@
         "properties": {
           "neuronPre": {
             "type": "string"
-          },
-          "neuronsPost": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
           },
           "type": {
             "type": "string",
@@ -5829,6 +5684,12 @@
               "pre",
               "post"
             ]
+          },
+          "neuronPost": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "published_at": {
             "type": "string",

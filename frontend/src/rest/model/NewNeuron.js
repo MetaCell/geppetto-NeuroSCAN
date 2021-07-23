@@ -71,12 +71,6 @@ class NewNeuron {
             if (data.hasOwnProperty('location')) {
                 obj['location'] = ApiClient.convertToType(data['location'], 'String');
             }
-            if (data.hasOwnProperty('synapse')) {
-                obj['synapse'] = ApiClient.convertToType(data['synapse'], 'String');
-            }
-            if (data.hasOwnProperty('promoter')) {
-                obj['promoter'] = ApiClient.convertToType(data['promoter'], 'String');
-            }
             if (data.hasOwnProperty('published_at')) {
                 obj['published_at'] = ApiClient.convertToType(data['published_at'], 'Date');
             }
@@ -127,16 +121,6 @@ NewNeuron.prototype['lineage'] = undefined;
  * @member {String} location
  */
 NewNeuron.prototype['location'] = undefined;
-
-/**
- * @member {String} synapse
- */
-NewNeuron.prototype['synapse'] = undefined;
-
-/**
- * @member {String} promoter
- */
-NewNeuron.prototype['promoter'] = undefined;
 
 /**
  * @member {Date} published_at

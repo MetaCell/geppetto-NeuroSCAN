@@ -15,10 +15,6 @@
     "neuronPre": {
       "model": "neuron"
     },
-    "neuronsPost": {
-      "via": "synapse",
-      "collection": "neuron"
-    },
     "files": {
       "collection": "file",
       "via": "related",
@@ -59,6 +55,9 @@
         "pre",
         "post"
       ]
+    },
+    "neuronPost": {
+      "collection": "neuron"
     }
   }
 }

@@ -560,12 +560,6 @@
               "location": {
                 "type": "string"
               },
-              "synapse": {
-                "type": "string"
-              },
-              "promoter": {
-                "type": "string"
-              },
               "published_at": {
                 "type": "string"
               },
@@ -610,12 +604,6 @@
                 "type": "string"
               },
               "location": {
-                "type": "string"
-              },
-              "synapse": {
-                "type": "string"
-              },
-              "promoter": {
                 "type": "string"
               },
               "published_at": {
