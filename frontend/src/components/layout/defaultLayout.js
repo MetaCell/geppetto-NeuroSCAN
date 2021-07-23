@@ -14,25 +14,9 @@ export default {
     },
   ],
   layout: {
-    type: 'row',
+    type: 'tabset',
+    weight: 100,
     id: 'root',
-    children: [
-      {
-        type: 'tabset',
-        weight: 100,
-        id: 'centralPanel',
-        children: [
-          {
-            type: 'tab',
-            name: 'placeholderViewer',
-            config: {
-              id: 'placeholderViewer',
-              component: 'placeholderViewer',
-            },
-          },
-        ],
-        active: true,
-      },
-    ],
+    children: [],
   },
 };
