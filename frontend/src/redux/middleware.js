@@ -37,10 +37,10 @@ const middleware = (store) => (next) => (action) => {
       break;
     }
     case ADD_VIEWER: {
-      // eslint-disable-next-line no-param-reassign
-      action.data.viewerId = uuidv4();
-      next(action);
-      store.dispatch(addWidget(widgetFromViewerSpec(action.data)));
+      const nextData = { ...action.data, viewerId: uuidv4() };
+      const nextAction = { ...action, data: nextData };
+      next(nextAction);
+      store.dispatch(addWidget(widgetFromViewerSpec(nextAction.data)));
       break;
     }
 
