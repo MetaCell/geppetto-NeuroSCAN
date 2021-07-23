@@ -25,12 +25,15 @@ function MorphologyViewer(props) {
   const cameraHandler = (data) => {
     console.log(data);
   };
+
   const onSelection = (selectedInstances) => {
     console.log(selectedInstances);
   };
+
   const onMount = (scene) => {
     console.log(scene);
   };
+
   return (
     <Canvas
       data={canvasData}
