@@ -45,9 +45,9 @@ export default (state = VIEWERS_DEFAULT_STATUS, action) => {
     }
     case COLOR_INSTANCES_VIEWER:
     {
-      const instancesColorMap = new Map(action.data.instances.map((i) => [i.uid, true]));
+      const instancesColorMap = new Set(action.data.instances.map((i) => i.uid));
       const newInstances = state[action.data.viewerId].instances.map((item) => {
-        if (instancesColorMap.get(item.uid)) {
+        if (instancesColorMap.has(item.uid)) {
           const clone = Object.assign(Object.create(Object.getPrototypeOf(item)), item);
           clone.color = action.data.color;
           return clone;
