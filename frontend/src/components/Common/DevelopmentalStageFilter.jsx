@@ -78,6 +78,15 @@ const DevelopmentalStageFilter = ({ setSearching }) => {
     },
   ];
 
+  const [sliderVal, setSliderVal] = React.useState(marks[1]?.value);
+
+  const handleChange = (e, value) => {
+    if (value !== sliderVal) {
+      setSliderVal(value);
+      setSearching();
+    }
+  };
+
   return (
     <Box className={classes.root}>
       <Slider
@@ -87,7 +96,7 @@ const DevelopmentalStageFilter = ({ setSearching }) => {
         valueLabelDisplay="auto"
         marks={marks}
         aria-label="Developmental Stages Filter"
-        onChange={setSearching}
+        onChange={handleChange}
       />
       <Box className={classes.sliderValue}>
         {
