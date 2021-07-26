@@ -24,7 +24,6 @@ const {
   lightBlackColor,
   captionTextColor,
   toolbarBackground,
-  menuPaperBG,
   filterShadowColor,
   scrollBarBg,
   outlinedBorderColor,
@@ -154,11 +153,19 @@ const theme = createMuiTheme({
       paper: {
         minWidth: '10rem',
         background: buttonOutlineColor,
-        border: `0.03125rem solid ${menuPaperBG}`,
+        border: 'none',
         boxShadow: '0 .125rem .4375rem rgba(0, 0, 0, 0.15), 0 .3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
         borderRadius: `calc(${radius} - .25rem)`,
       },
       list: {
+        '& > .MuiTypography-root': {
+          fontSize: '12px',
+          fontWeight: '500',
+          lineHeight: '1rem',
+          letterSpacing: '0.005em',
+          color: whiteTextColor,
+          padding: '0.25rem 1rem',
+        },
         '& .MuiDivider-root': {
           backgroundColor: dividerBackgroundColor,
           marginTop: `calc(${gutter} / 2)`,
@@ -169,6 +176,9 @@ const theme = createMuiTheme({
           paddingBottom: `calc(${gutter} / 4)`,
           lineHeight: 'normal',
           color: whiteTextColor,
+          '&:hover': {
+            backgroundColor: primaryColor,
+          },
           '& .MuiTypography-root': {
             flexGrow: 1,
             fontWeight: '500',

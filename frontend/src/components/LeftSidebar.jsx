@@ -18,6 +18,9 @@ import MagnifyingGlass from '../images/magnifying-glass.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    '& .explorer': {
+      paddingRight: '0.5rem',
+    },
     '& .add-element': {
       '& > .MuiAccordion-root > .MuiAccordionSummary-root': {
         '& > .MuiAccordionSummary-content': {
@@ -25,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
         },
         '& > .MuiAccordionSummary-expandIcon': {
           order: 2,
+          marginRight: 0,
         },
       },
       '& .wrap': {
@@ -99,7 +103,7 @@ const LeftSidebar = (props) => {
             </Accordion>
           </Box>
 
-          <Box className="wrap">
+          <Box className="wrap explorer">
             <Typography component="h3">
               Explorer
               <IconButton><img src={MagnifyingGlass} alt="Search" /></IconButton>
