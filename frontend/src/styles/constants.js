@@ -25,6 +25,9 @@ const vars = {
   filterShadowColor: 'rgba(0, 0, 0, 0.7)',
   scrollBarBg: 'rgba(0,0,0,0.24)',
   outlinedBorderColor: 'rgba(255, 255, 255, 0.4)',
+  listHoverBg: 'rgba(164, 26, 69, 0.05)',
+  inputShadow: 'rgba(164, 26, 69, 0.15)',
+  sliderBorderColor: 'rgba(0, 0, 0, 0.1)',
 };
 
 export default vars;

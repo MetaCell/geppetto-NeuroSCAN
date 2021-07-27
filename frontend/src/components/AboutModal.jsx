@@ -3,10 +3,9 @@ import Modal from '@material-ui/core/Modal';
 import {
   Box,
   Typography,
-  Button,
   IconButton,
 } from '@material-ui/core';
-import CLOSE from '../images/svg/close.svg';
+import CLOSE from '../images/close.svg';
 import { ABOUT_CONTENT } from '../utilities/constants';
 
 const AboutModal = (props) => {
