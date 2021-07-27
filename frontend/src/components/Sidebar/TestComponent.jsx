@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { VIEWERS } from '../utilities/constants';
-import { addInstancesViewer, addViewer, colorInstancesViewer } from '../redux/actions/viewers';
-import neuronService from '../services/NeuronService';
-import contactService from '../services/ContactService';
-import { Contact, Neuron } from '../rest';
+import { VIEWERS } from '../../utilities/constants';
+import { addInstancesViewer, addViewer, colorInstancesViewer } from '../../redux/actions/viewers';
+import neuronService from '../../services/NeuronService';
+import contactService from '../../services/ContactService';
+import { Contact, Neuron } from '../../rest';
 
 function TestComponent(props) {
   const dispatch = useDispatch();
