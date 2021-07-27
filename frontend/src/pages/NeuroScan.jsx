@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   layoutContainer: {
     position: 'relative',
     width: '100%',
-    height: '90vh',
+    height: '100%',
   },
 }));
 
