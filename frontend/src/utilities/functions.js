@@ -10,6 +10,18 @@ export const useConstructor = (callBack = () => {}) => {
   setHasBeenCalled(true);
 };
 
+function isValidHttpUrl(string) {
+  let url;
+
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === 'http:' || url.protocol === 'https:';
+}
+
 const getBase64 = async (url) => {
   const response = await window.fetch(url);
   const blob = await response.blob();
@@ -24,7 +36,8 @@ const getBase64 = async (url) => {
 
 export const createSimpleInstance = async (instance) => {
   const file = instance.files[0];
-  const gltfBase64 = await getBase64(`${backendURL}${file}`);
+  const url = isValidHttpUrl(file) ? file : `${backendURL}${file}`;
+  const gltfBase64 = await getBase64(url);
 
   return new SimpleInstance({
     eClass: 'SimpleInstance',
