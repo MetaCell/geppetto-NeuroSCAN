@@ -15,6 +15,7 @@ import Search from './Sidebar/Search';
 import Results from './Sidebar/Results';
 import CPhasePlot from './Sidebar/CPhasePlot';
 import MagnifyingGlass from '../images/magnifying-glass.svg';
+import TestComponent from './Sidebar/TestComponent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,6 +100,7 @@ const LeftSidebar = (props) => {
                 <Results searching={searching} />
 
                 <CPhasePlot />
+                <TestComponent />
               </AccordionDetails>
             </Accordion>
           </Box>

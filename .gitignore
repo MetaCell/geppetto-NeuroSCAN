@@ -114,3 +114,5 @@ exports
 frontend/build
 backend/build
 .strapi-updater.json
+
+ingestion/venv

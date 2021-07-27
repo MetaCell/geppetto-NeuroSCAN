@@ -12,9 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
-      "type": "string"
-    },
     "files": {
       "collection": "file",
       "via": "related",
@@ -25,13 +22,25 @@
       "required": false,
       "pluginOptions": {}
     },
-    "developmental_stages": {
-      "collection": "developmental-stage"
-    },
     "metadata": {
       "type": "text"
     },
     "wormatlas": {
+      "type": "string"
+    },
+    "uid": {
+      "type": "uid"
+    },
+    "timepoints": {
+      "type": "json"
+    },
+    "embryonic": {
+      "type": "boolean"
+    },
+    "lineage": {
+      "type": "string"
+    },
+    "location": {
       "type": "string"
     }
   }

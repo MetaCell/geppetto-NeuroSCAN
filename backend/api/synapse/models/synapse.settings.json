@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "synapses",
   "info": {
-    "name": "Synapse"
+    "name": "Synapse",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -12,9 +13,6 @@
   "pluginOptions": {},
   "attributes": {
     "neuronPre": {
-      "model": "neuron"
-    },
-    "neuronPost": {
       "model": "neuron"
     },
     "files": {
@@ -36,8 +34,30 @@
         "electrical"
       ]
     },
-    "name": {
+    "uid": {
       "type": "uid"
+    },
+    "timepoints": {
+      "type": "json"
+    },
+    "metadata": {
+      "type": "text"
+    },
+    "section": {
+      "type": "string"
+    },
+    "zs": {
+      "type": "string"
+    },
+    "position": {
+      "type": "enumeration",
+      "enum": [
+        "pre",
+        "post"
+      ]
+    },
+    "neuronPost": {
+      "collection": "neuron"
     }
   }
 }

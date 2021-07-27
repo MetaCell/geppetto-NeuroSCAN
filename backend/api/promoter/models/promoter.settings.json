@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "promoters",
+  "info": {
+    "name": "Promoter",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "uid": {
+      "type": "uid"
+    },
+    "files": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "metadata": {
+      "type": "text"
+    },
+    "timepoints": {
+      "type": "json"
+    },
+    "cellsByLineaging": {
+      "collection": "neuron"
+    }
+  }
+}

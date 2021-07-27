@@ -18,7 +18,7 @@ import IconCopy from '../images/icon-copy.svg';
 import Toggle from '../images/toggle.svg';
 import ToggleIn from '../images/toggle-in.svg';
 import IconSuggest from '../images/icon-suggest.svg';
-import { VIEWS } from '../constants';
+import { VIEWS } from '../utilities/constants';
 import vars from '../styles/constants';
 import AboutModal from './AboutModal';
 

@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "05/21/2021 4:03:12 PM"
+    "x-generation-date": "07/23/2021 5:57:21 PM"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -1576,6 +1576,517 @@
         "summary": "",
         "tags": [
           "Neuron"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "deprecated": false,
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/promoters": {
+      "get": {
+        "deprecated": false,
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Promoter"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Promoter"
+        ],
+        "parameters": [
+          {
+            "name": "_limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of results possible",
+            "schema": {
+              "type": "integer"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "_sort",
+            "in": "query",
+            "required": false,
+            "description": "Sort according to a specific field.",
+            "schema": {
+              "type": "string"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "_start",
+            "in": "query",
+            "required": false,
+            "description": "Skip a specific number of entries (especially useful for pagination)",
+            "schema": {
+              "type": "integer"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "=",
+            "in": "query",
+            "required": false,
+            "description": "Get entries that matches exactly your input",
+            "schema": {
+              "type": "string"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "_ne",
+            "in": "query",
+            "required": false,
+            "description": "Get records that are not equals to something",
+            "schema": {
+              "type": "string"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "_lt",
+            "in": "query",
+            "required": false,
+            "description": "Get record that are lower than a value",
+            "schema": {
+              "type": "string"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "_lte",
+            "in": "query",
+            "required": false,
+            "description": "Get records that are lower than or equal to a value",
+            "schema": {
+              "type": "string"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "_gt",
+            "in": "query",
+            "required": false,
+            "description": "Get records that are greater than a value",
+            "schema": {
+              "type": "string"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "_gte",
+            "in": "query",
+            "required": false,
+            "description": "Get records that are greater than  or equal a value",
+            "schema": {
+              "type": "string"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "_contains",
+            "in": "query",
+            "required": false,
+            "description": "Get records that contains a value",
+            "schema": {
+              "type": "string"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "_containss",
+            "in": "query",
+            "required": false,
+            "description": "Get records that contains (case sensitive) a value",
+            "schema": {
+              "type": "string"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "_in",
+            "in": "query",
+            "required": false,
+            "description": "Get records that matches any value in the array of values",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "deprecated": false
+          },
+          {
+            "name": "_nin",
+            "in": "query",
+            "required": false,
+            "description": "Get records that doesn't match any value in the array of values",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "deprecated": false
+          }
+        ]
+      },
+      "post": {
+        "deprecated": false,
+        "description": "Create a new record",
+        "responses": {
+          "200": {
+            "description": "response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Promoter"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Promoter"
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPromoter"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/promoters/count": {
+      "get": {
+        "deprecated": false,
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Promoter"
+        ],
+        "parameters": []
+      }
+    },
+    "/promoters/{id}": {
+      "get": {
+        "deprecated": false,
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Promoter"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Promoter"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "deprecated": false,
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "put": {
+        "deprecated": false,
+        "description": "Update a record",
+        "responses": {
+          "200": {
+            "description": "response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Promoter"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Promoter"
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPromoter"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "deprecated": false,
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "delete": {
+        "deprecated": false,
+        "description": "Delete a record",
+        "responses": {
+          "200": {
+            "description": "deletes a single record based on the ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Promoter"
         ],
         "parameters": [
           {
@@ -4339,7 +4850,7 @@
           "id": {
             "type": "string"
           },
-          "name": {
+          "uid": {
             "type": "uid"
           },
           "neuronA": {
@@ -4350,16 +4861,7 @@
               "id": {
                 "type": "string"
               },
-              "name": {
-                "type": "string"
-              },
               "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "developmental_stages": {
                 "type": "array",
                 "items": {
                   "type": "string"
@@ -4369,6 +4871,21 @@
                 "type": "string"
               },
               "wormatlas": {
+                "type": "string"
+              },
+              "uid": {
+                "type": "uid"
+              },
+              "timepoints": {
+                "type": "object"
+              },
+              "embryonic": {
+                "type": "boolean"
+              },
+              "lineage": {
+                "type": "string"
+              },
+              "location": {
                 "type": "string"
               },
               "published_at": {
@@ -4390,16 +4907,7 @@
               "id": {
                 "type": "string"
               },
-              "name": {
-                "type": "string"
-              },
               "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "developmental_stages": {
                 "type": "array",
                 "items": {
                   "type": "string"
@@ -4409,6 +4917,21 @@
                 "type": "string"
               },
               "wormatlas": {
+                "type": "string"
+              },
+              "uid": {
+                "type": "uid"
+              },
+              "timepoints": {
+                "type": "object"
+              },
+              "embryonic": {
+                "type": "boolean"
+              },
+              "lineage": {
+                "type": "string"
+              },
+              "location": {
                 "type": "string"
               },
               "published_at": {
@@ -4495,6 +5018,12 @@
           "metadata": {
             "type": "string"
           },
+          "weight": {
+            "type": "integer"
+          },
+          "timepoints": {
+            "type": "object"
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -4503,7 +5032,7 @@
       },
       "NewContact": {
         "properties": {
-          "name": {
+          "uid": {
             "type": "uid"
           },
           "neuronA": {
@@ -4514,6 +5043,12 @@
           },
           "metadata": {
             "type": "string"
+          },
+          "weight": {
+            "type": "integer"
+          },
+          "timepoints": {
+            "type": "object"
           },
           "published_at": {
             "type": "string",
@@ -4535,8 +5070,26 @@
           "id": {
             "type": "string"
           },
-          "name": {
+          "uid": {
             "type": "uid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "begin": {
+            "type": "integer"
+          },
+          "end": {
+            "type": "integer"
+          },
+          "order": {
+            "type": "integer"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "promoterDB": {
+            "type": "boolean"
           },
           "published_at": {
             "type": "string",
@@ -4546,8 +5099,26 @@
       },
       "NewDevelopmental-stage": {
         "properties": {
-          "name": {
+          "uid": {
             "type": "uid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "begin": {
+            "type": "integer"
+          },
+          "end": {
+            "type": "integer"
+          },
+          "order": {
+            "type": "integer"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "promoterDB": {
+            "type": "boolean"
           },
           "published_at": {
             "type": "string",
@@ -4567,9 +5138,6 @@
         ],
         "properties": {
           "id": {
-            "type": "string"
-          },
-          "name": {
             "type": "string"
           },
           "files": {
@@ -4642,20 +5210,138 @@
               }
             }
           },
-          "developmental_stages": {
+          "metadata": {
+            "type": "string"
+          },
+          "wormatlas": {
+            "type": "string"
+          },
+          "uid": {
+            "type": "uid"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "embryonic": {
+            "type": "boolean"
+          },
+          "lineage": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "published_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "NewNeuron": {
+        "properties": {
+          "metadata": {
+            "type": "string"
+          },
+          "wormatlas": {
+            "type": "string"
+          },
+          "uid": {
+            "type": "uid"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "embryonic": {
+            "type": "boolean"
+          },
+          "lineage": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "published_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "created_by": {
+            "type": "string"
+          },
+          "updated_by": {
+            "type": "string"
+          }
+        }
+      },
+      "Promoter": {
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "uid": {
+            "type": "uid"
+          },
+          "files": {
             "type": "array",
             "items": {
               "required": [
-                "id"
+                "id",
+                "name",
+                "hash",
+                "mime",
+                "size",
+                "url",
+                "provider"
               ],
               "properties": {
                 "id": {
                   "type": "string"
                 },
                 "name": {
-                  "type": "uid"
+                  "type": "string"
                 },
-                "published_at": {
+                "alternativeText": {
+                  "type": "string"
+                },
+                "caption": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "integer"
+                },
+                "height": {
+                  "type": "integer"
+                },
+                "formats": {
+                  "type": "object"
+                },
+                "hash": {
+                  "type": "string"
+                },
+                "ext": {
+                  "type": "string"
+                },
+                "mime": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "number"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "previewUrl": {
+                  "type": "string"
+                },
+                "provider": {
+                  "type": "string"
+                },
+                "provider_metadata": {
+                  "type": "object"
+                },
+                "related": {
                   "type": "string"
                 },
                 "created_by": {
@@ -4670,8 +5356,57 @@
           "metadata": {
             "type": "string"
           },
-          "wormatlas": {
-            "type": "string"
+          "timepoints": {
+            "type": "object"
+          },
+          "cellsByLineaging": {
+            "type": "array",
+            "items": {
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "metadata": {
+                  "type": "string"
+                },
+                "wormatlas": {
+                  "type": "string"
+                },
+                "uid": {
+                  "type": "uid"
+                },
+                "timepoints": {
+                  "type": "object"
+                },
+                "embryonic": {
+                  "type": "boolean"
+                },
+                "lineage": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                },
+                "published_at": {
+                  "type": "string"
+                },
+                "created_by": {
+                  "type": "string"
+                },
+                "updated_by": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "published_at": {
             "type": "string",
@@ -4679,22 +5414,22 @@
           }
         }
       },
-      "NewNeuron": {
+      "NewPromoter": {
         "properties": {
-          "name": {
-            "type": "string"
-          },
-          "developmental_stages": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+          "uid": {
+            "type": "uid"
           },
           "metadata": {
             "type": "string"
           },
-          "wormatlas": {
-            "type": "string"
+          "timepoints": {
+            "type": "object"
+          },
+          "cellsByLineaging": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "published_at": {
             "type": "string",
@@ -4724,16 +5459,7 @@
               "id": {
                 "type": "string"
               },
-              "name": {
-                "type": "string"
-              },
               "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "developmental_stages": {
                 "type": "array",
                 "items": {
                   "type": "string"
@@ -4745,44 +5471,19 @@
               "wormatlas": {
                 "type": "string"
               },
-              "published_at": {
+              "uid": {
+                "type": "uid"
+              },
+              "timepoints": {
+                "type": "object"
+              },
+              "embryonic": {
+                "type": "boolean"
+              },
+              "lineage": {
                 "type": "string"
               },
-              "created_by": {
-                "type": "string"
-              },
-              "updated_by": {
-                "type": "string"
-              }
-            }
-          },
-          "neuronPost": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "developmental_stages": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "metadata": {
-                "type": "string"
-              },
-              "wormatlas": {
+              "location": {
                 "type": "string"
               },
               "published_at": {
@@ -4873,8 +5574,76 @@
               "electrical"
             ]
           },
-          "name": {
+          "uid": {
             "type": "uid"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "metadata": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "zs": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string",
+            "enum": [
+              "pre",
+              "post"
+            ]
+          },
+          "neuronPost": {
+            "type": "array",
+            "items": {
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "metadata": {
+                  "type": "string"
+                },
+                "wormatlas": {
+                  "type": "string"
+                },
+                "uid": {
+                  "type": "uid"
+                },
+                "timepoints": {
+                  "type": "object"
+                },
+                "embryonic": {
+                  "type": "boolean"
+                },
+                "lineage": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                },
+                "published_at": {
+                  "type": "string"
+                },
+                "created_by": {
+                  "type": "string"
+                },
+                "updated_by": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "published_at": {
             "type": "string",
@@ -4887,9 +5656,6 @@
           "neuronPre": {
             "type": "string"
           },
-          "neuronPost": {
-            "type": "string"
-          },
           "type": {
             "type": "string",
             "enum": [
@@ -4897,8 +5663,33 @@
               "electrical"
             ]
           },
-          "name": {
+          "uid": {
             "type": "uid"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "metadata": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "zs": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string",
+            "enum": [
+              "pre",
+              "post"
+            ]
+          },
+          "neuronPost": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "published_at": {
             "type": "string",
@@ -5203,6 +5994,9 @@
     },
     {
       "name": "Neuron"
+    },
+    {
+      "name": "Promoter"
     },
     {
       "name": "Synapse"
