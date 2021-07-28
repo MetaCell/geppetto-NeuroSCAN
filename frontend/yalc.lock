@@ -1,9 +1,0 @@
-{
-  "version": "v1",
-  "packages": {
-    "@geppettoengine/geppetto-ui": {
-      "signature": "d848c7d5076b764235e097e6ec0b0f4b",
-      "file": true
-    }
-  }
-}

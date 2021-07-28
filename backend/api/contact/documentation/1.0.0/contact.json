@@ -522,7 +522,7 @@
           "id": {
             "type": "string"
           },
-          "name": {
+          "uid": {
             "type": "uid"
           },
           "neuronA": {
@@ -533,16 +533,7 @@
               "id": {
                 "type": "string"
               },
-              "name": {
-                "type": "string"
-              },
               "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "developmental_stages": {
                 "type": "array",
                 "items": {
                   "type": "string"
@@ -552,6 +543,21 @@
                 "type": "string"
               },
               "wormatlas": {
+                "type": "string"
+              },
+              "uid": {
+                "type": "uid"
+              },
+              "timepoints": {
+                "type": "object"
+              },
+              "embryonic": {
+                "type": "boolean"
+              },
+              "lineage": {
+                "type": "string"
+              },
+              "location": {
                 "type": "string"
               },
               "published_at": {
@@ -573,16 +579,7 @@
               "id": {
                 "type": "string"
               },
-              "name": {
-                "type": "string"
-              },
               "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "developmental_stages": {
                 "type": "array",
                 "items": {
                   "type": "string"
@@ -592,6 +589,21 @@
                 "type": "string"
               },
               "wormatlas": {
+                "type": "string"
+              },
+              "uid": {
+                "type": "uid"
+              },
+              "timepoints": {
+                "type": "object"
+              },
+              "embryonic": {
+                "type": "boolean"
+              },
+              "lineage": {
+                "type": "string"
+              },
+              "location": {
                 "type": "string"
               },
               "published_at": {
@@ -678,6 +690,12 @@
           "metadata": {
             "type": "string"
           },
+          "weight": {
+            "type": "integer"
+          },
+          "timepoints": {
+            "type": "object"
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -686,7 +704,7 @@
       },
       "NewContact": {
         "properties": {
-          "name": {
+          "uid": {
             "type": "uid"
           },
           "neuronA": {
@@ -697,6 +715,12 @@
           },
           "metadata": {
             "type": "string"
+          },
+          "weight": {
+            "type": "integer"
+          },
+          "timepoints": {
+            "type": "object"
           },
           "published_at": {
             "type": "string",

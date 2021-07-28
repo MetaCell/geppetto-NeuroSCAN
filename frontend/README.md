@@ -17,17 +17,6 @@ Install yarn
 npm install -g yarn
 ```
 
-Install geppetto-meta dependencies (e.g. geppetto-ui)
-
-```bash
-yarn global add yalc 
-yarn global add typescript
-git clone https://github.com/MetaCell/geppetto-meta.git --branch feature/66_geppetto_ui_package
-cd geppetto-meta/geppetto.js/geppetto-ui
-yarn && yarn build
-yalc publish
-```
-
 Install dependencies
 
 ```bash
@@ -39,6 +28,49 @@ Start development server
 ```bash
 yarn start
 ```
+
+### Configure Backend URL
+
+Environment variable: `REACT_APP_BACKEND_URL`
+
+Default: `http://localhost:1337`
+
+To overwrite it create a `.env.local` file and update the variable.
+This file is ignored in `.gitignore`.
+
+See `template.env.local` as an example.
+
+### Test changes made in geppetto-meta repository
+
+Use `yalc` to test changes without publishing a new version on npm.
+
+Install required tools
+
+```bash
+yarn global add yalc
+yarn global add typescript
+```
+
+Clone specific branch of repository (with `--branch` option)
+
+```bash
+git clone https://github.com/MetaCell/geppetto-meta.git --branch development
+```
+
+Example for building geppetto-ui
+
+```
+cd geppetto-meta/geppetto.js/geppetto-ui
+yarn && yarn build && yarn publish:yalc
+```
+
+In your frontend directory run
+
+```bash
+yalc link @metacell/geppetto-meta-ui
+```
+
+It will now use the linked version over the published npm version.
 
 ## Available Scripts
 

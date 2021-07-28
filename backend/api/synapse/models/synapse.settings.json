@@ -15,9 +15,6 @@
     "neuronPre": {
       "model": "neuron"
     },
-    "neuronPost": {
-      "model": "neuron"
-    },
     "files": {
       "collection": "file",
       "via": "related",
@@ -37,8 +34,30 @@
         "electrical"
       ]
     },
-    "name": {
+    "uid": {
       "type": "uid"
+    },
+    "timepoints": {
+      "type": "json"
+    },
+    "metadata": {
+      "type": "text"
+    },
+    "section": {
+      "type": "string"
+    },
+    "zs": {
+      "type": "string"
+    },
+    "position": {
+      "type": "enumeration",
+      "enum": [
+        "pre",
+        "post"
+      ]
+    },
+    "neuronPost": {
+      "collection": "neuron"
     }
   }
 }

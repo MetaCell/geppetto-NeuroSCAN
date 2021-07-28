@@ -1,6 +1,9 @@
 # https://github.com/strapi/strapi-docker/blob/master/examples/custom/Dockerfile
 FROM strapi/base
 
+# Configured by helm chart
+ENV DATABASE_FILENAME .tmp/data.db
+
 WORKDIR /my-path
 
 COPY ./package.json ./

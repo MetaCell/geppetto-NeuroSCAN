@@ -530,16 +530,7 @@
               "id": {
                 "type": "string"
               },
-              "name": {
-                "type": "string"
-              },
               "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "developmental_stages": {
                 "type": "array",
                 "items": {
                   "type": "string"
@@ -551,44 +542,19 @@
               "wormatlas": {
                 "type": "string"
               },
-              "published_at": {
+              "uid": {
+                "type": "uid"
+              },
+              "timepoints": {
+                "type": "object"
+              },
+              "embryonic": {
+                "type": "boolean"
+              },
+              "lineage": {
                 "type": "string"
               },
-              "created_by": {
-                "type": "string"
-              },
-              "updated_by": {
-                "type": "string"
-              }
-            }
-          },
-          "neuronPost": {
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "files": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "developmental_stages": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "metadata": {
-                "type": "string"
-              },
-              "wormatlas": {
+              "location": {
                 "type": "string"
               },
               "published_at": {
@@ -679,8 +645,76 @@
               "electrical"
             ]
           },
-          "name": {
+          "uid": {
             "type": "uid"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "metadata": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "zs": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string",
+            "enum": [
+              "pre",
+              "post"
+            ]
+          },
+          "neuronPost": {
+            "type": "array",
+            "items": {
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "metadata": {
+                  "type": "string"
+                },
+                "wormatlas": {
+                  "type": "string"
+                },
+                "uid": {
+                  "type": "uid"
+                },
+                "timepoints": {
+                  "type": "object"
+                },
+                "embryonic": {
+                  "type": "boolean"
+                },
+                "lineage": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                },
+                "published_at": {
+                  "type": "string"
+                },
+                "created_by": {
+                  "type": "string"
+                },
+                "updated_by": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "published_at": {
             "type": "string",
@@ -693,9 +727,6 @@
           "neuronPre": {
             "type": "string"
           },
-          "neuronPost": {
-            "type": "string"
-          },
           "type": {
             "type": "string",
             "enum": [
@@ -703,8 +734,33 @@
               "electrical"
             ]
           },
-          "name": {
+          "uid": {
             "type": "uid"
+          },
+          "timepoints": {
+            "type": "object"
+          },
+          "metadata": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "zs": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string",
+            "enum": [
+              "pre",
+              "post"
+            ]
+          },
+          "neuronPost": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "published_at": {
             "type": "string",

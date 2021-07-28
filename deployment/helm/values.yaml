@@ -33,9 +33,9 @@ apps:
           limits:
             memory: 1024Mi
             cpu: 500m
-        env:
-          - name: DATABASE_FILENAME
-          - value: /db/data.db
+      env:
+        - name: DATABASE_FILENAME
+          value: /db/data.db
       service:
         auto: true
         name: strapi
