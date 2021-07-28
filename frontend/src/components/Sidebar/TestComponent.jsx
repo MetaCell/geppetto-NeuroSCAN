@@ -15,7 +15,7 @@ function TestComponent(props) {
   const neuronFallOver = new Neuron('27', 'TestUIDNeuron1');
   neuronFallOver.files = ['https://raw.githubusercontent.com/MetaCell/geppetto-meta/master/geppetto.js/geppetto-ui/src/3d-canvas/showcase/examples/SketchVolumeViewer_SAAVR_SAAVR_1_1_0000_draco.gltf'];
   const contactFallOver = new Contact('1', 'TestUIDContact1');
-  contactFallOver.files = ['https://raw.githubusercontent.com/MetaCell/geppetto-meta/feature/106/geppetto.js/geppetto-ui/src/3d-canvas/showcase/examples/Sketch_Volume_Viewer_AIB_Rby_AIAR_AIB_Rby_AIAR_1_1_0000_green_0_24947b6670.gltf'];
+  contactFallOver.files = ['https://raw.githubusercontent.com/MetaCell/geppetto-meta/development/geppetto.js/geppetto-ui/src/3d-canvas/showcase/examples/Sketch_Volume_Viewer_AIB_Rby_AIAR_AIB_Rby_AIAR_1_1_0000_green_0_24947b6670.gltf'];
 
   useEffect(async () => {
     let neuron;
