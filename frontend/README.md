@@ -29,6 +29,17 @@ Start development server
 yarn start
 ```
 
+### Configure Backend URL
+
+Environment variable: `REACT_APP_BACKEND_URL`
+
+Default: `http://localhost:1337`
+
+To overwrite it create a `.env.local` file and update the variable.
+This file is ignored in `.gitignore`.
+
+See `template.env.local` as an example.
+
 ### Test changes made in geppetto-meta repository
 
 Use `yalc` to test changes without publishing a new version on npm.
