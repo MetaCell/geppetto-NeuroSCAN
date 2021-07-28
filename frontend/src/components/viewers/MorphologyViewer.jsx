@@ -39,7 +39,7 @@ function MorphologyViewer(props) {
       data={canvasData}
       cameraOptions={viewer.cameraOptions}
       cameraHandler={cameraHandler}
-      backgroundColor={0x505050}
+      backgroundColor={0x2C2C2C}
       onSelection={onSelection}
       onMount={onMount}
     />
