@@ -2,62 +2,84 @@ import React, { useState } from 'react';
 import { Typography, Box } from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import StyledTreeItem from './TreeItem';
-import DATASET from '../../images/dataset.svg';
-import FOLDER from '../../images/folder.svg';
-import FILE from '../../images/neuron.svg';
+import MORPHOLOGY from '../../images/morphology.svg';
+import NEURONS from '../../images/neurons.svg';
+import NEURON from '../../images/neuron.svg';
+import CPHATE from '../../images/cphate.svg';
+import CLUSTERS from '../../images/cluster.svg';
+import SYNAPSES from '../../images/synapses.svg';
+import SYNAPSE from '../../images/synapse.svg';
+import CONTACTS from '../../images/contacts.svg';
+import CONTACT from '../../images/contact.svg';
+
+const EXPLORER_IMGS = {
+  NEURONS,
+  NEURON,
+  CPHATE,
+  CLUSTERS,
+  SYNAPSES,
+  SYNAPSE,
+  CONTACTS,
+  CONTACT,
+  MORPHOLOGY,
+};
 
 const Explorer = () => {
   const datasets = [
     {
       id: '1_1',
       text: 'Morphology Viewer',
+      type: 'MORPHOLOGY',
       parent: true,
       items: [
         {
           id: '1_1_1',
           text: 'Neurons',
+          type: 'NEURONS',
           items: [
             {
               id: '1_1_1_1',
               text: 'Neuron',
-              price: 1200,
+              type: 'NEURON',
             },
             {
               id: '1_1_1_2',
               text: 'Neuron',
-              price: 1450,
+              type: 'NEURON',
             },
           ],
         },
         {
           id: '1_1_2',
           text: 'Contacts',
+          type: 'CONTACTS',
           items: [
             {
               id: '1_1_2_1',
               text: 'Contact',
-              price: 1200,
+              type: 'CONTACT',
             },
             {
               id: '1_1_2_2',
               text: 'Contact',
-              price: 1450,
+              type: 'CONTACT',
             },
           ],
         },
         {
           id: '1_1_3',
           text: 'Synapses',
+          type: 'SYNAPSES',
           items: [
             {
               id: '1_1_3_1',
               text: 'Synapse',
-              price: 1200,
+              type: 'SYNAPSE',
             },
             {
               id: '1_1_3_2',
               text: 'Synapse',
-              price: 1450,
+              type: 'SYNAPSE',
             },
           ],
         },
@@ -67,52 +89,56 @@ const Explorer = () => {
       id: '1_2',
       text: 'C-PHATE Plot Viewer',
       parent: true,
+      type: 'CPHATE',
       items: [
         {
           id: '1_2_1',
           text: 'Cluster',
+          type: 'CLUSTERS',
           items: [
             {
               id: '1_2_1_1',
-              text: 'NIFTI',
-              price: 240,
+              text: 'Cluster',
+              type: 'CLUSTERS',
             },
             {
               id: '1_2_1_2',
-              text: 'Matlab',
-              price: 300,
+              text: 'Cluster',
+              type: 'CLUSTERS',
             },
           ],
         },
         {
           id: '1_2_2',
           text: 'Cluster',
+          type: 'CLUSTERS',
           items: [
             {
               id: '1_2_2_1',
-              text: 'NIFTI',
-              price: 240,
+              text: 'Cluster',
+              type: 'CLUSTERS',
             },
             {
               id: '1_2_2_2',
-              text: 'Matlab',
-              price: 300,
+              text: 'Cluster',
+              type: 'CLUSTERS',
             },
           ],
         },
         {
           id: '1_2_3',
           text: 'Cluster',
+          type: 'CLUSTERS',
           items: [
             {
               id: '1_2_3_1',
-              text: 'NIFTI',
-              price: 240,
+              text: 'Cluster',
+              type: 'CLUSTERS',
             },
             {
               id: '1_2_3_2',
-              text: 'Matlab',
-              price: 300,
+              text: 'Cluster',
+              type: 'CLUSTERS',
             },
           ],
         },
@@ -120,7 +146,6 @@ const Explorer = () => {
     },
   ];
 
-  // const [items, setItems] = useState(datasets);
   const [nodes, setNodes] = useState(['1_1']);
 
   const onNodeToggle = (e, nodeIds) => {
@@ -133,19 +158,15 @@ const Explorer = () => {
       items = getTreeItemsFromData(treeItemData.items);
     }
     const itemLength = items?.length;
-    const labelProps = treeItemData?.parent
-      ? { labelIcon: DATASET, iconClass: 'dataset' }
-      // : itemLength > 0 ? { labelIcon: FOLDER, iconClass: 'folder' }
-      : { labelIcon: FILE, iconClass: 'file' };
+    const labelIcon = EXPLORER_IMGS[treeItemData?.type];
 
     return (
       <StyledTreeItem
         nodeId={treeItemData?.id}
         labelText={treeItemData?.text}
-        labelIcon={labelProps?.labelIcon}
+        labelIcon={labelIcon}
         labelInfo={itemLength}
         key={treeItemData?.id}
-        iconClass={labelProps?.iconClass}
       >
         {items}
       </StyledTreeItem>

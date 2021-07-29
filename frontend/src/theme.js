@@ -29,6 +29,7 @@ const {
   outlinedBorderColor,
   listHoverBg,
   inputShadow,
+  treeItemActiveColor,
 } = vars;
 
 const theme = createTheme({
@@ -608,7 +609,63 @@ const theme = createTheme({
             },
           },
           '&.instances-box': {
-            padding: '1rem',
+            padding: '0',
+            '& > .MuiTreeView-root': {
+              '& .MuiTreeItem-label': {
+                paddingLeft: 0,
+              },
+              '& .MuiTreeItem-iconContainer': {
+                display: 'none',
+              },
+            },
+
+            '& .MuiTreeView-root': {
+              '& img': {
+                width: 'auto',
+                display: 'block',
+              },
+              '& .MuiCollapse-root': {
+                '& .labelText': {
+                  fontWeight: 'normal !important',
+                },
+              },
+              '& .MuiTreeItem-root': {
+                position: 'relative',
+                '& > .MuiTreeItem-content .MuiTreeItem-label': {
+                  background: 'transparent',
+                },
+                '&.Mui-selected': {
+                  '& > .MuiTreeItem-content .MuiTreeItem-label': {
+                    background: `${treeItemActiveColor} !important`,
+                  },
+                },
+                '& .MuiTreeItem-group': {
+                  // paddingLeft: '0',
+                  // margin: 0,
+                },
+                '& .MuiTreeItem-content': {
+                  position: 'relative',
+                  zIndex: 1,
+                  '& .labelRoot': {
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0.5625rem 0.6875rem',
+                  },
+                  '& .labelIcon': {
+                    margin: '0 .5rem',
+                    flexShrink: 0,
+                  },
+                  '& .labelText': {
+                    fontWeight: '500',
+                    flexGrow: 1,
+                    fontSize: '12px',
+                    lineHeight: '16px',
+                    color: lightBlackColor,
+                    letterSpacing: '0.005em',
+                  },
+                },
+              },
+            },
           },
           '& + .wrap': {
             borderTop: `0.0625rem solid ${modalBorderColor}`,
