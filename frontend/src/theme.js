@@ -1,4 +1,4 @@
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import { createTheme } from '@material-ui/core/styles';
 import vars from './styles/constants';
 
 const {
@@ -31,7 +31,7 @@ const {
   inputShadow,
 } = vars;
 
-const theme = createMuiTheme({
+const theme = createTheme({
   typography: {
     fontFamily,
     h2: {
