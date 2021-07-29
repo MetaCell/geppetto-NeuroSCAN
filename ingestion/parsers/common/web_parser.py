@@ -33,8 +33,8 @@ class WebParser(IParser):
     def _apply_actuator(self, entry, actuator, map):
         value = get(entry.__dict__, actuator)
         if map:
-            return map.replace('${element}', value)
-        return value
+            return str(map.replace('${element}', value))
+        return str(value)
 
     def get_data(self):
         return self.data

@@ -4,4 +4,5 @@ stages:
   - join_left_0_1
   - read_web_config.json
   - join_left_2_3
-  - export_4_export_config.json
+  - custom_4_/home/afonso/Projects/MetaCell/geppetto-NeuroSCAN/ingestion/parsers/neurons/custom_script/__init__.py
+  - export_5_export_config.json
