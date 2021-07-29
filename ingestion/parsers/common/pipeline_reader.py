@@ -1,7 +1,8 @@
 import yaml
 
-from ingestion.parsers.common.parser_config import ParserConfig
-from ingestion.parsers.common.utils import merge_dict
+from ingestion.parsers.common.data_exporter import DataExporter
+from ingestion.parsers.common.config import Config
+from ingestion.parsers.common.utils import merge_dict, JoinStrategies
 
 
 class PipelineReader:
@@ -9,12 +10,9 @@ class PipelineReader:
     def __init__(self, input_file):
         self.actions = {
             'read': self._read_config,
-            'join': self._join
+            'join': self._join,
+            'export': self._export
         }
-        self.join_strategies = {
-            'left': self._left_join
-        }
-
         with open(input_file, 'r') as stream:
             try:
                 self.pipeline = yaml.safe_load(stream)
@@ -32,16 +30,26 @@ class PipelineReader:
 
     def _read_config(self, stage, idx):
         filename = '_'.join(stage.split('_')[1:])
-        self.stage_results.insert(idx, ParserConfig(filename).get_parser())
+        self.stage_results.insert(idx, Config(filename).get_parser())
         self.stage_results[idx].parse()
 
     def _join(self, stage, idx):
         attrs = stage.split('_')[1:]
         strategy = attrs[0]
-        left = attrs[1]
-        right = attrs[2]
-        if strategy in self.join_strategies.keys():
-            self.join_strategies[strategy](idx, left, right)
+        left = int(attrs[1])
+        right = int(attrs[2])
+        if strategy in JoinStrategies.list():
+            self.stage_results.insert(idx, merge_dict(self.stage_results[left].get_data(),
+                                                      self.stage_results[right].get_data(),
+                                                      strategy))
 
-    def _left_join(self, idx, l, r):
-        self.stage_results.insert(idx, merge_dict(self.stage_results[l].get_data(), self.stage_results[r].get_data()))
+    def _export(self, stage, idx):
+        attrs = stage.split('_')[1:]
+        data_idx = int(attrs[0])
+        filename = '_'.join(attrs[1:])
+        config = Config(filename).get_config()
+        is_successful = False
+        if config.output_file and config.header:
+            is_successful = DataExporter(self.stage_results[data_idx]).to_csv(output_file=config.output_file,
+                                                                              headers=config.header)
+        self.stage_results.insert(idx, is_successful)

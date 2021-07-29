@@ -14,6 +14,7 @@ class DataExporter:
             writer.writeheader()
             for data in dict_data:
                 writer.writerow(dict_data[data])
+        return True
 
     def simplify_data(self, headers):
         simplified_data = {}

@@ -1,13 +1,29 @@
-def merge_dict(dict1, dict2, only_update=False):
+from enum import Enum
+
+
+class ExtendedEnum(Enum):
+    @classmethod
+    def list(cls):
+        return list(map(lambda c: c.value, cls))
+
+
+class JoinStrategies(ExtendedEnum):
+    LEFT = 'left'
+    RIGHT = 'right'
+    FULL = 'full'
+
+
+def merge_dict(dict1, dict2, strategy):
     ''' Merge dictionaries and keep values of common keys in list'''
-    dict3 = {**dict1, **dict2} if not only_update else {**dict2}
+    dict3 = {**dict1, **dict2} if strategy == JoinStrategies.FULL.value \
+        else {**dict2} if strategy == JoinStrategies.RIGHT.value else {**dict1}
     for key, value in dict3.items():
         if key in dict1 and key in dict2:
             dict3[key] = {}
-            for k in value.keys():
-                dict3[key][k] = value[k]
             for k in dict1[key].keys():
                 dict3[key][k] = dict1[key][k]
+            for k in dict2[key].keys():
+                dict3[key][k] = dict2[key][k]
     return dict3
 
 

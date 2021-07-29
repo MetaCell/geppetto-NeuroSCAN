@@ -1,0 +1,4 @@
+{
+  "output_file": "neurons.csv",
+  "header": ["uid", "metadata", "timepoints", "files", "wormatlas", "lineage", "location"]
+}

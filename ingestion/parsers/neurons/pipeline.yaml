@@ -2,3 +2,4 @@ stages:
   - read_filename_config.json
   - read_xlsx_config.json
   - join_left_0_1
+  - export_2_export_config.json

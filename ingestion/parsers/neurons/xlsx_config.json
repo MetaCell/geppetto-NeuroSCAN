@@ -4,7 +4,7 @@
   "sheet_name": "Cell-ID based on lineaging",
   "column_id": "${Neuron}",
   "column_of_interest": {
-    "Neuron": "name",
+    "Neuron": "uid",
     "Lineage Name": "lineage",
     "Location": "location"
   }

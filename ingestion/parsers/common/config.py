@@ -6,7 +6,7 @@ from ingestion.parsers.common.utils import obj
 from ingestion.parsers.common.web_parser import WebParser
 
 
-class ParserConfig:
+class Config:
     parsers = {
         'file': FilenameParser,
         'xls': SpreadsheetParser,
