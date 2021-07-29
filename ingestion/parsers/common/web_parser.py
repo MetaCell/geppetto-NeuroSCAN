@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from ingestion.parsers.common.IParser import IParser
+from ingestion.parsers.common.utils import get
 
 
 class WebParser(IParser):
@@ -20,14 +21,20 @@ class WebParser(IParser):
         dataset = soup.findAll(**self.cfg.id_action.selector.__dict__)
         source = self.cfg.url
         for entry in dataset:
-            entry_id = self._apply_actuator(entry, self.cfg.id_action.actuator)
+            entry_id = self._apply_actuator(entry, self.cfg.id_action.actuator,
+                                            getattr(self.cfg.id_action, 'map', None))
             self.data[entry_id] = {source: {}}
             for action in self.cfg.actions.__dict__:
                 self.data[entry_id][source][action] = self._apply_actuator(entry,
-                                                                           self.cfg.actions.__dict__[action].actuator)
+                                                                           self.cfg.actions.__dict__[action].actuator,
+                                                                           getattr(self.cfg.actions.__dict__[action],
+                                                                                   'map', None))
 
-    def _apply_actuator(self, entry, actuator):
-        return get(entry.__dict__, actuator)
+    def _apply_actuator(self, entry, actuator, map):
+        value = get(entry.__dict__, actuator)
+        if map:
+            return map.replace('${element}', value)
+        return value
 
     def get_data(self):
         return self.data

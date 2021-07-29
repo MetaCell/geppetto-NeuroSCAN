@@ -30,8 +30,9 @@ class PipelineReader:
 
     def _read_config(self, stage, idx):
         filename = '_'.join(stage.split('_')[1:])
-        self.stage_results.insert(idx, Config(filename).get_parser())
-        self.stage_results[idx].parse()
+        parser = Config(filename).get_parser()
+        parser.parse()
+        self.stage_results.insert(idx, parser.get_data())
 
     def _join(self, stage, idx):
         attrs = stage.split('_')[1:]
@@ -39,8 +40,8 @@ class PipelineReader:
         left = int(attrs[1])
         right = int(attrs[2])
         if strategy in JoinStrategies.list():
-            self.stage_results.insert(idx, merge_dict(self.stage_results[left].get_data(),
-                                                      self.stage_results[right].get_data(),
+            self.stage_results.insert(idx, merge_dict(self.stage_results[left],
+                                                      self.stage_results[right],
                                                       strategy))
 
     def _export(self, stage, idx):

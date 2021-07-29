@@ -21,7 +21,8 @@
         "name": "a",
         "href": true
       },
-      "actuator": "attrs.href"
+      "actuator": "attrs.href",
+      "map": "https://www.wormatlas.org/neurons/Individual%20Neurons/${element}"
     }
   }
 }
