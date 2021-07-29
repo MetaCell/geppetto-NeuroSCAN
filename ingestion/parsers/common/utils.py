@@ -1,7 +1,3 @@
-import json
-import sys
-
-
 def merge_dict(dict1, dict2, only_update=False):
     ''' Merge dictionaries and keep values of common keys in list'''
     dict3 = {**dict1, **dict2} if not only_update else {**dict2}
@@ -13,15 +9,6 @@ def merge_dict(dict1, dict2, only_update=False):
             for k in dict1[key].keys():
                 dict3[key][k] = dict1[key][k]
     return dict3
-
-
-class Config:
-    def __init__(self, config_path):
-        f = open(config_path, )
-        self.data = json.load(f)
-
-    def get_config(self):
-        return obj(self.data)
 
 
 class obj(object):

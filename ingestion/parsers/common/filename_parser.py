@@ -3,38 +3,33 @@ import re
 import logging
 
 from ingestion.parsers.common.IParser import IParser
-from ingestion.parsers.common.utils import Config, get_dict_without_keys
+from ingestion.parsers.common.utils import get_dict_without_keys
 
 logging.basicConfig(filename='filename_parser_errors.log', level=logging.ERROR)
 
 
 class FilenameParser(IParser):
-    mandatory_attributes = ['directory', 'regex']
+    mandatory_attributes = ['directory', 'regex', 'include']
 
-    def __init__(self, config: Config):
+    def __init__(self, config):
         if all(item in list(config.__dict__.keys()) for item in self.mandatory_attributes):
             self.cfg = config
             self.data = {}
         else:
             raise Exception('Wrong configuration for FilenameParser')
-        if self.cfg.extension is not None and not isinstance(self.cfg.extension, list):
-            raise Exception('Extension attribute should be a list')
-        if len(self.cfg.extension) == 0:
-            self.cfg.extension = None
         if self.cfg.regex.id is None:
             raise Exception('regex id attribute is required')
 
     def parse(self):
-        for filename in os.listdir(self.cfg.directory):
-            if self._filename_check(filename):
-                self._update_data(self._get_fields(filename), filename)
-            else:
-                continue
+        for subdir, dirs, files in os.walk(self.cfg.directory):
+            for file in files:
+                filepath = os.path.join(subdir, file)
+                if self._is_included(filepath):
+                    self._update_data(self._get_fields(filepath), filepath)
 
-    def _filename_check(self, filename):
-        if self.cfg.extension is None:  # No extension means we will look into all the files
-            return True
-        return any(filename.endswith(e) for e in self.cfg.extension)
+
+    def _is_included(self, filepath):
+        return re.match(rf"{self.cfg.include}", filepath)
 
     def _get_fields(self,
                     filename):  # Returns dictionary with all the pairs (key, applied regex) for the regex specified in config file.

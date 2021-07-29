@@ -2,13 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 
 from ingestion.parsers.common.IParser import IParser
-from ingestion.parsers.common.utils import Config, get
 
 
 class WebParser(IParser):
     mandatory_attributes = ['url', 'id_action']
 
-    def __init__(self, config: Config):
+    def __init__(self, config):
         if all(item in list(config.__dict__.keys()) for item in self.mandatory_attributes):
             self.cfg = config
             self.data = {}
