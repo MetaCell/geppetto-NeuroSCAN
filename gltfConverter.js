@@ -1,3 +1,15 @@
+/**
+Converts obj to gltf files with draco compression in specified directory.
+
+Relies on two node packages that have to be installed.
+- npm install - g obj2gltf
+- npm install - g gltf - pipeline
+
+Usage:
+- `node gltfConverter <targetDirectory>`
+- If no directory is specified current directory is used.
+*/
+
 const path = require('path');
 const fs = require('fs');
 const { execSync } = require("child_process");
