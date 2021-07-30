@@ -1,0 +1,4 @@
+{
+  "output_file": "contacts.csv",
+  "header": ["uid", "neuronA", "neuronB", "timepoints", "files", "weight", "metadata"]
+}

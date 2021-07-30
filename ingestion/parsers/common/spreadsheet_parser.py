@@ -12,20 +12,36 @@ def get_columns_from_expression(expression):
 
 
 class SpreadsheetParser(IParser):
-    mandatory_attributes = ['filepath', 'column_id']
+    mandatory_attributes = ['column_id']
 
     def __init__(self, config):
         if all(item in list(config.__dict__.keys()) for item in self.mandatory_attributes):
             self.cfg = config
             self.data = {}
-            self.is_csv = self._is_csv()
         else:
             raise Exception('Wrong configuration for SpreadsheetParser')
 
     def parse(self):
-        df = pd.read_excel(self.cfg.filepath, sheet_name=self.cfg.sheet_name) if not self.is_csv else pd.read_csv(self.cfg.filepath)
+        if getattr(self.cfg, 'filepath', None):
+            self._read_csv(self.cfg.filepath)
+        if getattr(self.cfg, 'directory', None) and getattr(self.cfg, 'include', None):
+            self.traverse()
+
+    def _read_csv(self, filepath):
+        is_csv = self._is_csv(filepath)
+        df = pd.read_excel(filepath, sheet_name=self.cfg.sheet_name) if not is_csv else pd.read_csv(filepath)
         column_of_interest = list(set(get_columns_from_expression(self.cfg.column_id) + self._get_list_of_coi()))
-        [self._update_data(row, column_of_interest) for row in df[column_of_interest].to_numpy()]
+        [self._update_data(row, column_of_interest, filepath) for row in df[column_of_interest].to_numpy()]
+
+    def traverse(self):
+        for subdir, dirs, files in os.walk(self.cfg.directory):
+            for file in files:
+                filepath = os.path.join(subdir, file)
+                if self._is_included(filepath):
+                    self._read_csv(filepath)
+
+    def _is_included(self, filepath):
+        return re.match(rf"{self.cfg.include}", filepath)
 
     def _get_list_of_coi(self):
         list_of_coi = []
@@ -36,9 +52,9 @@ class SpreadsheetParser(IParser):
                 list_of_coi.append(coi)
         return list_of_coi
 
-    def _update_data(self, row, column_of_interest):
+    def _update_data(self, row, column_of_interest, filepath):
         row_id = self._get_value_from_expression(row, column_of_interest, self.cfg.column_id)
-        source = os.path.basename(self.cfg.filepath)
+        source = filepath
         if row_id in self.data:
             self.data[row_id][source] = self._get_dict_from_row(row, column_of_interest)
         else:
@@ -65,6 +81,7 @@ class SpreadsheetParser(IParser):
     def get_data(self):
         return self.data
 
-    def _is_csv(self):
-        _, file_extension = os.path.splitext(self.cfg.filepath)
+    @staticmethod
+    def _is_csv(filepath):
+        _, file_extension = os.path.splitext(filepath)
         return file_extension == '.csv'

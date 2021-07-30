@@ -31,6 +31,13 @@ class TestStringMethods(unittest.TestCase):
         merge_ac = merge_dict(self.dict_a, self.dict_c, JoinStrategies.RIGHT.value)
         assert isinstance(merge_ac['a'], dict) and len(merge_ac['a'].keys()) == 2
 
+    def test_merge_dict_inner(self):
+        merge_ab = merge_dict(self.dict_a, self.dict_b, JoinStrategies.INNER.value)
+        assert len(merge_ab) == 0
+
+        merge_ac = merge_dict(self.dict_a, self.dict_c, JoinStrategies.INNER.value)
+        assert isinstance(merge_ac['a'], dict) and len(merge_ac['a'].keys()) == 2
+
 
 if __name__ == '__main__':
     unittest.main()
