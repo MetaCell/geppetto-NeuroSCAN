@@ -23,5 +23,9 @@
       "expression": ".*/\\w*/(\\d*)/contacts/\\w*/.*\\.obj",
       "match": "$1"
     }
+  },
+  "split": {
+    "expression": ".*/neuroscan/\\w*/(\\d*)/.*",
+    "match": "$1"
   }
 }

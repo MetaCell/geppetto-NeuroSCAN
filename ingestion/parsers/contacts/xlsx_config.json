@@ -9,5 +9,9 @@
     "Neuron 1": "neuronA",
     "Neuron 2": "neuronB",
     "Weight": "weight"
+  },
+  "split": {
+    "expression": ".*/neuroscan/\\w*/(\\d*)/.*",
+    "match": "$1"
   }
 }

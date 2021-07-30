@@ -3,7 +3,7 @@ import re
 import logging
 
 from ingestion.parsers.common.IParser import IParser
-from ingestion.parsers.common.utils import get_dict_without_keys
+from ingestion.parsers.common.utils import get_dict_without_keys, apply_regex, get_source_split
 
 logging.basicConfig(filename='filename_parser_errors.log', level=logging.ERROR)
 
@@ -27,7 +27,6 @@ class FilenameParser(IParser):
                 if self._is_included(filepath):
                     self._update_data(self._get_fields(filepath), filepath)
 
-
     def _is_included(self, filepath):
         return re.match(rf"{self.cfg.include}", filepath)
 
@@ -38,27 +37,20 @@ class FilenameParser(IParser):
     def _apply_regex(self, test_string: str, key):
         pattern = self.cfg.regex.__dict__[key]
         try:
-            if pattern.match:
-                return self._construct_match(pattern, test_string)
-            else:
-                return re.findall(rf'{pattern.expression}', test_string)[0]
+            return apply_regex(pattern, test_string)
         except:
             logging.error(f"{test_string} failed to get fields")
 
-    def _construct_match(self, pattern, test_string):
-        re_search = re.search(rf'{pattern.expression}', test_string)
-        groups = re.findall('\$([1-9]*)', pattern.match)
-        result = pattern.match
-        for groupId in groups:
-            result = result.replace(f'${groupId}', re_search.group(int(groupId)))
-        return result
-
     def _update_data(self, fields, filename):
         augmented_fields = {**fields, 'files': self._get_filepath(filename)}
-        if fields['id'] in self.data:
-            self.data[fields['id']][filename] = get_dict_without_keys(augmented_fields, ['id'])
+        source_split = get_source_split(filename, getattr(self.cfg, 'split', None))
+        if source_split not in self.data:
+            self.data[source_split] = {fields['id']: {filename: get_dict_without_keys(augmented_fields, ['id'])}}
         else:
-            self.data[fields['id']] = {filename: get_dict_without_keys(augmented_fields, ['id'])}
+            if fields['id'] in self.data[source_split]:
+                self.data[source_split][fields['id']][filename] = get_dict_without_keys(augmented_fields, ['id'])
+            else:
+                self.data[source_split][fields['id']] = {filename: get_dict_without_keys(augmented_fields, ['id'])}
 
     def get_data(self):
         return self.data
