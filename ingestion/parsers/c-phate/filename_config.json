@@ -1,9 +1,10 @@
 {
-  "directory": "../../data/cphate",
-  "extension": [".obj"],
+  "parser": "file",
+  "directory": "../../data/neuroscan/",
+  "include": ".*/cphate/.*.obj",
   "regex": {
     "id":{
-      "expression": "i([\\d]*).g([\\d]*)",
+      "expression": ".*i(\\d+)\\.g(\\d*).*\\.obj",
       "match": "$1-$2"
     }
   }

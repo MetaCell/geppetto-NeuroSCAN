@@ -4,14 +4,16 @@ import re
 import pandas as pd
 
 from ingestion.parsers.common.filename_parser import FilenameParser
-from ingestion.parsers.common.utils import Config
+from ingestion.parsers.common.config import Config
 
 NEURON_COL_NAME = 'Neuron'
 ITER_COL_IDENTIFIER = 'iter'
-
+SHEET_NAME = 'CPHATE clusters'
+INPUT_CSV = '../../data/neuroscan/L4_JSH/300/cphate.xls'
+OUTPUT_JSON = 'cphate.json'
 
 def get_groups_from_xlsx(filepath):
-    df = pd.read_excel(filepath)
+    df = pd.read_excel(filepath, sheet_name=SHEET_NAME)
     group_dict, coi = get_iter_from_header(df)
     for row in df[coi].to_numpy():
         neuron = row[0]
@@ -46,9 +48,7 @@ def is_iter(name):
 
 
 def get_iter_step(name):
-    for s in name.split():
-        if s.isdigit():
-            return get_iter_key(int(s))
+    return get_iter_key(int(name.split(ITER_COL_IDENTIFIER)[1]))
 
 
 def get_iter_key(i):
@@ -61,12 +61,13 @@ def get_group_key(g):
 
 def add_objfile(data_dict):
     filename_data = get_filename_data()
-    for i in filename_data:
-        split_i = i.split('-')
-        iter = get_iter_key(split_i[0])
-        group = get_group_key(split_i[1])
-        for source in filename_data[i]:
-            data_dict[iter][group]['objFile'] = filename_data[i][source]['files']
+    for split in filename_data:
+        for i in filename_data[split]:
+            split_i = i.split('-')
+            iter = get_iter_key(split_i[0])
+            group = get_group_key(split_i[1])
+            for source in filename_data[split][i]:
+                data_dict[iter][group]['objFile'] = filename_data[split][i][source]['files']
     return data_dict
 
 
@@ -98,4 +99,4 @@ def generate_json(filepath, output_file='output.json'):
 
 
 if __name__ == '__main__':
-    generate_json('../../data/JSH_CPHATE clusters.xlsx', 'cphate.json')
+    generate_json(INPUT_CSV, OUTPUT_JSON)
