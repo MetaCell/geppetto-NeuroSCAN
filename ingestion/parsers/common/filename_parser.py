@@ -57,4 +57,4 @@ class FilenameParser(IParser):
 
     # todo: update when know ftp file structure
     def _get_filepath(self, filename):
-        return os.path.join(self.cfg.directory, filename)
+        return filename

@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from ingestion.parsers.common.IParser import IParser
-from ingestion.parsers.common.utils import get
+from ingestion.parsers.common.utils import get, get_source_split
 
 
 class WebParser(IParser):
@@ -20,12 +20,15 @@ class WebParser(IParser):
         soup = BeautifulSoup(page.content, 'html.parser')
         dataset = soup.findAll(**self.cfg.id_action.selector.__dict__)
         source = self.cfg.url
+        source_split = get_source_split(source, getattr(self.cfg, 'split', None))
+        self.data[source_split] = {}
         for entry in dataset:
             entry_id = self._apply_actuator(entry, self.cfg.id_action.actuator,
                                             getattr(self.cfg.id_action, 'map', None))
-            self.data[entry_id] = {source: {}}
+
+            self.data[source_split][entry_id] = {source: {}}
             for action in self.cfg.actions.__dict__:
-                self.data[entry_id][source][action] = self._apply_actuator(entry,
+                self.data[source_split][entry_id][source][action] = self._apply_actuator(entry,
                                                                            self.cfg.actions.__dict__[action].actuator,
                                                                            getattr(self.cfg.actions.__dict__[action],
                                                                                    'map', None))
