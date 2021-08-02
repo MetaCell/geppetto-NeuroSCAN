@@ -631,6 +631,18 @@ const theme = createTheme({
               },
               '& .MuiTreeItem-root': {
                 position: 'relative',
+                '&.Mui-expanded': {
+                  '&> .MuiTreeItem-content': {
+                    '&> .MuiTreeItem-label': {
+                      '&> .labelRoot': {
+                        '& img': {
+                          transform: 'rotate(0deg)',
+                          transition,
+                        },
+                      },
+                    },
+                  },
+                },
                 '& > .MuiTreeItem-content .MuiTreeItem-label': {
                   background: 'transparent',
                 },
@@ -650,6 +662,21 @@ const theme = createTheme({
                     display: 'flex',
                     alignItems: 'center',
                     padding: '0.5625rem 0.6875rem',
+                    '&:hover': {
+                      '& .MuiIconButton-root': {
+                        display: 'block',
+                        transition,
+                      },
+                    },
+                    '& .MuiIconButton-root': {
+                      padding: 0,
+                      display: 'none',
+                      transition,
+                    },
+                    '& > img': {
+                      transform: 'rotate(-90deg)',
+                      transition,
+                    },
                   },
                   '& .labelIcon': {
                     margin: '0 .5rem',

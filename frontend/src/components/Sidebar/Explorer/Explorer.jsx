@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { Typography, Box } from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import StyledTreeItem from './TreeItem';
-import MORPHOLOGY from '../../images/morphology.svg';
-import NEURONS from '../../images/neurons.svg';
-import NEURON from '../../images/neuron.svg';
-import CPHATE from '../../images/cphate.svg';
-import CLUSTERS from '../../images/cluster.svg';
-import SYNAPSES from '../../images/synapses.svg';
-import SYNAPSE from '../../images/synapse.svg';
-import CONTACTS from '../../images/contacts.svg';
-import CONTACT from '../../images/contact.svg';
+import MORPHOLOGY from '../../../images/morphology.svg';
+import NEURONS from '../../../images/neurons.svg';
+import NEURON from '../../../images/neuron.svg';
+import CPHATE from '../../../images/cphate.svg';
+import CLUSTERS from '../../../images/cluster.svg';
+import SYNAPSES from '../../../images/synapses.svg';
+import SYNAPSE from '../../../images/synapse.svg';
+import CONTACTS from '../../../images/contacts.svg';
+import CONTACT from '../../../images/contact.svg';
 
 const EXPLORER_IMGS = {
   NEURONS,
