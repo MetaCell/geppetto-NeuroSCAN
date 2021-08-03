@@ -5,6 +5,10 @@ import { ADD_VIEWER } from './actions/viewers';
 import { ADD_DEVSTAGES, receivedDevStages } from './actions/devStages';
 import { raiseError, waitData } from './actions/misc';
 import { DevStageService } from '../services/DevStageService';
+import cphateService from '../services/CphateService';
+import morphologyService from '../services/MorphologyService';
+import { updateGeppettoInstances } from '../utilities/functions';
+import { VIEWERS } from '../utilities/constants';
 
 const devStagesService = new DevStageService();
 function widgetFromViewerSpec(viewerSpec) {
@@ -37,10 +41,19 @@ const middleware = (store) => (next) => (action) => {
       break;
     }
     case ADD_VIEWER: {
-      const nextData = { ...action.data, viewerId: uuidv4() };
-      const nextAction = { ...action, data: nextData };
-      next(nextAction);
-      store.dispatch(addWidget(widgetFromViewerSpec(nextAction.data)));
+      next(waitData(`Getting ${action.type}`));
+      const service = action.data.type === VIEWERS.CphateViewer
+        ? cphateService
+        : morphologyService;
+      Promise.all(
+        action.data.instances.map((instance) => service.createSimpleInstance(instance)),
+      ).then((simpleInstances) => {
+        updateGeppettoInstances(simpleInstances);
+        const nextData = { ...action.data, viewerId: uuidv4() };
+        const nextAction = { ...action, data: nextData };
+        next(nextAction);
+        store.dispatch(addWidget(widgetFromViewerSpec(nextAction.data)));
+      });
       break;
     }
 

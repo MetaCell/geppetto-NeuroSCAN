@@ -22,37 +22,45 @@ function isValidHttpUrl(string) {
   return url.protocol === 'http:' || url.protocol === 'https:';
 }
 
-const getBase64 = async (url) => {
-  const response = await window.fetch(url);
-  const blob = await response.blob();
-  const reader = new FileReader();
-  await new Promise((resolve, reject) => {
-    reader.onload = resolve;
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-  return reader.result;
-};
+const getBase64 = (url) => fetch(url)
+  .then((response) => response.text())
+  .then((text) => `data:model/obj;base64,${btoa(text)}`);
 
-export const createSimpleInstance = async (instance) => {
+const createSimpleInstance = async (resourceType, instance) => {
   const file = instance.files[0];
   const url = isValidHttpUrl(file) ? file : `${backendURL}${file}`;
-  const gltfBase64 = await getBase64(url);
 
-  return new SimpleInstance({
+  const base64 = await getBase64(url);
+  const simpleInstance = {
     eClass: 'SimpleInstance',
     id: instance.uid,
     name: instance.uid,
     type: { eClass: 'SimpleType' },
     visualValue: {
-      eClass: window.GEPPETTO.Resources.GLTF,
-      gltf: gltfBase64,
+      eClass: resourceType,
     },
-  });
+  };
+  if (resourceType === window.GEPPETTO.Resources.OBJ) {
+    simpleInstance.visualValue.obj = base64;
+  } else {
+    simpleInstance.visualValue.gltf = base64;
+  }
+  return new SimpleInstance(simpleInstance);
 };
 
+export const createSimpleObjInstance = (instance) => createSimpleInstance(
+  window.GEPPETTO.Resources.OBJ, instance,
+);
+
+export const createSimpleGltfInstance = (instance) => createSimpleInstance(
+  window.GEPPETTO.Resources.GLTF, instance,
+);
+
 const removeDuplicates = (arr) => arr.filter(
-  (v, i, a) => a.findIndex((t) => (t.getId() === v.getId())) === i,
+  (v, i, a) => {
+    const x = a.findIndex((t) => (t.getId() === v.getId()));
+    return x === i;
+  },
 );
 
 export const updateGeppettoInstances = (newInstances) => {

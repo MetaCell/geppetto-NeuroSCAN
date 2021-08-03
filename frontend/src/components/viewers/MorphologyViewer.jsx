@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
-import { createSimpleInstance, updateGeppettoInstances } from '../../utilities/functions';
 
 function MorphologyViewer(props) {
   const { viewerId } = props;
@@ -9,11 +8,7 @@ function MorphologyViewer(props) {
 
   const viewer = useSelector((state) => state.viewers[viewerId]);
 
-  useEffect(async () => {
-    const simpleInstances = await Promise.all(
-      viewer.instances.map(async (instance) => createSimpleInstance(instance)),
-    );
-    updateGeppettoInstances(simpleInstances);
+  useEffect(() => {
     setCanvasData(viewer.instances.map((instance) => (instance.color ? {
       instancePath: instance.uid,
       color: instance.color,
@@ -23,14 +18,17 @@ function MorphologyViewer(props) {
   }, [viewer.instances]);
 
   const cameraHandler = (data) => {
+    // eslint-disable-next-line no-console
     console.log(data);
   };
 
   const onSelection = (selectedInstances) => {
+    // eslint-disable-next-line no-console
     console.log(selectedInstances);
   };
 
   const onMount = (scene) => {
+    // eslint-disable-next-line no-console
     console.log(scene);
   };
 
