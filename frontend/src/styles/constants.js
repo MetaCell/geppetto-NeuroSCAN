@@ -28,6 +28,7 @@ const vars = {
   listHoverBg: 'rgba(164, 26, 69, 0.05)',
   inputShadow: 'rgba(164, 26, 69, 0.15)',
   sliderBorderColor: 'rgba(0, 0, 0, 0.1)',
+  treeItemActiveColor: 'rgba(164, 26, 69, 0.1)',
 };
 
 export default vars;
