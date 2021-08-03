@@ -3,7 +3,7 @@ import unittest
 from ingestion.parsers.common.utils import merge_dict, JoinStrategies
 
 
-class TestStringMethods(unittest.TestCase):
+class TestMergeDictMethods(unittest.TestCase):
 
     def setUp(self):
         self.dict_a = {'timepoint1': {'uidA': {'sourceA': 1}}, 'timepoint2': {'uidA': {'sourceA': 1}}}
