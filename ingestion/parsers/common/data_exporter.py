@@ -59,10 +59,10 @@ class DataExporter:
                     else:
                         merged_data[h] = [source1[h], source2[h]]
                 continue
-            if source1[h]:
+            if source1[h] is not None:
                 merged_data[h] = source1[h]
                 continue
-            if source2[h]:
+            if source2[h] is not None:
                 merged_data[h] = source2[h]
                 continue
             merged_data[h] = None

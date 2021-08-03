@@ -9,6 +9,8 @@ def custom_script(data):
                 data[tp][neuron][
                     '../../data/promoterdb/DCR_PromoterPipeline_Revised2021_Updated.xlsx_Cell-ID based on lineaging'][
                     'embryonic'] = True
+            else:
+                data[tp][neuron][list(data[tp][neuron].keys())[0]]['embryonic'] = False
             for source in data[tp][neuron]:
                 if 'timepoints' in data[tp][neuron][source]:
                     data[tp][neuron][source]['timepoints'] = json.dumps([data[tp][neuron][source]['timepoints']])
