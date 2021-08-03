@@ -55,14 +55,15 @@ class SpreadsheetParser(IParser):
 
     def _update_data(self, row, column_of_interest, filepath):
         row_id = self._get_value_from_expression(row, column_of_interest, self.cfg.column_id)
+        source = f"{filepath}_{self.cfg.sheet_name if getattr(self.cfg, 'sheet_name', None) is not None else ''}"
         source_split = get_source_split(filepath, getattr(self.cfg, 'split', None))
         if source_split not in self.data:
-            self.data[source_split] = {row_id: {filepath: self._get_dict_from_row(row, column_of_interest)}}
+            self.data[source_split] = {row_id: {source: self._get_dict_from_row(row, column_of_interest)}}
         else:
             if row_id in self.data[source_split]:
-                self.data[source_split][row_id][filepath] = self._get_dict_from_row(row, column_of_interest)
+                self.data[source_split][row_id][source] = self._get_dict_from_row(row, column_of_interest)
             else:
-                self.data[source_split][row_id] = {filepath: self._get_dict_from_row(row, column_of_interest)}
+                self.data[source_split][row_id] = {source: self._get_dict_from_row(row, column_of_interest)}
 
     def _get_value_from_expression(self, row, column_of_interest, expression):
         value = expression

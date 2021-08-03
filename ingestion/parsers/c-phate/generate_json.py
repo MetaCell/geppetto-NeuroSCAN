@@ -12,6 +12,7 @@ SHEET_NAME = 'CPHATE clusters'
 INPUT_CSV = '../../data/neuroscan/L4_JSH/300/cphate.xls'
 OUTPUT_JSON = 'cphate.json'
 
+
 def get_groups_from_xlsx(filepath):
     df = pd.read_excel(filepath, sheet_name=SHEET_NAME)
     group_dict, coi = get_iter_from_header(df)
