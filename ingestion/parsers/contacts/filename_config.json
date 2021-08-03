@@ -4,12 +4,12 @@
   "include": ".*/\\w*/\\d*/contacts/\\w*/.*\\.obj",
   "regex": {
     "id":{
-      "expression": "_(\\w*?)by(\\w*?)_",
-      "match": "$1-$2"
+      "expression": ".*/(\\d*)/contacts/\\w*/.*_(\\w*?)by(\\w*?)_.*\\.obj",
+      "match": "$1-$2-$3"
     },
     "uid":{
-      "expression": "_(\\w*?)by(\\w*?)_",
-      "match": "$1-$2"
+      "expression": ".*/(\\d*)/contacts/\\w*/.*_(\\w*?)by(\\w*?)_.*\\.obj",
+      "match": "$1-$2-$3"
     },
     "neuronA":{
       "expression": "_(\\w*?)by(\\w*?)_",
