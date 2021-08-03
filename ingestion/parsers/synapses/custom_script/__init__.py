@@ -1,3 +1,6 @@
+import json
+
+
 def custom_script(data):
     for tp in data:
         for synapse in data[tp]:
@@ -7,4 +10,5 @@ def custom_script(data):
             data[tp][synapse][source]['position'] = data[tp][synapse][source]['position'].lower()
             data[tp][synapse][source]['neuronSite'] = data[tp][synapse][source]['neuronPost'][
                 int(data[tp][synapse][source]['neuronSite'])]
+            data[tp][synapse][source]['timepoints'] = json.dumps([data[tp][synapse][source]['timepoints']])
     return data
