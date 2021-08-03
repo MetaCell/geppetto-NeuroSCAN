@@ -4,12 +4,12 @@
   "include": ".*/\\w*/\\d*/synapses/\\w*[PostSyn|PreSyn]/.*\\.obj",
   "regex": {
     "id":{
-      "expression": ".+/(.+)\\.obj",
-      "match": "$1"
+      "expression": ".*/(.+)/(.+)\\.obj",
+      "match": "$1_$2"
     },
     "uid":{
-      "expression": ".+/(.+)\\.obj",
-      "match": "$1"
+      "expression": ".*/(.+)/(.+)\\.obj",
+      "match": "$1_$2"
     },
     "timepoints": {
       "expression": ".*/\\w*/(\\d*)/synapses/\\w*[PostSyn|PreSyn]/.*\\.obj",
