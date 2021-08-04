@@ -8,4 +8,6 @@ def custom_script(data):
                 if 'cellsByLineaging' in data[tp][promoter][source]:
                     data[tp][promoter][source]['cellsByLineaging'] = json.dumps(
                         data[tp][promoter][source]['cellsByLineaging'])
+                data[tp][promoter][source]['uid'] = data[tp][promoter][source]['uid'] \
+                    .replace(' ', '_').replace('(', '_').replace(')', '_')
     return data
