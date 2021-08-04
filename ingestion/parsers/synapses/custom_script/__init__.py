@@ -11,4 +11,5 @@ def custom_script(data):
             data[tp][synapse][source]['neuronSite'] = data[tp][synapse][source]['neuronPost'][
                 int(data[tp][synapse][source]['neuronSite'])]
             data[tp][synapse][source]['timepoints'] = json.dumps([data[tp][synapse][source]['timepoints']])
+            data[tp][synapse][source]['uid'] = data[tp][synapse][source]['uid'].replace('&', '_')
     return data
