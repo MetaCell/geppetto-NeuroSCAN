@@ -1,8 +1,9 @@
 stages:
   - read_xlsx_config.json
   - read_xlsx_config2.json
-  - custom_1_./custom_script/__init__.py
+  - custom_1_./invert_dict_script/__init__.py
   - join_full_0_2
   - read_xlsx_config3.json
   - join_left_3_4
-  - export_5_export_config.json
+  - custom_5_./custom_script/__init__.py
+  - export_6_export_config.json
