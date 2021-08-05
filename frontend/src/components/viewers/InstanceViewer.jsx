@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
 
-function MorphologyViewer(props) {
+function InstanceViewer(props) {
   const { viewerId } = props;
   const [canvasData, setCanvasData] = useState([]);
 
@@ -44,4 +44,4 @@ function MorphologyViewer(props) {
   );
 }
 
-export default MorphologyViewer;
+export default InstanceViewer;

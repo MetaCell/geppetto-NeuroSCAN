@@ -14,7 +14,6 @@ function TestComponent(props) {
   const dispatch = useDispatch();
   const [instance1, setInstance1] = useState();
   const [instance2, setInstance2] = useState();
-  const [cphateInstances, setCphateInstances] = useState();
   const viewerId = useSelector((state) => Object.keys(state.viewers)[0]);
   const neuronFallOver = new Neuron('27', 'TestUIDNeuron1');
   neuronFallOver.files = ['https://raw.githubusercontent.com/MetaCell/geppetto-meta/master/geppetto.js/geppetto-ui/src/3d-canvas/showcase/examples/SketchVolumeViewer_SAAVR_SAAVR_1_1_0000_draco.gltf'];
@@ -36,21 +35,25 @@ function TestComponent(props) {
     }
     setInstance1(neuron);
     setInstance2(contact);
-    setCphateInstances(await cphateService.getInstances());
   }, [props]);
+
+  const createCphateViewer = async (devStage) => {
+    const cphateInstances = await cphateService.getInstances(devStage);
+    dispatch(addViewer(VIEWERS.InstanceViewer, cphateInstances));
+  };
 
   return (
     <div>
       {instance1
         ? (
-          <Button color="secondary" onClick={() => dispatch(addViewer(VIEWERS.MorphologyViewer, [instance1]))}>
+          <Button color="secondary" onClick={() => dispatch(addViewer(VIEWERS.InstanceViewer, [instance1]))}>
             Add Viewer
           </Button>
         )
         : null}
       {instance1
         ? (
-          <Button color="secondary" onClick={() => dispatch(addViewer(VIEWERS.CphateViewer, cphateInstances))}>
+          <Button color="secondary" onClick={() => createCphateViewer('1')}>
             Add CPhate Viewer
           </Button>
         )

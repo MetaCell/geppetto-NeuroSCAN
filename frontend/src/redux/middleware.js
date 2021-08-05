@@ -1,14 +1,11 @@
 import { addWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
 import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model';
 import { v4 as uuidv4 } from 'uuid';
-import { ADD_VIEWER } from './actions/viewers';
+import { ADD_VIEWER, ADD_INSTANCES_VIEWER, addInstancesViewer } from './actions/viewers';
 import { ADD_DEVSTAGES, receivedDevStages } from './actions/devStages';
 import { raiseError, waitData } from './actions/misc';
 import { DevStageService } from '../services/DevStageService';
-import cphateService from '../services/CphateService';
-import morphologyService from '../services/MorphologyService';
-import { updateGeppettoInstances } from '../utilities/functions';
-import { VIEWERS } from '../utilities/constants';
+import { createSimpleInstancesFromInstances } from '../services/helpers';
 
 const devStagesService = new DevStageService();
 function widgetFromViewerSpec(viewerSpec) {
@@ -42,18 +39,18 @@ const middleware = (store) => (next) => (action) => {
     }
     case ADD_VIEWER: {
       next(waitData(`Getting ${action.type}`));
-      const service = action.data.type === VIEWERS.CphateViewer
-        ? cphateService
-        : morphologyService;
-      Promise.all(
-        action.data.instances.map((instance) => service.createSimpleInstance(instance)),
-      ).then((simpleInstances) => {
-        updateGeppettoInstances(simpleInstances);
-        const nextData = { ...action.data, viewerId: uuidv4() };
-        const nextAction = { ...action, data: nextData };
-        next(nextAction);
-        store.dispatch(addWidget(widgetFromViewerSpec(nextAction.data)));
-      });
+      const nextData = { ...action.data, instances: [], viewerId: uuidv4() };
+      const nextAction = { ...action, data: nextData };
+      next(nextAction);
+      store.dispatch(addWidget(widgetFromViewerSpec(nextAction.data)));
+      store.dispatch(addInstancesViewer(nextAction.data.viewerId, action.data.instances));
+      break;
+    }
+    case ADD_INSTANCES_VIEWER: {
+      next(waitData(`Adding instances ${action.type}`));
+      // create new Geppetto Simple instances from the new instances
+      createSimpleInstancesFromInstances(action.data.instances)
+        .then(() => next(action));
       break;
     }
 
