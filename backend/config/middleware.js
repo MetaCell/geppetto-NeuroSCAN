@@ -10,7 +10,7 @@ module.exports = {
       }
     },
     cors: {
-      origin: ['http://localhost:8000'],
+      origin: ['http://localhost:8000', 'http://localhost:1337'],
     },
   },
 };
