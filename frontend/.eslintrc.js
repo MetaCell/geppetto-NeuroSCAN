@@ -3,7 +3,8 @@ module.exports = {
     'airbnb-typescript',
   ],
   parserOptions: {
-    project: './tsconfig.json',
+    project: "tsconfig.json",
+    tsconfigRootDir: __dirname,
   },
   rules: {
     'react/jsx-filename-extension': 0,
