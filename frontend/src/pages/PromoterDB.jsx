@@ -125,7 +125,7 @@ const results = [
         src: '',
       },
     ],
-    patientInfo: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    promoterInfo: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     Porttitor non adipiscing dui sed. Morbi magna in et ac.
     Ullamcorper massa at pellentesque consectetur leo morbi.
     Tellus leo nunc sed nibh nec amet, eget non.`,

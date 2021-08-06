@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import TICK from '../../images/tick.svg';
 import ResultTabs from './ResultTabs';
-import PatientInformation from './PatientInformation';
+import PromoterInformation from './PromoterInformation';
 
 const ResultCard = ({
   result,
@@ -33,18 +33,18 @@ const ResultCard = ({
     <ResultTabs options={result?.timeline} fullWidth />
 
     <Grid container spacing={1}>
-      <Grid item md={4}>
+      <Grid item md={4} xs={12}>
         <ResultTabs options={result?.model} whiteBg />
       </Grid>
-      <Grid item md={4}>
+      <Grid item md={4} xs={12}>
         <ResultTabs options={result?.expression} />
       </Grid>
-      <Grid item md={4}>
+      <Grid item md={4} xs={12}>
         <ResultTabs options={result?.promoterVideos} />
       </Grid>
     </Grid>
 
-    <PatientInformation info={result?.patientInfo} />
+    <PromoterInformation info={result?.promoterInfo} />
   </Box>
 );
 

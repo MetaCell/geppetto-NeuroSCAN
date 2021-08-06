@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import DOWN from '../../images/angle-down.svg';
 
-const PatientInformation = ({
+const PromoterInformation = ({
   info,
 }) => (
   <Accordion>
@@ -26,4 +26,4 @@ const PatientInformation = ({
   </Accordion>
 );
 
-export default PatientInformation;
+export default PromoterInformation;
