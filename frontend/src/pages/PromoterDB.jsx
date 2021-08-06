@@ -10,6 +10,9 @@ import {
 } from '@material-ui/core';
 import Header from '../components/Header';
 import { VIEWS } from '../utilities/constants';
+import ResultCard from '../components/PromoterResultCard/ResultCard';
+import TIMELINE from '../images/timeline.png';
+import MODEL from '../images/modelnew.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,8 +68,73 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const results = [
+  {
+    title: 'odr-2b3a',
+    cellLineage: [
+      {
+        selected: true,
+        label: 'AWA',
+      },
+      {
+        selected: true,
+        label: 'AIB',
+      },
+      {
+        selected: false,
+        label: 'AIB',
+      },
+      {
+        selected: false,
+        label: 'AIB',
+      },
+      {
+        selected: false,
+        label: 'AIB',
+      },
+      {
+        selected: false,
+        label: 'AIB',
+      },
+    ],
+    timeline: [
+      {
+        label: 'Timeline',
+        src: TIMELINE,
+      },
+    ],
+    model: [
+      {
+        label: 'Model',
+        src: MODEL,
+      },
+    ],
+    expression: [
+      {
+        label: '3D Expression',
+        src: '',
+      },
+    ],
+    promoterVideos: [
+      {
+        label: 'Promoter',
+        src: '',
+      },
+      {
+        label: 'Histone Marker',
+        src: '',
+      },
+    ],
+    patientInfo: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Porttitor non adipiscing dui sed. Morbi magna in et ac.
+    Ullamcorper massa at pellentesque consectetur leo morbi.
+    Tellus leo nunc sed nibh nec amet, eget non.`,
+  },
+];
+
 const PromoterDB = () => {
   const classes = useStyles();
+
   return (
     <Box className={classes.root}>
       <Header view={VIEWS.promoterDB} />
@@ -102,8 +170,9 @@ const PromoterDB = () => {
           </Typography>
 
           <Box className="results-wrap scrollbar">
-            <Box className="results-box" />
-            <Box className="results-box" />
+            {
+              results.map((result, index) => <ResultCard key={`result_${index}`} result={result} />)
+            }
           </Box>
 
           <Box className="button-group">
