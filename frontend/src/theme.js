@@ -30,6 +30,8 @@ const {
   listHoverBg,
   inputShadow,
   treeItemActiveColor,
+  blackColor,
+  tabBackgroundColor,
 } = vars;
 
 const theme = createTheme({
@@ -77,6 +79,67 @@ const theme = createTheme({
     toolbarBackground: { main: toolbarBackground },
   },
   overrides: {
+    MuiTab: {
+      root: {
+        padding: '0.6875rem .5rem',
+        minWidth: '0.0625rem !important',
+        minHeight: 'auto',
+        fontWeight: '500',
+      },
+      textColorInherit: {
+        opacity: '0.4',
+        '&.Mui-selected': {
+          background: blackColor,
+          borderRadius: '0.3125rem 0.3125rem 0 0',
+        },
+      },
+      wrapper: {
+        fontSize: '0.75rem',
+        lineHeight: '1rem',
+        letterSpacing: '0.005em',
+        color: whiteTextColor,
+      },
+    },
+    MuiTabs: {
+      root: {
+        minHeight: '0.0625rem',
+        '& .MuiTabs-indicator': {
+          display: 'none',
+        },
+      },
+    },
+    MuiChip: {
+      root: {
+        backgroundColor: borderColor,
+        height: '1.5rem',
+        padding: '0 0.5rem',
+        '&.active': {
+          backgroundColor: dividerBackgroundColor,
+          '& .MuiChip-label': {
+            color: primaryTextColor,
+          },
+        },
+        '&:not(:last-child)': {
+          marginRight: '0.5rem',
+        },
+
+        '& .MuiChip-avatar': {
+          width: '1rem',
+          height: '1rem',
+          margin: '0 0.25rem 0 -0.25rem',
+        },
+      },
+
+      label: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        color: dividerBackgroundColor,
+        fontSize: '0.75rem',
+        lineHeight: '1rem',
+        fontWeight: '600',
+        letterSpacing: '0.005em',
+      },
+    },
     MuiOutlinedInput: {},
     MuiSlider: {
       root: {
@@ -160,7 +223,7 @@ const theme = createTheme({
       },
       list: {
         '& > .MuiTypography-root': {
-          fontSize: '12px',
+          fontSize: '0.75rem',
           fontWeight: '500',
           lineHeight: '1rem',
           letterSpacing: '0.005em',
@@ -284,7 +347,95 @@ const theme = createTheme({
           '& .results-box': {
             background: borderColor,
             borderRadius: '0.5rem',
-            height: '47.875rem',
+            padding: '1.25rem',
+            // height: '47.875rem',
+            '& .custom-tabs': {
+              marginBottom: '1.5rem',
+            },
+            '& .tab-content': {
+              background: blackColor,
+              borderRadius: '0 0.3125rem 0.3125rem 0.3125rem',
+              '& > div': {
+                height: '22.125rem',
+                display: 'flex',
+                alignItems: 'center',
+                '&.model-box': {
+                  background: tabBackgroundColor,
+                },
+              },
+              '& img': {
+                display: 'block',
+                maxWidth: '100%',
+              },
+            },
+            '& .MuiAccordion-rounded': {
+              borderRadius: 0,
+              backgroundColor: 'transparent',
+              borderTop: `0.0625rem solid ${borderColor}`,
+              borderBottom: `0.0625rem solid ${borderColor}`,
+              padding: '1rem 0 0.75rem',
+
+              '& .MuiAccordionDetails-root': {
+                '& p': {
+                  fontSize: '1rem',
+                  lineHeight: '1.3125rem',
+                  letterSpacing: '0.005em',
+                  color: dividerBackgroundColor,
+                },
+              },
+              '& .MuiAccordionSummary-root': {
+                minHeight: '0.0625rem',
+                paddingBottom: '0.25rem',
+                '& .MuiAccordionSummary-expandIcon': {
+                  margin: 0,
+                  '&.Mui-expanded': {
+                    transform: 'rotate(-180deg)',
+                  },
+                },
+                '& .MuiAccordionSummary-content': {
+                  order: 1,
+                  '& p': {
+                    fontWeight: '600',
+                    fontSize: '0.75rem',
+                    lineHeight: '1rem',
+                    color: paragraphColor,
+                    letterSpacing: '0.005em',
+                  },
+                },
+              },
+            },
+            '&_header': {
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '1.5rem',
+              '& .wrap': {
+                '& p': {
+                  fontWeight: '600',
+                  fontSize: '0.75rem',
+                  lineHeight: '0.875rem',
+                  letterSpacing: '0.005em',
+                  color: dividerBackgroundColor,
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginTop: '0.5625rem',
+                  justifyContent: 'flex-end',
+                  textTransform: 'uppercase',
+                  '& img': {
+                    width: '0.75rem',
+                    height: '0.75rem',
+                    marginRight: '0.3125rem',
+                  },
+                },
+              },
+              '& h3': {
+                fontWeight: '600',
+                fontSize: '2rem',
+                lineHeight: '2rem',
+                letterSpacing: '0.005em',
+                color: subHeaderHeadingColor,
+              },
+            },
             '&:not(:last-child)': {
               marginBottom: '3rem',
             },
@@ -685,8 +836,8 @@ const theme = createTheme({
                   '& .labelText': {
                     fontWeight: '500',
                     flexGrow: 1,
-                    fontSize: '12px',
-                    lineHeight: '16px',
+                    fontSize: '0.75rem',
+                    lineHeight: '1rem',
                     color: lightBlackColor,
                     letterSpacing: '0.005em',
                   },
