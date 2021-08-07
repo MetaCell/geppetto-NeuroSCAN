@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { VIEWERS } from '../../utilities/constants';
 import { addInstancesViewer, addViewer, colorInstancesViewer } from '../../redux/actions/viewers';
 import neuronService from '../../services/NeuronService';
+import cphateService from '../../services/CphateService';
 import contactService from '../../services/ContactService';
 import { Contact, Neuron } from '../../rest';
 
@@ -29,6 +30,13 @@ function TestComponent(props) {
       contact = await contactService.getContactById(1);
     } catch (e) {
       contact = contactFallOver;
+    }
+    let cphate;
+    try {
+      cphate = await cphateService.getNeuronById(1);
+      console.log(cphate);
+    } catch (e) {
+      console.error('Cphate api call failed');
     }
     setInstance1(neuron);
     setInstance2(contact);
