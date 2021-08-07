@@ -1,6 +1,6 @@
 {
   "parser": "file",
-  "directory": "../../data/neuroscan/",
+  "directory": "/home/afonso/Projects/MetaCell/geppetto-NeuroSCAN/ingestion/data/neuroscan/",
   "include": ".*/\\w*/\\d*/neurons/\\w*\\.obj",
   "regex": {
     "id":{

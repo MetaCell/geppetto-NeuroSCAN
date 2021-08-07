@@ -1,4 +1,4 @@
 {
-  "output_file": "neurons.csv",
+  "output_file": "/home/afonso/Projects/MetaCell/geppetto-NeuroSCAN/ingestion/neurons.csv",
   "header": ["uid", "metadata", "timepoints", "files", "wormatlas", "lineage", "location", "embryonic"]
 }
