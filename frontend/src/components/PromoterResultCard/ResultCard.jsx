@@ -33,13 +33,13 @@ const ResultCard = ({
     <ResultTabs options={result?.timeline} fullWidth />
 
     <Grid container spacing={1}>
-      <Grid item md={4} xs={12}>
+      <Grid item xs={12} sm={4}>
         <ResultTabs options={result?.model} whiteBg />
       </Grid>
-      <Grid item md={4} xs={12}>
+      <Grid item xs={12} sm={4}>
         <ResultTabs options={result?.expression} />
       </Grid>
-      <Grid item md={4} xs={12}>
+      <Grid item xs={12} sm={4}>
         <ResultTabs options={result?.promoterVideos} />
       </Grid>
     </Grid>

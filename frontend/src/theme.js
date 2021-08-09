@@ -296,7 +296,7 @@ const theme = createTheme({
         },
         '.main-content': {
           height: 'calc(100vh - 20.75rem)',
-          paddingTop: '2.625rem',
+
           overflow: 'auto',
           '& .button-group': {
             padding: '4.25rem 0',
@@ -338,7 +338,12 @@ const theme = createTheme({
             lineHeight: '1rem',
             letterSpacing: '0.005em',
             color: paragraphColor,
-            marginBottom: '2rem',
+            background: primaryBgColor,
+            paddingTop: '2.625rem',
+            paddingBottom: '2rem',
+            position: 'sticky',
+            top: 0,
+            zIndex: 2,
           },
           '& .results-wrap': {
             borderBottom: `0.0625rem solid ${borderColor}`,
@@ -351,15 +356,22 @@ const theme = createTheme({
             // height: '47.875rem',
             '& .custom-tabs': {
               marginBottom: '1.5rem',
+              height: '100%',
+            },
+
+            '& .MuiTabs-root + div': {
+              height: 'calc(100% - (2.375rem + 1.5rem))',
             },
             '& .tab-content': {
               background: blackColor,
               overflow: 'hidden',
               borderRadius: '0 0.3125rem 0.3125rem 0.3125rem',
+              height: '100%',
               '& > div': {
-                height: '22.125rem',
+                // height: '22.125rem',
                 display: 'flex',
                 alignItems: 'center',
+                height: '100%',
                 '&.model-box': {
                   background: tabBackgroundColor,
                 },
@@ -367,6 +379,8 @@ const theme = createTheme({
               '& img': {
                 display: 'block',
                 maxWidth: '100%',
+                maxHeight: '100%',
+                margin: '0 auto',
               },
             },
             '& .MuiAccordion-rounded': {

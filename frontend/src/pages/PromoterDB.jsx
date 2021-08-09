@@ -43,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
           },
         },
         '& p': {
-          marginBottom: '.5rem',
+          paddingBottom: '1rem',
+          paddingTop: '0',
         },
         '& h1': {
           fontSize: '1.25rem',
