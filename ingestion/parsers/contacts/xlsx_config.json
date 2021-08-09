@@ -1,0 +1,17 @@
+{
+  "parser": "xls",
+  "directory": "../../data/neuroscan/",
+  "include": ".*/\\w*/\\d*/contacts.xlsx",
+  "sheet_name": "2018_10_24_Adjacency_JSH_NCB_or",
+  "column_id": "${Neuron 1}-${Neuron 2}",
+  "column_of_interest": {
+    "${Neuron 1}-${Neuron 2}": "uid",
+    "Neuron 1": "neuronA",
+    "Neuron 2": "neuronB",
+    "Weight": "weight"
+  },
+  "split": {
+    "expression": ".*/neuroscan/\\w*/(\\d*)/.*",
+    "match": "$1"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "parser": "web",
+  "url": "https://www.wormatlas.org/neurons/Individual%20Neurons/Neuronframeset.html",
+  "id_action": {
+    "selector": {
+      "name": "a",
+      "href": true
+    },
+    "actuator": "next_element"
+  },
+  "actions": {
+    "name": {
+      "selector": {
+        "name": "a",
+        "href": true
+      },
+      "actuator": "next_element"
+    },
+    "wormatlas": {
+      "selector": {
+        "name": "a",
+        "href": true
+      },
+      "actuator": "attrs.href",
+      "map": "https://www.wormatlas.org/neurons/Individual%20Neurons/${element}"
+    }
+  }
+}

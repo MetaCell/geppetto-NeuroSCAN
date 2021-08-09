@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "07/23/2021 5:57:21 PM"
+    "x-generation-date": "08/03/2021 11:15:33 AM"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -5408,6 +5408,18 @@
               }
             }
           },
+          "expressionBegin": {
+            "type": "string"
+          },
+          "expressionTermination": {
+            "type": "string"
+          },
+          "wormbase": {
+            "type": "string"
+          },
+          "cellularExpressionPattern": {
+            "type": "string"
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -5430,6 +5442,18 @@
             "items": {
               "type": "string"
             }
+          },
+          "expressionBegin": {
+            "type": "string"
+          },
+          "expressionTermination": {
+            "type": "string"
+          },
+          "wormbase": {
+            "type": "string"
+          },
+          "cellularExpressionPattern": {
+            "type": "string"
           },
           "published_at": {
             "type": "string",
@@ -5645,6 +5669,9 @@
               }
             }
           },
+          "neuronSite": {
+            "type": "string"
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -5690,6 +5717,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "neuronSite": {
+            "type": "string"
           },
           "published_at": {
             "type": "string",

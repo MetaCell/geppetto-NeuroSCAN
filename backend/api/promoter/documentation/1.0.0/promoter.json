@@ -650,6 +650,18 @@
               }
             }
           },
+          "expressionBegin": {
+            "type": "string"
+          },
+          "expressionTermination": {
+            "type": "string"
+          },
+          "wormbase": {
+            "type": "string"
+          },
+          "cellularExpressionPattern": {
+            "type": "string"
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -672,6 +684,18 @@
             "items": {
               "type": "string"
             }
+          },
+          "expressionBegin": {
+            "type": "string"
+          },
+          "expressionTermination": {
+            "type": "string"
+          },
+          "wormbase": {
+            "type": "string"
+          },
+          "cellularExpressionPattern": {
+            "type": "string"
           },
           "published_at": {
             "type": "string",
