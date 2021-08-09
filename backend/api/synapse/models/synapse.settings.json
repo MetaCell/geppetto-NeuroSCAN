@@ -58,6 +58,9 @@
     },
     "neuronPost": {
       "collection": "neuron"
+    },
+    "neuronSite": {
+      "type": "string"
     }
   }
 }

@@ -4,8 +4,7 @@ export const VIEWS = {
 };
 
 export const VIEWERS = Object.freeze({
-  MorphologyViewer: 'MorphologyViewer',
-  CphateViewer: 'CphateViewer',
+  InstanceViewer: 'InstanceViewer',
 });
 
 // todo: replace this with environment variable? also change on apiClient

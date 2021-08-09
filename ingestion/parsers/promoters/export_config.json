@@ -1,0 +1,13 @@
+{
+  "output_file": "promoters.csv",
+  "header": [
+    "uid",
+    "expressionBegin",
+    "expressionTermination",
+    "files",
+    "cellsByLineaging",
+    "geneFunction",
+    "wormbase",
+    "cellularExpressionPattern"
+  ]
+}

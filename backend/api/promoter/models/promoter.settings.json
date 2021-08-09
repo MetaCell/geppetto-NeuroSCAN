@@ -35,6 +35,18 @@
     },
     "cellsByLineaging": {
       "collection": "neuron"
+    },
+    "expressionBegin": {
+      "type": "string"
+    },
+    "expressionTermination": {
+      "type": "string"
+    },
+    "wormbase": {
+      "type": "string"
+    },
+    "cellularExpressionPattern": {
+      "type": "text"
     }
   }
 }
