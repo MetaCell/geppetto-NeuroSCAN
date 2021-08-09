@@ -1,4 +1,4 @@
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import { createTheme } from '@material-ui/core/styles';
 import vars from './styles/constants';
 
 const {
@@ -29,9 +29,10 @@ const {
   outlinedBorderColor,
   listHoverBg,
   inputShadow,
+  treeItemActiveColor,
 } = vars;
 
-const theme = createMuiTheme({
+const theme = createTheme({
   typography: {
     fontFamily,
     h2: {
@@ -608,7 +609,90 @@ const theme = createMuiTheme({
             },
           },
           '&.instances-box': {
-            padding: '1rem',
+            padding: '0',
+            '& > .MuiTreeView-root': {
+              '& .MuiTreeItem-label': {
+                paddingLeft: 0,
+              },
+              '& .MuiTreeItem-iconContainer': {
+                display: 'none',
+              },
+            },
+
+            '& .MuiTreeView-root': {
+              '& img': {
+                width: 'auto',
+                display: 'block',
+              },
+              '& .MuiCollapse-root': {
+                '& .labelText': {
+                  fontWeight: 'normal !important',
+                },
+              },
+              '& .MuiTreeItem-root': {
+                position: 'relative',
+                '&.Mui-expanded': {
+                  '&> .MuiTreeItem-content': {
+                    '&> .MuiTreeItem-label': {
+                      '&> .labelRoot': {
+                        '& img': {
+                          transform: 'rotate(0deg)',
+                          transition,
+                        },
+                      },
+                    },
+                  },
+                },
+                '& > .MuiTreeItem-content .MuiTreeItem-label': {
+                  background: 'transparent',
+                },
+                '&.Mui-selected': {
+                  '& > .MuiTreeItem-content .MuiTreeItem-label': {
+                    background: `${treeItemActiveColor} !important`,
+                  },
+                },
+                '& .MuiTreeItem-group': {
+                  // paddingLeft: '0',
+                  // margin: 0,
+                },
+                '& .MuiTreeItem-content': {
+                  position: 'relative',
+                  zIndex: 1,
+                  '& .labelRoot': {
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0.5625rem 0.6875rem',
+                    '&:hover': {
+                      '& .MuiIconButton-root': {
+                        display: 'block',
+                        transition,
+                      },
+                    },
+                    '& .MuiIconButton-root': {
+                      padding: 0,
+                      display: 'none',
+                      transition,
+                    },
+                    '& > img': {
+                      transform: 'rotate(-90deg)',
+                      transition,
+                    },
+                  },
+                  '& .labelIcon': {
+                    margin: '0 .5rem',
+                    flexShrink: 0,
+                  },
+                  '& .labelText': {
+                    fontWeight: '500',
+                    flexGrow: 1,
+                    fontSize: '12px',
+                    lineHeight: '16px',
+                    color: lightBlackColor,
+                    letterSpacing: '0.005em',
+                  },
+                },
+              },
+            },
           },
           '& + .wrap': {
             borderTop: `0.0625rem solid ${modalBorderColor}`,

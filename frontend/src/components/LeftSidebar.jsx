@@ -10,7 +10,7 @@ import {
   AccordionDetails,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Explorer from './Sidebar/Explorer';
+import Explorer from './Sidebar/Explorer/Explorer';
 import Search from './Sidebar/Search';
 import Results from './Sidebar/Results';
 import CPhasePlot from './Sidebar/CPhasePlot';

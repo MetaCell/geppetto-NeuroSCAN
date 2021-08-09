@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { VIEWERS } from '../../utilities/constants';
-import { addInstancesViewer, addViewer, colorInstancesViewer } from '../../redux/actions/viewers';
+import {
+  addInstancesViewer, addViewer, colorInstancesViewer,
+} from '../../redux/actions/viewers';
 import neuronService from '../../services/NeuronService';
 import contactService from '../../services/ContactService';
+import cphateService from '../../services/CphateService';
 import { Contact, Neuron } from '../../rest';
 
 function TestComponent(props) {
@@ -34,12 +37,24 @@ function TestComponent(props) {
     setInstance2(contact);
   }, [props]);
 
+  const createCphateViewer = async (devStage) => {
+    const cphateInstances = await cphateService.getInstances(devStage);
+    dispatch(addViewer(VIEWERS.InstanceViewer, cphateInstances));
+  };
+
   return (
     <div>
       {instance1
         ? (
-          <Button color="secondary" onClick={() => dispatch(addViewer(VIEWERS.MorphologyViewer, [instance1]))}>
+          <Button color="secondary" onClick={() => dispatch(addViewer(VIEWERS.InstanceViewer, [instance1]))}>
             Add Viewer
+          </Button>
+        )
+        : null}
+      {instance1
+        ? (
+          <Button color="secondary" onClick={() => createCphateViewer('1')}>
+            Add CPhate Viewer
           </Button>
         )
         : null}

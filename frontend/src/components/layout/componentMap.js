@@ -1,10 +1,8 @@
 import { VIEWERS } from '../../utilities/constants';
-import CphateViewer from '../viewers/CphateViewer';
-import MorphologyViewer from '../viewers/MorphologyViewer';
+import InstanceViewer from '../viewers/InstanceViewer';
 
 const componentMap = {
-  [VIEWERS.MorphologyViewer]: MorphologyViewer,
-  [VIEWERS.CphateViewer]: CphateViewer,
+  [VIEWERS.InstanceViewer]: InstanceViewer,
 };
 
 export default componentMap;
