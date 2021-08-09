@@ -53,6 +53,18 @@ const useStyles = makeStyles((theme) => ({
       '& .main-content': {
         height: 'auto',
         paddingTop: '0',
+        '& .results-box_header': {
+          display: 'block',
+          '& h3': {
+            marginBottom: '1rem',
+          },
+          '& .MuiChip-root': {
+            marginBottom: '0.5rem',
+          },
+          '& .wrap p': {
+            justifyContent: 'flex-start',
+          },
+        },
         '& .button-group': {
           padding: '1.75rem 0',
         },

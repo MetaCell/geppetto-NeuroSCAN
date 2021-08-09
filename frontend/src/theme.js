@@ -354,6 +354,7 @@ const theme = createTheme({
             },
             '& .tab-content': {
               background: blackColor,
+              overflow: 'hidden',
               borderRadius: '0 0.3125rem 0.3125rem 0.3125rem',
               '& > div': {
                 height: '22.125rem',
@@ -400,6 +401,7 @@ const theme = createTheme({
                     lineHeight: '1rem',
                     color: paragraphColor,
                     letterSpacing: '0.005em',
+                    marginBottom: 0,
                   },
                 },
               },
@@ -421,6 +423,7 @@ const theme = createTheme({
                   marginTop: '0.5625rem',
                   justifyContent: 'flex-end',
                   textTransform: 'uppercase',
+                  marginBottom: 0,
                   '& img': {
                     width: '0.75rem',
                     height: '0.75rem',
