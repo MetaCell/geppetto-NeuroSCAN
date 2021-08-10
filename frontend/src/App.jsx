@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './App.css';
+import './flexLayout.css';
 import {
   BrowserRouter as Router,
   Switch,

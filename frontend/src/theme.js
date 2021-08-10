@@ -561,6 +561,10 @@ const theme = createTheme({
 
           '&_content': {
             flexGrow: 1,
+            padding: '0.5rem',
+            '& > div': {
+              position: 'relative',
+            },
           },
         },
         '.primary-modal': {
