@@ -29,6 +29,8 @@ const vars = {
   inputShadow: 'rgba(164, 26, 69, 0.15)',
   sliderBorderColor: 'rgba(0, 0, 0, 0.1)',
   treeItemActiveColor: 'rgba(164, 26, 69, 0.1)',
+  blackColor: '#000000',
+  tabBackgroundColor: '#F0EFEF',
 };
 
 export default vars;
