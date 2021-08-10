@@ -29,6 +29,7 @@ const ResultTabs = ({
     return (
       <div
         role="tabpanel"
+        className="tab-wrap"
         hidden={selected !== index}
         id={value}
         aria-labelledby={`simple-tab-${value}`}

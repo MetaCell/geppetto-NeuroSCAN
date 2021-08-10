@@ -357,11 +357,11 @@ const theme = createTheme({
             '& .custom-tabs': {
               marginBottom: '1.5rem',
               height: '100%',
+              '& .tab-wrap': {
+                height: 'calc(100% - (2.375rem + 1.5rem))',
+              },
             },
 
-            '& .MuiTabs-root + div': {
-              height: 'calc(100% - (2.375rem + 1.5rem))',
-            },
             '& .tab-content': {
               background: blackColor,
               overflow: 'hidden',
