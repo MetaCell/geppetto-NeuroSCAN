@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
+import { makeStyles } from '@material-ui/core/styles';
+import './cameraControls.css';
+
+const useStyles = makeStyles({
+  canvasContainer: {
+    width: '100%',
+    height: '100%',
+  },
+});
 
 function InstanceViewer(props) {
   const { viewerId } = props;
+  const classes = useStyles();
   const [canvasData, setCanvasData] = useState([]);
 
   const viewer = useSelector((state) => state.viewers[viewerId]);
@@ -33,14 +43,16 @@ function InstanceViewer(props) {
   };
 
   return (
-    <Canvas
-      data={canvasData}
-      cameraOptions={viewer.cameraOptions}
-      cameraHandler={cameraHandler}
-      backgroundColor={0x2C2C2C}
-      onSelection={onSelection}
-      onMount={onMount}
-    />
+    <div className={classes.canvasContainer}>
+      <Canvas
+        data={canvasData}
+        cameraOptions={viewer.cameraOptions}
+        cameraHandler={cameraHandler}
+        backgroundColor={0x2C2C2C}
+        onSelection={onSelection}
+        onMount={onMount}
+      />
+    </div>
   );
 }
 
