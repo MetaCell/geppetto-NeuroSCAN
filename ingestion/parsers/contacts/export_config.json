@@ -1,0 +1,12 @@
+{
+  "output_file": "contacts_${split}.csv",
+  "header": [
+    "uid",
+    "neuronA",
+    "neuronB",
+    "timepoints",
+    "files",
+    "weight",
+    "metadata"
+  ]
+}

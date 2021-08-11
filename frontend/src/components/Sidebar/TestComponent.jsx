@@ -2,44 +2,52 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { VIEWERS } from '../../utilities/constants';
-import { addInstancesViewer, addViewer, colorInstancesViewer } from '../../redux/actions/viewers';
+import {
+  addInstancesViewer, addViewer, colorInstancesViewer,
+} from '../../redux/actions/viewers';
 import neuronService from '../../services/NeuronService';
 import contactService from '../../services/ContactService';
-import { Contact, Neuron } from '../../rest';
+import cphateService from '../../services/CphateService';
 
 function TestComponent(props) {
   const dispatch = useDispatch();
   const [instance1, setInstance1] = useState();
   const [instance2, setInstance2] = useState();
   const viewerId = useSelector((state) => Object.keys(state.viewers)[0]);
-  const neuronFallOver = new Neuron('27', 'TestUIDNeuron1');
-  neuronFallOver.files = ['https://raw.githubusercontent.com/MetaCell/geppetto-meta/master/geppetto.js/geppetto-ui/src/3d-canvas/showcase/examples/SketchVolumeViewer_SAAVR_SAAVR_1_1_0000_draco.gltf'];
-  const contactFallOver = new Contact('1', 'TestUIDContact1');
-  contactFallOver.files = ['https://raw.githubusercontent.com/MetaCell/geppetto-meta/development/geppetto.js/geppetto-ui/src/3d-canvas/showcase/examples/Sketch_Volume_Viewer_AIB_Rby_AIAR_AIB_Rby_AIAR_1_1_0000_green_0_24947b6670.gltf'];
 
   useEffect(async () => {
-    let neuron;
-    try {
-      neuron = await neuronService.getNeuronById(27);
-    } catch (e) {
-      neuron = neuronFallOver;
-    }
-    let contact;
-    try {
-      contact = await contactService.getContactById(1);
-    } catch (e) {
-      contact = contactFallOver;
-    }
+    const neuron = await neuronService.getById(27);
+    const contact = await contactService.getById(1);
     setInstance1(neuron);
     setInstance2(contact);
   }, [props]);
+
+  const createCphateViewer = async (timepoint) => {
+    let cphate;
+    try {
+      cphate = await cphateService.getCphateByTimepoint(timepoint);
+    } finally {
+      if (cphate === undefined) {
+        cphate = await cphateService.createTestCphate();
+      }
+    }
+    const cphateInstances = cphateService.getInstances(cphate);
+    dispatch(addViewer(VIEWERS.InstanceViewer, cphateInstances));
+  };
 
   return (
     <div>
       {instance1
         ? (
-          <Button color="secondary" onClick={() => dispatch(addViewer(VIEWERS.MorphologyViewer, [instance1]))}>
+          <Button color="secondary" onClick={() => dispatch(addViewer(VIEWERS.InstanceViewer, [instance1]))}>
             Add Viewer
+          </Button>
+        )
+        : null}
+      {instance1
+        ? (
+          <Button color="secondary" onClick={() => createCphateViewer(300)}>
+            Add CPhate Viewer
           </Button>
         )
         : null}
