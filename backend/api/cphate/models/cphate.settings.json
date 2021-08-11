@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "cphates",
   "info": {
-    "name": "Cphate"
+    "name": "Cphate",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -14,23 +15,24 @@
     "name": {
       "type": "string"
     },
-    "files": {
-      "collection": "file",
+    "zipfile": {
+      "model": "file",
       "via": "related",
       "allowedTypes": [
-        "images",
         "files",
+        "images",
         "videos"
       ],
       "plugin": "upload",
-      "required": false,
+      "required": true,
       "pluginOptions": {}
     },
     "structure": {
       "type": "json"
     },
-    "timepoints": {
-      "type": "json"
+    "timepoint": {
+      "type": "integer",
+      "required": true
     }
   }
 }

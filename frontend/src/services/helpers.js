@@ -1,43 +1,51 @@
 import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
-import { backendURL } from '../utilities/constants';
-import { getBase64, isValidHttpUrl } from '../utilities/functions';
-import { Contact, Neuron } from '../rest';
+import urlService from './UrlService';
+import zipService from './ZipService';
+
+const getContentService = (content) => {
+  switch (content.type.toLowerCase()) {
+    case 'zip':
+      return zipService;
+    default:
+      return urlService;
+  }
+};
 
 const createSimpleInstance = async (instance) => {
-  const file = instance.files[0];
-  const url = isValidHttpUrl(file) ? file : `${backendURL}${file}`;
+  const { content } = instance;
+  const contentService = getContentService(content);
 
-  const base64 = await getBase64(url);
+  const base64Content = await contentService.getBase64(content.location, content.fileName);
 
-  let visualValue = null;
-  switch (true) {
-    case instance instanceof Neuron:
+  let visualValue;
+  const fileExtension = content.fileName.split('.').pop().toLowerCase();
+  switch (fileExtension) {
+    case 'obj':
       visualValue = {
-        eClass: window.GEPPETTO.Resources.GLTF,
-        gltf: base64,
+        eClass: window.GEPPETTO.Resources.OBJ,
+        obj: base64Content,
       };
       break;
-    case instance instanceof Contact:
+    case 'gltf':
       visualValue = {
         eClass: window.GEPPETTO.Resources.GLTF,
-        gltf: base64,
+        gltf: base64Content,
       };
       break;
     default:
       visualValue = {
         eClass: window.GEPPETTO.Resources.OBJ,
-        obj: base64,
+        obj: base64Content,
       };
   }
 
-  const simpleInstance = {
+  return new SimpleInstance({
     eClass: 'SimpleInstance',
     id: instance.uid,
     name: instance.uid,
     type: { eClass: 'SimpleType' },
     visualValue,
-  };
-  return new SimpleInstance(simpleInstance);
+  });
 };
 
 const removeDuplicates = (arr) => arr.filter(
@@ -54,6 +62,7 @@ const updateGeppettoInstances = (newSimpleInstances) => {
 
 /* eslint-disable import/prefer-default-export */
 export const createSimpleInstancesFromInstances = (instances) => {
+  // filter out already existing instances
   const newInstances = instances.filter(
     (instance) => !window.Instances.find((i) => i.wrappedObj.id === instance.uid),
   );

@@ -1,12 +1,9 @@
-import { DevelopmentalStageApi } from '../rest';
-
+/* eslint class-methods-use-this:
+    ["error", { "exceptMethods": ["getDevStages",] }]
+*/
 export class DevStageService {
-  constructor() {
-    this.api = new DevelopmentalStageApi();
-  }
-
   async getDevStages() {
-    return this.api.developmentalStagesGet(undefined, undefined);
+    return [];
   }
 }
 
