@@ -35,24 +35,39 @@
 
 .flexlayout__tab_button {
   margin: 0;
+  letter-spacing: 0.005em;
 }
 
 .flexlayout__tab_button--selected {
   background: #2C2C2C;
 }
 
-.position-toolbar {
-  display: none;
-}
-
 .flexlayout__tab {
   background: #2C2C2C;
+}
+
+.flexlayout__tab::-webkit-scrollbar {
+  width: 4px;
+}
+
+.flexlayout__tab::-webkit-scrollbar:horizontal {
+  height: 4px;
+}
+
+.flexlayout__tab::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+}
+
+.flexlayout__tab::-webkit-resizer,
+.flexlayout__tab::-webkit-scrollbar-corner,
+.flexlayout__tab::-webkit-scrollbar-track-piece,
+.flexlayout__tab::-webkit-scrollbar-track {
+  display: none;
 }
 
 .flexlayout__border_bottom {
   background: #2C2C2C;
   border-top-color: #2C2C2C;
-  display: none;
 }
 
 .flexlayout__tab_button--unselected {

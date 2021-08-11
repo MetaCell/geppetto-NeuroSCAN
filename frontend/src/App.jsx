@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import './flexLayout.css';
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,6 +14,7 @@ import About from './pages/About';
 import theme from './theme';
 import { addDevStages } from './redux/actions/devStages';
 import '@metacell/geppetto-meta-ui/flex-layout/style/dark.scss';
+import './flexLayout.css';
 
 const Manager = require('@metacell/geppetto-meta-client/common/Manager').default;
 

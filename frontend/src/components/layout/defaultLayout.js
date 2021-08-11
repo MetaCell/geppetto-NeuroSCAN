@@ -6,13 +6,13 @@ export default {
     enableEdgeDock: false,
     borderBarSize: 0,
   },
-  borders: [
-    {
-      type: 'border',
-      location: 'bottom',
-      children: [],
-    },
-  ],
+  // borders: [
+  //   {
+  //     type: 'border',
+  //     location: 'bottom',
+  //     children: [],
+  //   },
+  // ],
   layout: {
     type: 'tabset',
     weight: 100,
