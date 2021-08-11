@@ -1,42 +1,53 @@
-import superagent from 'superagent';
+import axios from 'axios';
+import urlService from './UrlService';
 import { backendURL } from '../utilities/constants';
 
 /* eslint class-methods-use-this:
-    ["error", { "exceptMethods": ["getInstances",] }]
+    ["error", { "exceptMethods": ["getInstances", "createTestCphate"] }]
 */
 export class CphateService {
   constructor() {
-    this.cphateJsonUrl = `${backendURL}/obj/data/cphate/cphate.json`;
+    this.apiUrl = `${backendURL}/cphates`;
   }
 
-  async getCphate() {
-    const url = this.cphateJsonUrl;
-    return superagent.get(url);
+  async createTestCphate() {
+    const structure = await urlService.getFile(`${backendURL}/uploads/cphate_ec2d49f8e4.json`);
+    return {
+      id: 1,
+      name: 'Cphate 1',
+      structure: JSON.parse(structure),
+      zipfile: {
+        url: '/uploads/cphate_ec2d49f8e4.zip',
+      },
+    };
   }
 
-  mapCphateInstance(obj) {
-    const fileName = obj.objFile.substring(obj.objFile.lastIndexOf('/') + 1);
+  mapCphateInstance(cphate, obj) {
     const id = `Cphate_${obj.i}_${obj.g}`;
     return {
       id,
       uid: id,
-      files: [`${backendURL}/obj/data/cphate/${fileName}`],
+      content: {
+        type: 'zip',
+        location: `${backendURL}${cphate.zipfile.url}`,
+        fileName: obj.objFile.substring(obj.objFile.lastIndexOf('/') + 1),
+      },
       getId: () => this.id,
     };
   }
 
-  async getInstances(devStage) {
-    // ToDo: get the cphate for the given devstage
-    return this.getCphate()
-      .then((response) => {
-        /*
-         * ToDo: remove the slice(0, 1000) and find a solution for the Failed to fetch error message
-         * when fetching in the Promise.all() of the
-         */
-        const cphate = response.body.slice(0, 1000);
-        const simpleObjects = cphate.map((obj) => this.mapCphateInstance(obj));
-        return simpleObjects;
-      });
+  getInstances(cphate) {
+    return cphate.structure.map((obj) => this.mapCphateInstance(cphate, obj));
+  }
+
+  async getCphateByTimepoint(timepoint) {
+    return axios
+      .get(this.apiUrl, {
+        params: {
+          timepoint,
+        },
+      })
+      .then((response) => response.data[0]);
   }
 }
 
