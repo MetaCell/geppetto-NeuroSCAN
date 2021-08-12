@@ -23,9 +23,9 @@ apps:
         name: strapi
         port: 1337
         volume:
-          name: storage
+          name: yale-backend
           mountpath: /opt/storage
-          size: 2Gi
+          size: 5Gi
         resources: &id001
           requests:
             memory: 512Mi
