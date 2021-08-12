@@ -30,6 +30,10 @@ apps:
         image: neuroscan/neuroscan:latest
         name: neuroscan
         port: 1337
+        volume:
+          name: yale-backend
+          mountpath: /opt/storage
+          size: 5Gi
         resources: &id001
           requests:
             memory: 32Mi
@@ -37,10 +41,9 @@ apps:
           limits:
             memory: 500Mi
             cpu: 500m
-        volume:
-          name: neuroscan-storage
-          mountpath: /opt/storage
-          size: 20Gi
+      env:
+        - name: DATABASE_FILENAME
+          value: /opt/storage/db/data.db
       service:
         auto: true
         name: neuroscan
