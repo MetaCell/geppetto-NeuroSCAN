@@ -1,4 +1,5 @@
-import CameraControls from '@metacell/geppetto-meta-ui/camera-controls/CameraControls';
+// import CameraControls from '@metacell/geppetto-meta-ui/camera-controls/CameraControls';
+import CameraControls from '../../components/Chart/CameraControls';
 
 import {
   ADD_INSTANCES_VIEWER, ADD_VIEWER, COLOR_INSTANCES_VIEWER, REMOVE_VIEWER,
