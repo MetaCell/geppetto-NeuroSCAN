@@ -153,6 +153,7 @@ const CameraControls = (props) => {
       icon: null,
     });
   }
+  const [canvasBg, setCanvasBg] = React.useState('dark');
   return (
     <div className="position-toolbar">
       {/* {butt.map((value, index) => (
@@ -167,7 +168,7 @@ const CameraControls = (props) => {
         <Box className="mode-selector">
           <Typography component="label">
             {/* <input type="radio" name="mode" checked /> */}
-            <Radio name="mode" />
+            <Radio name="mode" value="dark" onChange={(e) => setCanvasBg(e.target.value)} checked={canvasBg === 'dark'} />
             <Typography component="span">
               <img src={DARK} alt="" />
             </Typography>
@@ -175,7 +176,7 @@ const CameraControls = (props) => {
 
           <Typography component="label">
             {/* <input type="radio" name="mode" /> */}
-            <Radio name="mode" />
+            <Radio name="mode" value="light" onChange={(e) => setCanvasBg(e.target.value)} checked={canvasBg === 'light'} />
             <Typography component="span">
               <img src={LIGHT} alt="" />
             </Typography>
