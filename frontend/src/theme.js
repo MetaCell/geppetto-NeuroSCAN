@@ -102,7 +102,8 @@ const theme = createTheme({
     },
     MuiTabs: {
       root: {
-        minHeight: '0.0625rem',
+        minHeight: '2.375rem',
+        height: '2.375rem',
         '& .MuiTabs-indicator': {
           display: 'none',
         },
@@ -296,7 +297,6 @@ const theme = createTheme({
         },
         '.main-content': {
           height: 'calc(100vh - 20.75rem)',
-
           overflow: 'auto',
           '& .button-group': {
             padding: '4.25rem 0',
@@ -353,25 +353,33 @@ const theme = createTheme({
             background: borderColor,
             borderRadius: '0.5rem',
             padding: '1.25rem',
-            // height: '47.875rem',
             '& .custom-tabs': {
-              marginBottom: '1.5rem',
+              paddingBottom: '1.5rem',
               height: '100%',
+              '&.single': {
+                '& .tab-content > div': {
+                  paddingTop: '0',
+                  '& img': {
+                    position: 'static',
+                  },
+                },
+              },
               '& .tab-wrap': {
-                height: 'calc(100% - (2.375rem + 1.5rem))',
+                height: 'calc(100% - (2.375rem))',
               },
             },
 
             '& .tab-content': {
-              background: blackColor,
               overflow: 'hidden',
-              borderRadius: '0 0.3125rem 0.3125rem 0.3125rem',
               height: '100%',
               '& > div': {
-                // height: '22.125rem',
                 display: 'flex',
                 alignItems: 'center',
                 height: '100%',
+                background: blackColor,
+                borderRadius: '0 0.3125rem 0.3125rem 0.3125rem',
+                paddingTop: '75%',
+                position: 'relative',
                 '&.model-box': {
                   background: tabBackgroundColor,
                 },
@@ -381,6 +389,11 @@ const theme = createTheme({
                 maxWidth: '100%',
                 maxHeight: '100%',
                 margin: '0 auto',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
               },
             },
             '& .MuiAccordion-rounded': {
@@ -548,6 +561,10 @@ const theme = createTheme({
 
           '&_content': {
             flexGrow: 1,
+            padding: '0.5rem',
+            '& > div': {
+              position: 'relative',
+            },
           },
         },
         '.primary-modal': {

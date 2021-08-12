@@ -45,7 +45,7 @@ const ResultTabs = ({
   };
 
   return (
-    <Box className="custom-tabs" key={options[0]?.label}>
+    <Box className={fullWidth ? 'custom-tabs single' : 'custom-tabs'} key={options[0]?.label}>
       <Tabs value={selected} onChange={handleChange}>
         {
           options.map((option) => (
@@ -67,7 +67,10 @@ const ResultTabs = ({
           >
             {
               fullWidth ? (
-                <img src={option?.src} alt={option?.label} />
+                <Box p={2} className={whiteBg ? 'model-box' : ''}>
+                  <img src={option?.src} alt={option?.label} />
+                </Box>
+
               ) : (
                 <Box p={2} className={whiteBg ? 'model-box' : ''}>
                   <img

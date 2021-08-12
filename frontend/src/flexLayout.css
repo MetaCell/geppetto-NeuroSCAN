@@ -1,0 +1,88 @@
+.flexlayout__tabset {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  background-color: transparent;
+}
+
+.flexlayout__popup_menu {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.flexlayout__popup_menu_item {
+  padding: 5px 10px;
+}
+
+
+.flexlayout__tabset_tabbar_outer_top {
+  border-bottom: none;
+}
+
+.flexlayout__tabset-selected {
+    background-image: none;
+    background-color: transparent;
+}
+
+.flexlayout__tabset_tabbar_inner_tab_container_top {
+  border: none;
+}
+
+.flexlayout__tab_button_top {
+  box-shadow: none;
+}
+
+.flexlayout__tab_button {
+  margin: 0;
+  letter-spacing: 0.005em;
+}
+
+.flexlayout__tab_button--selected {
+  background: #2C2C2C;
+}
+
+.flexlayout__tab {
+  background: #2C2C2C;
+}
+
+.flexlayout__tab::-webkit-scrollbar {
+  width: 4px;
+}
+
+.flexlayout__tab::-webkit-scrollbar:horizontal {
+  height: 4px;
+}
+
+.flexlayout__tab::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+}
+
+.flexlayout__tab::-webkit-resizer,
+.flexlayout__tab::-webkit-scrollbar-corner,
+.flexlayout__tab::-webkit-scrollbar-track-piece,
+.flexlayout__tab::-webkit-scrollbar-track {
+  display: none;
+}
+
+.flexlayout__border_bottom {
+  background: #2C2C2C;
+  border-top-color: #2C2C2C;
+}
+
+.flexlayout__tab_button--unselected {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.flexlayout__tabset_tabbar_outer {
+  background-color: transparent;
+}
+
+.flexlayout__splitter {
+    background-color: transparent;
+    border-radius: 0 !important;
+}
+
+.flexlayout__tab_button_trailing {
+  background-image: url('./images/tab-close.svg') !important;
+}

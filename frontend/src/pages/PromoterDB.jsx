@@ -81,68 +81,72 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const promoter = {
+  title: 'odr-2b3a',
+  cellLineage: [
+    {
+      selected: true,
+      label: 'AWA',
+    },
+    {
+      selected: true,
+      label: 'AIB',
+    },
+    {
+      selected: false,
+      label: 'AIB',
+    },
+    {
+      selected: false,
+      label: 'AIB',
+    },
+    {
+      selected: false,
+      label: 'AIB',
+    },
+    {
+      selected: false,
+      label: 'AIB',
+    },
+  ],
+  timeline: [
+    {
+      label: 'Timeline',
+      src: TIMELINE,
+    },
+  ],
+  model: [
+    {
+      label: 'Model',
+      src: MODEL,
+    },
+  ],
+  expression: [
+    {
+      label: '3D Expression',
+      src: '',
+    },
+  ],
+  promoterVideos: [
+    {
+      label: 'Promoter',
+      src: '',
+    },
+    {
+      label: 'Histone Marker',
+      src: '',
+    },
+  ],
+  promoterInfo: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  Porttitor non adipiscing dui sed. Morbi magna in et ac.
+  Ullamcorper massa at pellentesque consectetur leo morbi.
+  Tellus leo nunc sed nibh nec amet, eget non.`,
+};
+
 const results = [
-  {
-    title: 'odr-2b3a',
-    cellLineage: [
-      {
-        selected: true,
-        label: 'AWA',
-      },
-      {
-        selected: true,
-        label: 'AIB',
-      },
-      {
-        selected: false,
-        label: 'AIB',
-      },
-      {
-        selected: false,
-        label: 'AIB',
-      },
-      {
-        selected: false,
-        label: 'AIB',
-      },
-      {
-        selected: false,
-        label: 'AIB',
-      },
-    ],
-    timeline: [
-      {
-        label: 'Timeline',
-        src: TIMELINE,
-      },
-    ],
-    model: [
-      {
-        label: 'Model',
-        src: MODEL,
-      },
-    ],
-    expression: [
-      {
-        label: '3D Expression',
-        src: '',
-      },
-    ],
-    promoterVideos: [
-      {
-        label: 'Promoter',
-        src: '',
-      },
-      {
-        label: 'Histone Marker',
-        src: '',
-      },
-    ],
-    promoterInfo: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    Porttitor non adipiscing dui sed. Morbi magna in et ac.
-    Ullamcorper massa at pellentesque consectetur leo morbi.
-    Tellus leo nunc sed nibh nec amet, eget non.`,
-  },
+  promoter,
+  promoter,
+  promoter,
 ];
 
 const PromoterDB = () => {
