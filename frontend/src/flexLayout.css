@@ -86,3 +86,90 @@
 .flexlayout__tab_button_trailing {
   background-image: url('./images/tab-close.svg') !important;
 }
+
+.flexlayout__tab > div {
+  display: block;
+}
+
+.position-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+}
+
+.position-toolbar .MuiIconButton-root {
+  color: #fff;
+  padding: 0;
+  position: relative;
+  height: 16px;
+  line-height: 1;
+  margin-left: 20px;
+}
+
+/* .position-toolbar .MuiIconButton-root:not(:last-child) {
+
+} */
+
+.position-toolbar .MuiIconButton-root::before {
+  width: 1px;
+  content: '';
+  background-color: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  left: -10px;
+  top: 0;
+  border-radius: 50px;
+  height: 100%;
+}
+
+.Canvas-container-64 {
+  height: 100%;
+  flex-direction: column;
+}
+
+.position-toolbar canvas {
+  flex-grow: 1;
+}
+
+.position-toolbar .right .MuiIconButton-root:first-child {
+  margin-left: 0;
+}
+
+.position-toolbar .right .MuiIconButton-root:first-child:before {
+  display: none;
+}
+
+.position-toolbar > div {
+  display: flex;
+  align-items: center;
+}
+
+.position-toolbar .mode-selector {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.position-toolbar .mode-selector label {
+  display: flex;
+  align-items: center;
+}
+
+.position-toolbar .mode-selector label input {
+  display: none;
+}
+
+.position-toolbar .mode-selector label input:checked + span {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.position-toolbar .mode-selector label span {
+  width: 24px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+}
