@@ -23,9 +23,9 @@ apps:
         name: strapi
         port: 1337
         volume:
-          name: db-storage
-          mountpath: /db
-          size: 2Gi
+          name: yale-backend
+          mountpath: /opt/storage
+          size: 5Gi
         resources: &id001
           requests:
             memory: 512Mi
@@ -35,7 +35,7 @@ apps:
             cpu: 500m
       env:
         - name: DATABASE_FILENAME
-          value: /db/data.db
+          value: /opt/storage/db/data.db
       service:
         auto: true
         name: strapi
