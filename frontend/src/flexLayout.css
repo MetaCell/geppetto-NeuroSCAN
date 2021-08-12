@@ -155,17 +155,30 @@
 .position-toolbar .mode-selector label {
   display: flex;
   align-items: center;
+  position: relative;
 }
 
-.position-toolbar .mode-selector label input {
+.position-toolbar .mode-selector label .MuiIconButton-root {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  cursor: pointer;
+  margin: 0;
+  opacity: 0;
+}
+
+/* .position-toolbar .mode-selector label input {
   display: none;
-}
+} */
 
-.position-toolbar .mode-selector label input:checked + span {
+.position-toolbar .mode-selector label .Mui-checked + .MuiTypography-root {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-.position-toolbar .mode-selector label span {
+.position-toolbar .mode-selector label > .MuiTypography-root {
   width: 24px;
   height: 16px;
   display: flex;
