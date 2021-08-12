@@ -4,12 +4,12 @@ import {
   Typography,
   Box,
   Radio,
+  Tooltip,
 } from '@material-ui/core';
 
 import ZOOM_IN from '../../images/graph/zoom-in.svg';
 import ZOOM_OUT from '../../images/graph/zoom-out.svg';
 import HOME from '../../images/graph/home.svg';
-import FULLSCREEN from '../../images/graph/full-screen.svg';
 import DEVELOPMENT from '../../images/graph/developmental-stage.svg';
 import LAYERS from '../../images/graph/layers.svg';
 import DOWNLOAD from '../../images/graph/download.svg';
@@ -25,7 +25,6 @@ export const cameraControlsActions = {
   LAYERS: 'LAYERS',
   DOWNLOAD: 'DOWNLOAD',
   HOME: 'cameraHome',
-  FULLSCREEN: 'FULLSCREEN',
 };
 
 const CameraControls = (props) => {
@@ -72,11 +71,6 @@ const CameraControls = (props) => {
       tooltip: 'Home',
       image: HOME,
     },
-    {
-      action: cameraControlsActions.FULLSCREEN,
-      tooltip: 'Full Screen',
-      image: FULLSCREEN,
-    },
   ];
 
   const backgrounds = { DARK: 'dark', LIGHT: 'light' };
@@ -95,16 +89,18 @@ const CameraControls = (props) => {
   );
 
   const Control = ({ value }) => (
-    <IconButton
-      disableRipple
-      key={value?.tooltip}
-      onClick={() => cameraControlsHandler(value?.action)}
-    >
-      <img
-        src={value.image}
-        alt={value?.tooltip}
-      />
-    </IconButton>
+    <Tooltip title={value.tooltip} placement="top">
+      <IconButton
+        disableRipple
+        key={value?.tooltip}
+        onClick={() => cameraControlsHandler(value?.action)}
+      >
+        <img
+          src={value.image}
+          alt={value?.tooltip}
+        />
+      </IconButton>
+    </Tooltip>
   );
 
   return (

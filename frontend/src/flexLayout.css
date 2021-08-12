@@ -15,7 +15,6 @@
   padding: 5px 10px;
 }
 
-
 .flexlayout__tabset_tabbar_outer_top {
   border-bottom: none;
 }
@@ -96,6 +95,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px;
+  position: sticky !important;
+  top: 0;
 }
 
 .position-toolbar .MuiIconButton-root {
@@ -186,4 +187,3 @@
   cursor: pointer;
   justify-content: center;
 }
-
