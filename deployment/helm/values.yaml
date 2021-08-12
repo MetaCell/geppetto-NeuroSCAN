@@ -23,8 +23,8 @@ apps:
         name: strapi
         port: 1337
         volume:
-          name: db-storage
-          mountpath: /db
+          name: storage
+          mountpath: /opt/storage
           size: 2Gi
         resources: &id001
           requests:
