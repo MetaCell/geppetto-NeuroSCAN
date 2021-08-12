@@ -90,6 +90,14 @@
   display: block;
 }
 
+.flexlayout__tab_toolbar_button-max {
+  background: transparent url('./images/expand.svg') no-repeat center;
+}
+
+.flexlayout__tab_toolbar_button-min {
+  background: transparent url('./images/expand.svg') no-repeat center;
+}
+
 .position-toolbar {
   display: flex;
   align-items: center;
