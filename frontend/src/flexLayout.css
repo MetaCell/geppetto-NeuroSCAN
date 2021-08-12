@@ -122,7 +122,7 @@
   height: 100%;
 }
 
-.Canvas-container-64 {
+[class^="Canvas-container-"] {
   height: 100%;
   flex-direction: column;
 }

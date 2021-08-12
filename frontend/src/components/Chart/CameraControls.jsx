@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-// import IconButtonWithTooltip from '../common/IconButtonWithTooltip';
+import React from 'react';
 import {
-  withStyles,
   IconButton,
   Typography,
   Box,
   Radio,
 } from '@material-ui/core';
-import { AccessAlarm, ThreeDRotation } from '@material-ui/icons';
+import { AccessAlarm } from '@material-ui/icons';
 // import {
 //   faChevronLeft,
 //   faChevronUp,
@@ -169,14 +166,16 @@ const CameraControls = (props) => {
       <div className="left">
         <Box className="mode-selector">
           <Typography component="label">
-            <input type="radio" name="mode" checked />
+            {/* <input type="radio" name="mode" checked /> */}
+            <Radio name="mode" />
             <Typography component="span">
               <img src={DARK} alt="" />
             </Typography>
           </Typography>
 
           <Typography component="label">
-            <input type="radio" name="mode" />
+            {/* <input type="radio" name="mode" /> */}
+            <Radio name="mode" />
             <Typography component="span">
               <img src={LIGHT} alt="" />
             </Typography>
