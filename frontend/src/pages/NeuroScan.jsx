@@ -6,12 +6,14 @@ import LeftSidebar from '../components/LeftSidebar';
 import Header from '../components/Header';
 import { VIEWS } from '../utilities/constants';
 import ViewerPlaceholder from '../components/ViewerPlaceholder';
+import SubHeader from '../components/SubHeader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.down('xs')]: {
       '& .primary-structure': {
-        paddingTop: '5.625rem',
+        paddingTop: '2.5rem',
+        display: 'block !important',
       },
     },
   },
@@ -19,6 +21,15 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     width: '100%',
     height: '100%',
+  },
+  left: {
+    flexShrink: 0,
+  },
+  right: {
+    flexGrow: 1,
+    [theme.breakpoints.down('xs')]: {
+      height: '100%',
+    },
   },
 }));
 
@@ -57,13 +68,26 @@ export default function NeuroScan() {
 
   return (
     <Box className={classes.root}>
-      <Header shrink={shrinkSidebar} toggleSidebar={handleToggle} view={VIEWS?.neuroScan} />
+      <Box className="primary-structure" display="flex">
+        <Box className={classes.left}>
+          <Header shrink={shrinkSidebar} toggleSidebar={handleToggle} view={VIEWS?.neuroScan} />
+          <LeftSidebar shrink={shrinkSidebar} />
+        </Box>
+        <Box className={classes.right}>
+          <Box className={`primary-structure_content ${classes.layoutContainer} ${viewerCount > 0 ? 'padding' : ''}`}>
+            {!viewerCount > 0 ? <SubHeader view={VIEWS?.neuroScan} /> : ''}
+            {componentToRender}
+          </Box>
+        </Box>
+      </Box>
+
+      {/* <Header shrink={shrinkSidebar} toggleSidebar={handleToggle} view={VIEWS?.neuroScan} />
       <Box className="primary-structure" display="flex">
         <LeftSidebar shrink={shrinkSidebar} />
         <Box className={`primary-structure_content ${classes.layoutContainer}`}>
           {componentToRender}
         </Box>
-      </Box>
+      </Box> */}
     </Box>
   );
 }

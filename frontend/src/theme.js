@@ -240,6 +240,7 @@ const theme = createTheme({
           paddingTop: `calc(${gutter} / 4)`,
           paddingBottom: `calc(${gutter} / 4)`,
           lineHeight: 'normal',
+          minHeight: 1,
           color: whiteTextColor,
           '&:hover': {
             backgroundColor: primaryColor,
@@ -286,7 +287,7 @@ const theme = createTheme({
         '.MuiBox-empty': {
           margin: 'auto',
           textAlign: 'center',
-          height: '100%',
+          height: 'calc(100% - 2.5rem)',
           '& .MuiTypography-h2': {
             color: dividerBackgroundColor,
           },
@@ -296,7 +297,7 @@ const theme = createTheme({
           margin: '0 auto',
         },
         '.main-content': {
-          height: 'calc(100vh - 20.75rem)',
+          height: 'calc(100vh - (20.75rem))',
           overflow: 'auto',
           '& .button-group': {
             padding: '4.25rem 0',
@@ -472,7 +473,7 @@ const theme = createTheme({
           },
         },
         '.sub-header': {
-          height: '16.75rem',
+          height: 'calc(16.75rem - 2.5rem)',
           background: subHeaderBg,
           marginBottom: '4rem',
           transition: 'height ease-in .3s',
@@ -556,12 +557,53 @@ const theme = createTheme({
           },
         },
         '.primary-structure': {
-          paddingTop: '2.5rem',
+          // paddingTop: '2.5rem',
           height: '100vh',
+          '&.height-auto': {
+            height: 'auto',
+          },
+
+          '& .section-header': {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            background: headerBgColor,
+            height: '2.5rem',
+
+            '& .MuiBox-button': {
+              paddingRight: `calc(${gutter} / 4)`,
+              width: '17.7rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              marginLeft: 'auto',
+              '& .MuiButton-contained': {
+                width: '7.25rem',
+                paddingLeft: 0,
+                minHeight: '2.125rem',
+                borderRadius: radius,
+                paddingRight: 0,
+              },
+              '& .MuiButton-outlined': {
+                background: buttonOutlineColor,
+                border: `0.16rem solid ${outlinedBorderColor}`,
+                borderRadius: radius,
+                color: primaryTextColor,
+                padding: `calc(${gutter} / 4) calc(${gutter} / 2)`,
+                display: 'flex',
+                marginRight: `calc(${gutter} / 4)`,
+                '& img': {
+                  marginLeft: `calc(${gutter} / 2)`,
+                },
+              },
+            },
+          },
 
           '&_content': {
             flexGrow: 1,
-            padding: '0.5rem',
+            '&.padding': {
+              padding: '0.5rem',
+            },
             '& > div': {
               position: 'relative',
             },
@@ -738,6 +780,7 @@ const theme = createTheme({
     },
     MuiDrawer: {
       root: {
+        height: 'calc(100vh - 2.5rem)',
         '&.shrink': {
           '& .MuiTypography-root': {
             fontWeight: '600',
@@ -967,6 +1010,10 @@ const theme = createTheme({
         zIndex: 1300,
         boxShadow: 'none',
       },
+
+      positionFixed: {
+        position: 'static',
+      },
     },
     MuiToolbar: {
       root: {
@@ -978,6 +1025,7 @@ const theme = createTheme({
         '& .MuiBox-menu': {
           background: primaryColor,
           width: '17.7rem',
+          height: '2.5rem',
           paddingLeft: gutter,
           paddingRight: '0.25rem',
           transition,
@@ -1003,33 +1051,6 @@ const theme = createTheme({
             },
             '&:not(:last-child)': {
               marginRight: gutter,
-            },
-          },
-        },
-        '& .MuiBox-button': {
-          paddingRight: `calc(${gutter} / 4)`,
-          width: '17.7rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          marginLeft: 'auto',
-          '& .MuiButton-contained': {
-            width: '7.25rem',
-            paddingLeft: 0,
-            minHeight: '2.125rem',
-            borderRadius: radius,
-            paddingRight: 0,
-          },
-          '& .MuiButton-outlined': {
-            background: buttonOutlineColor,
-            border: `0.16rem solid ${outlinedBorderColor}`,
-            borderRadius: radius,
-            color: primaryTextColor,
-            padding: `calc(${gutter} / 4) calc(${gutter} / 2)`,
-            display: 'flex',
-            marginRight: `calc(${gutter} / 4)`,
-            '& img': {
-              marginLeft: `calc(${gutter} / 2)`,
             },
           },
         },
