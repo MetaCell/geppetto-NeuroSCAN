@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     [theme.breakpoints.down('xs')]: {
+      position: 'fixed',
       '& .MuiToolbar-root': {
         flexDirection: 'column',
         '& .MuiBox-button': {
@@ -107,7 +108,7 @@ const Header = (props) => {
 
   return (
     <>
-      <AppBar position="fixed" className={classes.root} color="secondary">
+      <AppBar className={classes.root} color="secondary">
         <Toolbar>
           <Box className={shrink ? 'MuiBox-menu shrink' : 'MuiBox-menu'}>
             <Box className="wrap">
@@ -131,29 +132,6 @@ const Header = (props) => {
               </IconButton>
             ) : null}
           </Box>
-
-          <Box className="MuiBox-button">
-            { view?.title === VIEWS.promoterDB.title ? (
-              <>
-                <Button variant="outlined" startIcon={<img src={IconSuggest} alt="Suggest" />}>
-                  Suggest a Promoter
-                </Button>
-                <Button color="primary" variant="contained">
-                  Contact Us
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button variant="outlined" endIcon={<img src={IconCopy} alt="Copy" />}>
-                  Copy Link
-                </Button>
-                <Button color="primary" variant="contained">
-                  Share on Twitter
-                </Button>
-              </>
-            )}
-          </Box>
-
         </Toolbar>
       </AppBar>
       {renderMenu}
