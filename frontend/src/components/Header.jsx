@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import {
@@ -14,10 +13,8 @@ import {
 } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import MenuIcon from '../images/icon-menu.svg';
-import IconCopy from '../images/icon-copy.svg';
 import Toggle from '../images/toggle.svg';
 import ToggleIn from '../images/toggle-in.svg';
-import IconSuggest from '../images/icon-suggest.svg';
 import { VIEWS } from '../utilities/constants';
 import vars from '../styles/constants';
 import AboutModal from './AboutModal';
