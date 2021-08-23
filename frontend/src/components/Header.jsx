@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import {
@@ -14,10 +13,8 @@ import {
 } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import MenuIcon from '../images/icon-menu.svg';
-import IconCopy from '../images/icon-copy.svg';
 import Toggle from '../images/toggle.svg';
 import ToggleIn from '../images/toggle-in.svg';
-import IconSuggest from '../images/icon-suggest.svg';
 import { VIEWS } from '../utilities/constants';
 import vars from '../styles/constants';
 import AboutModal from './AboutModal';
@@ -37,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     [theme.breakpoints.down('xs')]: {
+      position: 'fixed',
       '& .MuiToolbar-root': {
         flexDirection: 'column',
         '& .MuiBox-button': {
@@ -107,7 +105,7 @@ const Header = (props) => {
 
   return (
     <>
-      <AppBar position="fixed" className={classes.root} color="secondary">
+      <AppBar className={classes.root} color="secondary">
         <Toolbar>
           <Box className={shrink ? 'MuiBox-menu shrink' : 'MuiBox-menu'}>
             <Box className="wrap">
@@ -131,29 +129,6 @@ const Header = (props) => {
               </IconButton>
             ) : null}
           </Box>
-
-          <Box className="MuiBox-button">
-            { view?.title === VIEWS.promoterDB.title ? (
-              <>
-                <Button variant="outlined" startIcon={<img src={IconSuggest} alt="Suggest" />}>
-                  Suggest a Promoter
-                </Button>
-                <Button color="primary" variant="contained">
-                  Contact Us
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button variant="outlined" endIcon={<img src={IconCopy} alt="Copy" />}>
-                  Copy Link
-                </Button>
-                <Button color="primary" variant="contained">
-                  Share on Twitter
-                </Button>
-              </>
-            )}
-          </Box>
-
         </Toolbar>
       </AppBar>
       {renderMenu}

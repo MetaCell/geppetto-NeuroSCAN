@@ -11,6 +11,7 @@ import {
 import Header from '../components/Header';
 import { VIEWS } from '../utilities/constants';
 import ResultCard from '../components/PromoterResultCard/ResultCard';
+import SubHeader from '../components/SubHeader';
 import TIMELINE from '../images/timeline.png';
 import MODEL from '../images/modelnew.svg';
 
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
             },
           },
         },
-        '& p': {
+        '& > p': {
           paddingBottom: '1rem',
           paddingTop: '0',
         },
@@ -72,11 +73,25 @@ const useStyles = makeStyles((theme) => ({
       },
       '& .sub-header': {
         height: 'auto',
-        paddingTop: '7.5rem',
+        paddingTop: '2.5rem',
+        '& .wrapper p': {
+          padding: '1rem 0',
+          margin: 0,
+        },
       },
       '& .results-wrap': {
         paddingBottom: '1.75rem',
       },
+    },
+  },
+  left: {
+    // paddingTop: '2.5rem',
+    flexShrink: 0,
+  },
+  right: {
+    flexGrow: 1,
+    [theme.breakpoints.down('xs')]: {
+      height: '100%',
     },
   },
 }));
@@ -154,7 +169,15 @@ const PromoterDB = () => {
 
   return (
     <Box className={classes.root}>
-      <Header view={VIEWS.promoterDB} />
+      <Box className="primary-structure height-auto" display="flex">
+        <Box className={classes.left}>
+          <Header view={VIEWS.promoterDB} />
+        </Box>
+        <Box className={classes.right}>
+          <SubHeader view={VIEWS.promoterDB} />
+        </Box>
+      </Box>
+
       <Box className="sub-header">
         <Box className="wrapper">
           <Typography>Promoter DB</Typography>
