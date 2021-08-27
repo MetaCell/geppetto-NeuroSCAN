@@ -272,7 +272,7 @@ const theme = createTheme({
           borderRadius: '.25rem',
         },
         '.ml-auto': {
-          marginLeft: 'auto',
+          marginLeft: 'auto !important',
         },
         ' body': {
           backgroundColor: primaryBgColor,
