@@ -145,7 +145,7 @@ const theme = createTheme({
     MuiSlider: {
       root: {
         margin: '0',
-        padding: '0.6875rem 0',
+        padding: '0.6875rem 0 !important',
         width: '100%',
       },
       thumb: {

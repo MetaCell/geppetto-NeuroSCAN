@@ -47,13 +47,14 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     [theme.breakpoints.down('xs')]: {
+      height: 'auto',
       '&.shrink': {
         '& .MuiDrawer-paper': {
           width: 0,
         },
       },
       '& .MuiDrawer-paper': {
-        paddingTop: '5.625rem',
+        paddingTop: '2.5rem',
         '&> p': {
           display: 'none',
         },
@@ -76,6 +77,7 @@ const LeftSidebar = (props) => {
   return (
     <Drawer
       variant="permanent"
+      position="fixed"
       anchor="left"
       className={shrink ? `${classes.root} shrink` : `${classes.root}`}
     >
