@@ -68,9 +68,12 @@ def add_objfile(data_dict):
             iter = get_iter_key(split_i[0])
             group = get_group_key(split_i[1])
             for source in filename_data[split][i]:
-                data_dict[iter][group]['objFile'] = filename_data[split][i][source]['files']
+                data_dict[iter][group]['objFile'] = _get_filepath(filename_data[split][i][source]['files'])
     return data_dict
 
+
+def _get_filepath(filepath):
+    return '/' + filepath.replace('../', '')
 
 def dict_to_array(data_dict):
     data_array = []
