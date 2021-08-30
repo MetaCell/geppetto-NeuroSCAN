@@ -4,4 +4,5 @@ stages:
   - custom_1_./custom_script/__init__.py
   - join_inner_0_2
   - custom_3_./convert_timepoints_script/__init__.py
-  - export_4_export_config.json
+  - custom_4_./update_filepath/__init__.py
+  - export_5_export_config.json

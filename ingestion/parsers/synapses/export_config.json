@@ -9,6 +9,7 @@
     "position",
     "neuronSite",
     "neuronPre",
-    "neuronPost"
+    "neuronPost",
+    "files"
   ]
 }
