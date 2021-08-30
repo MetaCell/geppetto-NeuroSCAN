@@ -12,16 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "files": {
-      "collection": "file",
-      "via": "related",
-      "allowedTypes": [
-        "files"
-      ],
-      "plugin": "upload",
-      "required": false,
-      "pluginOptions": {}
-    },
     "metadata": {
       "type": "text"
     },
@@ -42,6 +32,9 @@
     },
     "location": {
       "type": "string"
+    },
+    "files": {
+      "type": "json"
     }
   }
 }
