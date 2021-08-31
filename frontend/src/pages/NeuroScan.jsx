@@ -75,7 +75,7 @@ export default function NeuroScan() {
         </Box>
         <Box className={classes.right}>
           <Box className={`primary-structure_content ${classes.layoutContainer} ${viewerCount > 0 ? 'padding' : ''}`}>
-            {!viewerCount > 0 ? <SubHeader view={VIEWS?.neuroScan} /> : ''}
+            {/* {!viewerCount > 0 ? <SubHeader view={VIEWS?.neuroScan} /> : ''} */}
             {componentToRender}
           </Box>
         </Box>
