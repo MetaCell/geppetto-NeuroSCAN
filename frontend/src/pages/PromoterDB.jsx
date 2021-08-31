@@ -18,6 +18,7 @@ import MODEL from '../images/modelnew.svg';
 const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.down('md')]: {
+      paddingTop: '40px',
       '& .wrapper': {
         maxWidth: 'calc(100% - 4rem)',
       },
@@ -73,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
       },
       '& .sub-header': {
         height: 'auto',
-        paddingTop: '2.5rem',
+        paddingTop: '0',
         '& .wrapper p': {
           padding: '1rem 0',
           margin: 0,
