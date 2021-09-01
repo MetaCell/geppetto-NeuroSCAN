@@ -79,6 +79,43 @@ const theme = createTheme({
     toolbarBackground: { main: toolbarBackground },
   },
   overrides: {
+    WAMuiChipInput: {
+      chipContainer: {
+        marginBottom: 0,
+        minHeight: '0.0625rem',
+      },
+      inputRoot: {
+        padding: '0.1875rem 1.9375rem !important',
+      },
+      input: {
+        height: 'auto !important',
+        margin: '0 !important',
+        padding: '0 !important',
+      },
+
+      chip: {
+        background: inputShadow,
+        borderRadius: '3.125rem',
+        padding: '0 0.25rem 0 0.375rem',
+        margin: '0.1875rem 0',
+        '&:hover': {
+          background: inputShadow,
+        },
+        '& .MuiChip-label': {
+          color: lightBlackColor,
+          fontSize: '0.75rem',
+          lineHeight: '1rem',
+          fontWeight: 'normal',
+          letterSpacing: '0.005em',
+        },
+        '& .MuiChip-deleteIcon': {
+          margin: '0 0 0 0.125rem',
+          color: `${primaryColor} !important`,
+          width: '0.75rem',
+          height: '0.75rem',
+        },
+      },
+    },
     MuiTab: {
       root: {
         padding: '0.6875rem .5rem',
@@ -513,6 +550,7 @@ const theme = createTheme({
               '& .MuiFormLabel-root': {
                 color: paragraphColor,
                 fontWeight: '600',
+                top: '0 !important',
               },
               '& .MuiInputBase-input': {
                 color: whiteTextColor,
@@ -621,6 +659,12 @@ const theme = createTheme({
               backgroundColor: whiteTextColor,
               width: '100%',
               maxWidth: '43rem',
+              '&.small': {
+                maxWidth: '20rem',
+                '& .modal-body': {
+                  minHeight: '0.0625rem',
+                },
+              },
             },
             '&-header': {
               height: '3.625rem',
@@ -644,6 +688,15 @@ const theme = createTheme({
             '&-body': {
               padding: '1rem',
               minHeight: '24.5rem',
+              '& .MuiFormLabel-root': {
+                fontWeight: 'bold',
+                fontSize: '0.75rem',
+                lineHeight: '1rem',
+                letterSpacing: '0.005em',
+                color: lightBlackColor,
+                marginBottom: '0.3125rem',
+                display: 'block',
+              },
               '& p': {
                 fontSize: '0.875rem',
                 lineHeight: '1.25rem',
@@ -808,13 +861,15 @@ const theme = createTheme({
           '& .MuiAccordionSummary-root': {
             padding: '0 1rem',
           },
-          '& .MuiFormControl-root': {
+          '& .search-bar': {
             '& + .MuiBox-root': {
               height: '2rem',
               display: 'flex',
               alignItems: 'center',
               marginTop: '0.5625rem',
             },
+          },
+          '& .MuiFormControl-root': {
             '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
               boxShadow: `0 0 0 0.125rem ${inputShadow}`,
             },
@@ -976,9 +1031,9 @@ const theme = createTheme({
         '& .MuiBox-instance': {
           padding: gutter,
         },
-        '& img': {
-          width: '0.625rem',
-        },
+        // '& img': {
+        //   width: '0.625rem',
+        // },
       },
       paperAnchorRight: {
         '&.MuiDrawer-paperAnchorDockedRight': {
