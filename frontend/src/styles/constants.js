@@ -31,6 +31,7 @@ const vars = {
   treeItemActiveColor: 'rgba(164, 26, 69, 0.1)',
   blackColor: '#000000',
   tabBackgroundColor: '#F0EFEF',
+  filterButtonBg: '#F2F2F2',
 };
 
 export default vars;

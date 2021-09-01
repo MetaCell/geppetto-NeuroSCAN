@@ -8,14 +8,17 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Button,
 } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Explorer from './Sidebar/Explorer/Explorer';
 import Search from './Sidebar/Search';
 import Results from './Sidebar/Results';
 import CPhasePlot from './Sidebar/CPhasePlot';
 import MagnifyingGlass from '../images/magnifying-glass.svg';
+import FILTER from '../images/filter.svg';
 import TestComponent from './Sidebar/TestComponent';
+import SynapsesFilter from './Sidebar/SynapsesFilter';
+import vars from '../styles/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +26,16 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: '0.5rem',
     },
     '& .add-element': {
+      '&_head': {
+        paddingRight: '1rem',
+        '& > .MuiButton-root': {
+          padding: '0',
+          minWidth: '1.5rem',
+          backgroundColor: vars.filterButtonBg,
+          border: 'none',
+          height: '1.5rem',
+        },
+      },
       '& > .MuiAccordion-root > .MuiAccordionSummary-root': {
         '& > .MuiAccordionSummary-content': {
           order: 1,
@@ -33,6 +46,27 @@ const useStyles = makeStyles((theme) => ({
         },
       },
       '& .wrap': {
+        '& .MuiFormControl-root .MuiOutlinedInput-root': {
+          height: 'auto',
+          minHeight: '2.25rem',
+        },
+        '& .search-bar': {
+          // marginBottom: '0.5625rem',
+          '& .MuiInputBase-input': {
+            minWidth: '3rem',
+          },
+          '& > .MuiIconButton-root': {
+            padding: '0',
+            position: 'absolute',
+            right: '0.625rem',
+            top: '0.75rem',
+          },
+          '& > img': {
+            position: 'absolute',
+            left: '0.625rem',
+            top: '0.75rem',
+          },
+        },
         '& .MuiAccordion-root:last-child': {
           marginBottom: '0.5625rem',
         },
@@ -73,53 +107,73 @@ const LeftSidebar = (props) => {
   const { shrink } = props;
   const [searchTerm, setSearchTerm] = useState('');
   const [searching, setSearching] = useState(false);
+  const [openFilterModal, setOpenFilterModal] = useState(false);
+  const [filter, setFilter] = useState({ chemical: true, electrical: false });
 
   return (
-    <Drawer
-      variant="permanent"
-      position="fixed"
-      anchor="left"
-      className={shrink ? `${classes.root} shrink` : `${classes.root}`}
-    >
-      {!shrink ? (
-        <>
-          <Box className="wrap add-element">
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-              >
-                <Typography component="h3">Add element</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                {/* <Typography variant="caption">No Instance Added yet</Typography> */}
-                <Search
-                  setSearchTerm={setSearchTerm}
-                  searchTerm={searchTerm}
-                  setSearching={setSearching}
-                  searching={searching}
-                />
+    <>
+      <Drawer
+        variant="permanent"
+        position="fixed"
+        anchor="left"
+        className={shrink ? `${classes.root} shrink` : `${classes.root}`}
+      >
+        {!shrink ? (
+          <>
+            <Box className="wrap add-element">
+              <Accordion defaultExpanded>
+                <Box display="flex" alignItems="center" className="add-element_head" justifyContent="space-between">
+                  <AccordionSummary
+                    expandIcon={null}
+                  >
+                    <Typography component="h3">
+                      Add element
+                    </Typography>
+                  </AccordionSummary>
+                  <Button variant="outlined" onClick={() => setOpenFilterModal(true)}>
+                    <img src={FILTER} alt="filter" />
+                  </Button>
+                </Box>
+                <AccordionDetails>
+                  {/* <Typography variant="caption">No Instance Added yet</Typography> */}
 
-                <Results searching={searching} />
+                  <Search
+                    setSearchTerm={setSearchTerm}
+                    searchTerm={searchTerm}
+                    setSearching={setSearching}
+                    searching={searching}
+                  />
 
-                <CPhasePlot />
-                <TestComponent />
-              </AccordionDetails>
-            </Accordion>
-          </Box>
+                  <Results searching={searching} />
 
-          <Box className="wrap explorer">
-            <Typography component="h3">
-              Explorer
-              <IconButton><img src={MagnifyingGlass} alt="Search" /></IconButton>
-            </Typography>
-          </Box>
+                  <CPhasePlot />
+                  <TestComponent />
+                </AccordionDetails>
+              </Accordion>
+            </Box>
 
-          <Explorer />
-        </>
-      ) : (
-        <Typography>NeuroSCAN</Typography>
-      )}
-    </Drawer>
+            <Box className="wrap explorer">
+              <Typography component="h3">
+                Explorer
+                <IconButton><img src={MagnifyingGlass} alt="Search" /></IconButton>
+              </Typography>
+            </Box>
+
+            <Explorer />
+          </>
+        ) : (
+          <Typography>NeuroSCAN</Typography>
+        )}
+      </Drawer>
+
+      <SynapsesFilter
+        open={openFilterModal}
+        handleClose={() => setOpenFilterModal(false)}
+        filter={filter}
+        setFilter={setFilter}
+        setSearching={setSearching}
+      />
+    </>
   );
 };
 
