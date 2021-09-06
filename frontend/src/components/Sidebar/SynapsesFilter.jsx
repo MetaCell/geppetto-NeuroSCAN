@@ -15,7 +15,7 @@ import CLOSE from '../../images/close.svg';
 
 const SynapsesFilter = (props) => {
   const {
-    open, handleClose, filter, setFilter, setSearching,
+    open, handleClose, filter, setFilter,
   } = props;
 
   const handleChange = (event) => {
@@ -23,8 +23,6 @@ const SynapsesFilter = (props) => {
   };
 
   const applyFilters = () => {
-    setSearching(true);
-    setTimeout(() => setSearching(false), 1000);
     handleClose();
   };
 

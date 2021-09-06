@@ -11,3 +11,5 @@ export const backendURL = process.env.REACT_APP_BACKEND_URL || 'http://localhost
 
 export const ABOUT_CONTENT = `is an initiative from the Yale University for Neurosciences, in partnership
 with MetaCell.`;
+
+export const maxRecordsPerFetch = 30;

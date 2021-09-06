@@ -2,12 +2,12 @@ import axios from 'axios';
 import qs from 'qs';
 import { backendURL, maxRecordsPerFetch } from '../utilities/constants';
 
-const contactsBackendUrl = `${backendURL}/contacts`;
+const synapsesBackendUrl = `${backendURL}/synapses`;
 
 /* eslint class-methods-use-this:
     ["error", { "exceptMethods": ["getById", "search"] }]
 */
-export class ContactService {
+export class SynapseService {
   async getById(id) {
     return {
       id,
@@ -29,8 +29,8 @@ export class ContactService {
       for (let idx = 0; idx < Math.min(searchTerms.length, 2); idx++) {
         andPart.push({
           _or: [
-            { 'neuronA.uid_contains': searchTerms[idx] },
-            { 'neuronB.uid_contains': searchTerms[idx] },
+            { 'neuronPre.uid_contains': searchTerms[idx] },
+            { 'neuronPost.uid_contains': searchTerms[idx] },
           ],
         });
       }
@@ -39,14 +39,28 @@ export class ContactService {
       // 3 terms so search for the third in the contacts UID field
       andPart.push({ uid_contains: searchTerms[2] });
     }
+    if (filters.synapses.chemical) {
+      andPart.push({
+        type: 'chemical',
+      });
+    }
+    if (filters.synapses.electrical) {
+      andPart.push({
+        type: 'electrical',
+      });
+    }
     const query = qs.stringify({
       _where: andPart,
       _sort: 'uid:ASC',
       _limit: maxRecordsPerFetch,
     });
-    const response = await axios.get(`${contactsBackendUrl}?${query}`);
+    const response = await axios.get(`${synapsesBackendUrl}?${query}`);
     return response.data;
+  }
+
+  async search2() {
+    return [await this.getById(1), await this.getById(1)];
   }
 }
 
-export default new ContactService();
+export default new SynapseService();

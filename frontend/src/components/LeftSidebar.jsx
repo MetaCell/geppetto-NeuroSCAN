@@ -105,8 +105,8 @@ const useStyles = makeStyles((theme) => ({
 const LeftSidebar = (props) => {
   const classes = useStyles();
   const { shrink } = props;
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searching, setSearching] = useState(false);
+  const [searchTerms, setSearchTerms] = useState([]);
+  const [developmentalStage, setDevelopmentalStage] = useState(0);
   const [openFilterModal, setOpenFilterModal] = useState(false);
   const [filter, setFilter] = useState({ chemical: true, electrical: false });
 
@@ -138,13 +138,13 @@ const LeftSidebar = (props) => {
                   {/* <Typography variant="caption">No Instance Added yet</Typography> */}
 
                   <Search
-                    setSearchTerm={setSearchTerm}
-                    searchTerm={searchTerm}
-                    setSearching={setSearching}
-                    searching={searching}
+                    setSearchTerms={setSearchTerms}
+                    searchTerms={searchTerms}
+                    setDevelopmentalStage={setDevelopmentalStage}
+                    developmentalStage={developmentalStage}
                   />
 
-                  <Results searching={searching} />
+                  <Results />
 
                   <CPhasePlot />
                   <TestComponent />
@@ -171,7 +171,6 @@ const LeftSidebar = (props) => {
         handleClose={() => setOpenFilterModal(false)}
         filter={filter}
         setFilter={setFilter}
-        setSearching={setSearching}
       />
     </>
   );

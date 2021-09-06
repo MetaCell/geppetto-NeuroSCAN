@@ -1,6 +1,12 @@
 import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
 import urlService from './UrlService';
 import zipService from './ZipService';
+import neuronService from './NeuronService';
+import contactService from './ContactService';
+import synapseService from './SynapseService';
+import * as search from '../redux/actions/search';
+// eslint-disable-next-line import/no-cycle
+import store from '../redux/store';
 
 const getContentService = (content) => {
   switch (content.type.toLowerCase()) {
@@ -73,4 +79,40 @@ export const createSimpleInstancesFromInstances = (instances) => {
     // add the new simple instances to geppetto
     updateGeppettoInstances(newSimpleInstances);
   });
+};
+
+export const doSearch = async (filters) => {
+  setTimeout(() => {
+    neuronService.search(filters).then((data) => {
+      store.dispatch(
+        search.updateResults({
+          neurons: {
+            items: data,
+          },
+        }),
+      );
+    });
+  }, 1000);
+  setTimeout(() => {
+    synapseService.search(filters).then((data) => {
+      store.dispatch(
+        search.updateResults({
+          synapses: {
+            items: data,
+          },
+        }),
+      );
+    });
+  }, 2000);
+  setTimeout(() => {
+    contactService.search(filters).then((data) => {
+      store.dispatch(
+        search.updateResults({
+          contacts: {
+            items: data,
+          },
+        }),
+      );
+    });
+  }, 3000);
 };
