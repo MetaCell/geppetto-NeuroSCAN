@@ -108,7 +108,6 @@ const LeftSidebar = (props) => {
   const [searchTerms, setSearchTerms] = useState([]);
   const [developmentalStage, setDevelopmentalStage] = useState(0);
   const [openFilterModal, setOpenFilterModal] = useState(false);
-  const [filter, setFilter] = useState({ chemical: true, electrical: false });
 
   return (
     <>
@@ -169,8 +168,6 @@ const LeftSidebar = (props) => {
       <SynapsesFilter
         open={openFilterModal}
         handleClose={() => setOpenFilterModal(false)}
-        filter={filter}
-        setFilter={setFilter}
       />
     </>
   );

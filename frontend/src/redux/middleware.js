@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { ADD_VIEWER, ADD_INSTANCES_VIEWER, addInstancesViewer } from './actions/viewers';
 import { ADD_DEVSTAGES, receivedDevStages } from './actions/devStages';
 import { raiseError, waitData } from './actions/misc';
-import { DevStageService } from '../services/DevStageService';
 import { createSimpleInstancesFromInstances } from '../services/helpers';
+import { DevStageService } from '../services/DevStageService';
 
 const devStagesService = new DevStageService();
 function widgetFromViewerSpec(viewerSpec) {

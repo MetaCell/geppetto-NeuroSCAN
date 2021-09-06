@@ -5,8 +5,6 @@ import neuronService from './NeuronService';
 import contactService from './ContactService';
 import synapseService from './SynapseService';
 import * as search from '../redux/actions/search';
-// eslint-disable-next-line import/no-cycle
-import store from '../redux/store';
 
 const getContentService = (content) => {
   switch (content.type.toLowerCase()) {
@@ -81,10 +79,10 @@ export const createSimpleInstancesFromInstances = (instances) => {
   });
 };
 
-export const doSearch = async (filters) => {
+export const doSearch = async (dispatch, filters) => {
   setTimeout(() => {
     neuronService.search(filters).then((data) => {
-      store.dispatch(
+      dispatch(
         search.updateResults({
           neurons: {
             items: data,
@@ -95,7 +93,7 @@ export const doSearch = async (filters) => {
   }, 1000);
   setTimeout(() => {
     synapseService.search(filters).then((data) => {
-      store.dispatch(
+      dispatch(
         search.updateResults({
           synapses: {
             items: data,
@@ -106,7 +104,7 @@ export const doSearch = async (filters) => {
   }, 2000);
   setTimeout(() => {
     contactService.search(filters).then((data) => {
-      store.dispatch(
+      dispatch(
         search.updateResults({
           contacts: {
             items: data,

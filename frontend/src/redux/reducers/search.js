@@ -1,13 +1,11 @@
 import { UPDATE_FILTERS, UPDATE_RESULTS, UPDATE_TOTALS } from '../actions/search';
-// eslint-disable-next-line import/no-cycle
-import { doSearch } from '../../services/helpers';
 
 export const SEARCH_DEFAULT_STATUS = {
   search: {
     filters: {
       searchTerms: [],
       developmentalStage: 0,
-      synapses: {
+      synapsesFilter: {
         chemical: false,
         electrical: false,
       },
@@ -36,12 +34,13 @@ export default (state = SEARCH_DEFAULT_STATUS, action) => {
   switch (action.type) {
     case UPDATE_FILTERS:
     {
-      const newState = {
+      return {
         ...state,
         filters: {
           ...state.filters,
-          searchTerms: action.searchTerms,
-          ddevelopmentalStage: action.developmentalStage,
+          ...action.searchTerms,
+          ...action.developmentalStage,
+          ...action.synapsesFilter,
         },
         searchesCount: state.searchesCount + 3, // neurons, contacts, synapses
         results: {
@@ -56,8 +55,6 @@ export default (state = SEARCH_DEFAULT_STATUS, action) => {
           },
         },
       };
-      doSearch(newState.filters);
-      return newState;
     }
 
     case UPDATE_RESULTS:

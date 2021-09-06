@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Modal from '@material-ui/core/Modal';
 import {
   Box,
@@ -12,17 +13,32 @@ import {
   Checkbox,
 } from '@material-ui/core';
 import CLOSE from '../../images/close.svg';
+import * as search from '../../redux/actions/search';
 
 const SynapsesFilter = (props) => {
   const {
-    open, handleClose, filter, setFilter,
+    open, handleClose,
   } = props;
+  const dispatch = useDispatch();
+  const filters = useSelector((state) => state.search.filters);
+  const [synapsesFilter, setSynapsesFilter] = useState(filters.synapsesFilter);
+
+  useEffect(() => {
+  }, [filters]);
 
   const handleChange = (event) => {
-    setFilter({ ...filter, [event.target.name]: event.target.checked });
+    setSynapsesFilter({
+      ...synapsesFilter,
+      [event.target.name]: event.target.checked,
+    });
   };
 
   const applyFilters = () => {
+    dispatch(
+      search.updateFilters(
+        { synapsesFilter },
+      ),
+    );
     handleClose();
   };
 
@@ -49,11 +65,11 @@ const SynapsesFilter = (props) => {
             <FormLabel component="legend">Synapses</FormLabel>
             <FormGroup>
               <FormControlLabel
-                control={<Checkbox checked={filter?.chemical} color="primary" onChange={handleChange} name="chemical" />}
+                control={<Checkbox checked={synapsesFilter?.chemical} color="primary" onChange={handleChange} name="chemical" />}
                 label="Chemical"
               />
               <FormControlLabel
-                control={<Checkbox checked={filter?.electrical} color="primary" onChange={handleChange} name="electrical" />}
+                control={<Checkbox checked={synapsesFilter?.electrical} color="primary" onChange={handleChange} name="electrical" />}
                 label="Electrical"
               />
             </FormGroup>

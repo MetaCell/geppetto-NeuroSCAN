@@ -18,7 +18,10 @@ const Search = (props) => {
   } = props;
 
   useEffect(() => {
-    dispatch(search.updateFilters(searchTerms, developmentalStage));
+    dispatch(search.updateFilters({
+      searchTerms,
+      developmentalStage,
+    }));
   }, [searchTerms, developmentalStage]);
 
   function addSearchTerm(value) {
