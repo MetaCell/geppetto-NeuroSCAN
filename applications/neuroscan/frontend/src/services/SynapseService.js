@@ -36,7 +36,7 @@ export class SynapseService {
       }
     }
     if (searchTerms.length === 3) {
-      // 3 terms so search for the third in the contacts UID field
+      // 3 terms so search for the third in the synapses UID field
       andPart.push({ uid_contains: searchTerms[2] });
     }
     if (filters.synapses.chemical) {
