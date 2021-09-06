@@ -21,10 +21,13 @@ export class NeuronService {
     };
   }
 
-  async search(filters) {
+  async search(searchState) {
+    const { searchTerms } = searchState.filters;
+    const results = searchState.results.neurons;
     const query = qs.stringify({
-      _where: { _or: filters.searchTerms.map((term) => ({ uid_contains: term })) },
+      _where: { _or: searchTerms.map((term) => ({ uid_contains: term })) },
       _sort: 'uid:ASC',
+      _start: results.items.length,
       _limit: maxRecordsPerFetch,
     });
     const response = await axios.get(`${neuronsBackendUrl}?${query}`);

@@ -6,7 +6,17 @@ const searchMiddleware = (store) => (next) => (action) => {
     case search.UPDATE_FILTERS: {
       next(action);
       const state = store.getState();
-      doSearch(store.dispatch, state.search.filters);
+      doSearch(store.dispatch, state.search);
+      break;
+    }
+
+    case search.LOAD_MORE: {
+      const { entity } = action.data;
+      next({
+        type: action.type,
+      });
+      const state = store.getState();
+      doSearch(store.dispatch, state.search, [entity]);
       break;
     }
 

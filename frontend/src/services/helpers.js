@@ -103,38 +103,63 @@ export const initCounters = (dispatch) => {
   });
 };
 
-export const doSearch = async (dispatch, filters) => {
-  setTimeout(() => {
-    neuronService.search(filters).then((data) => {
-      dispatch(
-        search.updateResults({
-          neurons: {
-            items: data,
-          },
-        }),
-      );
-    });
-  }, 1000);
-  setTimeout(() => {
-    synapseService.search(filters).then((data) => {
-      dispatch(
-        search.updateResults({
-          synapses: {
-            items: data,
-          },
-        }),
-      );
-    });
-  }, 2000);
-  setTimeout(() => {
-    contactService.search(filters).then((data) => {
-      dispatch(
-        search.updateResults({
-          contacts: {
-            items: data,
-          },
-        }),
-      );
-    });
-  }, 3000);
+const doSearchNeurons = async (dispatch, searchState) => {
+  neuronService.search(searchState).then((data) => {
+    dispatch(
+      search.updateResults({
+        neurons: {
+          ...searchState.results.neurons,
+          items: searchState.results.neurons.items.concat(data),
+        },
+      }),
+    );
+  });
+};
+
+const doSearchSynapses = async (dispatch, searchState) => {
+  synapseService.search(searchState).then((data) => {
+    dispatch(
+      search.updateResults({
+        synapses: {
+          ...searchState.results.synapses,
+          items: searchState.results.synapses.items.concat(data),
+        },
+      }),
+    );
+  });
+};
+
+const doSearchContacts = async (dispatch, searchState) => {
+  contactService.search(searchState).then((data) => {
+    dispatch(
+      search.updateResults({
+        contacts: {
+          ...searchState.results.contacts,
+          items: searchState.results.contacts.items.concat(data),
+        },
+      }),
+    );
+  });
+};
+
+export const doSearch = async (dispatch, searchState, entities = ['neurons', 'contacts', 'synapses']) => {
+  entities.forEach((entity) => {
+    switch (entity) {
+      case 'neurons': {
+        doSearchNeurons(dispatch, searchState);
+        break;
+      }
+      case 'contacts': {
+        doSearchContacts(dispatch, searchState);
+        break;
+      }
+      case 'synapses': {
+        doSearchSynapses(dispatch, searchState);
+        break;
+      }
+
+      default:
+        break;
+    }
+  });
 };

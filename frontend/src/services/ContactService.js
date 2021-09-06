@@ -21,8 +21,9 @@ export class ContactService {
     };
   }
 
-  async search(filters) {
-    const { searchTerms } = filters;
+  async search(searchState) {
+    const { searchTerms } = searchState.filters;
+    const results = searchState.results.contacts;
     const andPart = [];
     if (searchTerms.length > 0) {
       // eslint-disable-next-line no-plusplus
@@ -42,6 +43,7 @@ export class ContactService {
     const query = qs.stringify({
       _where: andPart,
       _sort: 'uid:ASC',
+      _start: results.items.length,
       _limit: maxRecordsPerFetch,
     });
     const response = await axios.get(`${contactsBackendUrl}?${query}`);

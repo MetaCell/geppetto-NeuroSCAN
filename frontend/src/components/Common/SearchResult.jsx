@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Accordion,
   AccordionSummary,
@@ -13,6 +13,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import CHEVRON from '../../images/chevron-right.svg';
+import * as search from '../../redux/actions/search';
 
 const useStyles = makeStyles(() => ({
   fade: {
@@ -31,10 +32,17 @@ const SearchResult = (props) => {
     handleClick,
   } = props;
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const results = useSelector((state) => state.search.results[resultItem]);
   const searchesCount = useSelector((state) => state.search.searchesCount);
   const count = useSelector((state) => state.search.counters[resultItem]);
+
+  const handleLoadMore = (entity) => {
+    dispatch(search.loadMore({
+      entity,
+    }));
+  };
 
   return (
     <>
@@ -64,7 +72,7 @@ const SearchResult = (props) => {
               ))
               : <div />}
           </List>
-          <Button variant="outlined">
+          <Button variant="outlined" onClick={() => handleLoadMore(resultItem)}>
             See more
           </Button>
         </AccordionDetails>
