@@ -5,7 +5,7 @@ import { backendURL, maxRecordsPerFetch } from '../utilities/constants';
 const contactsBackendUrl = `${backendURL}/contacts`;
 
 /* eslint class-methods-use-this:
-    ["error", { "exceptMethods": ["getById", "search", "totalCount"] }]
+    ["error", { "exceptMethods": ["getById", "constructQuery"] }]
 */
 export class ContactService {
   async getById(id) {
@@ -21,7 +21,7 @@ export class ContactService {
     };
   }
 
-  async search(searchState) {
+  constructQuery(searchState) {
     const { searchTerms } = searchState.filters;
     const results = searchState.results.contacts;
     const andPart = [];
@@ -40,18 +40,23 @@ export class ContactService {
       // 3 terms so search for the third in the contacts UID field
       andPart.push({ uid_contains: searchTerms[2] });
     }
-    const query = qs.stringify({
+    return qs.stringify({
       _where: andPart,
       _sort: 'uid:ASC',
       _start: results.items.length,
       _limit: maxRecordsPerFetch,
     });
+  }
+
+  async search(searchState) {
+    const query = this.constructQuery(searchState);
     const response = await axios.get(`${contactsBackendUrl}?${query}`);
     return response.data;
   }
 
-  async totalCount() {
-    const response = await axios.get(`${contactsBackendUrl}/count`);
+  async totalCount(searchState) {
+    const query = this.constructQuery(searchState);
+    const response = await axios.get(`${contactsBackendUrl}/count?${query}`);
     return response.data;
   }
 }

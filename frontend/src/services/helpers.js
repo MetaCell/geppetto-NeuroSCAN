@@ -79,31 +79,14 @@ export const createSimpleInstancesFromInstances = (instances) => {
   });
 };
 
-export const initCounters = (dispatch) => {
-  neuronService.totalCount().then((count) => {
+const doSearchNeurons = async (dispatch, searchState) => {
+  neuronService.totalCount(searchState).then((count) => {
     dispatch(
       search.updateCounters({
         neurons: count,
       }),
     );
   });
-  synapseService.totalCount().then((count) => {
-    dispatch(
-      search.updateCounters({
-        synapses: count,
-      }),
-    );
-  });
-  contactService.totalCount().then((count) => {
-    dispatch(
-      search.updateCounters({
-        contacts: count,
-      }),
-    );
-  });
-};
-
-const doSearchNeurons = async (dispatch, searchState) => {
   neuronService.search(searchState).then((data) => {
     dispatch(
       search.updateResults({
@@ -117,6 +100,13 @@ const doSearchNeurons = async (dispatch, searchState) => {
 };
 
 const doSearchSynapses = async (dispatch, searchState) => {
+  synapseService.totalCount(searchState).then((count) => {
+    dispatch(
+      search.updateCounters({
+        synapses: count,
+      }),
+    );
+  });
   synapseService.search(searchState).then((data) => {
     dispatch(
       search.updateResults({
@@ -130,6 +120,13 @@ const doSearchSynapses = async (dispatch, searchState) => {
 };
 
 const doSearchContacts = async (dispatch, searchState) => {
+  contactService.totalCount(searchState).then((count) => {
+    dispatch(
+      search.updateCounters({
+        contacts: count,
+      }),
+    );
+  });
   contactService.search(searchState).then((data) => {
     dispatch(
       search.updateResults({
