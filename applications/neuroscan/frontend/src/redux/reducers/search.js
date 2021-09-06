@@ -1,4 +1,4 @@
-import { UPDATE_FILTERS, UPDATE_RESULTS, UPDATE_COUNTERS } from '../actions/search';
+import * as search from '../actions/search';
 
 export const SEARCH_DEFAULT_STATUS = {
   search: {
@@ -32,7 +32,7 @@ export const SEARCH_DEFAULT_STATUS = {
 
 export default (state = SEARCH_DEFAULT_STATUS, action) => {
   switch (action.type) {
-    case UPDATE_FILTERS:
+    case search.UPDATE_FILTERS:
     {
       return {
         ...state,
@@ -57,7 +57,7 @@ export default (state = SEARCH_DEFAULT_STATUS, action) => {
       };
     }
 
-    case UPDATE_RESULTS:
+    case search.UPDATE_RESULTS:
     {
       return {
         ...state,
@@ -69,7 +69,15 @@ export default (state = SEARCH_DEFAULT_STATUS, action) => {
       };
     }
 
-    case UPDATE_COUNTERS: {
+    case search.LOAD_MORE:
+    {
+      return {
+        ...state,
+        searchesCount: state.searchesCount + 1,
+      };
+    }
+
+    case search.UPDATE_COUNTERS: {
       return {
         ...state,
         counters: {

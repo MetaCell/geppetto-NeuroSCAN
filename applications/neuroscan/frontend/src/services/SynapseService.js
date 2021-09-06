@@ -21,8 +21,10 @@ export class SynapseService {
     };
   }
 
-  async search(filters) {
+  async search(searchState) {
+    const { filters } = searchState;
     const { searchTerms } = filters;
+    const results = searchState.results.synapses;
     const andPart = [];
     if (searchTerms.length > 0) {
       // eslint-disable-next-line no-plusplus
@@ -52,6 +54,7 @@ export class SynapseService {
     const query = qs.stringify({
       _where: andPart,
       _sort: 'uid:ASC',
+      _start: results.items.length,
       _limit: maxRecordsPerFetch,
     });
     const response = await axios.get(`${synapsesBackendUrl}?${query}`);

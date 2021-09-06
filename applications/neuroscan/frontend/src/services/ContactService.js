@@ -5,11 +5,7 @@ import { backendURL, maxRecordsPerFetch } from '../utilities/constants';
 const contactsBackendUrl = `${backendURL}/contacts`;
 
 /* eslint class-methods-use-this:
-<<<<<<< HEAD
     ["error", { "exceptMethods": ["getById", "constructQuery"] }]
-=======
-    ["error", { "exceptMethods": ["getById", "search", "totalCount"] }]
->>>>>>> #149 chore: implement counters for neurons, synapses and contacts
 */
 export class ContactService {
   async getById(id) {
