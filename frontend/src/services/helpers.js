@@ -79,6 +79,30 @@ export const createSimpleInstancesFromInstances = (instances) => {
   });
 };
 
+export const initCounters = (dispatch) => {
+  neuronService.totalCount().then((count) => {
+    dispatch(
+      search.updateCounters({
+        neurons: count,
+      }),
+    );
+  });
+  synapseService.totalCount().then((count) => {
+    dispatch(
+      search.updateCounters({
+        synapses: count,
+      }),
+    );
+  });
+  contactService.totalCount().then((count) => {
+    dispatch(
+      search.updateCounters({
+        contacts: count,
+      }),
+    );
+  });
+};
+
 export const doSearch = async (dispatch, filters) => {
   setTimeout(() => {
     neuronService.search(filters).then((data) => {

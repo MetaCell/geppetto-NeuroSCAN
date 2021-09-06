@@ -5,7 +5,7 @@ import { backendURL, maxRecordsPerFetch } from '../utilities/constants';
 const contactsBackendUrl = `${backendURL}/contacts`;
 
 /* eslint class-methods-use-this:
-    ["error", { "exceptMethods": ["getById", "search"] }]
+    ["error", { "exceptMethods": ["getById", "search", "totalCount"] }]
 */
 export class ContactService {
   async getById(id) {
@@ -45,6 +45,11 @@ export class ContactService {
       _limit: maxRecordsPerFetch,
     });
     const response = await axios.get(`${contactsBackendUrl}?${query}`);
+    return response.data;
+  }
+
+  async totalCount() {
+    const response = await axios.get(`${contactsBackendUrl}/count`);
     return response.data;
   }
 }

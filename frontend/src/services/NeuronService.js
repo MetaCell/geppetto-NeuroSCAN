@@ -5,7 +5,7 @@ import { backendURL, maxRecordsPerFetch } from '../utilities/constants';
 const neuronsBackendUrl = `${backendURL}/neurons`;
 
 /* eslint class-methods-use-this:
-    ["error", { "exceptMethods": ["getById", "search"] }]
+    ["error", { "exceptMethods": ["getById", "search", "totalCount"] }]
 */
 export class NeuronService {
   async getById(id) {
@@ -28,6 +28,11 @@ export class NeuronService {
       _limit: maxRecordsPerFetch,
     });
     const response = await axios.get(`${neuronsBackendUrl}?${query}`);
+    return response.data;
+  }
+
+  async totalCount() {
+    const response = await axios.get(`${neuronsBackendUrl}/count`);
     return response.data;
   }
 }

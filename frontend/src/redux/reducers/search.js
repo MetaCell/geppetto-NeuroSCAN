@@ -1,4 +1,4 @@
-import { UPDATE_FILTERS, UPDATE_RESULTS, UPDATE_TOTALS } from '../actions/search';
+import { UPDATE_FILTERS, UPDATE_RESULTS, UPDATE_COUNTERS } from '../actions/search';
 
 export const SEARCH_DEFAULT_STATUS = {
   search: {
@@ -69,14 +69,12 @@ export default (state = SEARCH_DEFAULT_STATUS, action) => {
       };
     }
 
-    case UPDATE_TOTALS:
-    {
+    case UPDATE_COUNTERS: {
       return {
         ...state,
         counters: {
-          neurons: 123,
-          contacts: 120.450,
-          synapses: 2.201,
+          ...state.counters,
+          ...action.counters,
         },
       };
     }
