@@ -5,7 +5,7 @@ import { backendURL, maxRecordsPerFetch } from '../utilities/constants';
 const synapsesBackendUrl = `${backendURL}/synapses`;
 
 /* eslint class-methods-use-this:
-    ["error", { "exceptMethods": ["getById", "search"] }]
+    ["error", { "exceptMethods": ["getById", "search", "totalCount"] }]
 */
 export class SynapseService {
   async getById(id) {
@@ -58,8 +58,9 @@ export class SynapseService {
     return response.data;
   }
 
-  async search2() {
-    return [await this.getById(1), await this.getById(1)];
+  async totalCount() {
+    const response = await axios.get(`${synapsesBackendUrl}/count`);
+    return response.data;
   }
 }
 

@@ -1,5 +1,5 @@
 import * as search from './actions/search';
-import { doSearch } from '../services/helpers';
+import { doSearch, initCounters } from '../services/helpers';
 
 const searchMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
@@ -7,6 +7,12 @@ const searchMiddleware = (store) => (next) => (action) => {
       next(action);
       const state = store.getState();
       doSearch(store.dispatch, state.search.filters);
+      break;
+    }
+
+    case search.INIT_COUNTERS: {
+      next(action);
+      initCounters(store.dispatch);
       break;
     }
 
