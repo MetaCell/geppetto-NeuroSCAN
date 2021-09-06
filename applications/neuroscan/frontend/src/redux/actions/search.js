@@ -3,10 +3,11 @@ export const UPDATE_RESULTS = 'UPDATE_RESULTS';
 export const UPDATE_TOTALS = 'UPDATE_TOTALS';
 export const START_SEARCH = 'START_SEARCH';
 
-export const updateFilters = (searchTerms, developmentalStage) => ({
+export const updateFilters = (searchTerms, developmentalStage, synapsesFilter) => ({
   type: UPDATE_FILTERS,
   searchTerms,
   developmentalStage,
+  synapsesFilter,
 });
 
 export const updateResults = ((data) => ({

@@ -39,12 +39,12 @@ export class SynapseService {
       // 3 terms so search for the third in the synapses UID field
       andPart.push({ uid_contains: searchTerms[2] });
     }
-    if (filters.synapses.chemical) {
+    if (filters.synapsesFilter.chemical) {
       andPart.push({
         type: 'chemical',
       });
     }
-    if (filters.synapses.electrical) {
+    if (filters.synapsesFilter.electrical) {
       andPart.push({
         type: 'electrical',
       });
