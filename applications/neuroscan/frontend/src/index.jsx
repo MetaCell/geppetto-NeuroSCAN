@@ -5,9 +5,6 @@ import { Provider } from 'react-redux';
 import App from './App';
 import store from './redux/store';
 import * as serviceWorker from './serviceWorker';
-import { initCounters } from './redux/actions/search';
-
-store.dispatch(initCounters());
 
 ReactDOM.render(
   <React.StrictMode>
