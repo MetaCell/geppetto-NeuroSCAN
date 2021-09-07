@@ -1,0 +1,6 @@
+tls: neuroscan-yale-tls
+namespace: neuroscan
+mainapp: neuroscan
+backup:
+   active: false
+name: neuroscan
