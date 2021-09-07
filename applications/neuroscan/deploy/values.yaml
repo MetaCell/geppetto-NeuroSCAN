@@ -1,0 +1,16 @@
+harness:
+  subdomain: neuroscan
+  secured: false
+  service:
+    port: 1337
+    auto: true
+  deployment:
+    auto: true
+    port: 1337
+  # livenessProbe:
+  #   path: /api/live
+  # readinessProbe:
+  #   path: /api/ready
+  dependencies:
+    build:
+      - cloudharness-base

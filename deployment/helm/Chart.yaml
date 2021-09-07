@@ -1,10 +1,12 @@
 apiVersion: v1
-appVersion: "0.0.1"
-description: Geppetto NeuroSCAN Chart
-name: geppetto-neuroSCAN
+appVersion: 0.0.1
+description: CloudHarness Helm Chart
+name: cloudharness
 version: 0.0.1
 maintainers:
-  - name: Lucas Rebscher
-    email: lucas@metacell.us
-  - name: Afonso Pinto
-    email: afonso@metacell.us
+- name: Filippo Ledda
+  email: filippo@metacell.us
+- name: Zoran Sinnema
+  email: zoran@metacell.us
+metadata:
+  namespace: yale
