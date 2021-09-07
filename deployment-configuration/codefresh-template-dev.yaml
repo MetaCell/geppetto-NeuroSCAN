@@ -31,7 +31,7 @@ steps:
     working_directory: .
     commands:
       - pip install cloud-harness/utilities
-      - harness-deployment cloud-harness . -m build -t ${{CF_BRANCH_TAG_NORMALIZED_LOWER_CASE}} -d ${{DOMAIN}} -n ${{NAMESPACE}} -r ${{REGISTRY}} -rs ${{REGISTRY_SECRET}} -i neuroscan
+      - harness-deployment cloud-harness . -m build -t ${{CF_BUILD_ID}} -d ${{DOMAIN}} -n ${{NAMESPACE}} -r ${{REGISTRY}} -rs ${{REGISTRY_SECRET}} -i neuroscan
   prepare_deployment_view:
     commands:
       - 'helm template ./deployment/helm --debug -n ${{NAME}}'
