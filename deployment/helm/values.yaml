@@ -135,4 +135,4 @@ task-images:
   cloudharness-flask: neuroscan/cloudharness-flask:latest
 tls: false
 name: neuroscan
-localIp: 192.168.49.2
+localIp: "35.188.91.54\e[0m"
