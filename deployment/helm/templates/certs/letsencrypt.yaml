@@ -8,9 +8,9 @@ spec:
     server: https://acme-v02.api.letsencrypt.org/directory
     email:  {{ .Values.ingress.letsencrypt.email }}
     privateKeySecretRef:
-      name: geppetto-meta-letsencrypt
+      name: tls-secret
     solvers:
     - http01:
         ingress:
-          ingressName: geppetto-meta-ingress
+          ingressName: cloudharness-ingress
 {{ end }}

@@ -6,7 +6,7 @@ Helm is used to define the CloudHarness deployment on Kubernetes. For further in
 
 ### Prerequisites
 
-#### Kubectli
+#### Kubectl
 
 The Kubernetes shell (`kubectl`) must be installed and configured on the deployment cluster.
 Possible alternatives are a google cloud provider or Minikube (for testing).
