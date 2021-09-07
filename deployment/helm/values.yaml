@@ -3,7 +3,7 @@ secured_gatekeepers: true
 nameOverride: ''
 fullnameOverride: ''
 domain: yale.local
-namespace: yale
+namespace: neuroscan
 mainapp: neuroscan
 registry:
   name: ''
@@ -82,6 +82,9 @@ apps:
           limits:
             memory: 2Gi
             cpu: 1000m
+      env:
+      - name: DATABASE_FILENAME
+        value: /opt/storage/db/data.db
       name: neuroscan
     image: neuroscan/neuroscan:latest
     task-images: {}
