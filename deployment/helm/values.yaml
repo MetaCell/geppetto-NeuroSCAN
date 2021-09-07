@@ -1,106 +1,138 @@
 local: true
-tls: false
-secured_gatekeepers: false
+secured_gatekeepers: true
 nameOverride: ''
 fullnameOverride: ''
-domain: yale.metacell.us
-namespace: geppetto-yale
-mainapp: frontend
+domain: yale.local
+namespace: yale
+mainapp: neuroscan
 registry:
   name: ''
   secret: ''
 tag: latest
 apps:
-  strapi:
+  neuroscan:
     harness:
-      subdomain: api
-      domain: yale.metacell.us
+      subdomain: neuroscan
+      domain: null
+      dependencies:
+        hard: []
+        soft: []
+        build:
+        - cloudharness-base
       secured: false
+      uri_role_mapping:
+      - uri: /*
+        roles:
+        - administrator
       deployment:
         auto: true
         replicas: 1
-        image: geppetto-yale-neuro-scan-backend:latest
-        name: strapi
+        image: neuroscan/neuroscan:latest
+        name: neuroscan
         port: 1337
-        volume:
-          name: yale-backend
-          mountpath: /opt/storage
-          size: 5Gi
         resources: &id001
           requests:
-            memory: 512Mi
+            memory: 32Mi
             cpu: 10m
           limits:
-            memory: 1024Mi
+            memory: 500Mi
             cpu: 500m
-      env:
-        - name: DATABASE_FILENAME
-          value: /opt/storage/db/data.db
       service:
         auto: true
-        name: strapi
+        name: neuroscan
         port: 1337
+      use_services: []
       database:
         auto: false
-      use_services: []
-      name: strapi
-      resource:
-    enabled: true
-    harvest: true
-    image: geppetto-yale-neuro-scan-backend:latest
-    name: strapi
-    port: 1337
-    resources: *id001
-  frontend:
-    harness:
-      subdomain: scan
-      domain: yale.metacell.us
-      secured: false
-      deployment:
-        auto: true
-        replicas: 1
-        image: geppetto-yale-neuro-scan-frontend:latest
-        name: frontend
-        port: 80
-        resources: &id001
+        name: neuroscan-db
+        type: null
+        size: 1Gi
+        user: mnp
+        pass: metacell
+        mongo:
+          image: mongo:latest
+          ports:
+          - name: http
+            port: 27017
+        postgres:
+          image: postgres:latest
+          initialdb: cloudharness
+          ports:
+          - name: http
+            port: 5432
+        neo4j:
+          image: neo4j:latest
+          memory:
+            size: 256M
+            pagecache:
+              size: 64M
+            heap:
+              initial: 64M
+              max: 128M
+          dbms_security_auth_enabled: 'false'
+          ports:
+          - name: http
+            port: 7474
+          - name: bolt
+            port: 7687
+        resources:
           requests:
-            memory: 256Mi
-            cpu: 10m
-          limits:
             memory: 512Mi
             cpu: 100m
-      service:
-        auto: true
-        name: frontend
-        port: 80
-      database:
-        auto: false
-      use_services: [ ]
-      name: frontend
-      resource:
-    enabled: true
-    harvest: true
-    image: geppetto-yale-neuro-scan-frontend:latest
-    name: frontend
-    port: 80
+          limits:
+            memory: 2Gi
+            cpu: 1000m
+      name: neuroscan
+    image: neuroscan/neuroscan:latest
+    task-images: {}
+    name: neuroscan
+    port: 1337
     resources: *id001
 env:
 - name: CH_VERSION
   value: 0.0.1
 - name: CH_CHART_VERSION
   value: 0.0.1
+- name: CH_NEUROSCAN_SUBDOMAIN
+  value: neuroscan
+- name: CH_NEUROSCAN_NAME
+  value: neuroscan
 - name: CH_DOMAIN
-  value: yale.metacell.us
+  value: yale.local
 - name: CH_IMAGE_REGISTRY
   value: ''
 - name: CH_IMAGE_TAG
   value: latest
 privenv:
+- name: CH_SECRET
+  value: "In God we trust; all others must bring data. \u2015 W. Edwards Deming"
 ingress:
   enabled: true
-  name: geppetto-yale-ingress
-  ssl_redirect: true
+  name: cloudharness-ingress
+  ssl_redirect: false
   letsencrypt:
     email: filippo@metacell.us
 backup:
   active: false
+  keep_days: '7'
+  keep_weeks: '4'
+  keep_months: '6'
+  schedule: '*/5 * * * *'
+  suffix: .gz
+  volumesize: 2Gi
+  dir: /backups
+  resources:
+    requests:
+      memory: 32Mi
+      cpu: 25m
+    limits:
+      memory: 64Mi
+      cpu: 50m
+task-images:
+  cloudharness-frontend-build: neuroscan/cloudharness-frontend-build:latest
+  cloudharness-base: neuroscan/cloudharness-base:latest
+  cloudharness-base-debian: neuroscan/cloudharness-base-debian:latest
+  cloudharness-flask: neuroscan/cloudharness-flask:latest
+tls: false
+name: neuroscan
+localIp: "35.188.91.54\e[0m"
