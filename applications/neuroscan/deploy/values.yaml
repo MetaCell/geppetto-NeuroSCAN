@@ -11,6 +11,9 @@ harness:
   #   path: /api/live
   # readinessProbe:
   #   path: /api/ready
+  env:
+    - name: DATABASE_FILENAME
+      value: /opt/storage/db/data.db
   dependencies:
     build:
       - cloudharness-base
