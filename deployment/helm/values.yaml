@@ -4,7 +4,7 @@ nameOverride: ''
 fullnameOverride: ''
 domain: yale.local
 namespace: yale
-mainapp: accounts
+mainapp: neuroscan
 registry:
   name: ''
   secret: ''
@@ -27,7 +27,7 @@ apps:
       deployment:
         auto: true
         replicas: 1
-        image: cloudharness/neuroscan:latest
+        image: neuroscan/neuroscan:latest
         name: neuroscan
         port: 1337
         resources: &id001
@@ -83,7 +83,7 @@ apps:
             memory: 2Gi
             cpu: 1000m
       name: neuroscan
-    image: cloudharness/neuroscan:latest
+    image: neuroscan/neuroscan:latest
     task-images: {}
     name: neuroscan
     port: 1337
@@ -113,7 +113,7 @@ ingress:
   letsencrypt:
     email: filippo@metacell.us
 backup:
-  active: true
+  active: false
   keep_days: '7'
   keep_weeks: '4'
   keep_months: '6'
@@ -129,10 +129,10 @@ backup:
       memory: 64Mi
       cpu: 50m
 task-images:
-  cloudharness-frontend-build: cloudharness/cloudharness-frontend-build:latest
-  cloudharness-base: cloudharness/cloudharness-base:latest
-  cloudharness-base-debian: cloudharness/cloudharness-base-debian:latest
-  cloudharness-flask: cloudharness/cloudharness-flask:latest
-name: cloudharness
+  cloudharness-frontend-build: neuroscan/cloudharness-frontend-build:latest
+  cloudharness-base: neuroscan/cloudharness-base:latest
+  cloudharness-base-debian: neuroscan/cloudharness-base-debian:latest
+  cloudharness-flask: neuroscan/cloudharness-flask:latest
 tls: false
+name: neuroscan
 localIp: 192.168.49.2
