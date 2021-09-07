@@ -7,6 +7,10 @@ harness:
   deployment:
     auto: true
     port: 1337
+    volume:
+      name: neuroscan-storage
+      mountpath: /opt/storage
+      size: 20Gi
   # livenessProbe:
   #   path: /api/live
   # readinessProbe:
