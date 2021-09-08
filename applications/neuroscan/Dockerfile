@@ -54,7 +54,7 @@ ENV NODE_ENV production
 
 RUN yarn build
 
-COPY --from=fronend-build /app/frontend/build /opt/storage/public
+COPY --from=fronend-build /app/frontend/build ./public
 COPY ./scripts ./scripts
 # configure rclone
 RUN mkdir -p /root/.config/rclone
