@@ -12,6 +12,7 @@ ln -s /opt/storage/uploads ./public/uploads
 # in case there isn't copy the initial db from the repo
 if [ ! -f ${DATABASE_FILENAME} ]
 then
+    mkdir -p `dirname ${DATABASE_FILENAME}`
     cp ./.tmp/data.db ${DATABASE_FILENAME}
 fi
 
