@@ -3,7 +3,7 @@ secured_gatekeepers: true
 nameOverride: ''
 fullnameOverride: ''
 domain: yale.local
-namespace: neuroscan
+namespace: yale
 mainapp: neuroscan
 registry:
   name: ''
@@ -142,4 +142,4 @@ task-images:
   cloudharness-flask: neuroscan/cloudharness-flask:latest
 tls: false
 name: neuroscan
-localIp: "35.188.91.54\e[0m"
+localIp: 192.168.49.2

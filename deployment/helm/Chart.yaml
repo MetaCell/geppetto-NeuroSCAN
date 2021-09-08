@@ -9,4 +9,4 @@ maintainers:
 - name: Zoran Sinnema
   email: zoran@metacell.us
 metadata:
-  namespace: neuroscan
+  namespace: yale
