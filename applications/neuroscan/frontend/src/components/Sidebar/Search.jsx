@@ -1,35 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Box, Typography, IconButton, Chip,
 } from '@material-ui/core';
 import ChipInput from 'material-ui-chip-input';
 import MagnifyingGlass from '../../images/magnifying-glass.svg';
 import DevelopmentalStageFilter from '../Common/DevelopmentalStageFilter';
+import * as search from '../../redux/actions/search';
 import CLOSE from '../../images/icon-close.svg';
 import REMOVE from '../../images/remove.svg';
 
 const Search = (props) => {
+  const dispatch = useDispatch();
   const {
-    searchTerm, setSearchTerm, setSearching,
+    searchTerms, setSearchTerms,
+    developmentalStage, setDevelopmentalStage,
   } = props;
 
-  const searchLoader = () => {
-    setSearching(true);
-    setTimeout(() => setSearching(false), 1000);
-  };
+  useEffect(() => {
+    dispatch(search.updateFilters({
+      searchTerms,
+      developmentalStage,
+    }));
+  }, [searchTerms, developmentalStage]);
 
   function addSearchTerm(value) {
-    if (searchTerm.indexOf(value) > -1) {
+    if (searchTerms.indexOf(value) > -1) {
       return false;
     }
-    setSearchTerm([...searchTerm, value]);
-    searchLoader();
+    setSearchTerms([...searchTerms, value]);
     return true;
   }
 
   const removeSearchTerm = (value) => {
-    const filteredList = searchTerm.filter((item) => item !== value);
-    setSearchTerm(filteredList);
+    const filteredList = searchTerms.filter((item) => item !== value);
+    setSearchTerms(filteredList);
   };
 
   return (
@@ -40,7 +45,7 @@ const Search = (props) => {
           variant="outlined"
           onBeforeAdd={addSearchTerm}
           defaultValue={[]}
-          value={searchTerm}
+          value={searchTerms}
           placeholder="Filter by Name"
           fullWidth
           chipRenderer={(
@@ -60,8 +65,8 @@ const Search = (props) => {
           )}
         />
 
-        {searchTerm.length ? (
-          <IconButton onClick={() => setSearchTerm([])}>
+        {searchTerms.length ? (
+          <IconButton onClick={() => setSearchTerms([])}>
             <img src={CLOSE} alt="CLOSE" />
           </IconButton>
         ) : null}
@@ -70,7 +75,10 @@ const Search = (props) => {
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography variant="caption">Filter by Developmental Stage</Typography>
       </Box>
-      <DevelopmentalStageFilter setSearching={searchLoader} />
+      <DevelopmentalStageFilter
+        setDevelopmentalStage={setDevelopmentalStage}
+        developmentalStage={developmentalStage}
+      />
     </Box>
   );
 };

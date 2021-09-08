@@ -45,7 +45,7 @@ const useStyles = makeStyles(() => ({
 
 const sliderMarker = <img width="6" height="4" src={DOWN} alt="DOWN" />;
 
-const DevelopmentalStageFilter = ({ setSearching }) => {
+const DevelopmentalStageFilter = ({ developmentalStage, setDevelopmentalStage }) => {
   const classes = useStyles();
   const marks = [
     {
@@ -78,19 +78,19 @@ const DevelopmentalStageFilter = ({ setSearching }) => {
     },
   ];
 
-  const [sliderVal, setSliderVal] = React.useState(marks[1]?.value);
+  const [sliderVal, setSliderVal] = React.useState(developmentalStage);
 
   const handleChange = (e, value) => {
     if (value !== sliderVal) {
       setSliderVal(value);
-      setSearching();
+      setDevelopmentalStage(value);
     }
   };
 
   return (
     <Box className={classes.root}>
       <Slider
-        defaultValue={marks[1]?.value}
+        defaultValue={developmentalStage}
         aria-labelledby="developmental-stage-filter"
         step={null}
         valueLabelDisplay="auto"

@@ -2,12 +2,12 @@ import axios from 'axios';
 import qs from 'qs';
 import { backendURL, maxRecordsPerFetch } from '../utilities/constants';
 
-const contactsBackendUrl = `${backendURL}/contacts`;
+const synapsesBackendUrl = `${backendURL}/synapses`;
 
 /* eslint class-methods-use-this:
     ["error", { "exceptMethods": ["getById", "constructQuery"] }]
 */
-export class ContactService {
+export class SynapseService {
   async getById(id) {
     return {
       id,
@@ -22,23 +22,34 @@ export class ContactService {
   }
 
   constructQuery(searchState) {
-    const { searchTerms } = searchState.filters;
-    const results = searchState.results.contacts;
+    const { filters } = searchState;
+    const { searchTerms } = filters;
+    const results = searchState.results.synapses;
     const andPart = [];
     if (searchTerms.length > 0) {
       // eslint-disable-next-line no-plusplus
       for (let idx = 0; idx < Math.min(searchTerms.length, 2); idx++) {
         andPart.push({
           _or: [
-            { 'neuronA.uid_contains': searchTerms[idx] },
-            { 'neuronB.uid_contains': searchTerms[idx] },
+            { 'neuronPre.uid_contains': searchTerms[idx] },
+            { 'neuronPost.uid_contains': searchTerms[idx] },
           ],
         });
       }
     }
     if (searchTerms.length === 3) {
-      // 3 terms so search for the third in the contacts UID field
+      // 3 terms so search for the third in the synapses UID field
       andPart.push({ uid_contains: searchTerms[2] });
+    }
+    if (filters.synapsesFilter.chemical) {
+      andPart.push({
+        type: 'chemical',
+      });
+    }
+    if (filters.synapsesFilter.electrical) {
+      andPart.push({
+        type: 'electrical',
+      });
     }
     return qs.stringify({
       _where: andPart,
@@ -50,15 +61,15 @@ export class ContactService {
 
   async search(searchState) {
     const query = this.constructQuery(searchState);
-    const response = await axios.get(`${contactsBackendUrl}?${query}`);
+    const response = await axios.get(`${synapsesBackendUrl}?${query}`);
     return response.data;
   }
 
   async totalCount(searchState) {
     const query = this.constructQuery(searchState);
-    const response = await axios.get(`${contactsBackendUrl}/count?${query}`);
+    const response = await axios.get(`${synapsesBackendUrl}/count?${query}`);
     return response.data;
   }
 }
 
-export default new ContactService();
+export default new SynapseService();

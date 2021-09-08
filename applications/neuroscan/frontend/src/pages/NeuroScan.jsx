@@ -6,7 +6,6 @@ import LeftSidebar from '../components/LeftSidebar';
 import Header from '../components/Header';
 import { VIEWS } from '../utilities/constants';
 import ViewerPlaceholder from '../components/ViewerPlaceholder';
-import SubHeader from '../components/SubHeader';
 
 const useStyles = makeStyles((theme) => ({
   root: {

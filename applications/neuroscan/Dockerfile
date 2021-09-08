@@ -39,9 +39,6 @@ RUN unzip rclone-current-linux-amd64.zip
 RUN rm rclone-current-linux-amd64.zip
 RUN cp rclone*/rclone /usr/bin/rclone
 RUN rm -rf rclone*
-# configure rclone
-RUN mkdir -p /root/.config/rclone
-COPY ./backend/rclone/rclone.conf /root/.config/rclone/rclone.conf
 
 #
 WORKDIR /my-path
@@ -53,19 +50,19 @@ RUN yarn install
 
 COPY ./backend .
 
-RUN chmod a+x rclone/rclone-sync.sh
-
-# move the public folder to the persistent storage
-RUN mkdir -p /opt/storage/public
-RUN mv public /opt/
-RUN ln -s /opt/storage/public .
-
 ENV NODE_ENV production
 
 RUN yarn build
 
 COPY --from=fronend-build /app/frontend/build /opt/storage/public
+COPY ./scripts ./scripts
+# configure rclone
+RUN mkdir -p /root/.config/rclone
+COPY ./backend/rclone/rclone.conf /root/.config/rclone/rclone.conf
+
+RUN chmod +x scripts/*.sh
+RUN chmod +x rclone/rclone-sync.sh
 
 EXPOSE 1337
 
-CMD ["yarn", "start"]
+CMD scripts/start-strapi.sh

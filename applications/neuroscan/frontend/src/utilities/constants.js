@@ -12,3 +12,5 @@ console.log(`backend url: ${backendURL}`);
 
 export const ABOUT_CONTENT = `is an initiative from the Yale University for Neurosciences, in partnership
 with MetaCell.`;
+
+export const maxRecordsPerFetch = 30;
