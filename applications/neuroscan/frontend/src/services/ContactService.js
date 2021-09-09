@@ -1,8 +1,7 @@
-import axios from 'axios';
 import qs from 'qs';
-import { backendURL, maxRecordsPerFetch } from '../utilities/constants';
+import { backendClient, maxRecordsPerFetch } from '../utilities/constants';
 
-const contactsBackendUrl = `${backendURL}/contacts`;
+const contactsUrl = '/contacts';
 
 /* eslint class-methods-use-this:
     ["error", { "exceptMethods": ["getById", "constructQuery"] }]
@@ -50,13 +49,13 @@ export class ContactService {
 
   async search(searchState) {
     const query = this.constructQuery(searchState);
-    const response = await axios.get(`${contactsBackendUrl}?${query}`);
+    const response = await backendClient.get(`${contactsUrl}?${query}`);
     return response.data;
   }
 
   async totalCount(searchState) {
     const query = this.constructQuery(searchState);
-    const response = await axios.get(`${contactsBackendUrl}/count?${query}`);
+    const response = await backendClient.get(`${contactsUrl}/count?${query}`);
     return response.data;
   }
 }
