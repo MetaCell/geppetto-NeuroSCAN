@@ -33,13 +33,6 @@ yarn start
 
 Environment variable: `REACT_APP_BACKEND_URL`
 
-Default: `http://localhost:1337`
-
-To overwrite it create a `.env.local` file and update the variable.
-This file is ignored in `.gitignore`.
-
-See `template.env.local` as an example.
-
 To run the frontend on your computer and connect to a local/remote backend:
 ```bash
 cd frontend

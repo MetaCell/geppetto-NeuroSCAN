@@ -43,7 +43,7 @@ const Search = (props) => {
         <img src={MagnifyingGlass} alt="MagnifyingGlass" />
         <ChipInput
           variant="outlined"
-          onBeforeAdd={addSearchTerm}
+          onBeforeAdd={(chip) => addSearchTerm(chip)}
           defaultValue={[]}
           value={searchTerms}
           placeholder="Filter by Name"

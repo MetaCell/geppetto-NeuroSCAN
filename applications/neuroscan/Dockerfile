@@ -3,7 +3,7 @@
 
 FROM node:14.16.1-alpine3.10 AS fronend-build
 
-ARG REACT_APP_BACKEND_URL=http://localhost:1337
+ARG REACT_APP_BACKEND_URL=''
 
 # YARN REQUIRES GIT BINARY
 RUN apk add git
