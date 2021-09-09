@@ -2,8 +2,7 @@
 
 eval $(minikube docker-env)
 
-cd backend || exit
-docker build . -t geppetto-yale-neuro-scan-backend
+cd applications/neuroscan || exit
+docker build . -t neuroscan
 
-cd .. && cd frontend || exit
-docker build . --build-arg REACT_APP_BACKEND_URL="$BACKEND_URL" -t geppetto-yale-neuro-scan-frontend
+cd -
