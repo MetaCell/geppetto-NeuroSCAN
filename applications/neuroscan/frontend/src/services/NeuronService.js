@@ -1,8 +1,7 @@
-import axios from 'axios';
 import qs from 'qs';
-import { backendURL, maxRecordsPerFetch } from '../utilities/constants';
+import { backendClient, maxRecordsPerFetch } from '../utilities/constants';
 
-const neuronsBackendUrl = `${backendURL}/neurons`;
+const neuronsBackendUrl = '/neurons';
 
 /* eslint class-methods-use-this:
     ["error", { "exceptMethods": ["getById", "search", "constructQuery"] }]
@@ -34,13 +33,13 @@ export class NeuronService {
 
   async search(searchState) {
     const query = this.constructQuery(searchState);
-    const response = await axios.get(`${neuronsBackendUrl}?${query}`);
+    const response = await backendClient.get(`${neuronsBackendUrl}?${query}`);
     return response.data;
   }
 
   async totalCount(searchState) {
     const query = this.constructQuery(searchState);
-    const response = await axios.get(`${neuronsBackendUrl}/count?${query}`);
+    const response = await backendClient.get(`${neuronsBackendUrl}/count?${query}`);
     return response.data;
   }
 }

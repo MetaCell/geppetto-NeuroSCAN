@@ -1,8 +1,7 @@
-import axios from 'axios';
 import qs from 'qs';
-import { backendURL, maxRecordsPerFetch } from '../utilities/constants';
+import { backendClient, maxRecordsPerFetch } from '../utilities/constants';
 
-const synapsesBackendUrl = `${backendURL}/synapses`;
+const synapsesBackendUrl = '/synapses';
 
 /* eslint class-methods-use-this:
     ["error", { "exceptMethods": ["getById", "constructQuery"] }]
@@ -61,13 +60,13 @@ export class SynapseService {
 
   async search(searchState) {
     const query = this.constructQuery(searchState);
-    const response = await axios.get(`${synapsesBackendUrl}?${query}`);
+    const response = await backendClient.get(`${synapsesBackendUrl}?${query}`);
     return response.data;
   }
 
   async totalCount(searchState) {
     const query = this.constructQuery(searchState);
-    const response = await axios.get(`${synapsesBackendUrl}/count?${query}`);
+    const response = await backendClient.get(`${synapsesBackendUrl}/count?${query}`);
     return response.data;
   }
 }

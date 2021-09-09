@@ -1,21 +1,18 @@
-import axios from 'axios';
-import urlService from './UrlService';
-import { backendURL } from '../utilities/constants';
+import { backendClient } from '../utilities/constants';
+
+const cphateUrl = '/cphates';
+const { baseURL } = backendClient.defaults;
 
 /* eslint class-methods-use-this:
-    ["error", { "exceptMethods": ["getInstances", "createTestCphate"] }]
+    ["error", { "exceptMethods": ["getInstances", "getCphateByTimepoint", "createTestCphate"] }]
 */
 export class CphateService {
-  constructor() {
-    this.apiUrl = `${backendURL}/cphates`;
-  }
-
   async createTestCphate() {
-    const structure = await urlService.getFile(`${backendURL}/uploads/cphate_ec2d49f8e4.json`);
+    const structure = await backendClient.get(`${baseURL}/uploads/cphate_ec2d49f8e4.json`);
     return {
       id: 1,
       name: 'Cphate 1',
-      structure: JSON.parse(structure),
+      structure: structure.data,
       zipfile: {
         url: '/uploads/cphate_ec2d49f8e4.zip',
       },
@@ -29,7 +26,7 @@ export class CphateService {
       uid: id,
       content: {
         type: 'zip',
-        location: `${backendURL}${cphate.zipfile.url}`,
+        location: `${baseURL}${cphate.zipfile.url}`,
         fileName: obj.objFile.substring(obj.objFile.lastIndexOf('/') + 1),
       },
       getId: () => this.id,
@@ -41,8 +38,8 @@ export class CphateService {
   }
 
   async getCphateByTimepoint(timepoint) {
-    return axios
-      .get(this.apiUrl, {
+    return backendClient
+      .get(cphateUrl, {
         params: {
           timepoint,
         },
