@@ -2,7 +2,7 @@
 
 # Setup script for creating a minikube instance and build the needed applications
 
-NAMESPACE=yale
+NAMESPACE=neuroscan
 
 minikube start --cpus 2 --memory=2g --disk-size 60g --driver=docker
 
@@ -19,9 +19,9 @@ kubectl create ns ${NAMESPACE}
 # kubectl create ns argo
 # kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo/v2.4.3/manifests/install.yaml
 # kubectl create rolebinding argo-workflows --clusterrole=admin --serviceaccount=argo-workflows:argo-workflows -n argo-workflows
-# kubectl create rolebinding argo-workflows-default --clusterrole=admin --serviceaccount=yale:default -n argo-workflows
+# kubectl create rolebinding argo-workflows-default --clusterrole=admin --serviceaccount=${NAMESPACE}:default -n argo-workflows
 
-kubectl create rolebinding yale-admin-default --clusterrole=admin --serviceaccount=yale:default -n ${NAMESPACE}
+kubectl create rolebinding ${NAMESPACE}-admin-default --clusterrole=admin --serviceaccount=${NAMESPACE}:default -n ${NAMESPACE}
 
 eval $(minikube docker-env)
 
