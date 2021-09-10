@@ -65,7 +65,15 @@ const SearchResult = (props) => {
                     <img src={image} width="10" height="10" alt={title} />
                   </ListItemIcon>
                   <ListItemText primary={item.uid} />
-                  <Button disableElevation aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} color="primary" variant="contained">
+                  <Button
+                    id={item.id}
+                    disableElevation
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={(event) => handleClick(event, item)}
+                    color="primary"
+                    variant="contained"
+                  >
                     Add to
                   </Button>
                 </ListItem>

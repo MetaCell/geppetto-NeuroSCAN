@@ -1,14 +1,13 @@
-import { backendClient } from '../utilities/constants';
+import { backendURL, backendClient } from '../utilities/constants';
 
 const cphateUrl = '/cphates';
-const { baseURL } = backendClient.defaults;
 
 /* eslint class-methods-use-this:
     ["error", { "exceptMethods": ["getInstances", "getCphateByTimepoint", "createTestCphate"] }]
 */
 export class CphateService {
   async createTestCphate() {
-    const structure = await backendClient.get(`${baseURL}/uploads/cphate_ec2d49f8e4.json`);
+    const structure = await backendClient.get(`${backendURL}/uploads/cphate_ec2d49f8e4.json`);
     return {
       id: 1,
       name: 'Cphate 1',
@@ -26,7 +25,7 @@ export class CphateService {
       uid: id,
       content: {
         type: 'zip',
-        location: `${baseURL}${cphate.zipfile.url}`,
+        location: `${backendURL}${cphate.zipfile.url}`,
         fileName: obj.objFile.substring(obj.objFile.lastIndexOf('/') + 1),
       },
       getId: () => this.id,

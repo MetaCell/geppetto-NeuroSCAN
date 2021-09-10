@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { backendClient, maxRecordsPerFetch } from '../utilities/constants';
+import { backendURL, backendClient, maxRecordsPerFetch } from '../utilities/constants';
 
 const contactsUrl = '/contacts';
 
@@ -15,6 +15,21 @@ export class ContactService {
         type: 'url',
         location: 'https://raw.githubusercontent.com/MetaCell/geppetto-meta/development/geppetto.js/geppetto-ui/src/3d-canvas/showcase/examples/Sketch_Volume_Viewer_AIB_Rby_AIAR_AIB_Rby_AIAR_1_1_0000_green_0_24947b6670.gltf',
         fileName: 'Sketch_Volume_Viewer_AIB_Rby_AIAR_AIB_Rby_AIAR_1_1_0000_green_0_24947b6670.gltf',
+      },
+      getId: () => this.id,
+    };
+  }
+
+  mapToInstance(contact) {
+    const fileName = contact.files.length > 0 ? contact.files[0].name : '';
+    const location = contact.files.length > 0 ? `${backendURL}${contact.files[0].url}` : '';
+    return {
+      id: contact.id,
+      uid: contact.uid,
+      content: {
+        type: 'url',
+        location,
+        fileName,
       },
       getId: () => this.id,
     };

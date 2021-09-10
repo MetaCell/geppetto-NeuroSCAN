@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   Typography,
   Menu,
@@ -16,9 +17,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 const AddToViewerMenu = ({
-  anchorEl, handleClose, viewers, fullMenu = true,
+  anchorEl, handleClose, handleAddToViewer, fullMenu = true,
 }) => {
   const classes = useStyles();
+  const viewers = useSelector((state) => state.viewers);
+
   return (
     <Menu
       id="addToViewerMenu"
@@ -33,10 +36,10 @@ const AddToViewerMenu = ({
       { fullMenu ? (
         [
           <Typography>Add to existing viewer</Typography>,
-          viewers.map((viewer) => (
-            <MenuItem key={viewer?.id} disabled={viewer?.disabled} onClick={handleClose}>
+          Object.entries(viewers).map(([id, viewer]) => (
+            <MenuItem key={id} disabled={viewer?.disabled} onClick={() => handleAddToViewer(id)}>
               <img src={MENU_CHECKMARK_ON} className={classes.mr_8} alt="MENU_CHECKMARK_ON" />
-              {viewer?.title}
+              {id}
             </MenuItem>
           )),
           <Divider />,

@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { backendClient, maxRecordsPerFetch } from '../utilities/constants';
+import { backendURL, backendClient, maxRecordsPerFetch } from '../utilities/constants';
 
 const neuronsBackendUrl = '/neurons';
 
@@ -8,13 +8,33 @@ const neuronsBackendUrl = '/neurons';
 */
 export class NeuronService {
   async getById(id) {
+    try {
+      const response = await backendClient.get(`${neuronsBackendUrl}/${id}`);
+      return response.data;
+    } catch (error) {
+      return {
+        id,
+        uid: 'SAAVR',
+        content: {
+          type: 'url',
+          location: 'https://raw.githubusercontent.com/MetaCell/geppetto-meta/master/geppetto.js/geppetto-ui/src/3d-canvas/showcase/examples/SketchVolumeViewer_SAAVR_SAAVR_1_1_0000_draco.gltf',
+          fileName: 'SketchVolumeViewer_SAAVR_SAAVR_1_1_0000_draco.gltf',
+        },
+        getId: () => this.id,
+      };
+    }
+  }
+
+  mapToInstance(neuron) {
+    const fileName = neuron.files.length > 0 ? neuron.files[0].name : '';
+    const location = neuron.files.length > 0 ? `${backendURL}${neuron.files[0].url}` : '';
     return {
-      id,
-      uid: 'SAAVR',
+      id: neuron.id,
+      uid: neuron.uid,
       content: {
         type: 'url',
-        location: 'https://raw.githubusercontent.com/MetaCell/geppetto-meta/master/geppetto.js/geppetto-ui/src/3d-canvas/showcase/examples/SketchVolumeViewer_SAAVR_SAAVR_1_1_0000_draco.gltf',
-        fileName: 'SketchVolumeViewer_SAAVR_SAAVR_1_1_0000_draco.gltf',
+        location,
+        fileName,
       },
       getId: () => this.id,
     };
