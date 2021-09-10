@@ -76,7 +76,7 @@ const Results = () => {
       {
         list.map((record, index) => (
           <SearchResult
-            id={index}
+            key={`results-${index}`}
             title={record?.title}
             resultItem={record?.resultItem}
             image={record?.image}

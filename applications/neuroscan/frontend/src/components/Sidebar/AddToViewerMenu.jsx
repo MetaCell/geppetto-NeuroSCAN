@@ -35,17 +35,17 @@ const AddToViewerMenu = ({
     >
       { fullMenu ? (
         [
-          <Typography>Add to existing viewer</Typography>,
+          <Typography key="add-to-viewer-text">Add to existing viewer</Typography>,
           Object.entries(viewers).map(([id, viewer]) => (
-            <MenuItem key={id} disabled={viewer?.disabled} onClick={() => handleAddToViewer(id)}>
+            <MenuItem key={`add-to-viewer-${id}`} disabled={viewer?.disabled} onClick={() => handleAddToViewer(id)}>
               <img src={MENU_CHECKMARK_ON} className={classes.mr_8} alt="MENU_CHECKMARK_ON" />
               {id}
             </MenuItem>
           )),
-          <Divider />,
+          <Divider key="add-to-viewer-divider" />,
         ]
       ) : null}
-      <MenuItem onClick={handleClose}>
+      <MenuItem key="add-to-new-viewer" onClick={handleClose}>
         <img src={PLUS} className={classes.mr_8} alt="PLUS" />
         Add to New Viewer
       </MenuItem>

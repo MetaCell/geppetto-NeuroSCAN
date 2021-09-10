@@ -39,7 +39,7 @@ function TestComponent(props) {
     <div>
       {instance1
         ? (
-          <Button color="secondary" onClick={() => dispatch(addViewer(VIEWERS.InstanceViewer, [instance1]))}>
+          <Button color="secondary" onClick={() => dispatch(addViewer(VIEWERS.InstanceViewer, []))}>
             Add Viewer
           </Button>
         )
