@@ -45,6 +45,7 @@ function InstanceViewer(props) {
   return (
     <div className={classes.canvasContainer}>
       <Canvas
+        key={viewer.id}
         data={canvasData}
         cameraOptions={viewer.cameraOptions}
         cameraHandler={cameraHandler}
