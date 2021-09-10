@@ -32,7 +32,7 @@ const mapToInstance = (item) => {
   const location = item.files.length > 0 ? `${backendURL}${item.files[0].url}` : '';
   return {
     id: item.id,
-    uid: item.uid,
+    uid: `i${item.uid.replace(/-/g, '')}`,
     content: {
       type: 'url',
       location,
@@ -60,7 +60,6 @@ const Results = () => {
   };
 
   const handleAddToViewer = async (viewerId) => {
-    // const neuron = await neuronService.getById(27);
     dispatch(addInstancesViewer(viewerId, [mapToInstance(currentItem)], {
       r: Math.random(), b: Math.random(), g: Math.random(), a: 1,
     }));

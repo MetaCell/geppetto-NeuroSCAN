@@ -20,21 +20,6 @@ export class ContactService {
     };
   }
 
-  mapToInstance(contact) {
-    const fileName = contact.files.length > 0 ? contact.files[0].name : '';
-    const location = contact.files.length > 0 ? `${backendURL}${contact.files[0].url}` : '';
-    return {
-      id: contact.id,
-      uid: contact.uid,
-      content: {
-        type: 'url',
-        location,
-        fileName,
-      },
-      getId: () => this.id,
-    };
-  }
-
   constructQuery(searchState) {
     const { searchTerms } = searchState.filters;
     const results = searchState.results.contacts;

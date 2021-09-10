@@ -20,21 +20,6 @@ export class SynapseService {
     };
   }
 
-  mapToInstance(synapse) {
-    const fileName = synapse.files.length > 0 ? synapse.files[0].name : '';
-    const location = synapse.files.length > 0 ? `${backendURL}${synapse.files[0].url}` : '';
-    return {
-      id: synapse.id,
-      uid: synapse.uid,
-      content: {
-        type: 'url',
-        location,
-        fileName,
-      },
-      getId: () => this.id,
-    };
-  }
-
   constructQuery(searchState) {
     const { filters } = searchState;
     const { searchTerms } = filters;

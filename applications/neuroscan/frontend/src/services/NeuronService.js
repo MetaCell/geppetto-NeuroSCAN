@@ -25,21 +25,6 @@ export class NeuronService {
     }
   }
 
-  mapToInstance(neuron) {
-    const fileName = neuron.files.length > 0 ? neuron.files[0].name : '';
-    const location = neuron.files.length > 0 ? `${backendURL}${neuron.files[0].url}` : '';
-    return {
-      id: neuron.id,
-      uid: neuron.uid,
-      content: {
-        type: 'url',
-        location,
-        fileName,
-      },
-      getId: () => this.id,
-    };
-  }
-
   constructQuery(searchState) {
     const { searchTerms } = searchState.filters;
     const results = searchState.results.neurons;
