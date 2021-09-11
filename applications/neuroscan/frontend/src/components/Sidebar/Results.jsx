@@ -6,8 +6,8 @@ import CONTACTS from '../../images/contacts.svg';
 import CircularLoader from '../Common/Loader';
 import AddToViewerMenu from './AddToViewerMenu';
 import SearchResult from '../Common/SearchResult';
-import { addInstancesViewer } from '../../redux/actions/viewers';
-import { backendURL } from '../../utilities/constants';
+import { addViewer, addInstancesViewer } from '../../redux/actions/viewers';
+import { backendURL, VIEWERS } from '../../utilities/constants';
 
 const list = [
   {
@@ -59,10 +59,13 @@ const Results = () => {
     setAnchorEl(null);
   };
 
-  const handleAddToViewer = async (viewerId) => {
-    dispatch(addInstancesViewer(viewerId, [mapToInstance(currentItem)], {
-      r: Math.random(), b: Math.random(), g: Math.random(), a: 1,
-    }));
+  const handleAddToViewer = async (viewerId = null) => {
+    if (viewerId === null) {
+      // add to new viewer
+      dispatch(addViewer(VIEWERS.InstanceViewer, [mapToInstance(currentItem)]));
+    } else {
+      dispatch(addInstancesViewer(viewerId, [mapToInstance(currentItem)]));
+    }
     handleClose();
   };
 

@@ -45,7 +45,7 @@ const AddToViewerMenu = ({
           <Divider key="add-to-viewer-divider" />,
         ]
       ) : null}
-      <MenuItem key="add-to-new-viewer" onClick={handleClose}>
+      <MenuItem key="add-to-new-viewer" onClick={() => handleAddToViewer()}>
         <img src={PLUS} className={classes.mr_8} alt="PLUS" />
         Add to New Viewer
       </MenuItem>
