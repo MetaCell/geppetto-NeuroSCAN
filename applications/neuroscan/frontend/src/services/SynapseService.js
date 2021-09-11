@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { backendURL, backendClient, maxRecordsPerFetch } from '../utilities/constants';
+import { SYNAPSE_TYPE, backendClient, maxRecordsPerFetch } from '../utilities/constants';
 
 const synapsesBackendUrl = '/synapses';
 
@@ -61,7 +61,10 @@ export class SynapseService {
   async search(searchState) {
     const query = this.constructQuery(searchState);
     const response = await backendClient.get(`${synapsesBackendUrl}?${query}`);
-    return response.data;
+    return response.data.map((synapse) => ({
+      type: SYNAPSE_TYPE,
+      ...synapse,
+    }));
   }
 
   async totalCount(searchState) {

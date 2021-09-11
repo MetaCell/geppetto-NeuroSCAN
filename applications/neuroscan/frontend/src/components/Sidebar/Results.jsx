@@ -33,6 +33,8 @@ const mapToInstance = (item) => {
   return {
     id: item.id,
     uid: `i${item.uid.replace(/-/g, '')}`,
+    name: item.uid,
+    type: item.type,
     content: {
       type: 'url',
       location,

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Typography, Box } from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import StyledTreeItem from './TreeItem';
@@ -11,6 +12,7 @@ import SYNAPSES from '../../../images/synapses.svg';
 import SYNAPSE from '../../../images/synapse.svg';
 import CONTACTS from '../../../images/contacts.svg';
 import CONTACT from '../../../images/contact.svg';
+import { NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE } from '../../../utilities/constants';
 
 const EXPLORER_IMGS = {
   NEURONS,
@@ -25,7 +27,7 @@ const EXPLORER_IMGS = {
 };
 
 const Explorer = () => {
-  const datasets = [
+  const datasets2 = [
     {
       id: '1_1',
       text: 'Morphology Viewer',
@@ -148,37 +150,55 @@ const Explorer = () => {
 
   const [nodes, setNodes] = useState(['1_1']);
 
+  const datasets = useSelector((state) => state.viewers);
+
   const onNodeToggle = (e, nodeIds) => {
     setNodes(nodeIds);
   };
 
-  const getTreeItemsFromData = (treeItems) => treeItems.map((treeItemData) => {
-    let items = [];
-    if (treeItemData.items && treeItemData.items.length > 0) {
-      items = getTreeItemsFromData(treeItemData.items);
-    }
-    const itemLength = items?.length;
-    const labelIcon = EXPLORER_IMGS[treeItemData?.type];
+  const getTreeItemsFromData = (viewers) => Object.entries(viewers)
+    .map(([viewerId, viewer]) => {
+      const { instances } = viewer;
+      const labelIcon = EXPLORER_IMGS.MORPHOLOGY;
 
-    return (
-      <StyledTreeItem
-        nodeId={treeItemData?.id}
-        labelText={treeItemData?.text}
-        labelIcon={labelIcon}
-        labelInfo={itemLength}
-        key={treeItemData?.id}
-      >
-        {items}
-      </StyledTreeItem>
-    );
-  });
+      return (
+        <StyledTreeItem
+          nodeId={viewerId}
+          labelText={viewerId}
+          labelIcon={labelIcon}
+          labelInfo={instances.length}
+          key={viewerId}
+        >
+          {
+            [NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE].map((instanceType) => (
+              <StyledTreeItem
+                nodeId={`${viewerId}_${instanceType}`}
+                labelText={instanceType}
+                labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
+                labelInfo={instances.length}
+              >
+                {instances
+                  .filter((instance) => instance.type === instanceType)
+                  .map((instance) => (
+                    <StyledTreeItem
+                      nodeId={`${viewerId}_${instanceType}_${instance.id}`}
+                      labelText={`${instance.name}`}
+                      labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
+                    />
+                  ))}
+              </StyledTreeItem>
+            ))
+          }
+        </StyledTreeItem>
+      );
+    });
 
   const treeRef = React.createRef();
 
   return (
     <Box className="wrap instances-box">
-      {datasets.length === 0 ? (
-        <Typography variant="caption">No Instance Added yet</Typography>
+      {Object.entries(datasets).length === 0 ? (
+        <Typography variant="caption">No viewers added yet</Typography>
       ) : (
         <TreeView
           className="scrollbar"

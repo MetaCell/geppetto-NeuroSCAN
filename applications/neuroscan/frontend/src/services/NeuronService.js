@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { backendURL, backendClient, maxRecordsPerFetch } from '../utilities/constants';
+import { NEURON_TYPE, backendClient, maxRecordsPerFetch } from '../utilities/constants';
 
 const neuronsBackendUrl = '/neurons';
 
@@ -39,7 +39,10 @@ export class NeuronService {
   async search(searchState) {
     const query = this.constructQuery(searchState);
     const response = await backendClient.get(`${neuronsBackendUrl}?${query}`);
-    return response.data;
+    return response.data.map((neuron) => ({
+      type: NEURON_TYPE,
+      ...neuron,
+    }));
   }
 
   async totalCount(searchState) {
