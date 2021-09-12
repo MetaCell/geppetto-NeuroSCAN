@@ -170,24 +170,25 @@ const Explorer = () => {
           key={viewerId}
         >
           {
-            [NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE].map((instanceType) => (
-              <StyledTreeItem
-                nodeId={`${viewerId}_${instanceType}`}
-                labelText={instanceType}
-                labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
-                labelInfo={instances.length}
-              >
-                {instances
-                  .filter((instance) => instance.instanceType === instanceType)
-                  .map((instance) => (
+            [NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE].map((instanceType) => {
+              const items = instances.filter((instance) => instance.instanceType === instanceType);
+              return (
+                <StyledTreeItem
+                  nodeId={`${viewerId}_${instanceType}`}
+                  labelText={instanceType}
+                  labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
+                  labelInfo={items.length}
+                >
+                  {items.map((instance) => (
                     <StyledTreeItem
                       nodeId={`${viewerId}_${instanceType}_${instance.id}`}
                       labelText={`${instance.name}`}
                       labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
                     />
                   ))}
-              </StyledTreeItem>
-            ))
+                </StyledTreeItem>
+              );
+            })
           }
         </StyledTreeItem>
       );
