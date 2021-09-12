@@ -40,7 +40,7 @@ export class NeuronService {
     const query = this.constructQuery(searchState);
     const response = await backendClient.get(`${neuronsBackendUrl}?${query}`);
     return response.data.map((neuron) => ({
-      type: NEURON_TYPE,
+      instanceType: NEURON_TYPE,
       ...neuron,
     }));
   }

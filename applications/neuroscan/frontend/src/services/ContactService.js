@@ -51,7 +51,7 @@ export class ContactService {
     const query = this.constructQuery(searchState);
     const response = await backendClient.get(`${contactsUrl}?${query}`);
     return response.data.map((contact) => ({
-      type: CONTACT_TYPE,
+      instanceType: CONTACT_TYPE,
       ...contact,
     }));
   }

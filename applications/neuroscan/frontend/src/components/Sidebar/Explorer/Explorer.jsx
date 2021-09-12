@@ -178,7 +178,7 @@ const Explorer = () => {
                 labelInfo={instances.length}
               >
                 {instances
-                  .filter((instance) => instance.type === instanceType)
+                  .filter((instance) => instance.instanceType === instanceType)
                   .map((instance) => (
                     <StyledTreeItem
                       nodeId={`${viewerId}_${instanceType}_${instance.id}`}

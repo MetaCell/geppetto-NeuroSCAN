@@ -62,7 +62,7 @@ export class SynapseService {
     const query = this.constructQuery(searchState);
     const response = await backendClient.get(`${synapsesBackendUrl}?${query}`);
     return response.data.map((synapse) => ({
-      type: SYNAPSE_TYPE,
+      instanceType: SYNAPSE_TYPE,
       ...synapse,
     }));
   }
