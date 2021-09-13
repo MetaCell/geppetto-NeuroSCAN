@@ -13,6 +13,7 @@ import SYNAPSE from '../../../images/synapse.svg';
 import CONTACTS from '../../../images/contacts.svg';
 import CONTACT from '../../../images/contact.svg';
 import { NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE } from '../../../utilities/constants';
+import { getViewers } from '../../../utilities/functions';
 
 const EXPLORER_IMGS = {
   NEURONS,
@@ -151,37 +152,38 @@ const Explorer = () => {
   const [nodes, setNodes] = useState(['1_1']);
 
   const datasets = useSelector((state) => state.viewers);
+  const layout = useSelector((state) => state.layout.layout.children);
 
   const onNodeToggle = (e, nodeIds) => {
     setNodes(nodeIds);
   };
 
-  const getTreeItemsFromData = (viewers) => Object.entries(viewers)
-    .map(([viewerId, viewer]) => {
-      const { instances } = viewer;
+  const getTreeItemsFromData = (viewers) => getViewers(layout)
+    .map((viewer) => {
+      const { instances } = viewers[viewer.id];
       const labelIcon = EXPLORER_IMGS.MORPHOLOGY;
 
       return (
         <StyledTreeItem
-          nodeId={viewerId}
-          labelText={viewerId}
+          nodeId={viewer.id}
+          labelText={viewer.name}
           labelIcon={labelIcon}
           labelInfo={instances.length}
-          key={viewerId}
+          key={viewer.id}
         >
           {
             [NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE].map((instanceType) => {
               const items = instances.filter((instance) => instance.instanceType === instanceType);
               return (
                 <StyledTreeItem
-                  nodeId={`${viewerId}_${instanceType}`}
+                  nodeId={`${viewer.id}_${instanceType}`}
                   labelText={instanceType}
                   labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
                   labelInfo={items.length}
                 >
                   {items.map((instance) => (
                     <StyledTreeItem
-                      nodeId={`${viewerId}_${instanceType}_${instance.id}`}
+                      nodeId={`${viewer.id}_${instanceType}_${instance.id}`}
                       labelText={`${instance.name}`}
                       labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
                     />
