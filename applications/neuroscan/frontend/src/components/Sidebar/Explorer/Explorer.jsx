@@ -81,23 +81,23 @@ const Explorer = () => {
 
   useEffect(() => {
     setTreeData(getTreeItemsFromData(stateViewers, stateLayout));
-    const y = Object.entries(stateViewers)
+    const itemToSelect = Object.entries(stateViewers)
       .reduce((x, [viewerId, viewer]) => x.concat(viewer.instances
         .filter((instance) => instance.selected)
         .map((instance) => `${viewerId}_${instance.instanceType}_${instance.id}`)), []);
-    if (y.length > 0) {
-      const z = [];
-      const a = y[0].split('_');
-      a.forEach((x) => {
-        let b = z.slice(-1);
-        if (b.length > 0) {
-          b = `${b}_`;
+    if (itemToSelect.length > 0) {
+      const itemsToExpand = [];
+      const itemElements = itemToSelect[0].split('_');
+      itemElements.forEach((x) => {
+        let lastItemToExpand = itemsToExpand.slice(-1);
+        if (lastItemToExpand.length > 0) {
+          lastItemToExpand = `${lastItemToExpand}_`;
         }
-        z.push(`${b}${x}`);
+        itemsToExpand.push(`${lastItemToExpand}${x}`);
       });
-      setExpanded(z);
+      setExpanded(itemsToExpand);
     }
-    setSelected(y);
+    setSelected(itemToSelect);
   }, [stateViewers, stateLayout]);
 
   const treeRef = React.createRef();
