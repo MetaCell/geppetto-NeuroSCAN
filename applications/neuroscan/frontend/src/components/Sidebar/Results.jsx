@@ -34,6 +34,8 @@ const mapToInstance = (item) => {
     id: item.id,
     uid: `i${item.uid.replace(/-/g, '')}`,
     name: item.uid,
+    selected: false,
+    // color: '#0066ff',
     instanceType: item.instanceType,
     content: {
       type: 'url',

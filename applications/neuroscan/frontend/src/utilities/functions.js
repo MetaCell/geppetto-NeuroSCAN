@@ -16,5 +16,5 @@ export const flatten = (children, extractChildren) => Array.prototype.concat.app
   children.map((x) => flatten(x.children || [], extractChildren)),
 );
 
-export const getViewers = (layout) => flatten(layout)
+export const getViewersFromLayout = (layout) => flatten(layout)
   .filter((x) => x.component === VIEWERS.InstanceViewer);

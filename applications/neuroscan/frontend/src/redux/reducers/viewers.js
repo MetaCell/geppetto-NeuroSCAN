@@ -2,7 +2,8 @@
 import CameraControls from '../../components/Chart/CameraControls';
 
 import {
-  ADD_INSTANCES_VIEWER, ADD_VIEWER, COLOR_INSTANCES_VIEWER, REMOVE_VIEWER,
+  ADD_INSTANCES_VIEWER, ADD_VIEWER, COLOR_INSTANCES_VIEWER,
+  REMOVE_VIEWER, UPDATE_SELECTED_INSTANCES,
 } from '../actions/viewers';
 
 const defaultCameraOptions = {
@@ -68,6 +69,28 @@ export default (state = VIEWERS_DEFAULT_STATUS, action) => {
       const { [action.data.viewerId]: toRemove, ...others } = state;
       return {
         ...others,
+      };
+    }
+    case UPDATE_SELECTED_INSTANCES:
+    {
+      const newInstances = state[action.data.viewerId].instances.map((instance) => {
+        if (action.data.selectedInstances.find((x) => x === instance.uid)) {
+          return {
+            ...instance,
+            selected: !instance.selected,
+          };
+        }
+        return {
+          ...instance,
+          selected: false,
+        };
+      });
+      return {
+        ...state,
+        [action.data.viewerId]: {
+          ...state[action.data.viewerId],
+          instances: newInstances,
+        },
       };
     }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Typography, Box } from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
@@ -13,7 +13,7 @@ import SYNAPSE from '../../../images/synapse.svg';
 import CONTACTS from '../../../images/contacts.svg';
 import CONTACT from '../../../images/contact.svg';
 import { NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE } from '../../../utilities/constants';
-import { getViewers } from '../../../utilities/functions';
+import { getViewersFromLayout } from '../../../utilities/functions';
 
 const EXPLORER_IMGS = {
   NEURONS,
@@ -28,16 +28,14 @@ const EXPLORER_IMGS = {
 };
 
 const Explorer = () => {
-  const [nodes, setNodes] = useState(['1_1']);
+  const [treeData, setTreeData] = useState([]);
+  const [selected, setSelected] = React.useState([]);
+  const [expanded, setExpanded] = React.useState([]);
 
-  const datasets = useSelector((state) => state.viewers);
-  const layout = useSelector((state) => state.layout.layout.children);
+  const stateViewers = useSelector((state) => state.viewers);
+  const stateLayout = useSelector((state) => state.layout.layout.children);
 
-  const onNodeToggle = (e, nodeIds) => {
-    setNodes(nodeIds);
-  };
-
-  const getTreeItemsFromData = (viewers) => getViewers(layout)
+  const getTreeItemsFromData = (viewers, layout) => getViewersFromLayout(layout)
     .map((viewer) => {
       const { instances } = viewers[viewer.id];
       const labelIcon = EXPLORER_IMGS.MORPHOLOGY;
@@ -56,12 +54,14 @@ const Explorer = () => {
               return (
                 <StyledTreeItem
                   nodeId={`${viewer.id}_${instanceType}`}
+                  key={`${viewer.id}_${instanceType}`}
                   labelText={instanceType}
                   labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
                   labelInfo={items.length}
                 >
                   {items.map((instance) => (
                     <StyledTreeItem
+                      key={`${viewer.id}_${instanceType}_${instance.id}`}
                       nodeId={`${viewer.id}_${instanceType}_${instance.id}`}
                       labelText={`${instance.name}`}
                       labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
@@ -75,24 +75,50 @@ const Explorer = () => {
       );
     });
 
+  const handleToggle = (event, nodeIds) => {
+    setExpanded(nodeIds);
+  };
+
+  useEffect(() => {
+    setTreeData(getTreeItemsFromData(stateViewers, stateLayout));
+    const y = Object.entries(stateViewers)
+      .reduce((x, [viewerId, viewer]) => x.concat(viewer.instances
+        .filter((instance) => instance.selected)
+        .map((instance) => `${viewerId}_${instance.instanceType}_${instance.id}`)), []);
+    if (y.length > 0) {
+      const z = [];
+      const a = y[0].split('_');
+      a.forEach((x) => {
+        let b = z.slice(-1);
+        if (b.length > 0) {
+          b = `${b}_`;
+        }
+        z.push(`${b}${x}`);
+      });
+      setExpanded(z);
+    }
+    setSelected(y);
+  }, [stateViewers, stateLayout]);
+
   const treeRef = React.createRef();
 
   return (
     <Box className="wrap instances-box">
-      {Object.entries(datasets).length === 0 ? (
+      {Object.entries(stateViewers).length === 0 ? (
         <Typography variant="caption">No viewers added yet</Typography>
       ) : (
         <TreeView
           className="scrollbar"
-          defaultExpanded={nodes}
           defaultCollapseIcon={false}
           defaultExpandIcon={false}
           defaultEndIcon={false}
+          selected={selected}
+          expanded={expanded}
+          onNodeToggle={handleToggle}
+          // onNodeSelect={handleSelect}
           ref={treeRef}
-          expanded={nodes}
-          onNodeToggle={onNodeToggle}
         >
-          {getTreeItemsFromData(datasets)}
+          {treeData}
         </TreeView>
       )}
     </Box>
