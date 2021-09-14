@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Box } from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import StyledTreeItem from './TreeItem';
@@ -14,6 +14,7 @@ import CONTACTS from '../../../images/contacts.svg';
 import CONTACT from '../../../images/contact.svg';
 import { NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE } from '../../../utilities/constants';
 import { getViewersFromLayout } from '../../../utilities/functions';
+import { updateSelectedInstances } from '../../../redux/actions/viewers';
 
 const EXPLORER_IMGS = {
   NEURONS,
@@ -34,6 +35,7 @@ const Explorer = () => {
 
   const stateViewers = useSelector((state) => state.viewers);
   const stateLayout = useSelector((state) => state.layout.layout.children);
+  const dispatch = useDispatch();
 
   const getTreeItemsFromData = (viewers, layout) => getViewersFromLayout(layout)
     .map((viewer) => {
@@ -79,25 +81,44 @@ const Explorer = () => {
     setExpanded(nodeIds);
   };
 
+  const getInstanceFromNodeId = (nodeId) => {
+    const segments = nodeId.split('_');
+    if (segments && segments.length === 3) {
+      const viewerId = segments[0];
+      const instanceType = segments[1];
+      const instanceId = segments[2];
+      const selectedInstance = stateViewers[viewerId].instances
+        .find((instance) => `${instance.id}` === instanceId && instance.instanceType === instanceType);
+      return { viewerId, selectedInstance };
+    }
+    return {};
+  };
+
+  const handleSelect = (event, nodeId) => {
+    if (nodeId.split('_').length === 3) {
+      const { viewerId, selectedInstance } = getInstanceFromNodeId(nodeId);
+      if (viewerId) {
+        dispatch(updateSelectedInstances(viewerId, [selectedInstance.uid]));
+      }
+    }
+  };
+
   useEffect(() => {
     setTreeData(getTreeItemsFromData(stateViewers, stateLayout));
-    const itemToSelect = Object.entries(stateViewers)
+    const itemsToSelect = Object.entries(stateViewers)
       .reduce((x, [viewerId, viewer]) => x.concat(viewer.instances
         .filter((instance) => instance.selected)
         .map((instance) => `${viewerId}_${instance.instanceType}_${instance.id}`)), []);
-    if (itemToSelect.length > 0) {
-      const itemsToExpand = [];
-      const itemElements = itemToSelect[0].split('_');
-      itemElements.forEach((x) => {
-        let lastItemToExpand = itemsToExpand.slice(-1);
-        if (lastItemToExpand.length > 0) {
-          lastItemToExpand = `${lastItemToExpand}_`;
-        }
-        itemsToExpand.push(`${lastItemToExpand}${x}`);
+    const itemsToExpand = [];
+    itemsToSelect.forEach((itemToSelect) => {
+      let path = ''; // path prefix for the node
+      itemToSelect.split('_').forEach((x) => {
+        itemsToExpand.push(`${path}${x}`);
+        path = `${path}${x}_`;
       });
-      setExpanded(itemsToExpand);
-    }
-    setSelected(itemToSelect);
+    });
+    setExpanded(itemsToExpand);
+    setSelected(itemsToSelect);
   }, [stateViewers, stateLayout]);
 
   const treeRef = React.createRef();
@@ -115,7 +136,7 @@ const Explorer = () => {
           selected={selected}
           expanded={expanded}
           onNodeToggle={handleToggle}
-          // onNodeSelect={handleSelect}
+          onNodeSelect={handleSelect}
           ref={treeRef}
         >
           {treeData}
