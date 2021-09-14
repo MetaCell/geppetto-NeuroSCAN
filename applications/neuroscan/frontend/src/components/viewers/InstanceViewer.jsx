@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
 import { makeStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
@@ -19,17 +19,24 @@ function InstanceViewer(props) {
   const [canvasData, setCanvasData] = useState([]);
 
   const viewer = useSelector((state) => state.viewers[viewerId]);
+  const camOptionsRef = useRef(viewer.cameraOptions);
 
   useEffect(() => {
     setCanvasData(viewer.instances.map((instance) => ({
       instancePath: instance.uid,
-      color: instance.selected ? '#FF0000' : instance.color,
+      color: instance.selected === true ? '#FF0000' : instance.color,
     })));
   }, [viewer.instances]);
 
   const cameraHandler = (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
+    if (data.position.x !== 0 && data.position.y !== 0 && data.position.z !== 0) {
+      camOptionsRef.current = {
+        ...viewer.cameraOptions,
+        position: data.position,
+        rotation: data.rotation,
+        eyeLength: data.eyeLength,
+      };
+    }
   };
 
   const onSelection = (selectedInstances) => {
@@ -44,9 +51,9 @@ function InstanceViewer(props) {
   return (
     <div className={classes.canvasContainer}>
       <Canvas
-        key={viewer.id}
+        key={viewerId}
         data={canvasData}
-        cameraOptions={viewer.cameraOptions}
+        cameraOptions={camOptionsRef.current}
         cameraHandler={cameraHandler}
         backgroundColor={0x2C2C2C}
         onSelection={onSelection}
