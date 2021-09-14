@@ -117,7 +117,9 @@ const Explorer = () => {
         path = `${path}${x}_`;
       });
     });
-    setExpanded(itemsToExpand);
+    // set new expanded and retain the current expanded
+    setExpanded([...new Set(expanded.concat(itemsToExpand))]);
+    // set new selected
     setSelected(itemsToSelect);
   }, [stateViewers, stateLayout]);
 

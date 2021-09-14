@@ -24,7 +24,7 @@ function InstanceViewer(props) {
   useEffect(() => {
     setCanvasData(viewer.instances.map((instance) => ({
       instancePath: instance.uid,
-      color: instance.selected === true ? '#FF0000' : instance.color,
+      color: instance.selected === true ? '#FF0000' : '#00ff00', // instance.color,
     })));
   }, [viewer.instances]);
 
@@ -37,6 +37,8 @@ function InstanceViewer(props) {
         eyeLength: data.eyeLength,
       };
     }
+    // eslint-disable-next-line no-console
+    console.log(data);
   };
 
   const onSelection = (selectedInstances) => {
