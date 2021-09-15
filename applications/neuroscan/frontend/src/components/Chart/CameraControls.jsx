@@ -16,6 +16,7 @@ import DOWNLOAD from '../../images/graph/download.svg';
 import PICKER from '../../images/graph/color-picker.png';
 import DARK from '../../images/graph/dark.svg';
 import LIGHT from '../../images/graph/light.svg';
+import MenuControl from './MenuControl';
 
 export const cameraControlsActions = {
   ZOOM_IN: 'zoomIn',
@@ -88,12 +89,39 @@ const CameraControls = (props) => {
     </Typography>
   );
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  // const setDevelopmentStage = () => {
+  //   handleClick();
+  // };
+
+  // const controlAction = (value) => {
+  //   switch (value?.tooltip) {
+  //     case 'Development Stages': setDevelopmentStage();
+  //       break;
+  //     case 'Layers': setDevelopmentStage();
+  //       break;
+  //     case 'Download': setDevelopmentStage();
+  //       break;
+  //     default:
+  //       cameraControlsHandler(value?.action);
+  //   }
+  // };
+
   const Control = ({ value }) => (
     <Tooltip title={value.tooltip} placement="top">
       <IconButton
         disableRipple
         key={value?.tooltip}
-        onClick={() => cameraControlsHandler(value?.action)}
+        onClick={handleClick}
       >
         <img
           src={value.image}
@@ -104,28 +132,31 @@ const CameraControls = (props) => {
   );
 
   return (
-    <div className="position-toolbar">
-      <div className="left">
-        <Box className="mode-selector">
-          <RadioOption value={backgrounds.DARK} image={DARK} />
-          <RadioOption value={backgrounds.LIGHT} image={LIGHT} />
-        </Box>
+    <>
+      <div className="position-toolbar">
+        <div className="left">
+          <Box className="mode-selector">
+            <RadioOption value={backgrounds.DARK} image={DARK} />
+            <RadioOption value={backgrounds.LIGHT} image={LIGHT} />
+          </Box>
 
-        {
-          controlsLeft.map((value) => (
-            <Control value={value} />
-          ))
-        }
-      </div>
+          {
+            controlsLeft.map((value) => (
+              <Control value={value} />
+            ))
+          }
+        </div>
 
-      <div className="right">
-        {
-          controlsRight.map((value) => (
-            <Control value={value} />
-          ))
-        }
+        <div className="right">
+          {
+            controlsRight.map((value) => (
+              <Control value={value} />
+            ))
+          }
+        </div>
       </div>
-    </div>
+      <MenuControl handleClose={handleClose} anchorEl={anchorEl} />
+    </>
   );
 };
 
