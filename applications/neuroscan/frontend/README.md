@@ -59,7 +59,11 @@ git clone https://github.com/MetaCell/geppetto-meta.git --branch development
 Example for building geppetto-ui
 
 ```
-cd geppetto-meta/geppetto.js/geppetto-ui
+cd geppetto-ui
+yarn && yarn build && yarn publish:yalc
+cd ../geppetto-core
+yarn && yarn build && yarn publish:yalc
+cd ../geppetto-client
 yarn && yarn build && yarn publish:yalc
 ```
 
@@ -67,6 +71,8 @@ In your frontend directory run
 
 ```bash
 yalc link @metacell/geppetto-meta-ui
+yalc link @metacell/geppetto-meta-core
+yalc link @metacell/geppetto-meta-client
 ```
 
 It will now use the linked version over the published npm version.

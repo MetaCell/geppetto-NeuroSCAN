@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { backendClient, maxRecordsPerFetch } from '../utilities/constants';
+import { NEURON_TYPE, backendClient, maxRecordsPerFetch } from '../utilities/constants';
 
 const neuronsBackendUrl = '/neurons';
 
@@ -8,16 +8,21 @@ const neuronsBackendUrl = '/neurons';
 */
 export class NeuronService {
   async getById(id) {
-    return {
-      id,
-      uid: 'SAAVR',
-      content: {
-        type: 'url',
-        location: 'https://raw.githubusercontent.com/MetaCell/geppetto-meta/master/geppetto.js/geppetto-ui/src/3d-canvas/showcase/examples/SketchVolumeViewer_SAAVR_SAAVR_1_1_0000_draco.gltf',
-        fileName: 'SketchVolumeViewer_SAAVR_SAAVR_1_1_0000_draco.gltf',
-      },
-      getId: () => this.id,
-    };
+    try {
+      const response = await backendClient.get(`${neuronsBackendUrl}/${id}`);
+      return response.data;
+    } catch (error) {
+      return {
+        id,
+        uid: 'SAAVR',
+        content: {
+          type: 'url',
+          location: 'https://raw.githubusercontent.com/MetaCell/geppetto-meta/master/geppetto.js/geppetto-ui/src/3d-canvas/showcase/examples/SketchVolumeViewer_SAAVR_SAAVR_1_1_0000_draco.gltf',
+          fileName: 'SketchVolumeViewer_SAAVR_SAAVR_1_1_0000_draco.gltf',
+        },
+        getId: () => this.id,
+      };
+    }
   }
 
   constructQuery(searchState) {
@@ -34,7 +39,10 @@ export class NeuronService {
   async search(searchState) {
     const query = this.constructQuery(searchState);
     const response = await backendClient.get(`${neuronsBackendUrl}?${query}`);
-    return response.data;
+    return response.data.map((neuron) => ({
+      instanceType: NEURON_TYPE,
+      ...neuron,
+    }));
   }
 
   async totalCount(searchState) {

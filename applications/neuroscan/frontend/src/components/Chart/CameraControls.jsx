@@ -112,16 +112,16 @@ const CameraControls = (props) => {
         </Box>
 
         {
-          controlsLeft.map((value) => (
-            <Control value={value} />
+          controlsLeft.map((value, index) => (
+            <Control key={index} value={value} />
           ))
         }
       </div>
 
       <div className="right">
         {
-          controlsRight.map((value) => (
-            <Control value={value} />
+          controlsRight.map((value, index) => (
+            <Control key={index} value={value} />
           ))
         }
       </div>

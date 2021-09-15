@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   Typography,
   Menu,
@@ -8,6 +9,7 @@ import {
 } from '@material-ui/core';
 import MENU_CHECKMARK_ON from '../../images/menu-checkmark-on.svg';
 import PLUS from '../../images/plus_white.svg';
+import { getViewersFromLayout } from '../../utilities/functions';
 
 const useStyles = makeStyles(() => ({
   mr_8: {
@@ -16,9 +18,12 @@ const useStyles = makeStyles(() => ({
 }));
 
 const AddToViewerMenu = ({
-  anchorEl, handleClose, viewers, fullMenu = true,
+  anchorEl, handleClose, handleAddToViewer, fullMenu = true,
 }) => {
   const classes = useStyles();
+  const layout = useSelector((state) => state.layout.layout.children);
+  const viewers = getViewersFromLayout(layout);
+
   return (
     <Menu
       id="addToViewerMenu"
@@ -32,17 +37,17 @@ const AddToViewerMenu = ({
     >
       { fullMenu ? (
         [
-          <Typography>Add to existing viewer</Typography>,
+          <Typography key="add-to-viewer-text">Add to existing viewer</Typography>,
           viewers.map((viewer) => (
-            <MenuItem key={viewer?.id} disabled={viewer?.disabled} onClick={handleClose}>
+            <MenuItem key={`add-to-viewer-${viewer.id}`} disabled={viewer?.disabled} onClick={() => handleAddToViewer(viewer.id)}>
               <img src={MENU_CHECKMARK_ON} className={classes.mr_8} alt="MENU_CHECKMARK_ON" />
-              {viewer?.title}
+              {viewer.name}
             </MenuItem>
           )),
-          <Divider />,
+          <Divider key="add-to-viewer-divider" />,
         ]
       ) : null}
-      <MenuItem onClick={handleClose}>
+      <MenuItem key="add-to-new-viewer" onClick={() => handleAddToViewer()}>
         <img src={PLUS} className={classes.mr_8} alt="PLUS" />
         Add to New Viewer
       </MenuItem>

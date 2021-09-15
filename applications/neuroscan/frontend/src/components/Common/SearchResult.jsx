@@ -25,7 +25,6 @@ const useStyles = makeStyles(() => ({
 
 const SearchResult = (props) => {
   const {
-    id,
     title,
     resultItem,
     image,
@@ -46,7 +45,7 @@ const SearchResult = (props) => {
 
   return (
     <>
-      <Accordion key={id} className={searchesCount > 0 ? classes.fade : ''}>
+      <Accordion className={searchesCount > 0 ? classes.fade : ''}>
         <AccordionSummary
           expandIcon={<img src={CHEVRON} width="4" height="6" alt="CHEVRON" />}
           IconButtonProps={{ disableRipple: true }}
@@ -60,12 +59,19 @@ const SearchResult = (props) => {
           <List component="nav">
             {results && results.items.length > 0
               ? results.items.map((item, i) => (
-                <ListItem key={`${resultItem}-item-${i}`}>
+                <ListItem key={`results-${resultItem}-listitem-${i}`}>
                   <ListItemIcon>
                     <img src={image} width="10" height="10" alt={title} />
                   </ListItemIcon>
                   <ListItemText primary={item.uid} />
-                  <Button disableElevation aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} color="primary" variant="contained">
+                  <Button
+                    disableElevation
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={(event) => handleClick(event, item)}
+                    color="primary"
+                    variant="contained"
+                  >
                     Add to
                   </Button>
                 </ListItem>

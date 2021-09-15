@@ -5,10 +5,11 @@ import reducers from './reducers/all';
 import middleware from './middleware';
 import searchMiddleware from './searchMiddleware';
 
+import { VIEWERS_DEFAULT_STATUS } from './reducers/viewers';
 import { SEARCH_DEFAULT_STATUS } from './reducers/search';
 
 const INIT_STATE = {
-  viewers: {},
+  viewers: VIEWERS_DEFAULT_STATUS,
   devStages: {},
   misc: {},
   search: SEARCH_DEFAULT_STATUS.search,

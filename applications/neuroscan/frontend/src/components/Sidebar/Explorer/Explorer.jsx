@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Box } from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import StyledTreeItem from './TreeItem';
@@ -11,6 +12,9 @@ import SYNAPSES from '../../../images/synapses.svg';
 import SYNAPSE from '../../../images/synapse.svg';
 import CONTACTS from '../../../images/contacts.svg';
 import CONTACT from '../../../images/contact.svg';
+import { NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE } from '../../../utilities/constants';
+import { getViewersFromLayout } from '../../../utilities/functions';
+import { updateSelectedInstances } from '../../../redux/actions/viewers';
 
 const EXPLORER_IMGS = {
   NEURONS,
@@ -25,172 +29,119 @@ const EXPLORER_IMGS = {
 };
 
 const Explorer = () => {
-  const datasets = [
-    {
-      id: '1_1',
-      text: 'Morphology Viewer',
-      type: 'MORPHOLOGY',
-      parent: true,
-      items: [
-        {
-          id: '1_1_1',
-          text: 'Neurons',
-          type: 'NEURONS',
-          items: [
-            {
-              id: '1_1_1_1',
-              text: 'Neuron',
-              type: 'NEURON',
-            },
-            {
-              id: '1_1_1_2',
-              text: 'Neuron',
-              type: 'NEURON',
-            },
-          ],
-        },
-        {
-          id: '1_1_2',
-          text: 'Contacts',
-          type: 'CONTACTS',
-          items: [
-            {
-              id: '1_1_2_1',
-              text: 'Contact',
-              type: 'CONTACT',
-            },
-            {
-              id: '1_1_2_2',
-              text: 'Contact',
-              type: 'CONTACT',
-            },
-          ],
-        },
-        {
-          id: '1_1_3',
-          text: 'Synapses',
-          type: 'SYNAPSES',
-          items: [
-            {
-              id: '1_1_3_1',
-              text: 'Synapse',
-              type: 'SYNAPSE',
-            },
-            {
-              id: '1_1_3_2',
-              text: 'Synapse',
-              type: 'SYNAPSE',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: '1_2',
-      text: 'C-PHATE Plot Viewer',
-      parent: true,
-      type: 'CPHATE',
-      items: [
-        {
-          id: '1_2_1',
-          text: 'Cluster',
-          type: 'CLUSTERS',
-          items: [
-            {
-              id: '1_2_1_1',
-              text: 'Cluster',
-              type: 'CLUSTERS',
-            },
-            {
-              id: '1_2_1_2',
-              text: 'Cluster',
-              type: 'CLUSTERS',
-            },
-          ],
-        },
-        {
-          id: '1_2_2',
-          text: 'Cluster',
-          type: 'CLUSTERS',
-          items: [
-            {
-              id: '1_2_2_1',
-              text: 'Cluster',
-              type: 'CLUSTERS',
-            },
-            {
-              id: '1_2_2_2',
-              text: 'Cluster',
-              type: 'CLUSTERS',
-            },
-          ],
-        },
-        {
-          id: '1_2_3',
-          text: 'Cluster',
-          type: 'CLUSTERS',
-          items: [
-            {
-              id: '1_2_3_1',
-              text: 'Cluster',
-              type: 'CLUSTERS',
-            },
-            {
-              id: '1_2_3_2',
-              text: 'Cluster',
-              type: 'CLUSTERS',
-            },
-          ],
-        },
-      ],
-    },
-  ];
+  const [treeData, setTreeData] = useState([]);
+  const [selected, setSelected] = React.useState([]);
+  const [expanded, setExpanded] = React.useState([]);
 
-  const [nodes, setNodes] = useState(['1_1']);
+  const stateViewers = useSelector((state) => state.viewers);
+  const stateLayout = useSelector((state) => state.layout.layout.children);
+  const dispatch = useDispatch();
 
-  const onNodeToggle = (e, nodeIds) => {
-    setNodes(nodeIds);
+  const getTreeItemsFromData = (viewers, layout) => getViewersFromLayout(layout)
+    .map((viewer) => {
+      const { instances } = viewers[viewer.id];
+      const labelIcon = EXPLORER_IMGS.MORPHOLOGY;
+
+      return (
+        <StyledTreeItem
+          nodeId={viewer.id}
+          labelText={viewer.name}
+          labelIcon={labelIcon}
+          labelInfo={instances.length}
+          key={viewer.id}
+        >
+          {
+            [NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE].map((instanceType) => {
+              const items = instances.filter((instance) => instance.instanceType === instanceType);
+              return (
+                <StyledTreeItem
+                  nodeId={`${viewer.id}_${instanceType}`}
+                  key={`${viewer.id}_${instanceType}`}
+                  labelText={instanceType}
+                  labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
+                  labelInfo={items.length}
+                >
+                  {items.map((instance) => (
+                    <StyledTreeItem
+                      key={`${viewer.id}_${instanceType}_${instance.id}`}
+                      nodeId={`${viewer.id}_${instanceType}_${instance.id}`}
+                      labelText={`${instance.name}`}
+                      labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
+                    />
+                  ))}
+                </StyledTreeItem>
+              );
+            })
+          }
+        </StyledTreeItem>
+      );
+    });
+
+  const handleToggle = (event, nodeIds) => {
+    setExpanded(nodeIds);
   };
 
-  const getTreeItemsFromData = (treeItems) => treeItems.map((treeItemData) => {
-    let items = [];
-    if (treeItemData.items && treeItemData.items.length > 0) {
-      items = getTreeItemsFromData(treeItemData.items);
+  const getInstanceFromNodeId = (nodeId) => {
+    const segments = nodeId.split('_');
+    if (segments && segments.length === 3) {
+      const viewerId = segments[0];
+      const instanceType = segments[1];
+      const instanceId = segments[2];
+      const selectedInstance = stateViewers[viewerId].instances
+        .find((instance) => `${instance.id}` === instanceId && instance.instanceType === instanceType);
+      return { viewerId, selectedInstance };
     }
-    const itemLength = items?.length;
-    const labelIcon = EXPLORER_IMGS[treeItemData?.type];
+    return {};
+  };
 
-    return (
-      <StyledTreeItem
-        nodeId={treeItemData?.id}
-        labelText={treeItemData?.text}
-        labelIcon={labelIcon}
-        labelInfo={itemLength}
-        key={treeItemData?.id}
-      >
-        {items}
-      </StyledTreeItem>
-    );
-  });
+  const handleSelect = (event, nodeId) => {
+    if (nodeId.split('_').length === 3) {
+      const { viewerId, selectedInstance } = getInstanceFromNodeId(nodeId);
+      if (viewerId) {
+        dispatch(updateSelectedInstances(viewerId, [selectedInstance.uid]));
+      }
+    }
+  };
+
+  useEffect(() => {
+    setTreeData(getTreeItemsFromData(stateViewers, stateLayout));
+    const itemsToSelect = Object.entries(stateViewers)
+      .reduce((x, [viewerId, viewer]) => x.concat(viewer.instances
+        .filter((instance) => instance.selected)
+        .map((instance) => `${viewerId}_${instance.instanceType}_${instance.id}`)), []);
+    const itemsToExpand = [];
+    itemsToSelect.forEach((itemToSelect) => {
+      let path = ''; // path prefix for the node
+      itemToSelect.split('_').forEach((x) => {
+        itemsToExpand.push(`${path}${x}`);
+        path = `${path}${x}_`;
+      });
+    });
+    // set new expanded and retain the current expanded
+    setExpanded([...new Set(expanded.concat(itemsToExpand))]);
+    // set new selected
+    setSelected(itemsToSelect);
+  }, [stateViewers, stateLayout]);
 
   const treeRef = React.createRef();
 
   return (
     <Box className="wrap instances-box">
-      {datasets.length === 0 ? (
-        <Typography variant="caption">No Instance Added yet</Typography>
+      {Object.entries(stateViewers).length === 0 ? (
+        <Typography variant="caption">No viewers added yet</Typography>
       ) : (
         <TreeView
           className="scrollbar"
-          defaultExpanded={nodes}
           defaultCollapseIcon={false}
           defaultExpandIcon={false}
           defaultEndIcon={false}
+          selected={selected}
+          expanded={expanded}
+          onNodeToggle={handleToggle}
+          onNodeSelect={handleSelect}
           ref={treeRef}
-          expanded={nodes}
-          onNodeToggle={onNodeToggle}
         >
-          {getTreeItemsFromData(datasets)}
+          {treeData}
         </TreeView>
       )}
     </Box>

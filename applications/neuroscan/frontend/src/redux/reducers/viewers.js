@@ -2,7 +2,8 @@
 import CameraControls from '../../components/Chart/CameraControls';
 
 import {
-  ADD_INSTANCES_VIEWER, ADD_VIEWER, COLOR_INSTANCES_VIEWER, REMOVE_VIEWER,
+  ADD_INSTANCES_VIEWER, ADD_VIEWER, COLOR_INSTANCES_VIEWER,
+  REMOVE_VIEWER, UPDATE_SELECTED_INSTANCES,
 } from '../actions/viewers';
 
 const defaultCameraOptions = {
@@ -17,6 +18,18 @@ const defaultCameraOptions = {
   reset: false,
   autorotate: false,
   wireframe: false,
+  // position: {
+  //   x: 21193.367052162743,
+  //   y: 11233.635269974688,
+  //   z: 25057.181362770185,
+  // },
+  // rotation: {
+  //   rx: 0.2715855565097087,
+  //   ry: 0.408670072792313,
+  //   rz: -0.03861630889481375,
+  //   radius: 0.9,
+  // },
+  // eyeLength: 11784.137953749936,
 };
 
 export const VIEWERS_DEFAULT_STATUS = {};
@@ -30,17 +43,29 @@ export default (state = VIEWERS_DEFAULT_STATUS, action) => {
         [action.data.viewerId]: {
           instances: action.data.instances,
           type: action.data.type,
-          cameraOptions: defaultCameraOptions,
+          cameraOptions: {
+            ...defaultCameraOptions,
+          },
         },
       };
     }
     case ADD_INSTANCES_VIEWER:
     {
+      const viewerInstances = state[action.data.viewerId].instances;
+      action.data.instances.forEach((instance) => {
+        const found = viewerInstances.find(
+          (stateInstance) => stateInstance.uid === instance.uid
+          && stateInstance.instanceType === instance.instanceType,
+        );
+        if (!found) {
+          viewerInstances.push(instance);
+        }
+      });
       return {
         ...state,
         [action.data.viewerId]: {
           ...state[action.data.viewerId],
-          instances: [...state[action.data.viewerId].instances, ...action.data.instances],
+          instances: [...viewerInstances],
         },
       };
     }
@@ -68,6 +93,28 @@ export default (state = VIEWERS_DEFAULT_STATUS, action) => {
       const { [action.data.viewerId]: toRemove, ...others } = state;
       return {
         ...others,
+      };
+    }
+    case UPDATE_SELECTED_INSTANCES:
+    {
+      const newInstances = state[action.data.viewerId].instances.map((instance) => {
+        if (action.data.selectedInstances.find((x) => x === instance.uid)) {
+          return {
+            ...instance,
+            selected: !instance.selected,
+          };
+        }
+        return {
+          ...instance,
+          selected: false,
+        };
+      });
+      return {
+        ...state,
+        [action.data.viewerId]: {
+          ...state[action.data.viewerId],
+          instances: newInstances,
+        },
       };
     }
 

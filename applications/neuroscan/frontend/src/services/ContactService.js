@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { backendClient, maxRecordsPerFetch } from '../utilities/constants';
+import { CONTACT_TYPE, backendClient, maxRecordsPerFetch } from '../utilities/constants';
 
 const contactsUrl = '/contacts';
 
@@ -50,7 +50,10 @@ export class ContactService {
   async search(searchState) {
     const query = this.constructQuery(searchState);
     const response = await backendClient.get(`${contactsUrl}?${query}`);
-    return response.data;
+    return response.data.map((contact) => ({
+      instanceType: CONTACT_TYPE,
+      ...contact,
+    }));
   }
 
   async totalCount(searchState) {

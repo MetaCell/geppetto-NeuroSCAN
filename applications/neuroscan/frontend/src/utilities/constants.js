@@ -14,7 +14,11 @@ with MetaCell.`;
 
 export const maxRecordsPerFetch = 30;
 
-const backendURL = process.env.REACT_APP_BACKEND_URL || '';
+export const backendURL = process.env.REACT_APP_BACKEND_URL || '';
 export const backendClient = axios.create({
   baseURL: backendURL,
 });
+
+export const NEURON_TYPE = 'neuron';
+export const CONTACT_TYPE = 'contact';
+export const SYNAPSE_TYPE = 'synapse';
