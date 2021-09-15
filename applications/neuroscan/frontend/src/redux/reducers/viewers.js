@@ -51,11 +51,21 @@ export default (state = VIEWERS_DEFAULT_STATUS, action) => {
     }
     case ADD_INSTANCES_VIEWER:
     {
+      const viewerInstances = state[action.data.viewerId].instances;
+      action.data.instances.forEach((instance) => {
+        const found = viewerInstances.find(
+          (stateInstance) => stateInstance.uid === instance.uid
+          && stateInstance.instanceType === instance.instanceType,
+        );
+        if (!found) {
+          viewerInstances.push(instance);
+        }
+      });
       return {
         ...state,
         [action.data.viewerId]: {
           ...state[action.data.viewerId],
-          instances: [...state[action.data.viewerId].instances, ...action.data.instances],
+          instances: [...viewerInstances],
         },
       };
     }
