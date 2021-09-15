@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +12,9 @@ const useStyles = makeStyles({
   },
 });
 
+const colorFlash = '#FF0000';
+const colorDefault = '#00FF00';
+
 function InstanceViewer(props) {
   const { viewerId } = props;
   const classes = useStyles();
@@ -19,11 +22,37 @@ function InstanceViewer(props) {
 
   const viewer = useSelector((state) => state.viewers[viewerId]);
   const camOptionsRef = useRef(null);
+  const [canvasData, setCanvasData] = useState([]);
 
-  const canvasData = viewer.instances.map((instance) => ({
-    instancePath: instance.uid,
-    color: instance.selected === true ? '#FF0000' : '#00ff00', // instance.color,
-  }));
+  const setCanvasDataFromInstances = (selectedColor = colorDefault) => {
+    setCanvasData(
+      viewer.instances.map((instance) => ({
+        instancePath: instance.uid,
+        color: instance.selected === true ? selectedColor : colorDefault, // instance.color,
+      })),
+    );
+  };
+
+  const doFlash = () => {
+    let counter = 1;
+    const interval = setInterval(() => {
+      setCanvasDataFromInstances(counter % 2 === 0 ? colorFlash : colorDefault);
+      if (counter === 5) {
+        clearInterval(interval);
+      }
+      counter += 1;
+    }, 1500);
+  };
+
+  useEffect(() => {
+    const hasSelected = viewer.instances.find((instance) => instance.selected);
+    if (hasSelected) {
+      setCanvasDataFromInstances(colorFlash);
+      doFlash();
+    } else {
+      setCanvasDataFromInstances();
+    }
+  }, [viewer.instances]);
 
   const cameraHandler = (data) => {
     if (data.position.x !== 0) {
