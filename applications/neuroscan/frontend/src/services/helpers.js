@@ -5,6 +5,7 @@ import neuronService from './NeuronService';
 import contactService from './ContactService';
 import synapseService from './SynapseService';
 import * as search from '../redux/actions/search';
+import { backendURL } from '../utilities/constants';
 
 const getContentService = (content) => {
   switch (content.type.toLowerCase()) {
@@ -17,7 +18,13 @@ const getContentService = (content) => {
 
 const createSimpleInstance = async (instance) => {
   const { content } = instance;
+
+  // TODO: uncomment line below, for testing purpose always add sphere.obj
   const contentService = getContentService(content);
+  // TODO: and remove these 3 lines
+  // const contentService = urlService;
+  // content.fileName = 'sphere.obj';
+  // content.location = `${backendURL}/uploads/${content.fileName}`;
 
   const base64Content = await contentService.getBase64(content.location, content.fileName);
 
