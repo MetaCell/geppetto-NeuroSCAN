@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Box } from '@material-ui/core';
+import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model';
+import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import TreeView from '@material-ui/lab/TreeView';
 import StyledTreeItem from './TreeItem';
 import MORPHOLOGY from '../../../images/morphology.svg';
@@ -35,6 +37,7 @@ const Explorer = () => {
 
   const stateViewers = useSelector((state) => state.viewers);
   const stateLayout = useSelector((state) => state.layout.layout.children);
+  const widgets = useSelector((state) => state.widgets);
   const dispatch = useDispatch();
 
   const getTreeItemsFromData = (viewers, layout) => getViewersFromLayout(layout)
@@ -98,6 +101,12 @@ const Explorer = () => {
     if (nodeId.split('_').length === 3) {
       const { viewerId, selectedInstance } = getInstanceFromNodeId(nodeId);
       if (viewerId) {
+        if (widgets[viewerId].status !== WidgetStatus.ACTIVE) {
+          // activate tab where viewer is located
+          widgets[viewerId].status = WidgetStatus.ACTIVE;
+          dispatch(layoutActions.updateWidget(widgets[viewerId]));
+        }
+        // set instance selected
         dispatch(updateSelectedInstances(viewerId, [selectedInstance.uid]));
       }
     }
