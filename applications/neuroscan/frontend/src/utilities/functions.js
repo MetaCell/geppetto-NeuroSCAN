@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { VIEWERS } from './constants';
 
 // eslint-disable-next-line import/prefer-default-export

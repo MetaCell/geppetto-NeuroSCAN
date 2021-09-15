@@ -18,6 +18,18 @@ const defaultCameraOptions = {
   reset: false,
   autorotate: false,
   wireframe: false,
+  // position: {
+  //   x: 21193.367052162743,
+  //   y: 11233.635269974688,
+  //   z: 25057.181362770185,
+  // },
+  // rotation: {
+  //   rx: 0.2715855565097087,
+  //   ry: 0.408670072792313,
+  //   rz: -0.03861630889481375,
+  //   radius: 0.9,
+  // },
+  // eyeLength: 11784.137953749936,
 };
 
 export const VIEWERS_DEFAULT_STATUS = {};
@@ -31,7 +43,9 @@ export default (state = VIEWERS_DEFAULT_STATUS, action) => {
         [action.data.viewerId]: {
           instances: action.data.instances,
           type: action.data.type,
-          cameraOptions: defaultCameraOptions,
+          cameraOptions: {
+            ...defaultCameraOptions,
+          },
         },
       };
     }

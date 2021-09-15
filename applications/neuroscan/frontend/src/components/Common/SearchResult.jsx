@@ -25,7 +25,6 @@ const useStyles = makeStyles(() => ({
 
 const SearchResult = (props) => {
   const {
-    id,
     title,
     resultItem,
     image,

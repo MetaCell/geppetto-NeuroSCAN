@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,29 +16,19 @@ function InstanceViewer(props) {
   const { viewerId } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [canvasData, setCanvasData] = useState([]);
 
   const viewer = useSelector((state) => state.viewers[viewerId]);
-  const camOptionsRef = useRef(viewer.cameraOptions);
+  const camOptionsRef = useRef(null);
 
-  useEffect(() => {
-    setCanvasData(viewer.instances.map((instance) => ({
-      instancePath: instance.uid,
-      color: instance.selected === true ? '#FF0000' : '#00ff00', // instance.color,
-    })));
-  }, [viewer.instances]);
+  const canvasData = viewer.instances.map((instance) => ({
+    instancePath: instance.uid,
+    color: instance.selected === true ? '#FF0000' : '#00ff00', // instance.color,
+  }));
 
   const cameraHandler = (data) => {
-    if (data.position.x !== 0 && data.position.y !== 0 && data.position.z !== 0) {
-      camOptionsRef.current = {
-        ...viewer.cameraOptions,
-        position: data.position,
-        rotation: data.rotation,
-        eyeLength: data.eyeLength,
-      };
+    if (data.position.x !== 0) {
+      camOptionsRef.current = data;
     }
-    // eslint-disable-next-line no-console
-    console.log(data);
   };
 
   const onSelection = (selectedInstances) => {
@@ -50,12 +40,23 @@ function InstanceViewer(props) {
     console.log(scene);
   };
 
+  let camOptions = {
+    ...viewer.cameraOptions,
+  };
+  if (camOptionsRef.current) {
+    // if we have a position then add it to the camOptions
+    camOptions = {
+      ...camOptions,
+      position: camOptionsRef.current.position,
+    };
+  }
+
   return (
     <div className={classes.canvasContainer}>
       <Canvas
         key={viewerId}
         data={canvasData}
-        cameraOptions={camOptionsRef.current}
+        cameraOptions={camOptions}
         cameraHandler={cameraHandler}
         backgroundColor={0x2C2C2C}
         onSelection={onSelection}

@@ -5,7 +5,7 @@ import { VIEWERS } from '../../utilities/constants';
 import { addViewer } from '../../redux/actions/viewers';
 import cphateService from '../../services/CphateService';
 
-function TestComponent(props) {
+function TestComponent() {
   const dispatch = useDispatch();
 
   const createCphateViewer = async (timepoint) => {
