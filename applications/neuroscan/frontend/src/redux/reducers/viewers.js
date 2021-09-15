@@ -1,5 +1,6 @@
 // import CameraControls from '@metacell/geppetto-meta-ui/camera-controls/CameraControls';
 import CameraControls from '../../components/Chart/CameraControls';
+import { instanceEqualsInstance } from '../../utilities/functions';
 
 import {
   ADD_INSTANCES_VIEWER, ADD_VIEWER, COLOR_INSTANCES_VIEWER,
@@ -53,10 +54,8 @@ export default (state = VIEWERS_DEFAULT_STATUS, action) => {
     {
       const viewerInstances = state[action.data.viewerId].instances;
       action.data.instances.forEach((instance) => {
-        const found = viewerInstances.find(
-          (stateInstance) => stateInstance.uid === instance.uid
-          && stateInstance.instanceType === instance.instanceType,
-        );
+        const found = viewerInstances
+          .find((stateInstance) => instanceEqualsInstance(stateInstance, instance));
         if (!found) {
           viewerInstances.push(instance);
         }

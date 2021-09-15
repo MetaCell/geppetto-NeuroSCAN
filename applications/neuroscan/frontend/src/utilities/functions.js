@@ -17,3 +17,6 @@ export const flatten = (children, extractChildren) => Array.prototype.concat.app
 
 export const getViewersFromLayout = (layout) => flatten(layout)
   .filter((x) => x.component === VIEWERS.InstanceViewer);
+
+export const instanceEqualsInstance = (instanceA, instanceB) => instanceA.uid === instanceB.uid
+  && instanceA.instanceType === instanceB.instanceType;
