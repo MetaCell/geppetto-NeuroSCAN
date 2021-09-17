@@ -1,9 +1,8 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { VIEWERS } from '../../utilities/constants';
-import { addViewer } from '../../redux/actions/viewers';
+import { Button } from '@material-ui/core';
 import cphateService from '../../services/CphateService';
+import { addToWidget } from '../../utilities/functions';
 
 function TestComponent() {
   const dispatch = useDispatch();
@@ -18,11 +17,11 @@ function TestComponent() {
       }
     }
     const cphateInstances = cphateService.getInstances(cphate);
-    dispatch(addViewer(VIEWERS.InstanceViewer, cphateInstances));
+    dispatch(await addToWidget(null, cphateInstances));
   };
 
-  const createEmptyViewer = () => {
-    dispatch(addViewer(VIEWERS.InstanceViewer, []));
+  const createEmptyViewer = async () => {
+    dispatch(await addToWidget(null, []));
   };
 
   return (

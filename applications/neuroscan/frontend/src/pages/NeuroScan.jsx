@@ -37,7 +37,7 @@ export default function NeuroScan() {
   const store = useStore();
   const [LayoutComponent, setLayoutManager] = useState(undefined);
   const [shrinkSidebar, setShrinkSidebar] = React.useState(false);
-  const viewerCount = useSelector((state) => Object.keys(state.viewers).length);
+  const viewerCount = useSelector((state) => Object.keys(state.widgets).length);
 
   const handleToggle = () => {
     setShrinkSidebar(!shrinkSidebar);

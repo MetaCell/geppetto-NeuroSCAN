@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
+import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
-import { updateSelectedInstances } from '../../redux/actions/viewers';
+import { colorFlash } from '../../utilities/defaults';
+import { setInstanceSelected } from '../../utilities/functions';
 
 const useStyles = makeStyles({
   canvasContainer: {
@@ -12,23 +14,20 @@ const useStyles = makeStyles({
   },
 });
 
-const colorFlash = '#FF0000';
-const colorDefault = '#00FF00';
-
 function InstanceViewer(props) {
-  const { viewerId } = props;
+  const { viewerId, instances, cameraOptions } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const viewer = useSelector((state) => state.viewers[viewerId]);
+  const widget = useSelector((state) => state.widgets[viewerId]);
   const camOptionsRef = useRef(null);
   const [canvasData, setCanvasData] = useState([]);
 
-  const setCanvasDataFromInstances = (selectedColor = colorDefault) => {
+  const setCanvasDataFromInstances = (color = null) => {
     setCanvasData(
-      viewer.instances.map((instance) => ({
+      instances.map((instance) => ({
         instancePath: instance.uid,
-        color: instance.selected === true ? selectedColor : colorDefault, // instance.color,
+        color: instance.selected ? color || instance.color : instance.color,
       })),
     );
   };
@@ -36,7 +35,7 @@ function InstanceViewer(props) {
   const doFlash = () => {
     let counter = 1;
     const interval = setInterval(() => {
-      setCanvasDataFromInstances(counter % 2 === 0 ? colorFlash : colorDefault);
+      setCanvasDataFromInstances(counter % 2 === 0 ? colorFlash : null);
       if (counter === 5) {
         clearInterval(interval);
       }
@@ -45,14 +44,14 @@ function InstanceViewer(props) {
   };
 
   useEffect(() => {
-    const hasSelected = viewer.instances.find((instance) => instance.selected);
+    const hasSelected = instances.find((instance) => instance.selected);
     if (hasSelected) {
       setCanvasDataFromInstances(colorFlash);
       doFlash();
     } else {
       setCanvasDataFromInstances();
     }
-  }, [viewer.instances]);
+  }, [instances]);
 
   const cameraHandler = (data) => {
     if (data.position.x !== 0) {
@@ -61,7 +60,10 @@ function InstanceViewer(props) {
   };
 
   const onSelection = (selectedInstances) => {
-    dispatch(updateSelectedInstances(viewerId, selectedInstances));
+    widget.config.instances = setInstanceSelected(
+      widget.config.instances, selectedInstances,
+    );
+    dispatch(layoutActions.updateWidget(widget));
   };
 
   const onMount = (scene) => {
@@ -70,7 +72,7 @@ function InstanceViewer(props) {
   };
 
   let camOptions = {
-    ...viewer.cameraOptions,
+    ...cameraOptions,
   };
   if (camOptionsRef.current) {
     // if we have a position then add it to the camOptions

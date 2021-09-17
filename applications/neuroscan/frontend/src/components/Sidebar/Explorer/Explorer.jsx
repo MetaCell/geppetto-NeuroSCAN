@@ -15,8 +15,7 @@ import SYNAPSE from '../../../images/synapse.svg';
 import CONTACTS from '../../../images/contacts.svg';
 import CONTACT from '../../../images/contact.svg';
 import { NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE } from '../../../utilities/constants';
-import { getViewersFromLayout } from '../../../utilities/functions';
-import { updateSelectedInstances } from '../../../redux/actions/viewers';
+import { getViewersFromWidgets, setInstanceSelected } from '../../../utilities/functions';
 
 const EXPLORER_IMGS = {
   NEURONS,
@@ -35,50 +34,48 @@ const Explorer = () => {
   const [selected, setSelected] = React.useState([]);
   const [expanded, setExpanded] = React.useState([]);
 
-  const stateViewers = useSelector((state) => state.viewers);
-  const stateLayout = useSelector((state) => state.layout.layout.children);
+  const stateLayout = useSelector((state) => state.layout.layout);
   const widgets = useSelector((state) => state.widgets);
   const dispatch = useDispatch();
 
-  const getTreeItemsFromData = (viewers, layout) => getViewersFromLayout(layout)
-    .map((viewer) => {
-      const { instances } = viewers[viewer.id];
-      const labelIcon = EXPLORER_IMGS.MORPHOLOGY;
+  const getTreeItemsFromData = () => getViewersFromWidgets(widgets).map((widget) => {
+    const { viewerId, instances } = widget.config;
+    const labelIcon = EXPLORER_IMGS.MORPHOLOGY;
 
-      return (
-        <StyledTreeItem
-          nodeId={viewer.id}
-          labelText={viewer.name}
-          labelIcon={labelIcon}
-          labelInfo={instances.length}
-          key={viewer.id}
-        >
-          {
-            [NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE].map((instanceType) => {
-              const items = instances.filter((instance) => instance.instanceType === instanceType);
-              return (
-                <StyledTreeItem
-                  nodeId={`${viewer.id}_${instanceType}`}
-                  key={`${viewer.id}_${instanceType}`}
-                  labelText={instanceType}
-                  labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
-                  labelInfo={items.length}
-                >
-                  {items.map((instance) => (
-                    <StyledTreeItem
-                      key={`${viewer.id}_${instanceType}_${instance.id}`}
-                      nodeId={`${viewer.id}_${instanceType}_${instance.id}`}
-                      labelText={`${instance.name}`}
-                      labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
-                    />
-                  ))}
-                </StyledTreeItem>
-              );
-            })
-          }
-        </StyledTreeItem>
-      );
-    });
+    return (
+      <StyledTreeItem
+        nodeId={viewerId}
+        labelText={widget.name}
+        labelIcon={labelIcon}
+        labelInfo={instances.length}
+        key={viewerId}
+      >
+        {
+          [NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE].map((instanceType) => {
+            const items = instances.filter((instance) => instance.instanceType === instanceType);
+            return (
+              <StyledTreeItem
+                nodeId={`${viewerId}_${instanceType}`}
+                key={`${viewerId}_${instanceType}`}
+                labelText={instanceType}
+                labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
+                labelInfo={items.length}
+              >
+                {items.map((instance) => (
+                  <StyledTreeItem
+                    key={`${viewerId}_${instanceType}_${instance.id}`}
+                    nodeId={`${viewerId}_${instanceType}_${instance.id}`}
+                    labelText={`${instance.name}`}
+                    labelIcon={EXPLORER_IMGS[instanceType.toUpperCase()]}
+                  />
+                ))}
+              </StyledTreeItem>
+            );
+          })
+        }
+      </StyledTreeItem>
+    );
+  });
 
   const handleToggle = (event, nodeIds) => {
     setExpanded(nodeIds);
@@ -90,7 +87,7 @@ const Explorer = () => {
       const viewerId = segments[0];
       const instanceType = segments[1];
       const instanceId = segments[2];
-      const selectedInstance = stateViewers[viewerId].instances
+      const selectedInstance = widgets[viewerId].config.instances
         .find((instance) => `${instance.id}` === instanceId && instance.instanceType === instanceType);
       return { viewerId, selectedInstance };
     }
@@ -101,23 +98,24 @@ const Explorer = () => {
     if (nodeId.split('_').length === 3) {
       const { viewerId, selectedInstance } = getInstanceFromNodeId(nodeId);
       if (viewerId) {
-        if (widgets[viewerId].status !== WidgetStatus.ACTIVE) {
-          // activate tab where viewer is located
-          widgets[viewerId].status = WidgetStatus.ACTIVE;
-          dispatch(layoutActions.updateWidget(widgets[viewerId]));
-        }
-        // set instance selected
-        dispatch(updateSelectedInstances(viewerId, [selectedInstance.uid]));
+        // activate tab where viewer is located
+        widgets[viewerId].status = WidgetStatus.ACTIVE;
+        // set selected state of instance(s)
+        widgets[viewerId].config.instances = setInstanceSelected(
+          widgets[viewerId].config.instances,
+          [selectedInstance.uid],
+        );
+        dispatch(layoutActions.updateWidget(widgets[viewerId]));
       }
     }
   };
 
   useEffect(() => {
-    setTreeData(getTreeItemsFromData(stateViewers, stateLayout));
-    const itemsToSelect = Object.entries(stateViewers)
-      .reduce((x, [viewerId, viewer]) => x.concat(viewer.instances
+    setTreeData(getTreeItemsFromData());
+    const itemsToSelect = Object.values(widgets)
+      .reduce((x, widget) => x.concat(widget.config.instances
         .filter((instance) => instance.selected)
-        .map((instance) => `${viewerId}_${instance.instanceType}_${instance.id}`)), []);
+        .map((instance) => `${widget.config.viewerId}_${instance.instanceType}_${instance.id}`)), []);
     const itemsToExpand = [];
     itemsToSelect.forEach((itemToSelect) => {
       let path = ''; // path prefix for the node
@@ -130,13 +128,13 @@ const Explorer = () => {
     setExpanded([...new Set(expanded.concat(itemsToExpand))]);
     // set new selected
     setSelected(itemsToSelect);
-  }, [stateViewers, stateLayout]);
+  }, [stateLayout]);
 
   const treeRef = React.createRef();
 
   return (
     <Box className="wrap instances-box">
-      {Object.entries(stateViewers).length === 0 ? (
+      {Object.entries(widgets).length === 0 ? (
         <Typography variant="caption">No viewers added yet</Typography>
       ) : (
         <TreeView
