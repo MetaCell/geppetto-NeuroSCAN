@@ -1,13 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Typography } from '@material-ui/core';
-import NEURON from '../../images/neuron.svg';
-import CONTACTS from '../../images/contacts.svg';
 import CircularLoader from '../Common/Loader';
 import AddToViewerMenu from './AddToViewerMenu';
 import SearchResult from '../Common/SearchResult';
-import { addViewer, addInstancesViewer } from '../../redux/actions/viewers';
-import { backendURL, VIEWERS } from '../../utilities/constants';
+import { backendURL } from '../../utilities/constants';
+import NEURON from '../../images/neuron.svg';
+import CONTACTS from '../../images/contacts.svg';
+import { addToWidget } from '../../utilities/functions';
+import { colorDefault } from '../../utilities/defaults';
 
 const list = [
   {
@@ -35,7 +36,7 @@ const mapToInstance = (item) => {
     uid: `i${item.uid.replace(/-/g, '')}`,
     name: item.uid,
     selected: false,
-    // color: '#0066ff',
+    color: colorDefault,
     instanceType: item.instanceType,
     content: {
       type: 'url',
@@ -52,6 +53,7 @@ const Results = () => {
   const dispatch = useDispatch();
 
   const searchesCount = useSelector((state) => state.search.searchesCount);
+  const widgets = useSelector((state) => state.widgets);
 
   const handleClick = (event, selectedItem) => {
     setCurrentItem(selectedItem);
@@ -64,12 +66,9 @@ const Results = () => {
   };
 
   const handleAddToViewer = async (viewerId = null) => {
-    if (viewerId === null) {
-      // add to new viewer
-      dispatch(addViewer(VIEWERS.InstanceViewer, [mapToInstance(currentItem)]));
-    } else {
-      dispatch(addInstancesViewer(viewerId, [mapToInstance(currentItem)]));
-    }
+    const instances = [mapToInstance(currentItem)];
+    const widget = widgets[viewerId] || null;
+    dispatch(await addToWidget(widget, instances));
     handleClose();
   };
 

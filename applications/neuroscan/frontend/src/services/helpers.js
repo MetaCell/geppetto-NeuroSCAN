@@ -5,7 +5,6 @@ import neuronService from './NeuronService';
 import contactService from './ContactService';
 import synapseService from './SynapseService';
 import * as search from '../redux/actions/search';
-import { backendURL } from '../utilities/constants';
 
 const getContentService = (content) => {
   switch (content.type.toLowerCase()) {

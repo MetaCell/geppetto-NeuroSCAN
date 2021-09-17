@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import MENU_CHECKMARK_ON from '../../images/menu-checkmark-on.svg';
 import PLUS from '../../images/plus_white.svg';
-import { getViewersFromLayout } from '../../utilities/functions';
+import { getViewersFromWidgets } from '../../utilities/functions';
 
 const useStyles = makeStyles(() => ({
   mr_8: {
@@ -21,8 +21,8 @@ const AddToViewerMenu = ({
   anchorEl, handleClose, handleAddToViewer, fullMenu = true,
 }) => {
   const classes = useStyles();
-  const layout = useSelector((state) => state.layout.layout.children);
-  const viewers = getViewersFromLayout(layout);
+  const widgets = useSelector((state) => state.widgets);
+  const viewers = getViewersFromWidgets(widgets);
 
   return (
     <Menu
