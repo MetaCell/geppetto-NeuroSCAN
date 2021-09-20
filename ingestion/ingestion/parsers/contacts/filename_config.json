@@ -1,0 +1,31 @@
+{
+  "parser": "file",
+  "directory": "../../../data/neuroscan/",
+  "include": ".*/\\w*/\\d*/contacts/\\w*/.*\\.obj",
+  "regex": {
+    "id":{
+      "expression": ".*/(\\d*)/contacts/\\w*/.*_(\\w*?)by(\\w*?)_.*\\.obj",
+      "match": "$1-$2-$3"
+    },
+    "uid":{
+      "expression": ".*/(\\d*)/contacts/\\w*/.*_(\\w*?)by(\\w*?)_.*\\.obj",
+      "match": "$1-$2-$3"
+    },
+    "neuronA":{
+      "expression": "_(\\w*?)by(\\w*?)_",
+      "match": "$1"
+    },
+    "neuronB":{
+      "expression": "_(\\w*?)by(\\w*?)_",
+      "match": "$2"
+    },
+    "timepoints": {
+      "expression": ".*/\\w*/(\\d*)/contacts/\\w*/.*\\.obj",
+      "match": "$1"
+    }
+  },
+  "split": {
+    "expression": ".*/neuroscan/\\w*/(\\d*)/.*",
+    "match": "$1"
+  }
+}
