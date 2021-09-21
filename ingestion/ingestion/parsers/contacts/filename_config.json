@@ -19,7 +19,7 @@
       "expression": "_(\\w*?)by(\\w*?)_",
       "match": "$2"
     },
-    "timepoints": {
+    "timepoint": {
       "expression": ".*/\\w*/(\\d*)/contacts/\\w*/.*\\.obj",
       "match": "$1"
     }

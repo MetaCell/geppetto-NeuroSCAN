@@ -43,7 +43,7 @@ class FilenameParser(IParser):
             logging.error(f"{test_string} failed to get fields")
 
     def _update_data(self, fields, filename):
-        augmented_fields = {**fields, 'files': self._get_filename(filename), 'folders': self._get_filepath(filename)}
+        augmented_fields = {**fields, 'filename': self._get_filename(filename)}
         source_split = get_source_split(filename, getattr(self.cfg, 'split', None))
         if source_split not in self.data:
             self.data[source_split] = {fields['id']: {filename: get_dict_without_keys(augmented_fields, ['id'])}}
@@ -59,8 +59,4 @@ class FilenameParser(IParser):
     # todo: update when know ftp file structure
     def _get_filename(self, filename):
         f = os.path.basename(filename)
-        return f
-
-    def _get_filepath(self, filename):
-        f = os.path.dirname(filename).split(os.path.sep)[-1]
         return f

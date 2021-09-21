@@ -11,7 +11,7 @@
       "expression": "_(.*)_\\1",
       "match": "$1"
     },
-    "timepoints": {
+    "timepoint": {
       "expression": ".*\\/\\w*\\/(\\d*)\\/neurons\\/\\w*\\.obj",
       "match": "$1"
     }

@@ -11,7 +11,7 @@
       "expression": ".*/(\\d*)/synapses/(.+)/(.+)\\.obj",
       "match": "$1_$2_$3"
     },
-    "timepoints": {
+    "timepoint": {
       "expression": ".*/\\w*/(\\d*)/synapses/\\w*[PostSyn|PreSyn]/.*\\.obj",
       "match": "$1"
     },
@@ -41,6 +41,10 @@
     },
     "neuronPost": {
       "expression": ".*_.+(?:chemical|electrical)(.+?(:?&.+?)*?)_.*\\.obj",
+      "match": "$1"
+    },
+    "postNeuron": {
+      "expression": ".*/\\w*/\\d*/synapses/(.*)_[PostSyn|PreSyn]*/.*\\.obj",
       "match": "$1"
     }
   },
