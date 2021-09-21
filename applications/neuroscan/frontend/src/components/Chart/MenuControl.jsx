@@ -21,7 +21,7 @@ const MenuControl = ({
   const groups = ['Group ABC', 'Group XYZ'];
   const neurons = ['Neuron A', 'Neuron X'];
   const contacts = ['Contact A', 'Contact X'];
-  const synapses = ['Synapse C', 'Synapse X'];
+  const synapses = ['Synapse C', 'Synapse X', 'Synapse A', 'Synapse B'];
   useEffect(() => {
     switch (selection) {
       case VIEWER_MENU.devStage: setContent(

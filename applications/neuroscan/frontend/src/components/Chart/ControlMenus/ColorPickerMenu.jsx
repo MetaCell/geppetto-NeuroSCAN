@@ -88,7 +88,7 @@ const ColorPickerMenu = ({
             }
           </List>
         </Box>
-        <Box className="picker">
+        <Box className={`picker ${selection === '' ? 'inactive' : ''}`}>
           <ChromePicker
             color={background}
             onChange={handleChangeComplete}
