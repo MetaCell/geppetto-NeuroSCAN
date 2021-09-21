@@ -7,6 +7,7 @@ set -e
 cp -rf public/uploads /opt/storage/uploads
 rm -rf public/uploads
 ln -s /opt/storage/uploads ./public/uploads
+ln -s /opt/storage/files ./public/files
 
 # check if there is already a database present on the persistent storage
 # in case there isn't copy the initial db from the repo
