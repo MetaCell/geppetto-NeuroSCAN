@@ -4,10 +4,9 @@ import { Box, Typography } from '@material-ui/core';
 import CircularLoader from '../Common/Loader';
 import AddToViewerMenu from './AddToViewerMenu';
 import SearchResult from '../Common/SearchResult';
-import { backendURL } from '../../utilities/constants';
 import NEURON from '../../images/neuron.svg';
 import CONTACTS from '../../images/contacts.svg';
-import { addToWidget } from '../../utilities/functions';
+import { addToWidget, getLocationPrefixFromType } from '../../utilities/functions';
 import { colorDefault } from '../../utilities/defaults';
 
 const list = [
@@ -29,8 +28,8 @@ const list = [
 ];
 
 const mapToInstance = (item) => {
-  const fileName = item.files.length > 0 ? item.files[0].name : '';
-  const location = item.files.length > 0 ? `${backendURL}${item.files[0].url}` : '';
+  const fileName = item.filename || '';
+  const location = getLocationPrefixFromType(item);
   return {
     id: item.id,
     uid: `i${item.uid.replace(/-/g, '')}`,

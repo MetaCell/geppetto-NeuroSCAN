@@ -21,26 +21,19 @@
     "neuronB": {
       "model": "neuron"
     },
-    "files": {
-      "collection": "file",
-      "via": "related",
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos"
-      ],
-      "plugin": "upload",
-      "required": false,
-      "pluginOptions": {}
-    },
     "metadata": {
       "type": "text"
     },
     "weight": {
       "type": "integer"
     },
-    "timepoints": {
-      "type": "json"
+    "filename": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "timepoint": {
+      "type": "biginteger"
     }
   }
 }
