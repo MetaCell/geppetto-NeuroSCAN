@@ -18,3 +18,9 @@ const backendURL = process.env.REACT_APP_BACKEND_URL || '';
 export const backendClient = axios.create({
   baseURL: backendURL,
 });
+
+export const VIEWER_MENU = {
+  devStage: 'devStages',
+  layers: 'layers',
+  download: 'download',
+};

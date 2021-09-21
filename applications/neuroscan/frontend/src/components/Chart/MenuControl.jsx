@@ -1,37 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Menu,
-  MenuItem,
-  makeStyles,
+  Popover,
 } from '@material-ui/core';
-import PLUS from '../../images/plus_white.svg';
-
-const useStyles = makeStyles(() => ({
-  mr_8: {
-    marginRight: '.5rem',
-  },
-}));
+import { VIEWER_MENU } from '../../utilities/constants';
+import LayersMenu from './ControlMenus/LayersMenu';
+import DevStageMenu from './ControlMenus/DevStageMenu';
+import DownloadMenu from './ControlMenus/DownloadMenu';
 
 const MenuControl = ({
-  anchorEl, handleClose,
+  anchorEl, handleClose, open, id, selection,
 }) => {
-  const classes = useStyles();
+  const [content, setContent] = useState(null);
+  const [developmentalStage, setDevelopmentalStage] = React.useState(0);
+
+  useEffect(() => {
+    switch (selection) {
+      case VIEWER_MENU.devStage: setContent(
+        <DevStageMenu
+          setDevelopmentalStage={setDevelopmentalStage}
+          developmentalStage={developmentalStage}
+        />,
+      );
+        break;
+      case VIEWER_MENU.layers: setContent(<LayersMenu />);
+        break;
+      case VIEWER_MENU.download: setContent(<DownloadMenu />);
+        break;
+      default:
+        setContent(null);
+    }
+  }, [selection]);
+
   return (
-    <Menu
-      id="menuControl"
+    <Popover
+      id={id}
+      open={open}
       anchorEl={anchorEl}
-      keepMounted
-      open={Boolean(anchorEl)}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       onClose={handleClose}
-      getContentAnchorEl={null}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'left',
+      }}
     >
-      <MenuItem onClick={handleClose}>
-        <img src={PLUS} className={classes.mr_8} alt="PLUS" />
-        Add to New Viewer
-      </MenuItem>
-    </Menu>
+      { content }
+    </Popover>
   );
 };
 
