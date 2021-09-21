@@ -12,7 +12,7 @@ const MenuControl = ({
 }) => {
   const [content, setContent] = useState(null);
   const [developmentalStage, setDevelopmentalStage] = React.useState(0);
-
+  const layersList = ['Worm Body', 'Pharynx', 'NerveRing'];
   useEffect(() => {
     switch (selection) {
       case VIEWER_MENU.devStage: setContent(
@@ -22,7 +22,7 @@ const MenuControl = ({
         />,
       );
         break;
-      case VIEWER_MENU.layers: setContent(<LayersMenu />);
+      case VIEWER_MENU.layers: setContent(<LayersMenu layers={layersList} />);
         break;
       case VIEWER_MENU.download: setContent(<DownloadMenu />);
         break;
