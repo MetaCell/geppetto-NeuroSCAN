@@ -8,7 +8,6 @@ import searchMiddleware from './searchMiddleware';
 import { SEARCH_DEFAULT_STATUS } from './reducers/search';
 
 const INIT_STATE = {
-  viewers: {},
   devStages: {},
   misc: {},
   search: SEARCH_DEFAULT_STATUS.search,

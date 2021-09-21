@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { backendClient, maxRecordsPerFetch } from '../utilities/constants';
+import { SYNAPSE_TYPE, backendClient, maxRecordsPerFetch } from '../utilities/constants';
 
 const synapsesBackendUrl = '/synapses';
 
@@ -37,8 +37,9 @@ export class SynapseService {
       }
     }
     if (searchTerms.length === 3) {
-      // 3 terms so search for the third in the synapses UID field
-      andPart.push({ uid_contains: searchTerms[2] });
+      // 3 terms so search for the third in the synapses postNeuron
+      // TODO: add here the search for the Pre/Post neuron
+      andPart.push({ 'postNeuron.uid_contains': searchTerms[2] });
     }
     if (filters.synapsesFilter.chemical) {
       andPart.push({
@@ -61,7 +62,10 @@ export class SynapseService {
   async search(searchState) {
     const query = this.constructQuery(searchState);
     const response = await backendClient.get(`${synapsesBackendUrl}?${query}`);
-    return response.data;
+    return response.data.map((synapse) => ({
+      instanceType: SYNAPSE_TYPE,
+      ...synapse,
+    }));
   }
 
   async totalCount(searchState) {

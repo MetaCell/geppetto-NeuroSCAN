@@ -132,49 +132,47 @@ const CameraControls = (props) => {
   );
 
   return (
-    <>
-      <div className="position-toolbar">
-        <div className="left">
-          <Box className="mode-selector">
-            <RadioOption value={backgrounds.DARK} image={DARK} />
-            <RadioOption value={backgrounds.LIGHT} image={LIGHT} />
-          </Box>
-          {
-            controlsLeft.map((value, index) => (
-              <Tooltip title={value.tooltip} placement="top" key={`left_'${index}`}>
-                <IconButton
-                  disableRipple
-                  key={value?.tooltip}
-                  aria-describedby={id}
-                  ref={value?.ref}
-                  onClick={(event) => handleClick(event, value?.ref, value?.constant)}
-                >
-                  <img
-                    src={value.image}
-                    alt={value?.tooltip}
-                  />
-                </IconButton>
-              </Tooltip>
-            ))
-          }
-          <MenuControl
-            id={id}
-            open={open}
-            handleClose={handleClose}
-            anchorEl={anchorEl}
-            selection={selection}
-          />
-        </div>
-
-        <div className="right">
-          {
-            controlsRight.map((value, index) => (
-              <Control key={index} value={value} />
-            ))
-          }
-        </div>
+    <div className="position-toolbar">
+      <div className="left">
+        <Box className="mode-selector">
+          <RadioOption value={backgrounds.DARK} image={DARK} />
+          <RadioOption value={backgrounds.LIGHT} image={LIGHT} />
+        </Box>
+        {
+          controlsLeft.map((value, index) => (
+            <Tooltip title={value.tooltip} placement="top" key={`left_'${index}`}>
+              <IconButton
+                disableRipple
+                key={value?.tooltip}
+                aria-describedby={id}
+                ref={value?.ref}
+                onClick={(event) => handleClick(event, value?.ref, value?.constant)}
+              >
+                <img
+                  src={value.image}
+                  alt={value?.tooltip}
+                />
+              </IconButton>
+            </Tooltip>
+          ))
+        }
+        <MenuControl
+          id={id}
+          open={open}
+          handleClose={handleClose}
+          anchorEl={anchorEl}
+          selection={selection}
+        />
       </div>
-    </>
+
+      <div className="right">
+        {
+          controlsRight.map((value, index) => (
+            <Control key={index} value={value} />
+          ))
+        }
+      </div>
+    </div>
   );
 };
 

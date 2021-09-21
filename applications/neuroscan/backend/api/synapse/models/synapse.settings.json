@@ -15,18 +15,6 @@
     "neuronPre": {
       "model": "neuron"
     },
-    "files": {
-      "collection": "file",
-      "via": "related",
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos"
-      ],
-      "plugin": "upload",
-      "required": false,
-      "pluginOptions": {}
-    },
     "type": {
       "type": "enumeration",
       "enum": [
@@ -36,9 +24,6 @@
     },
     "uid": {
       "type": "uid"
-    },
-    "timepoints": {
-      "type": "json"
     },
     "metadata": {
       "type": "text"
@@ -61,6 +46,15 @@
     },
     "neuronSite": {
       "type": "string"
+    },
+    "filename": {
+      "type": "string"
+    },
+    "timepoint": {
+      "type": "biginteger"
+    },
+    "postNeuron": {
+      "model": "neuron"
     }
   }
 }
