@@ -86,7 +86,7 @@ const theme = createTheme({
         '&.dark': {
           '&.right': {
             '& .MuiPaper-root': {
-              transform: 'translateY(3px) translateX(0) !important',
+              transform: 'translateY(0.1875rem) translateX(0) !important',
               '&::before': {
                 left: 'auto',
                 right: '1.0625rem',
@@ -100,7 +100,7 @@ const theme = createTheme({
             border: 'none',
             boxShadow: '0 .125rem .4375rem rgba(0, 0, 0, 0.15), 0 .3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
             borderRadius: `calc(${radius} - .25rem)`,
-            transform: 'translateY(3px) translateX(-16px) !important',
+            transform: 'translateY(0.1875rem) translateX(-1rem) !important',
             '&::before': {
               background: buttonOutlineColor,
             },
@@ -150,7 +150,7 @@ const theme = createTheme({
         borderRadius: '0.125rem',
         overflowX: 'visible',
         overflowY: 'visible',
-        transform: 'translateY(12px) translateX(-24px) !important',
+        transform: 'translateY(0.75rem) translateX(-1.5rem) !important',
         '&::before': {
           content: '""',
           width: '0.875rem',
@@ -160,6 +160,81 @@ const theme = createTheme({
           left: '1.0625rem',
           background: whiteTextColor,
           transform: 'rotate(45deg)',
+        },
+
+        '& .color-picker': {
+          '&--body': {
+            display: 'flex',
+
+            '& .list': {
+              flexGrow: 1,
+              borderRight: `0.0625rem solid ${modalBorderColor}`,
+              '& .MuiList-root': {
+                overflow: 'auto',
+                maxHeight: '20.9375rem',
+                '& .MuiDivider-root': {
+                  backgroundColor: modalBorderColor,
+                  marginTop: `calc(${gutter} / 2)`,
+                  marginBottom: `calc(${gutter} / 4)`,
+                },
+                '& .MuiListItem-root': {
+                  padding: '0',
+                  '& .MuiListItemText-root': {
+                    margin: '0',
+                    '&.selected': {
+                      '& .MuiTypography-root': {
+                        background: treeItemActiveColor,
+                      },
+                    },
+                    '& .MuiTypography-root': {
+                      fontSize: '0.75rem',
+                      lineHeight: '1rem',
+                      letterSpacing: '0.005em',
+                      color: lightBlackColor,
+                      display: 'flex',
+                      alignItems: 'center',
+                      height: '2rem',
+                      padding: '0 1rem',
+                      cursor: 'pointer',
+                      '& img': {
+                        marginRight: '0.5rem',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            '& .picker': {
+              padding: '0.5rem',
+              width: '13.0625rem',
+              '&.inactive': {
+                '& .chrome-picker ': {
+                  opacity: '0.3',
+                  pointerEvents: 'none',
+                },
+              },
+              '& .chrome-picker ': {
+                boxShadow: 'none !important',
+                maxWidth: '100%',
+                '& > div:first-child': {
+                  paddingBottom: '13.9375rem !important',
+                },
+                '& > div:last-child': {
+                  padding: '0.5rem 0 0 !important',
+                },
+              },
+            },
+          },
+          '&--header': {
+            minWidth: '26.0625rem',
+            fontWeight: '500',
+            fontSize: '0.75rem',
+            lineHeight: '1rem',
+            letterSpacing: '0.005em',
+            color: lightBlackColor,
+            padding: '0.75rem 0.5rem',
+            boxShadow: `0 0.0625rem 0 ${modalBorderColor}`,
+          },
         },
 
         '& .development-stage': {
