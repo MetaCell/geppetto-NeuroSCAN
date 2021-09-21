@@ -23,4 +23,5 @@ export const VIEWER_MENU = {
   devStage: 'devStages',
   layers: 'layers',
   download: 'download',
+  colorPicker: 'colorPicker',
 };
