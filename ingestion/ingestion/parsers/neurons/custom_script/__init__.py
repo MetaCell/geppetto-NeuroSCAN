@@ -11,7 +11,7 @@ def custom_script(data):
                     'embryonic'] = True
             else:
                 data[tp][neuron][list(data[tp][neuron].keys())[0]]['embryonic'] = False
-            for source in data[tp][neuron]:
-                if 'timepoints' in data[tp][neuron][source]:
-                    data[tp][neuron][source]['timepoints'] = json.dumps([data[tp][neuron][source]['timepoints']])
+            # for source in data[tp][neuron]:
+            #     if 'timepoints' in data[tp][neuron][source]:
+            #         data[tp][neuron][source]['timepoints'] = json.dumps([data[tp][neuron][source]['timepoints']])
     return data
