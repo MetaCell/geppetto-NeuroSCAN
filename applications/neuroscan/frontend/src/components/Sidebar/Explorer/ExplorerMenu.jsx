@@ -28,12 +28,11 @@ const ExplorerMenu = ({
         horizontal: 'right',
       }}
     >
-      <List disableGutters disablePadding>
+      <List>
         <ListItem
           onClick={handleMenuClose}
           role="button"
           button
-          disableGutters
         >
           <ListItemText>
             <Typography>Select</Typography>
@@ -45,7 +44,6 @@ const ExplorerMenu = ({
         <ListItem
           onClick={handleMenuClose}
           role="button"
-          disableGutters
           button
         >
           <ListItemText>

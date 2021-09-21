@@ -96,7 +96,7 @@ const Header = (props) => {
         horizontal: 'center',
       }}
     >
-      <List disableGutters disablePadding>
+      <List>
         <ListItem
           role="button"
           button

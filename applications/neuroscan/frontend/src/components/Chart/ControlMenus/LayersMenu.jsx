@@ -23,7 +23,7 @@ const LayersMenu = () => {
   return (
     <Box className="layers">
       <Typography component="h3">Strata</Typography>
-      <List disableGutters disablePadding>
+      <List>
         {[0, 1, 2, 3].map((value) => {
           const labelId = `checked${value}`;
           return (

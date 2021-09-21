@@ -22,8 +22,8 @@ const DownloadMenu = () => {
   return (
     <Box className="download">
       <Box className="download-body">
-        <List disableGutters disablePadding>
-          <ListItem disablePadding disableGutters>
+        <List>
+          <ListItem>
             <Radio
               checked={selectedValue === 'a'}
               onChange={handleChange}
@@ -37,7 +37,7 @@ const DownloadMenu = () => {
               <Typography>OBJs files</Typography>
             </ListItemText>
           </ListItem>
-          <ListItem disablePadding disableGutters>
+          <ListItem>
             <Radio
               checked={selectedValue === 'b'}
               onChange={handleChange}
