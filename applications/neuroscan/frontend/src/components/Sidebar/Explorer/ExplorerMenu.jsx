@@ -1,31 +1,70 @@
 import React from 'react';
 import {
-  Menu,
-  MenuItem,
   Divider,
+  Popover,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
 } from '@material-ui/core';
 
 const ExplorerMenu = ({
   anchorEl, handleMenuClose, open,
 }) => {
-  const menuId = 'primary-search-account-menu';
+  const menuId = 'explorer-menu-option';
   return (
-    <Menu
-      anchorEl={anchorEl}
+    <Popover
+      className="dark right"
       id={menuId}
-      keepMounted
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={open}
+      anchorEl={anchorEl}
       onClose={handleMenuClose}
-      getContentAnchorEl={null}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
     >
+      <List disableGutters disablePadding>
+        <ListItem
+          onClick={handleMenuClose}
+          role="button"
+          button
+          disableGutters
+        >
+          <ListItemText>
+            <Typography>Select</Typography>
+          </ListItemText>
+        </ListItem>
 
-      <MenuItem onClick={handleMenuClose}>Select</MenuItem>
-      <Divider />
-      <MenuItem onClick={handleMenuClose}>Hide</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Delete</MenuItem>
-    </Menu>
+        <Divider />
+
+        <ListItem
+          onClick={handleMenuClose}
+          role="button"
+          disableGutters
+          button
+        >
+          <ListItemText>
+            <Typography>Hide</Typography>
+          </ListItemText>
+        </ListItem>
+
+        <ListItem
+          onClick={handleMenuClose}
+          role="button"
+          disableGutters
+          button
+        >
+          <ListItemText>
+            <Typography>Delete</Typography>
+          </ListItemText>
+        </ListItem>
+      </List>
+    </Popover>
   );
 };
 
