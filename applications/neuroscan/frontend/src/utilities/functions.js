@@ -3,7 +3,11 @@ import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model
 import { addWidget, updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
 import { defaultCameraOptions } from './defaults';
 import { createSimpleInstancesFromInstances } from '../services/helpers';
-import { VIEWERS } from './constants';
+import {
+  VIEWERS,
+  filesURL,
+  NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE,
+} from './constants';
 
 // flatten the tree to an flat array
 export const flatten = (children, extractChildren) => Array.prototype.concat.apply(
@@ -72,3 +76,27 @@ export const addToWidget = async (
     newWidget.config.instances = widget.config.instances.concat(instances);
     return updateWidget(newWidget);
   });
+
+export const getDevStageFromTimepoint = (timepoint) => {
+  // TODO: implement logic to determine the devstage from the timepoint
+  const devStage = 'L4_JSH';
+  return devStage;
+};
+
+export const getLocationPrefixFromType = (item) => {
+  const devStage = getDevStageFromTimepoint(item.timepoint);
+  switch (item.instanceType) {
+    case NEURON_TYPE: {
+      return `${filesURL}/neuroscan/${devStage}/${item.timepoint}/neurons/${item.filename}`;
+    }
+    case CONTACT_TYPE: {
+      return `${filesURL}/neuroscan/${devStage}/${item.timepoint}/contacts/${item.filename}`;
+    }
+    case SYNAPSE_TYPE: {
+      return `${filesURL}/neuroscan/${devStage}/${item.timepoint}/synapses/${item.filename}`;
+    }
+    default: {
+      return '';
+    }
+  }
+};

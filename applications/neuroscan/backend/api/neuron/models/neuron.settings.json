@@ -12,16 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "files": {
-      "collection": "file",
-      "via": "related",
-      "allowedTypes": [
-        "files"
-      ],
-      "plugin": "upload",
-      "required": false,
-      "pluginOptions": {}
-    },
     "metadata": {
       "type": "text"
     },
@@ -29,10 +19,8 @@
       "type": "string"
     },
     "uid": {
-      "type": "uid"
-    },
-    "timepoints": {
-      "type": "json"
+      "type": "uid",
+      "required": true
     },
     "embryonic": {
       "type": "boolean"
@@ -42,6 +30,15 @@
     },
     "location": {
       "type": "string"
+    },
+    "filename": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "timepoint": {
+      "type": "biginteger",
+      "required": true
     }
   }
 }
