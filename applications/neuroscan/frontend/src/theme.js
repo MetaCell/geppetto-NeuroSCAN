@@ -179,13 +179,11 @@ const theme = createTheme({
                 },
                 '& .MuiListItem-root': {
                   padding: '0',
+                  '&.Mui-selected': {
+                    background: treeItemActiveColor,
+                  },
                   '& .MuiListItemText-root': {
                     margin: '0',
-                    '&.selected': {
-                      '& .MuiTypography-root': {
-                        background: treeItemActiveColor,
-                      },
-                    },
                     '& .MuiTypography-root': {
                       fontSize: '0.75rem',
                       lineHeight: '1rem',
