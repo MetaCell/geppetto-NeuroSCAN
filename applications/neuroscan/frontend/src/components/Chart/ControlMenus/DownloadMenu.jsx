@@ -11,18 +11,20 @@ import {
 import OBJ from '../../../images/obj.svg';
 import SCREENSHOT from '../../../images/screenshot.svg';
 import TICK from '../../../images/tick-circle.svg';
+import OBJ_UNSELECTED from '../../../images/obj_unselected.svg';
+import SCREENSHOT_SELECT from '../../../images/screenshot_selected.svg';
 
 const DownloadMenu = ({ downloadFiles }) => {
   const controls = [
     {
       value: 'object',
       image: OBJ,
-      unselectedImage: OBJ,
+      unselectedImage: OBJ_UNSELECTED,
       displayText: 'OBJs files',
     },
     {
       value: 'screenshot',
-      image: SCREENSHOT,
+      image: SCREENSHOT_SELECT,
       unselectedImage: SCREENSHOT,
       displayText: 'Screenshot',
     },
