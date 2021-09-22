@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   makeStyles,
   Box,
@@ -7,8 +8,6 @@ import {
 } from '@material-ui/core';
 import DOWN from '../../images/chevron-down.svg';
 import vars from '../../styles/constants';
-
-const stages = ['L1', 'L2', 'L3', 'L4', 'Adult'];
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -34,8 +33,8 @@ const useStyles = makeStyles(() => ({
       color: vars?.captionTextColor,
       textAlign: 'center',
       flexShrink: 0,
+      paddingLeft: '2px',
       borderLeft: `1px solid ${vars.sliderBorderColor}`,
-      width: `calc(100% / ${stages.length})`,
       '&:last-child': {
         borderRight: `1px solid ${vars.sliderBorderColor}`,
       },
@@ -45,62 +44,67 @@ const useStyles = makeStyles(() => ({
 
 const sliderMarker = <img width="6" height="4" src={DOWN} alt="DOWN" />;
 
-const DevelopmentalStageFilter = ({ developmentalStage, setDevelopmentalStage }) => {
+const DevelopmentalStageFilter = (props) => {
+  const { timePoint, setTimePoint } = props;
   const classes = useStyles();
-  const marks = [
-    {
-      value: 0,
-      label: sliderMarker,
-    },
-    {
-      value: 75,
-      label: sliderMarker,
-    },
-    {
-      value: 250,
-      label: sliderMarker,
-    },
-    {
-      value: 260,
-      label: sliderMarker,
-    },
-    {
-      value: 400,
-      label: sliderMarker,
-    },
-    {
-      value: 450,
-      label: sliderMarker,
-    },
-    {
-      value: 600,
-      label: sliderMarker,
-    },
-  ];
 
-  const [sliderVal, setSliderVal] = React.useState(developmentalStage);
+  const [sliderVal, setSliderVal] = React.useState(timePoint);
+  const developmentalStages = useSelector((state) => state.devStages);
+
+  developmentalStages
+    .reduce((x, devStage) => (x.concat(devStage.timepoints?.split(','))), [])
+    .filter((item) => item !== undefined)
+    .map((mark) => ({
+      value: mark,
+      label: sliderMarker,
+    }));
 
   const handleChange = (e, value) => {
     if (value !== sliderVal) {
       setSliderVal(value);
-      setDevelopmentalStage(value);
+      setTimePoint(value);
     }
   };
 
-  return (
+  const marks = developmentalStages
+    .reduce((x, devStage) => (x.concat(devStage.timepoints?.split(','))), [])
+    .filter((item) => item !== undefined)
+    .map((mark) => ({
+      value: parseInt(mark, 10),
+      label: sliderMarker,
+    }));
+
+  const min = Math.min(...developmentalStages.map((devStage) => devStage.begin));
+  // eslint-disable-next-line max-len
+  const max = Math.max(...developmentalStages.map((devStage) => Math.max(devStage.end, devStage.begin)));
+  const stepWidth = (max - min) / 90;
+
+  return developmentalStages.length > 0 && (
     <Box className={classes.root}>
       <Slider
-        defaultValue={developmentalStage}
+        defaultValue={timePoint}
         aria-labelledby="developmental-stage-filter"
         step={null}
         valueLabelDisplay="auto"
         marks={marks}
+        min={min}
+        max={max}
         aria-label="Developmental Stages Filter"
         onChange={handleChange}
       />
       <Box className={classes.sliderValue}>
         {
-          stages.map((stage) => <Typography key={stage}>{stage}</Typography>)
+          developmentalStages.map((stage) => {
+            const stageWidth = (Math.max(stage.end, stage.begin) - stage.begin) / stepWidth;
+            return (
+              <Typography
+                key={stage.id}
+                style={{ width: `${stageWidth}%` }}
+              >
+                {stage.name}
+              </Typography>
+            );
+          })
         }
       </Box>
     </Box>

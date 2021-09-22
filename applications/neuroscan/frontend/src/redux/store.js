@@ -6,9 +6,10 @@ import middleware from './middleware';
 import searchMiddleware from './searchMiddleware';
 
 import { SEARCH_DEFAULT_STATUS } from './reducers/search';
+import { DEVSTAGES_DEFAULT_STATUS } from './reducers/devStages';
 
 const INIT_STATE = {
-  devStages: {},
+  devStages: DEVSTAGES_DEFAULT_STATUS,
   misc: {},
   search: SEARCH_DEFAULT_STATUS.search,
 };

@@ -14,15 +14,15 @@ const Search = (props) => {
   const dispatch = useDispatch();
   const {
     searchTerms, setSearchTerms,
-    developmentalStage, setDevelopmentalStage,
+    timePoint, setTimePoint,
   } = props;
 
   useEffect(() => {
     dispatch(search.updateFilters({
       searchTerms,
-      developmentalStage,
+      timePoint,
     }));
-  }, [searchTerms, developmentalStage]);
+  }, [searchTerms, timePoint]);
 
   function addSearchTerm(value) {
     if (searchTerms.indexOf(value) > -1) {
@@ -76,8 +76,8 @@ const Search = (props) => {
         <Typography variant="caption">Filter by Developmental Stage</Typography>
       </Box>
       <DevelopmentalStageFilter
-        setDevelopmentalStage={setDevelopmentalStage}
-        developmentalStage={developmentalStage}
+        timePoint={timePoint}
+        setTimePoint={setTimePoint}
       />
     </Box>
   );

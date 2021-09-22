@@ -26,10 +26,13 @@ export class NeuronService {
   }
 
   constructQuery(searchState) {
-    const { searchTerms } = searchState.filters;
+    const { searchTerms, timePoint } = searchState.filters;
     const results = searchState.results.neurons;
     return qs.stringify({
-      _where: { _or: searchTerms.map((term) => ({ uid_contains: term })) },
+      _where: [
+        { timepoint: timePoint },
+        { _or: searchTerms.map((term) => ({ uid_contains: term })) },
+      ],
       _sort: 'uid:ASC',
       _start: results.items.length,
       _limit: maxRecordsPerFetch,

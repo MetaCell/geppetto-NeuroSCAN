@@ -106,7 +106,7 @@ const LeftSidebar = (props) => {
   const classes = useStyles();
   const { shrink } = props;
   const [searchTerms, setSearchTerms] = useState([]);
-  const [developmentalStage, setDevelopmentalStage] = useState(0);
+  const [timePoint, setTimePoint] = useState(0);
   const [openFilterModal, setOpenFilterModal] = useState(false);
 
   return (
@@ -139,8 +139,8 @@ const LeftSidebar = (props) => {
                   <Search
                     setSearchTerms={setSearchTerms}
                     searchTerms={searchTerms}
-                    setDevelopmentalStage={setDevelopmentalStage}
-                    developmentalStage={developmentalStage}
+                    timePoint={timePoint}
+                    setTimePoint={setTimePoint}
                   />
 
                   <Results />

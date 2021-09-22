@@ -21,9 +21,10 @@ export class ContactService {
   }
 
   constructQuery(searchState) {
-    const { searchTerms } = searchState.filters;
+    const { searchTerms, timePoint } = searchState.filters;
     const results = searchState.results.contacts;
     const andPart = [];
+    andPart.push({ timepoint: timePoint });
     if (searchTerms.length > 0) {
       // eslint-disable-next-line no-plusplus
       for (let idx = 0; idx < Math.min(searchTerms.length, 2); idx++) {

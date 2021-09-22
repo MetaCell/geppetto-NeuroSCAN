@@ -22,9 +22,10 @@ export class SynapseService {
 
   constructQuery(searchState) {
     const { filters } = searchState;
-    const { searchTerms } = filters;
+    const { searchTerms, timePoint } = filters;
     const results = searchState.results.synapses;
     const andPart = [];
+    andPart.push({ timepoint: timePoint });
     if (searchTerms.length > 0) {
       const preInPart = [];
       const postInPart = [];

@@ -39,7 +39,7 @@ export default (state = SEARCH_DEFAULT_STATUS, action) => {
         filters: {
           ...state.filters,
           ...action.searchTerms,
-          ...action.developmentalStage,
+          ...action.timePoint,
           ...action.synapsesFilter,
         },
         searchesCount: state.searchesCount + 3, // neurons, contacts, synapses
