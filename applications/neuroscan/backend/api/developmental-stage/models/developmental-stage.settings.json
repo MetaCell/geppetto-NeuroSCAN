@@ -27,11 +27,12 @@
     "order": {
       "type": "integer"
     },
-    "timepoints": {
-      "type": "json"
-    },
     "promoterDB": {
       "type": "boolean"
+    },
+    "timepoints": {
+      "type": "string",
+      "required": true
     }
   }
 }
