@@ -34,8 +34,7 @@ export class SynapseService {
         preInPart.push({ 'neuronPre.uid_contains': searchTerms[idx] });
         postInPart.push({ 'neuronPost.uid_contains': searchTerms[idx] });
       }
-      andPart.push({ _or: preInPart });
-      andPart.push({ _or: postInPart });
+      andPart.push({ _or: [{ _or: preInPart }, { _or: postInPart }] });
     }
     // if (searchTerms.length === 3) {
     //   // 3 terms so search for the third in the synapses postNeuron
@@ -52,6 +51,7 @@ export class SynapseService {
         type: 'electrical',
       });
     }
+    const z = qs.stringify({ _where: andPart });
     return qs.stringify({
       _where: andPart,
       _sort: 'uid:ASC',
