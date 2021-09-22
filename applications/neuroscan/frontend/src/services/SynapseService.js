@@ -26,21 +26,21 @@ export class SynapseService {
     const results = searchState.results.synapses;
     const andPart = [];
     if (searchTerms.length > 0) {
+      const preInPart = [];
+      const postInPart = [];
       // eslint-disable-next-line no-plusplus
-      for (let idx = 0; idx < Math.min(searchTerms.length, 2); idx++) {
-        andPart.push({
-          _or: [
-            { 'neuronPre.uid_contains': searchTerms[idx] },
-            { 'neuronPost.uid_contains': searchTerms[idx] },
-          ],
-        });
+      for (let idx = 0; idx < Math.min(searchTerms.length, 3); idx++) {
+        preInPart.push({ 'neuronPre.uid_contains': searchTerms[idx] });
+        postInPart.push({ 'neuronPost.uid_contains': searchTerms[idx] });
       }
+      andPart.push({ _or: preInPart });
+      andPart.push({ _or: postInPart });
     }
-    if (searchTerms.length === 3) {
-      // 3 terms so search for the third in the synapses postNeuron
-      // TODO: add here the search for the Pre/Post neuron
-      andPart.push({ 'postNeuron.uid_contains': searchTerms[2] });
-    }
+    // if (searchTerms.length === 3) {
+    //   // 3 terms so search for the third in the synapses postNeuron
+    //   // TODO: add here the search for the Pre/Post neuron
+    //   andPart.push({ 'postNeuron.uid_contains': searchTerms[2] });
+    // }
     if (filters.synapsesFilter.chemical) {
       andPart.push({
         type: 'chemical',
