@@ -51,7 +51,6 @@ export class SynapseService {
         type: 'electrical',
       });
     }
-    const z = qs.stringify({ _where: andPart });
     return qs.stringify({
       _where: andPart,
       _sort: 'uid:ASC',
