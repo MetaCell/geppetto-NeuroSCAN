@@ -34,7 +34,7 @@ ENV DATABASE_FILENAME .tmp/data.db
 
 # install rclone
 WORKDIR /tmp
-COPY rclone-current-linux-amd64.zip /tmp
+COPY ./backend/rclone/rclone-current-linux-amd64.zip /tmp
 RUN unzip rclone-current-linux-amd64.zip
 RUN rm rclone-current-linux-amd64.zip
 RUN cp rclone*/rclone /usr/bin/rclone
