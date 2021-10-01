@@ -49,15 +49,7 @@ const DevelopmentalStageFilter = (props) => {
   const classes = useStyles();
 
   const [sliderVal, setSliderVal] = React.useState(timePoint);
-  const developmentalStages = useSelector((state) => state.devStages);
-
-  developmentalStages
-    .reduce((x, devStage) => (x.concat(devStage.timepoints?.split(','))), [])
-    .filter((item) => item !== undefined)
-    .map((mark) => ({
-      value: mark,
-      label: sliderMarker,
-    }));
+  const devStages = useSelector((state) => state.devStages.neuroSCAN);
 
   const handleChange = (e, value) => {
     if (value !== sliderVal) {
@@ -66,7 +58,7 @@ const DevelopmentalStageFilter = (props) => {
     }
   };
 
-  const marks = developmentalStages
+  const marks = devStages
     .reduce((x, devStage) => (x.concat(devStage.timepoints?.split(','))), [])
     .filter((item) => item !== undefined)
     .map((mark) => ({
@@ -74,12 +66,12 @@ const DevelopmentalStageFilter = (props) => {
       label: sliderMarker,
     }));
 
-  const min = Math.min(...developmentalStages.map((devStage) => devStage.begin));
+  const min = Math.min(...devStages.map((devStage) => devStage.begin));
   // eslint-disable-next-line max-len
-  const max = Math.max(...developmentalStages.map((devStage) => Math.max(devStage.end, devStage.begin)));
+  const max = Math.max(...devStages.map((devStage) => Math.max(devStage.end, devStage.begin)));
   const stepWidth = (max - min) / 90;
 
-  return developmentalStages.length > 0 && (
+  return devStages.length > 0 && (
     <Box className={classes.root}>
       <Slider
         defaultValue={timePoint}
@@ -94,7 +86,7 @@ const DevelopmentalStageFilter = (props) => {
       />
       <Box className={classes.sliderValue}>
         {
-          developmentalStages.map((stage) => {
+          devStages.map((stage) => {
             const stageWidth = (Math.max(stage.end, stage.begin) - stage.begin) / stepWidth;
             return (
               <Typography
