@@ -85,8 +85,18 @@ const theme = createTheme({
       root: {
         '&.dark': {
           '&.right': {
+            '&#addToViewerMenu': {
+              '& .MuiPaper-root': {
+                transform: 'translateY(1rem) translateX(0) !important',
+              },
+            },
+            '&#explorer-menu-option': {
+              '& .MuiPaper-root': {
+                transform: 'translateY(0.5rem) translateX(0) !important',
+              },
+            },
             '& .MuiPaper-root': {
-              transform: 'translateY(3px) translateX(0) !important',
+              transform: 'translateY(0.1875rem) translateX(0) !important',
               '&::before': {
                 left: 'auto',
                 right: '1.0625rem',
@@ -100,7 +110,7 @@ const theme = createTheme({
             border: 'none',
             boxShadow: '0 .125rem .4375rem rgba(0, 0, 0, 0.15), 0 .3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
             borderRadius: `calc(${radius} - .25rem)`,
-            transform: 'translateY(3px) translateX(-16px) !important',
+            transform: 'translateY(0.1875rem) translateX(-1rem) !important',
             '&::before': {
               background: buttonOutlineColor,
             },
@@ -113,6 +123,12 @@ const theme = createTheme({
               },
               '& .MuiListItem-root': {
                 padding: '0.25rem 1rem',
+
+                '& .MuiTypography-caption': {
+                  maxWidth: '11.875rem',
+                  wordBreak: 'break-all',
+                  whiteSpace: 'normal',
+                },
                 '&:hover': {
                   background: primaryColor,
                 },
@@ -150,7 +166,7 @@ const theme = createTheme({
         borderRadius: '0.125rem',
         overflowX: 'visible',
         overflowY: 'visible',
-        transform: 'translateY(12px) translateX(-24px) !important',
+        transform: 'translateY(0.75rem) translateX(-1.5rem) !important',
         '&::before': {
           content: '""',
           width: '0.875rem',
@@ -990,6 +1006,9 @@ const theme = createTheme({
               margin: '0',
               '& span': {
                 letterSpacing: '0.005em',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
               },
             },
           },
@@ -1170,16 +1189,21 @@ const theme = createTheme({
                     '& .MuiIconButton-root': {
                       padding: 0,
                       display: 'none',
+                      marginLeft: '0.5rem',
                       transition,
                     },
                     '& > img': {
                       transform: 'rotate(-90deg)',
                       transition,
+                      marginRight: '.5rem',
                     },
                   },
                   '& .labelIcon': {
-                    margin: '0 .5rem',
+                    margin: '0 .5rem 0 0',
                     flexShrink: 0,
+                  },
+                  '& .MuiIconButton-edgeStart': {
+                    marginLeft: 0,
                   },
                   '& .labelText': {
                     fontWeight: '500',
@@ -1188,6 +1212,9 @@ const theme = createTheme({
                     lineHeight: '1rem',
                     color: lightBlackColor,
                     letterSpacing: '0.005em',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
                   },
                 },
               },
