@@ -74,7 +74,7 @@ const DevelopmentalStageFilter = (props) => {
   return devStages.length > 0 && (
     <Box className={classes.root}>
       <Slider
-        defaultValue={timePoint}
+        defaultValue={sliderVal}
         aria-labelledby="developmental-stage-filter"
         step={null}
         valueLabelDisplay="auto"
