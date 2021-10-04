@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 
 const ExplorerMenu = ({
-  anchorEl, handleMenuClose, open,
+  anchorEl, handleMenuClose, open, groups,
 }) => {
   const menuId = 'primary-search-account-menu';
   return (
@@ -22,6 +22,11 @@ const ExplorerMenu = ({
     >
 
       <MenuItem onClick={handleMenuClose}>Select</MenuItem>
+      <Divider />
+      <MenuItem onClick={handleMenuClose}>Add to group</MenuItem>
+      { groups && groups.map((group) => (
+        <MenuItem onClick={handleMenuClose}>{group}</MenuItem>
+      ))}
       <Divider />
       <MenuItem onClick={handleMenuClose}>Hide</MenuItem>
       <MenuItem onClick={handleMenuClose}>Delete</MenuItem>

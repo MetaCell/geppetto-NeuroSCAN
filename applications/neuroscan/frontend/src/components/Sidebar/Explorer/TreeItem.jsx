@@ -14,6 +14,9 @@ const StyledTreeItem = (props) => {
     labelText,
     labelIcon: LabelIcon,
     labelInfo,
+    onClick,
+    groups,
+    hasExplorerMenu,
     ...other
   } = props;
 
@@ -40,23 +43,36 @@ const StyledTreeItem = (props) => {
             <Box className="labelIcon">
               <img src={LabelIcon} alt="" />
             </Box>
-            <Typography variant="body2" className="labelText">
+            <Typography variant="body2" className="labelText" onClick={onClick}>
               {labelText}
             </Typography>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-            >
-              <MoreHorizIcon />
-            </IconButton>
+            {
+              hasExplorerMenu && (
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                >
+                  <MoreHorizIcon />
+                </IconButton>
+              )
+            }
           </div>
         )}
         {...other}
       />
-      <ExplorerMenu anchorEl={anchorEl} open={isMenuOpen} handleMenuClose={handleMenuClose} />
+      {
+        hasExplorerMenu && (
+          <ExplorerMenu
+            anchorEl={anchorEl}
+            open={isMenuOpen}
+            handleMenuClose={handleMenuClose}
+            groups={groups}
+          />
+        )
+      }
     </>
   );
 };

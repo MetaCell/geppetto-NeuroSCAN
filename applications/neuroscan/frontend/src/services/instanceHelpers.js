@@ -59,6 +59,7 @@ export const mapToInstance = (item) => {
     selected: false,
     color: colorDefault,
     instanceType: item.instanceType,
+    group: 'Group 1',
     content: {
       type: 'url',
       location,
