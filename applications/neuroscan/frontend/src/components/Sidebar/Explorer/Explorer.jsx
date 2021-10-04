@@ -135,7 +135,9 @@ const Explorer = () => {
   return (
     <Box className="wrap instances-box">
       {Object.entries(widgets).length === 0 ? (
-        <Typography variant="caption">No viewers added yet</Typography>
+        <Box pt={2}>
+          <Typography align="center" display="block" variant="caption">No viewers added yet</Typography>
+        </Box>
       ) : (
         <TreeView
           className="scrollbar"

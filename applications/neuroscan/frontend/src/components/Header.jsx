@@ -7,9 +7,11 @@ import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import {
   Divider,
-  Menu,
-  MenuItem,
   makeStyles,
+  Popover,
+  List,
+  ListItem,
+  ListItemText,
 } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import MenuIcon from '../images/icon-menu.svg';
@@ -79,28 +81,64 @@ const Header = (props) => {
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+    <Popover
+      className="dark"
       id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       open={isMenuOpen}
+      anchorEl={anchorEl}
       onClose={handleMenuClose}
-      getContentAnchorEl={null}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
     >
-      <MenuItem onClick={handeModalToggle}>{`About ${view?.title}`}</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Tutorial</MenuItem>
-      <Divider />
-      <MenuItem onClick={handleMenuClose}>
-        <Link to={view?.linkToRoute}>
-          <Typography component="strong">
-            {view?.linkTo}
-            <CallMadeIcon />
-          </Typography>
-        </Link>
-      </MenuItem>
-    </Menu>
+      <List>
+        <ListItem
+          role="button"
+          button
+          disableGutters
+          onClick={handeModalToggle}
+        >
+          <ListItemText>
+            <Typography>{`About ${view?.title}`}</Typography>
+          </ListItemText>
+        </ListItem>
+        <ListItem
+          role="button"
+          disableGutters
+          dense
+          button
+          onClick={handleMenuClose}
+        >
+          <ListItemText>
+            <Typography>Tutorial</Typography>
+          </ListItemText>
+        </ListItem>
+        <Divider />
+        <ListItem
+          button
+          component="a"
+          role="button"
+          disableGutters
+          dense
+          onClick={handleMenuClose}
+          to={view?.linkToRoute}
+        >
+          <ListItemText>
+            <Link to={view?.linkToRoute}>
+              <Typography component="strong">
+                {view?.linkTo}
+                <CallMadeIcon />
+              </Typography>
+            </Link>
+          </ListItemText>
+        </ListItem>
+      </List>
+    </Popover>
   );
 
   return (
@@ -116,6 +154,7 @@ const Header = (props) => {
                 aria-controls={menuId}
                 aria-haspopup="true"
                 onClick={handleProfileMenuOpen}
+                aria-describedby={menuId}
               >
                 <img src={MenuIcon} alt="Menu" />
               </IconButton>
