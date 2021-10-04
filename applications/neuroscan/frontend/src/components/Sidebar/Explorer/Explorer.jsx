@@ -15,7 +15,8 @@ import SYNAPSE from '../../../images/synapse.svg';
 import CONTACTS from '../../../images/contacts.svg';
 import CONTACT from '../../../images/contact.svg';
 import { NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE } from '../../../utilities/constants';
-import { getViewersFromWidgets, setInstanceSelected } from '../../../utilities/functions';
+import { getViewersFromWidgets } from '../../../utilities/functions';
+import { setInstanceSelected } from '../../../services/instanceHelpers';
 
 const EXPLORER_IMGS = {
   NEURONS,
