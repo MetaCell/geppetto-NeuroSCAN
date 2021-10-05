@@ -1,6 +1,9 @@
-#git clone https://github.com/MetaCell/geppetto-meta/
+mv package.json package.original
+mv development_package package.json 
+
+git clone https://github.com/MetaCell/geppetto-meta/
 cd geppetto-meta
-#git checkout development
+git checkout development
 
 #sleep 60
 
