@@ -11073,6 +11073,11 @@ material-ui-chip-input@^1.1.0:
     classnames "^2.2.5"
     prop-types "^15.6.1"
 
+material-ui-nested-menu-item@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/material-ui-nested-menu-item/-/material-ui-nested-menu-item-1.0.2.tgz#9d0999e7a70816f84e9caa0c3ad68948da719d66"
+  integrity sha512-LZb8xI0FrAI/A3P2vT3CB9bmSoOFWOK0dikTc1t9VvEpp1a8hZkbVUz7VhETnoLUYu3NXCkgulmXcl3zitqI9A==
+
 math-abs@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/math-abs/-/math-abs-1.0.2.tgz#8fb2675d969327a61a629821fc23e41faac5c4d3"

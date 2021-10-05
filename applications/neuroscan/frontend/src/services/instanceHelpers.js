@@ -23,6 +23,19 @@ export const setInstanceSelected = (instances, selectedUids) => instances.map((i
   };
 });
 
+export const updateInstanceGroup = (instances, instanceList, newGroup = null) => instances
+  .map((instance) => {
+    if (instanceList.find((x) => x.uid === instance.uid)) {
+      return {
+        ...instance,
+        group: newGroup === instance.group ? null : newGroup,
+      };
+    }
+    return {
+      ...instance,
+    };
+  });
+
 const getDevStageFromTimepoint = (timepoint) => {
   const state = store.getState();
   const devStage = state.devStages.neuroSCAN
@@ -82,11 +95,11 @@ const createSimpleInstance = async (instance) => {
   const { content } = instance;
 
   // TODO: uncomment line below, for testing purpose always add sphere.obj
-  const contentService = getContentService(content);
+  // const contentService = getContentService(content);
   // TODO: and remove these 3 lines
-  // const contentService = urlService;
-  // content.fileName = 'sphere.obj';
-  // content.location = `${backendURL}/uploads/${content.fileName}`;
+  const contentService = urlService;
+  content.fileName = 'sphere.obj';
+  content.location = `${filesURL}/../uploads/${content.fileName}`;
 
   const base64Content = await contentService.getBase64(content.location, content.fileName);
 

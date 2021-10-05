@@ -78,8 +78,8 @@ const Explorer = () => {
             labelText={`${instance.name}`}
             labelIcon={EXPLORER_IMGS[instance.instanceType]}
             instance={instance}
+            viewerId={viewerId}
             groups={groups}
-            hasExplorerMenu
             onClick={() => handleSelect(viewerId, instance)}
             {...other}
           />
@@ -91,7 +91,12 @@ const Explorer = () => {
   const getTreeItemsFromData = () => getViewersFromWidgets(widgets).map((widget) => {
     const { viewerId, instances } = widget.config;
     const labelIcon = EXPLORER_IMGS.MORPHOLOGY;
-    const groups = [...new Set(instances.map((instance) => instance.group))];
+    const groups = [
+      ...new Set(
+        instances
+          .filter((instance) => instance.group)
+          .map((instance) => instance.group),
+      )];
 
     return (
       <StyledTreeItem
@@ -111,6 +116,7 @@ const Explorer = () => {
                 label={`${instanceType}`}
                 instances={items}
                 groups={groups}
+                hasExplorerMenu
               />
             );
           })
