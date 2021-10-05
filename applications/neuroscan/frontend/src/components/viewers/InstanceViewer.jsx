@@ -5,6 +5,7 @@ import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/act
 import { makeStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
 import { colorFlash } from '../../utilities/defaults';
+// eslint-disable-next-line import/no-cycle
 import { setInstanceSelected } from '../../services/instanceHelpers';
 
 const useStyles = makeStyles({

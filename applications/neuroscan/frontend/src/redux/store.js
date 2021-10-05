@@ -1,7 +1,9 @@
 import { createStore } from '@metacell/geppetto-meta-client/common';
 import baseLayout from '../components/layout/defaultLayout';
+// eslint-disable-next-line import/no-cycle
 import componentMap from '../components/layout/componentMap';
 import reducers from './reducers/all';
+// eslint-disable-next-line import/no-cycle
 import middleware from './middleware';
 import searchMiddleware from './searchMiddleware';
 

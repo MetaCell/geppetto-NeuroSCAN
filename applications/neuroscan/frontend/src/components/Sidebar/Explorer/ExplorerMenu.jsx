@@ -1,9 +1,14 @@
 import React from 'react';
 import {
   Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  Divider,
   Menu,
   MenuItem,
-  Divider,
+  TextField,
   Typography,
   makeStyles,
 } from '@material-ui/core';
@@ -51,25 +56,78 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const handleAddToGroup = (viewerId, instanceList, group = null) => {
-  const state = store.getState();
-  const { widgets } = state;
-  if (viewerId) {
-    // set selected state of instance(s)
-    widgets[viewerId].config.instances = updateInstanceGroup(
-      widgets[viewerId].config.instances,
-      instanceList,
-      group,
-    );
-    store.dispatch(layoutActions.updateWidget(widgets[viewerId]));
-  }
-};
-
 const GroupsMenu = (props) => {
   const { viewerId, instance, groups } = props;
   const classes = useStyles();
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [newGroupName, setNewGroupName] = React.useState();
+
+  const handleAddToGroup = (group = null) => {
+    const state = store.getState();
+    const { widgets } = state;
+    if (viewerId) {
+      // set selected state of instance(s)
+      widgets[viewerId].config.instances = updateInstanceGroup(
+        widgets[viewerId].config.instances,
+        [instance],
+        group,
+      );
+      store.dispatch(layoutActions.updateWidget(widgets[viewerId]));
+      setModalOpen(false);
+    }
+  };
+
+  const handleNewGroupNameChange = (event) => {
+    setNewGroupName(event.target.value);
+  };
+
+  const handleShowModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
   return groups && (
     <>
+      <Dialog
+        fullWidth
+        maxWidth="xs"
+        open={modalOpen}
+        onClose={handleCloseModal}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <Box mb={1}>
+            <Typography id="alert-dialog-title" variant="h6">New Group</Typography>
+          </Box>
+          <TextField
+            autoFocus
+            margin="dense"
+            fullWidth
+            variant="standard"
+            value={newGroupName}
+            onChange={handleNewGroupNameChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <>
+            <Button onClick={handleCloseModal} className="secondary" variant="outlined">
+              Cancel
+            </Button>
+            <div style={{ flex: '1 0 0' }} />
+            <Button
+              className="primary"
+              variant="contained"
+              onClick={() => handleAddToGroup(newGroupName)}
+            >
+              Create
+            </Button>
+          </>
+        </DialogActions>
+      </Dialog>
       <Typography key="add-to-group-text" className={classes.MuiTypographyRoot}>Existing groups</Typography>
       { groups.map((group) => (
         <MenuItem>
@@ -80,7 +138,7 @@ const GroupsMenu = (props) => {
             <Typography
               variant="body2"
               className={classes.labelText}
-              onClick={() => handleAddToGroup(viewerId, [instance], group)}
+              onClick={() => handleAddToGroup(group)}
             >
               {group}
             </Typography>
@@ -96,7 +154,7 @@ const GroupsMenu = (props) => {
           <Typography
             variant="body2"
             className={classes.labelText}
-            onClick={() => handleAddToGroup(viewerId, [instance], null)}
+            onClick={handleShowModal}
           >
             New group
           </Typography>

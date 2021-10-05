@@ -3,6 +3,7 @@ import { raiseError } from './actions/misc';
 import { ADD_INSTANCES } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
 import { addToWidget } from '../utilities/functions';
+// eslint-disable-next-line import/no-cycle
 import { createSimpleInstancesFromInstances } from '../services/instanceHelpers';
 
 const devStagesService = new DevStageService();
