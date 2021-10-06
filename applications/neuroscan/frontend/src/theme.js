@@ -178,6 +178,79 @@ const theme = createTheme({
           transform: 'rotate(45deg)',
         },
 
+        '& .color-picker': {
+          '&--body': {
+            display: 'flex',
+
+            '& .list': {
+              flexGrow: 1,
+              borderRight: `0.0625rem solid ${modalBorderColor}`,
+              '& .MuiList-root': {
+                overflow: 'auto',
+                maxHeight: '20.9375rem',
+                '& .MuiDivider-root': {
+                  backgroundColor: modalBorderColor,
+                  marginTop: `calc(${gutter} / 2)`,
+                  marginBottom: `calc(${gutter} / 4)`,
+                },
+                '& .MuiListItem-root': {
+                  padding: '0',
+                  '&.Mui-selected': {
+                    background: treeItemActiveColor,
+                  },
+                  '& .MuiListItemText-root': {
+                    margin: '0',
+                    '& .MuiTypography-root': {
+                      fontSize: '0.75rem',
+                      lineHeight: '1rem',
+                      letterSpacing: '0.005em',
+                      color: lightBlackColor,
+                      display: 'flex',
+                      alignItems: 'center',
+                      height: '2rem',
+                      padding: '0 1rem',
+                      cursor: 'pointer',
+                      '& img': {
+                        marginRight: '0.5rem',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            '& .picker': {
+              padding: '0.5rem',
+              width: '13.0625rem',
+              '&.inactive': {
+                '& .chrome-picker ': {
+                  opacity: '0.3',
+                  pointerEvents: 'none',
+                },
+              },
+              '& .chrome-picker ': {
+                boxShadow: 'none !important',
+                maxWidth: '100%',
+                '& > div:first-child': {
+                  paddingBottom: '13.9375rem !important',
+                },
+                '& > div:last-child': {
+                  padding: '0.5rem 0 0 !important',
+                },
+              },
+            },
+          },
+          '&--header': {
+            minWidth: '26.0625rem',
+            fontWeight: '500',
+            fontSize: '0.75rem',
+            lineHeight: '1rem',
+            letterSpacing: '0.005em',
+            color: lightBlackColor,
+            padding: '0.75rem 0.5rem',
+            boxShadow: `0 0.0625rem 0 ${modalBorderColor}`,
+          },
+        },
+
         '& .development-stage': {
           padding: '1rem',
           minWidth: '15rem',
