@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CLOSE from '../../images/close.svg';
-// import SELECTICON from '../../images/select-icon.png';
+import SELECTICON from '../../images/select-icon.png';
 import * as search from '../../redux/actions/search';
 
 const SynapsesFilter = (props) => {
@@ -28,6 +28,7 @@ const SynapsesFilter = (props) => {
   const filters = useSelector((state) => state.search.filters);
   const [synapsesFilter, setSynapsesFilter] = useState(filters.synapsesFilter);
   const [position, setPosition] = React.useState(0);
+  const menuSearchOptions = useSelector((state) => state.search.filters.searchTerms);
 
   const handleSelect = (event) => {
     setPosition(event.target.value);
@@ -101,9 +102,9 @@ const SynapsesFilter = (props) => {
                   <MenuItem value={0}>
                     Select one
                   </MenuItem>
-                  <MenuItem value={10}>AMAR</MenuItem>
-                  <MenuItem value={20}>AIDR</MenuItem>
-                  <MenuItem value={30}>APAT</MenuItem>
+                  {
+                    menuSearchOptions.map((item) => <MenuItem value={item} key={`pre${item}`}>{item}</MenuItem>)
+                  }
                 </Select>
               </FormControl>
             </Box>
@@ -120,9 +121,9 @@ const SynapsesFilter = (props) => {
                   <MenuItem value={0}>
                     Select one
                   </MenuItem>
-                  <MenuItem value={10}>AMAR</MenuItem>
-                  <MenuItem value={20}>AIDR</MenuItem>
-                  <MenuItem value={30}>APAT</MenuItem>
+                  {
+                    menuSearchOptions.map((item) => <MenuItem value={item} key={`post${item}`}>{item}</MenuItem>)
+                  }
                 </Select>
               </FormControl>
             </Box>
