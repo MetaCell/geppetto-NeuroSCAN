@@ -6,6 +6,7 @@ import { VIEWER_MENU } from '../../utilities/constants';
 import LayersMenu from './ControlMenus/LayersMenu';
 import DevStageMenu from './ControlMenus/DevStageMenu';
 import DownloadMenu from './ControlMenus/DownloadMenu';
+import ColorPickerMenu from './ControlMenus/ColorPickerMenu';
 
 const MenuControl = ({
   anchorEl, handleClose, open, id, selection,
@@ -17,7 +18,10 @@ const MenuControl = ({
     console.log(`selected option: ${option}`);
     handleClose();
   };
-
+  const groups = ['Group ABC', 'Group XYZ'];
+  const neurons = ['Neuron A', 'Neuron X'];
+  const contacts = ['Contact A', 'Contact X'];
+  const synapses = ['Synapse C', 'Synapse X', 'Synapse A', 'Synapse B'];
   useEffect(() => {
     switch (selection) {
       case VIEWER_MENU.devStage: setContent(
@@ -30,6 +34,16 @@ const MenuControl = ({
       case VIEWER_MENU.layers: setContent(<LayersMenu layers={layersList} />);
         break;
       case VIEWER_MENU.download: setContent(<DownloadMenu downloadFiles={downloadFiles} />);
+        break;
+      case VIEWER_MENU.colorPicker:
+        setContent(
+          <ColorPickerMenu
+            groups={groups}
+            neurons={neurons}
+            contacts={contacts}
+            synapses={synapses}
+          />,
+        );
         break;
       default:
         setContent(null);
