@@ -11,8 +11,13 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CLOSE from '../../images/close.svg';
+// import SELECTICON from '../../images/select-icon.png';
 import * as search from '../../redux/actions/search';
 
 const SynapsesFilter = (props) => {
@@ -22,6 +27,11 @@ const SynapsesFilter = (props) => {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.search.filters);
   const [synapsesFilter, setSynapsesFilter] = useState(filters.synapsesFilter);
+  const [position, setPosition] = React.useState(0);
+
+  const handleSelect = (event) => {
+    setPosition(event.target.value);
+  };
 
   useEffect(() => {
   }, [filters]);
@@ -74,6 +84,49 @@ const SynapsesFilter = (props) => {
               />
             </FormGroup>
           </FormControl>
+
+          <Box className="neurons-position">
+            <Typography component="h3">Neurons position</Typography>
+            <Box display="flex" alignItems="center" justifyContent="space-between">
+              <Typography component="p">Pre</Typography>
+
+              <FormControl variant="outlined">
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={position}
+                  onChange={handleSelect}
+                  IconComponent={ExpandMoreIcon}
+                >
+                  <MenuItem value={0}>
+                    Select one
+                  </MenuItem>
+                  <MenuItem value={10}>AMAR</MenuItem>
+                  <MenuItem value={20}>AIDR</MenuItem>
+                  <MenuItem value={30}>APAT</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <Box display="flex" alignItems="center" justifyContent="space-between">
+              <Typography component="p">Post</Typography>
+              <FormControl variant="outlined">
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={position}
+                  onChange={handleSelect}
+                  IconComponent={ExpandMoreIcon}
+                >
+                  <MenuItem value={0}>
+                    Select one
+                  </MenuItem>
+                  <MenuItem value={10}>AMAR</MenuItem>
+                  <MenuItem value={20}>AIDR</MenuItem>
+                  <MenuItem value={30}>APAT</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </Box>
         </Box>
         <Box className="modal-footer" justifyContent="space-between">
           <Button variant="outlined" onClick={handleClose}>
