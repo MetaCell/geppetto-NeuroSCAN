@@ -66,7 +66,6 @@ const SearchResult = (props) => {
                   <ListItemText primary={item.uid} />
                   <Button
                     disableElevation
-                    aria-controls="simple-menu"
                     aria-haspopup="true"
                     onClick={(event) => handleClick(event, item)}
                     color="primary"

@@ -32,6 +32,8 @@ const vars = {
   blackColor: '#000000',
   tabBackgroundColor: '#F0EFEF',
   filterButtonBg: '#F2F2F2',
+  downloadBgColor: 'rgba(229, 229, 229, 0.4)',
+  downloadBorderColor: 'rgba(229, 229, 229, 0.3)',
 };
 
 export default vars;
