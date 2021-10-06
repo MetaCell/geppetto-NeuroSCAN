@@ -26,8 +26,8 @@ const AddToViewerMenu = ({
 
   return (
     <Menu
-      className="dark right"
       id="addToViewerMenu"
+      className="custom-popover dark right"
       anchorEl={anchorEl}
       keepMounted
       open={Boolean(anchorEl)}
@@ -42,7 +42,7 @@ const AddToViewerMenu = ({
           viewers.map((viewer) => (
             <MenuItem key={`add-to-viewer-${viewer.id}`} disabled={viewer?.disabled} onClick={() => handleAddToViewer(viewer.id)}>
               <img src={MENU_CHECKMARK_ON} className={classes.mr_8} alt="MENU_CHECKMARK_ON" />
-              <Typography variant="caption">{viewer.name}</Typography>
+              {viewer.name}
             </MenuItem>
           )),
           <Divider key="add-to-viewer-divider" />,
