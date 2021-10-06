@@ -12,13 +12,12 @@ import {
   Typography,
   makeStyles,
 } from '@material-ui/core';
-import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import NestedMenuItem from 'material-ui-nested-menu-item';
 import store from '../../../redux/store';
-import { updateInstanceGroup } from '../../../services/instanceHelpers';
+import { addInstancesToGroup } from '../../../redux/actions/widget';
 import vars from '../../../styles/constants';
-import GROUP from '../../../images/group.svg';
-import PLUS from '../../../images/plus.svg';
+import GROUP from '../../../images/group-white.svg';
+import PLUS from '../../../images/plus-white.svg';
 
 const {
   whiteTextColor,
@@ -37,14 +36,10 @@ const useStyles = makeStyles(() => ({
   labelRoot: {
     display: 'flex',
     alignItems: 'start',
-    // padding: '0.5625rem 0.6875rem',
   },
   labelIcon: {
     margin: '.1rem .5rem 0 0',
     flexShrink: 0,
-    '& img': {
-      filter: 'invert(1)',
-    },
   },
   labelText: {
     fontWeight: '500',
@@ -62,21 +57,6 @@ const GroupsMenu = (props) => {
   const [modalOpen, setModalOpen] = React.useState(false);
   const [newGroupName, setNewGroupName] = React.useState();
 
-  const handleAddToGroup = (group = null) => {
-    const state = store.getState();
-    const { widgets } = state;
-    if (viewerId) {
-      // set selected state of instance(s)
-      widgets[viewerId].config.instances = updateInstanceGroup(
-        widgets[viewerId].config.instances,
-        [instance],
-        group,
-      );
-      store.dispatch(layoutActions.updateWidget(widgets[viewerId]));
-      setModalOpen(false);
-    }
-  };
-
   const handleNewGroupNameChange = (event) => {
     setNewGroupName(event.target.value);
   };
@@ -87,6 +67,13 @@ const GroupsMenu = (props) => {
 
   const handleCloseModal = () => {
     setModalOpen(false);
+  };
+
+  const handleAddToGroup = (group = null) => {
+    if (viewerId) {
+      store.dispatch(addInstancesToGroup(viewerId, [instance], group));
+      handleCloseModal();
+    }
   };
 
   return groups && (
@@ -130,7 +117,9 @@ const GroupsMenu = (props) => {
       </Dialog>
       <Typography key="add-to-group-text" className={classes.MuiTypographyRoot}>Existing groups</Typography>
       { groups.map((group) => (
-        <MenuItem>
+        <MenuItem
+          onClick={() => handleAddToGroup(group)}
+        >
           <div className={classes.labelRoot}>
             <Box className={classes.labelIcon}>
               <img src={GROUP} alt="" />
@@ -138,7 +127,6 @@ const GroupsMenu = (props) => {
             <Typography
               variant="body2"
               className={classes.labelText}
-              onClick={() => handleAddToGroup(group)}
             >
               {group}
             </Typography>

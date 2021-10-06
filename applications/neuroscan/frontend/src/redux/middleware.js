@@ -1,12 +1,22 @@
+import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import { ADD_DEVSTAGES, receivedDevStages } from './actions/devStages';
 import { raiseError } from './actions/misc';
-import { ADD_INSTANCES } from './actions/widget';
+import { ADD_INSTANCES, ADD_INSTANCES_TO_GROUP } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
 import { addToWidget } from '../utilities/functions';
 // eslint-disable-next-line import/no-cycle
-import { createSimpleInstancesFromInstances } from '../services/instanceHelpers';
+import {
+  createSimpleInstancesFromInstances,
+  updateInstanceGroup,
+} from '../services/instanceHelpers';
 
 const devStagesService = new DevStageService();
+
+const getWidget = (store, viewerId) => {
+  const state = store.getState();
+  const { widgets } = state;
+  return widgets[viewerId];
+};
 
 const middleware = (store) => (next) => (action) => {
   switch (action.type) {
@@ -23,7 +33,26 @@ const middleware = (store) => (next) => (action) => {
 
     case ADD_INSTANCES: {
       createSimpleInstancesFromInstances(action.instances)
-        .then(() => addToWidget(store.dispatch, action.widget, action.instances));
+        .then(() => store
+          .dispatch(
+            addToWidget(
+              getWidget(store, action.viewerId),
+              action.instances,
+            ),
+          ));
+      break;
+    }
+
+    case ADD_INSTANCES_TO_GROUP: {
+      const { viewerId, instances, group } = action;
+      const widget = getWidget(store, viewerId);
+      // set selected state of instance(s)
+      widget.config.instances = updateInstanceGroup(
+        widget.config.instances,
+        instances,
+        group,
+      );
+      store.dispatch(layoutActions.updateWidget(widget));
       break;
     }
 

@@ -33,7 +33,6 @@ const Results = () => {
   const dispatch = useDispatch();
 
   const searchesCount = useSelector((state) => state.search.searchesCount);
-  const widgets = useSelector((state) => state.widgets);
 
   const handleClick = (event, selectedItem) => {
     setCurrentItem(selectedItem);
@@ -47,8 +46,7 @@ const Results = () => {
 
   const handleAddToViewer = (viewerId = null) => {
     const instances = [mapToInstance(currentItem)];
-    const widget = widgets[viewerId] || null;
-    dispatch(addInstances(widget, instances));
+    dispatch(addInstances(viewerId, instances));
     handleClose();
   };
 

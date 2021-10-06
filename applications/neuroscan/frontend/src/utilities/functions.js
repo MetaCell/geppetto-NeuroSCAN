@@ -39,7 +39,6 @@ export const widgetFromViewerSpec = (viewerSpec) => ({
 });
 
 export const addToWidget = (
-  dispatch,
   widget = null,
   instances,
 ) => {
@@ -50,16 +49,15 @@ export const addToWidget = (
       cameraOptions: defaultCameraOptions,
       viewerId: uuidv4(),
     };
-    dispatch(addWidget(widgetFromViewerSpec(newWidget)));
-  } else {
-    const newWidget = {
-      ...widget,
-      status: WidgetStatus.ACTIVE,
-      config: {
-        ...widget.config,
-        instances: widget.config.instances.concat(instances),
-      },
-    };
-    dispatch(updateWidget(newWidget));
+    return addWidget(widgetFromViewerSpec(newWidget));
   }
+  const newWidget = {
+    ...widget,
+    status: WidgetStatus.ACTIVE,
+    config: {
+      ...widget.config,
+      instances: widget.config.instances.concat(instances),
+    },
+  };
+  return updateWidget(newWidget);
 };
