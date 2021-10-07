@@ -1052,6 +1052,9 @@ const theme = createTheme({
                   height: '1.875rem',
                   top: '0.0625rem',
                   right: '0.0625rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   // borderRadius: '0 0.1875rem 0.1875rem 0',
                 },
                 '& h3': {

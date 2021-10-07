@@ -14,10 +14,11 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Icon,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CLOSE from '../../images/close.svg';
-import SELECTICON from '../../images/select-icon.png';
+import SELECTICON from '../../images/select-icon.svg';
 import * as search from '../../redux/actions/search';
 
 const SynapsesFilter = (props) => {
@@ -97,7 +98,11 @@ const SynapsesFilter = (props) => {
                   id="demo-simple-select-outlined"
                   value={position}
                   onChange={handleSelect}
-                  IconComponent={ExpandMoreIcon}
+                  IconComponent={(prop) => (
+                    <Icon {...prop} className={`material-icons ${prop.className}`}>
+                      <img src={SELECTICON} alt="select" />
+                    </Icon>
+                  )}
                 >
                   <MenuItem value={0}>
                     Select one
@@ -116,7 +121,11 @@ const SynapsesFilter = (props) => {
                   id="demo-simple-select-outlined"
                   value={position}
                   onChange={handleSelect}
-                  IconComponent={ExpandMoreIcon}
+                  IconComponent={(prop) => (
+                    <Icon {...prop} className={`material-icons ${prop.className}`}>
+                      <img src={SELECTICON} alt="select" />
+                    </Icon>
+                  )}
                 >
                   <MenuItem value={0}>
                     Select one
