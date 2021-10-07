@@ -81,77 +81,101 @@ const theme = createTheme({
     toolbarBackground: { main: toolbarBackground },
   },
   overrides: {
+    MuiFormGroup: {
+      root: {
+        flexDirection: 'row',
+      },
+    },
     MuiPopover: {
       root: {
-        '&.dark': {
-          '&.right': {
-            '&#addToViewerMenu': {
-              '& .MuiPaper-root': {
-                transform: 'translateY(1rem) translateX(0) !important',
-              },
+        '&:not(.custom-popover)': {
+          '& .MuiMenu-list .MuiMenuItem-root': {
+            '&:before': {
+              content: '""',
+              width: '8.5px',
+              height: '5.5px',
+              border: '2px solid #fff',
+              borderTop: 'none',
+              borderRight: 'none',
+              transform: 'rotate(-45deg)',
+              marginRight: '11px',
+              opacity: '0',
             },
-            '&#explorer-menu-option': {
-              '& .MuiPaper-root': {
-                transform: 'translateY(0.5rem) translateX(0) !important',
-              },
-            },
-            '& .MuiPaper-root': {
-              transform: 'translateY(0.1875rem) translateX(0) !important',
-              '&::before': {
-                left: 'auto',
-                right: '1.0625rem',
+            '&.Mui-selected': {
+              '&:before': {
+                opacity: '1',
               },
             },
           },
+        },
+        '&.custom-popover': {
           '& .MuiPaper-root': {
-            minWidth: '10rem',
-            padding: '0.5rem 0',
-            background: buttonOutlineColor,
-            border: 'none',
-            boxShadow: '0 .125rem .4375rem rgba(0, 0, 0, 0.15), 0 .3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
-            borderRadius: `calc(${radius} - .25rem)`,
-            transform: 'translateY(0.1875rem) translateX(-1rem) !important',
+            transform: 'translateY(0.75rem) translateX(-1.5rem) !important',
             '&::before': {
-              background: buttonOutlineColor,
+              content: '""',
+              width: '0.875rem',
+              height: '0.875rem',
+              position: 'absolute',
+              top: '-0.4375rem',
+              left: '1.0625rem',
+              background: whiteTextColor,
+              transform: 'rotate(45deg)',
             },
-
-            '& .MuiList-root': {
-              '& .MuiDivider-root': {
-                backgroundColor: dividerBackgroundColor,
-                marginTop: `calc(${gutter} / 2)`,
-                marginBottom: `calc(${gutter} / 2)`,
+          },
+          '&.dark': {
+            '&.right': {
+              '& .MuiPaper-root': {
+                transform: 'translateY(0.1875rem) translateX(0) !important',
+                '&::before': {
+                  left: 'auto',
+                  right: '1.0625rem',
+                },
               },
-              '& .MuiListItem-root': {
-                padding: '0.25rem 1rem',
+            },
+            '& .MuiPaper-root': {
+              minWidth: '10rem',
+              padding: '0.5rem 0',
+              background: buttonOutlineColor,
+              border: 'none',
+              boxShadow: '0 .125rem .4375rem rgba(0, 0, 0, 0.15), 0 .3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
+              borderRadius: `calc(${radius} - .25rem)`,
+              transform: 'translateY(0.1875rem) translateX(-1rem) !important',
+              '&::before': {
+                background: buttonOutlineColor,
+              },
 
-                '& .MuiTypography-caption': {
-                  maxWidth: '11.875rem',
-                  wordBreak: 'break-all',
-                  whiteSpace: 'normal',
+              '& .MuiList-root': {
+                '& .MuiDivider-root': {
+                  backgroundColor: dividerBackgroundColor,
+                  marginTop: `calc(${gutter} / 2)`,
+                  marginBottom: `calc(${gutter} / 2)`,
                 },
-                '&:hover': {
-                  background: primaryColor,
-                },
-                '& .MuiListItemText-root': {
-                  margin: '0',
-                  '& p': {
-                    fontSize: '0.75rem',
-                    fontWeight: '400',
-                    lineHeight: '1rem',
-                    letterSpacing: '0.005em',
-                    color: whiteTextColor,
+                '& .MuiListItem-root': {
+                  padding: '0.25rem 1rem',
+                  '&:hover': {
+                    background: primaryColor,
                   },
-                  '& strong': {
-                    fontSize: '0.75rem',
-                    fontWeight: '500',
-                    lineHeight: '1rem',
-                    letterSpacing: '0.005em',
-                    color: whiteTextColor,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    '& .MuiSvgIcon-root': {
-                      fontSize: `calc(${gutter} - .125rem)`,
+                  '& .MuiListItemText-root': {
+                    margin: '0',
+                    '& p': {
+                      fontSize: '0.75rem',
+                      fontWeight: '400',
+                      lineHeight: '1rem',
+                      letterSpacing: '0.005em',
+                      color: whiteTextColor,
+                    },
+                    '& strong': {
+                      fontSize: '0.75rem',
+                      fontWeight: '500',
+                      lineHeight: '1rem',
+                      letterSpacing: '0.005em',
+                      color: whiteTextColor,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      '& .MuiSvgIcon-root': {
+                        fontSize: `calc(${gutter} - .125rem)`,
+                      },
                     },
                   },
                 },
@@ -166,90 +190,6 @@ const theme = createTheme({
         borderRadius: '0.125rem',
         overflowX: 'visible',
         overflowY: 'visible',
-        transform: 'translateY(0.75rem) translateX(-1.5rem) !important',
-        '&::before': {
-          content: '""',
-          width: '0.875rem',
-          height: '0.875rem',
-          position: 'absolute',
-          top: '-0.4375rem',
-          left: '1.0625rem',
-          background: whiteTextColor,
-          transform: 'rotate(45deg)',
-        },
-
-        '& .color-picker': {
-          '&--body': {
-            display: 'flex',
-
-            '& .list': {
-              flexGrow: 1,
-              borderRight: `0.0625rem solid ${modalBorderColor}`,
-              '& .MuiList-root': {
-                overflow: 'auto',
-                maxHeight: '20.9375rem',
-                '& .MuiDivider-root': {
-                  backgroundColor: modalBorderColor,
-                  marginTop: `calc(${gutter} / 2)`,
-                  marginBottom: `calc(${gutter} / 4)`,
-                },
-                '& .MuiListItem-root': {
-                  padding: '0',
-                  '&.Mui-selected': {
-                    background: treeItemActiveColor,
-                  },
-                  '& .MuiListItemText-root': {
-                    margin: '0',
-                    '& .MuiTypography-root': {
-                      fontSize: '0.75rem',
-                      lineHeight: '1rem',
-                      letterSpacing: '0.005em',
-                      color: lightBlackColor,
-                      display: 'flex',
-                      alignItems: 'center',
-                      height: '2rem',
-                      padding: '0 1rem',
-                      cursor: 'pointer',
-                      '& img': {
-                        marginRight: '0.5rem',
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            '& .picker': {
-              padding: '0.5rem',
-              width: '13.0625rem',
-              '&.inactive': {
-                '& .chrome-picker ': {
-                  opacity: '0.3',
-                  pointerEvents: 'none',
-                },
-              },
-              '& .chrome-picker ': {
-                boxShadow: 'none !important',
-                maxWidth: '100%',
-                '& > div:first-child': {
-                  paddingBottom: '13.9375rem !important',
-                },
-                '& > div:last-child': {
-                  padding: '0.5rem 0 0 !important',
-                },
-              },
-            },
-          },
-          '&--header': {
-            minWidth: '26.0625rem',
-            fontWeight: '500',
-            fontSize: '0.75rem',
-            lineHeight: '1rem',
-            letterSpacing: '0.005em',
-            color: lightBlackColor,
-            padding: '0.75rem 0.5rem',
-            boxShadow: `0 0.0625rem 0 ${modalBorderColor}`,
-          },
-        },
 
         '& .development-stage': {
           padding: '1rem',
@@ -584,6 +524,10 @@ const theme = createTheme({
           lineHeight: 'normal',
           minHeight: 1,
           color: whiteTextColor,
+          '&.Mui-selected': {
+            backgroundColor: primaryColor,
+            position: 'relative',
+          },
           '&:hover': {
             backgroundColor: primaryColor,
           },
@@ -1009,6 +953,49 @@ const theme = createTheme({
                 letterSpacing: '0.01rem',
                 '& + p': {
                   marginTop: '0.3125rem',
+                },
+              },
+              '& .neurons-position': {
+                marginTop: '1rem',
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 0,
+                  '&:not(.Mui-focused) .MuiOutlinedInput-notchedOutline': {
+                    borderColor: modalBorderColor,
+                  },
+                },
+                '& .MuiOutlinedInput-input': {
+                  padding: '0',
+                  minWidth: '6.375rem',
+                  minHeight: '2rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  paddingLeft: '.5rem',
+                  paddingRight: '2rem',
+                },
+
+                '& .MuiSelect-icon': {
+                  background: modalBorderColor,
+                  width: '1.5rem',
+                  height: '1.875rem',
+                  top: '0.0625rem',
+                  right: '0.0625rem',
+                  // borderRadius: '0 0.1875rem 0.1875rem 0',
+                },
+                '& h3': {
+                  fontWeight: 'bold',
+                  fontSize: '0.75rem',
+                  lineHeight: '1rem',
+                  letterSpacing: '0.005em',
+                  color: 'rgba(0, 0, 0, 0.8)',
+                  '& ~ .MuiBox-root': {
+                    marginTop: '0.75rem',
+                  },
+                },
+                '& p': {
+                  fontSize: '0.75rem',
+                  lineHeight: '1.25rem',
+                  letterSpacing: '0.16px',
+                  color: 'rgba(0, 0, 0, 0.8)',
                 },
               },
             },
