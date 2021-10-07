@@ -1,13 +1,19 @@
 import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import { ADD_DEVSTAGES, receivedDevStages } from './actions/devStages';
 import { raiseError } from './actions/misc';
-import { ADD_INSTANCES, ADD_INSTANCES_TO_GROUP } from './actions/widget';
+import {
+  ADD_INSTANCES,
+  ADD_INSTANCES_TO_GROUP,
+  SET_INSTANCES_COLOR,
+} from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
+// eslint-disable-next-line import/no-cycle
 import { addToWidget } from '../utilities/functions';
 // eslint-disable-next-line import/no-cycle
 import {
   createSimpleInstancesFromInstances,
   updateInstanceGroup,
+  setInstancesColor,
 } from '../services/instanceHelpers';
 
 const devStagesService = new DevStageService();
@@ -46,11 +52,24 @@ const middleware = (store) => (next) => (action) => {
     case ADD_INSTANCES_TO_GROUP: {
       const { viewerId, instances, group } = action;
       const widget = getWidget(store, viewerId);
-      // set selected state of instance(s)
+      // set groupe of instance(s)
       widget.config.instances = updateInstanceGroup(
         widget.config.instances,
         instances,
         group,
+      );
+      store.dispatch(layoutActions.updateWidget(widget));
+      break;
+    }
+
+    case SET_INSTANCES_COLOR: {
+      const { viewerId, instances, color } = action;
+      const widget = getWidget(store, viewerId);
+      // set color of instance(s)
+      widget.config.instances = setInstancesColor(
+        widget.config.instances,
+        instances,
+        color,
       );
       store.dispatch(layoutActions.updateWidget(widget));
       break;

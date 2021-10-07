@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Box } from '@material-ui/core';
-import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model';
-import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import TreeView from '@material-ui/lab/TreeView';
 import StyledTreeItem from './TreeItem';
 import MORPHOLOGY from '../../../images/morphology.svg';
@@ -17,7 +15,7 @@ import CONTACT from '../../../images/contact.svg';
 import GROUP from '../../../images/group.svg';
 import { NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE } from '../../../utilities/constants';
 import { getViewersFromWidgets } from '../../../utilities/functions';
-import { setInstanceSelected } from '../../../services/instanceHelpers';
+import { setSelectedInstances, getGroupsFromInstances } from '../../../services/instanceHelpers';
 
 const EXPLORER_IMGS = {
   NEURONS,
@@ -43,14 +41,7 @@ const Explorer = () => {
 
   const handleSelect = (viewerId, selectedInstance) => {
     if (viewerId) {
-      // activate tab where viewer is located
-      widgets[viewerId].status = WidgetStatus.ACTIVE;
-      // set selected state of instance(s)
-      widgets[viewerId].config.instances = setInstanceSelected(
-        widgets[viewerId].config.instances,
-        [selectedInstance.uid],
-      );
-      dispatch(layoutActions.updateWidget(widgets[viewerId]));
+      setSelectedInstances(dispatch, widgets[viewerId], [selectedInstance.uid]);
     }
   };
 
@@ -91,12 +82,7 @@ const Explorer = () => {
   const getTreeItemsFromData = () => getViewersFromWidgets(widgets).map((widget) => {
     const { viewerId, instances } = widget.config;
     const labelIcon = EXPLORER_IMGS.MORPHOLOGY;
-    const groups = [
-      ...new Set(
-        instances
-          .filter((instance) => instance.group)
-          .map((instance) => instance.group),
-      )];
+    const groups = getGroupsFromInstances(instances);
 
     return (
       <StyledTreeItem

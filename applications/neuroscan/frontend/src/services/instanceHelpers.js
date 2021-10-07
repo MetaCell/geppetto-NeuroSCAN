@@ -1,8 +1,9 @@
+/* eslint-disable import/no-cycle */
 import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
+import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model';
+import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import urlService from './UrlService';
 import zipService from './ZipService';
-import { colorDefault } from '../utilities/defaults';
-// eslint-disable-next-line import/no-cycle
 import store from '../redux/store';
 import {
   filesURL,
@@ -12,16 +13,54 @@ import {
 export const instanceEqualsInstance = (instanceA, instanceB) => instanceA.uid === instanceB.uid
   && instanceA.instanceType === instanceB.instanceType;
 
-export const setInstanceSelected = (instances, selectedUids) => instances.map((instance) => {
-  let selected = false;
+export const invertColor = ({
+  r, g, b, a,
+}) => ({
+  r: 1 - r, g: 1 - g, b: 1 - b, a,
+});
+
+export const invertColorSelectedInstances = (instances) => (
+  instances
+    .map((instance) => ({
+      ...instance,
+      color: instance.selected ? invertColor(instance.color) : instance.color,
+    }))
+);
+
+export const setOriginalColorSelectedInstances = (instances) => (
+  instances
+    .map((instance) => ({
+      ...instance,
+      color: instance.colorOriginal,
+    }))
+);
+
+const updateInstanceSelected = (instances, selectedUids) => instances.map((instance) => {
   if (selectedUids.find((x) => x === instance.uid)) {
-    selected = !instance.selected;
+    return {
+      ...instance,
+      selected: true,
+      colorOriginal: instance.color,
+    };
   }
   return {
     ...instance,
-    selected,
+    selected: false,
   };
 });
+
+export const setSelectedInstances = (dispatch, widget, selectedUids) => {
+  const newWidget = widget;
+  newWidget.config.instances = updateInstanceSelected(
+    widget.config.instances, selectedUids,
+  );
+  newWidget.config.instances = invertColorSelectedInstances(
+    widget.config.instances,
+  );
+  newWidget.config.flash = true;
+  newWidget.status = WidgetStatus.ACTIVE;
+  dispatch(layoutActions.updateWidget(newWidget));
+};
 
 export const updateInstanceGroup = (instances, instanceList, newGroup = null) => instances
   .map((instance) => {
@@ -29,6 +68,19 @@ export const updateInstanceGroup = (instances, instanceList, newGroup = null) =>
       return {
         ...instance,
         group: newGroup === instance.group ? null : newGroup,
+      };
+    }
+    return {
+      ...instance,
+    };
+  });
+
+export const setInstancesColor = (instances, instanceList, newColor = null) => instances
+  .map((instance) => {
+    if (instanceList.find((x) => x.uid === instance.uid)) {
+      return {
+        ...instance,
+        color: newColor,
       };
     }
     return {
@@ -70,7 +122,9 @@ export const mapToInstance = (item) => {
     uid: `i${item.uid.replace(/-/g, '')}`,
     name: item.uid,
     selected: false,
-    color: colorDefault,
+    color: {
+      r: Math.random(), g: Math.random(), b: Math.random(), a: 1,
+    },
     instanceType: item.instanceType,
     group: null,
     content: {
@@ -95,11 +149,11 @@ const createSimpleInstance = async (instance) => {
   const { content } = instance;
 
   // TODO: uncomment line below, for testing purpose always add sphere.obj
-  // const contentService = getContentService(content);
+  const contentService = getContentService(content);
   // TODO: and remove these 3 lines
-  const contentService = urlService;
-  content.fileName = 'sphere.obj';
-  content.location = `${filesURL}/../uploads/${content.fileName}`;
+  // const contentService = urlService;
+  // content.fileName = 'sphere.obj';
+  // content.location = `${filesURL}/../uploads/${content.fileName}`;
 
   const base64Content = await contentService.getBase64(content.location, content.fileName);
 
@@ -155,3 +209,31 @@ export const createSimpleInstancesFromInstances = (instances) => {
     window.GEPPETTO.Manager.augmentInstancesArray(window.Instances);
   });
 };
+
+export const getGroupsFromInstances = (instances) => (
+  [
+    ...new Set(
+      instances
+        .filter((instance) => instance.group)
+        .map((instance) => instance.group),
+    ),
+  ]);
+
+const groupBy = (items, key) => items
+  .filter((item) => item[key] !== null)
+  .reduce(
+    (result, item) => ({
+      ...result,
+      [item[key]]: [
+        ...(result[item[key]] || []),
+        item,
+      ],
+    }),
+    {},
+  );
+
+export const getInstancesOfType = (instances, instanceType) => (
+  groupBy(instances, 'instanceType'))[instanceType];
+
+export const getInstancesByGroups = (instances) => (
+  groupBy(instances, 'group'));

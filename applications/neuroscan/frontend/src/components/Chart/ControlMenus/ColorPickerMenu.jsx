@@ -7,6 +7,7 @@ import {
   Box,
 } from '@material-ui/core';
 import { ChromePicker } from 'react-color';
+import { setInstancesColor } from '../../../redux/actions/widget';
 import MORPHOLOGY from '../../../images/morphology.svg';
 import GROUP from '../../../images/group.svg';
 import NEURON from '../../../images/neuron.svg';
@@ -14,42 +15,66 @@ import SYNAPSE from '../../../images/synapse.svg';
 import CONTACT from '../../../images/contact.svg';
 
 const ColorPickerMenu = ({
+  dispatch,
+  viewerId,
   groups,
   neurons,
   contacts,
   synapses,
 }) => {
-  const [opacityBg, setOpacityBg] = useState('1');
   const [background, setBackground] = useState({
-    h: 250,
-    s: 0,
-    l: 0.2,
-    a: opacityBg,
+    r: Math.random() * 255,
+    g: Math.random() * 255,
+    b: Math.random() * 255,
+    a: 0.3,
   });
 
   const handleChangeComplete = (data) => {
-    if (data.hsl !== background) {
-      setBackground(data.hsl);
-      setOpacityBg(data.hsl.a);
+    if (data.rgb !== background) {
+      setBackground({
+        r: data.rgb.r,
+        g: data.rgb.g,
+        b: data.rgb.b,
+        a: data.rgb.a,
+      });
     }
   };
 
   const [selection, setSelection] = useState('');
 
-  const handleSelection = (option) => {
-    setSelection(option);
+  const handleSelection = (instance) => {
+    setSelection(instance);
+    let colorInstances;
+    switch (instance.instanceType) {
+      case 'ALL':
+        colorInstances = neurons.concat(contacts, synapses);
+        break;
+
+      case 'GROUP':
+        colorInstances = instance.instances;
+        break;
+
+      default:
+        colorInstances = [instance];
+    }
+    dispatch(setInstancesColor(viewerId, colorInstances, {
+      r: background.r / 255,
+      g: background.g / 255,
+      b: background.b / 255,
+      a: background.a,
+    }));
   };
 
-  const rowItem = (image, text) => (
+  const rowItem = (image, instance) => (
     <ListItem
-      key={text}
+      key={`${instance.instanceType}-${instance.uid}`}
       button
-      onClick={() => handleSelection(text)}
-      selected={selection === text}
+      onClick={() => handleSelection(instance)}
+      selected={selection === instance}
     >
       <ListItemText>
-        <img src={image} alt={text} />
-        {text}
+        <img src={image} alt={instance.name} />
+        {instance.name}
       </ListItemText>
     </ListItem>
   );
@@ -63,14 +88,26 @@ const ColorPickerMenu = ({
       <Box className="color-picker--body">
         <Box className="list">
           <List>
-            { rowItem(MORPHOLOGY, 'All instances') }
-            <Divider />
             {
-              groups.map((group) => (
-                rowItem(GROUP, group)
-              ))
+              rowItem(MORPHOLOGY, {
+                uid: '-1',
+                name: 'All instances',
+                instanceType: 'ALL',
+              })
             }
-            <Divider />
+            { Object.keys(groups).length > 0 && <Divider /> }
+            {
+              Object.entries(groups)
+                .map(([group, instances]) => (
+                  rowItem(GROUP, {
+                    uid: group,
+                    name: group,
+                    instanceType: 'GROUP',
+                    instances,
+                  })
+                ))
+            }
+            { (neurons.length + contacts.length + synapses.length) > 0 && <Divider /> }
             {
               neurons.map((neuron) => (
                 rowItem(NEURON, neuron)
@@ -88,7 +125,7 @@ const ColorPickerMenu = ({
             }
           </List>
         </Box>
-        <Box className={`picker ${selection === '' ? 'inactive' : ''}`}>
+        <Box className={`picker ${selection === '' ? '' : ''}`}>
           <ChromePicker
             color={background}
             onChange={handleChangeComplete}

@@ -1,12 +1,15 @@
+/* eslint-disable import/no-cycle */
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
 import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
-import { colorFlash } from '../../utilities/defaults';
-// eslint-disable-next-line import/no-cycle
-import { setInstanceSelected } from '../../services/instanceHelpers';
+import {
+  setSelectedInstances,
+  invertColorSelectedInstances,
+  setOriginalColorSelectedInstances,
+} from '../../services/instanceHelpers';
 
 const useStyles = makeStyles({
   canvasContainer: {
@@ -16,43 +19,32 @@ const useStyles = makeStyles({
 });
 
 function InstanceViewer(props) {
-  const { viewerId, instances, cameraOptions } = props;
+  const { viewerId, cameraOptions } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const widget = useSelector((state) => state.widgets[viewerId]);
   const camOptionsRef = useRef(null);
-  const [canvasData, setCanvasData] = useState([]);
 
-  const setCanvasDataFromInstances = (color = null) => {
-    setCanvasData(
-      instances.map((instance) => ({
-        instancePath: instance.uid,
-        color: instance.selected ? color || instance.color : instance.color,
-      })),
-    );
-  };
-
-  const doFlash = () => {
+  if (widget.config.flash) {
     let counter = 1;
     const interval = setInterval(() => {
-      setCanvasDataFromInstances(counter % 2 === 0 ? colorFlash : null);
-      if (counter === 5) {
+      widget.config.instances = invertColorSelectedInstances(widget.config.instances);
+      if (counter === 6) {
         clearInterval(interval);
+        widget.config.instances = setOriginalColorSelectedInstances(widget.config.instances);
       }
+      dispatch(layoutActions.updateWidget(widget));
       counter += 1;
     }, 1500);
-  };
+    widget.config.flash = false;
+    dispatch(layoutActions.updateWidget(widget));
+  }
 
-  useEffect(() => {
-    const hasSelected = instances.find((instance) => instance.selected);
-    if (hasSelected) {
-      setCanvasDataFromInstances(colorFlash);
-      doFlash();
-    } else {
-      setCanvasDataFromInstances();
-    }
-  }, [instances]);
+  const canvasData = widget.config.instances.map((instance) => ({
+    instancePath: instance.uid,
+    color: instance.color,
+  }));
 
   const cameraHandler = (data) => {
     if (data.position.x !== 0) {
@@ -61,10 +53,7 @@ function InstanceViewer(props) {
   };
 
   const onSelection = (selectedInstances) => {
-    widget.config.instances = setInstanceSelected(
-      widget.config.instances, selectedInstances,
-    );
-    dispatch(layoutActions.updateWidget(widget));
+    setSelectedInstances(dispatch, widget, selectedInstances);
   };
 
   const onMount = (scene) => {

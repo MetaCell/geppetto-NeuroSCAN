@@ -1,16 +1,29 @@
+/* eslint-disable import/no-cycle */
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Popover,
 } from '@material-ui/core';
-import { VIEWER_MENU } from '../../utilities/constants';
+import {
+  CONTACT_TYPE,
+  NEURON_TYPE,
+  SYNAPSE_TYPE,
+  VIEWER_MENU,
+} from '../../utilities/constants';
 import LayersMenu from './ControlMenus/LayersMenu';
 import DevStageMenu from './ControlMenus/DevStageMenu';
 import DownloadMenu from './ControlMenus/DownloadMenu';
 import ColorPickerMenu from './ControlMenus/ColorPickerMenu';
+import {
+  getGroupsFromInstances,
+  getInstancesOfType,
+  getInstancesByGroups,
+} from '../../services/instanceHelpers';
 
 const MenuControl = ({
-  anchorEl, handleClose, open, id, selection,
+  anchorEl, handleClose, open, id, selection, viewerId,
 }) => {
+  const dispatch = useDispatch();
   const [content, setContent] = useState(null);
   const [developmentalStage, setDevelopmentalStage] = useState(0);
   const layersList = ['Worm Body', 'Pharynx', 'NerveRing'];
@@ -18,10 +31,13 @@ const MenuControl = ({
     console.log(`selected option: ${option}`);
     handleClose();
   };
-  const groups = ['Group ABC', 'Group XYZ'];
-  const neurons = ['Neuron A', 'Neuron X'];
-  const contacts = ['Contact A', 'Contact X'];
-  const synapses = ['Synapse C', 'Synapse X', 'Synapse A', 'Synapse B'];
+  const widgets = useSelector((state) => state.widgets);
+  const currentWidget = widgets[viewerId];
+  const { instances } = currentWidget.config;
+  const groups = getInstancesByGroups(instances);
+  const neurons = getInstancesOfType(instances, NEURON_TYPE) || [];
+  const contacts = getInstancesOfType(instances, CONTACT_TYPE) || [];
+  const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || [];
   useEffect(() => {
     switch (selection) {
       case VIEWER_MENU.devStage: setContent(
@@ -38,6 +54,8 @@ const MenuControl = ({
       case VIEWER_MENU.colorPicker:
         setContent(
           <ColorPickerMenu
+            dispatch={dispatch}
+            viewerId={viewerId}
             groups={groups}
             neurons={neurons}
             contacts={contacts}
@@ -48,7 +66,7 @@ const MenuControl = ({
       default:
         setContent(null);
     }
-  }, [selection]);
+  }, [selection, instances]);
 
   return (
     <Popover

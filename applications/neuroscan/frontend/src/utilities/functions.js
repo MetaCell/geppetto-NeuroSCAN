@@ -1,8 +1,9 @@
+/* eslint-disable import/no-cycle */
 import { v4 as uuidv4 } from 'uuid';
 import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model';
 import { addWidget, updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
 import { VIEWERS } from './constants';
-import { defaultCameraOptions } from './defaults';
+import CameraControls from '../components/Chart/CameraControls';
 
 // flatten the tree to an flat array
 export const flatten = (children, extractChildren) => Array.prototype.concat.apply(
@@ -43,11 +44,28 @@ export const addToWidget = (
   instances,
 ) => {
   if (widget === null) {
+    const newViewerId = uuidv4();
     const newWidget = {
       type: VIEWERS.InstanceViewer,
+      cameraOptions: {
+        angle: 50,
+        near: 0.01,
+        far: 1000,
+        baseZoom: 1,
+        cameraControls: {
+          instance: CameraControls,
+          props: {
+            wireframeButtonEnabled: false,
+            viewerId: newViewerId,
+          },
+        },
+        reset: false,
+        autorotate: false,
+        wireframe: false,
+      },
+      viewerId: newViewerId,
+      flash: false,
       instances,
-      cameraOptions: defaultCameraOptions,
-      viewerId: uuidv4(),
     };
     return addWidget(widgetFromViewerSpec(newWidget));
   }
