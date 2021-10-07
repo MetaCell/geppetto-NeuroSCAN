@@ -16,7 +16,6 @@ import {
   MenuItem,
   Icon,
 } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CLOSE from '../../images/close.svg';
 import SELECTICON from '../../images/select-icon.svg';
 import * as search from '../../redux/actions/search';
@@ -28,15 +27,16 @@ const SynapsesFilter = (props) => {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.search.filters);
   const [synapsesFilter, setSynapsesFilter] = useState(filters.synapsesFilter);
-  const [position, setPosition] = React.useState(0);
-  const menuSearchOptions = useSelector((state) => state.search.filters.searchTerms);
-
-  const handleSelect = (event) => {
-    setPosition(event.target.value);
-  };
+  const [pre, setPre] = useState(0);
+  const [post, setPost] = useState(0);
+  const searchTerms = useSelector((state) => state.search.filters.searchTerms);
+  const [preSearchOptions, setPreSearchOptions] = useState(searchTerms);
+  const [postSearchOptions, setPostSearchOptions] = useState(searchTerms);
 
   useEffect(() => {
-  }, [filters]);
+    setPreSearchOptions(searchTerms);
+    setPostSearchOptions(searchTerms);
+  }, [searchTerms]);
 
   const handleChange = (event) => {
     setSynapsesFilter({
@@ -53,6 +53,39 @@ const SynapsesFilter = (props) => {
     );
     handleClose();
   };
+
+  useEffect(() => {
+    setPostSearchOptions(searchTerms.filter((value) => value !== pre));
+  }, [pre]);
+
+  useEffect(() => {
+    setPreSearchOptions(searchTerms.filter((value) => value !== post));
+  }, [post]);
+
+  const selectFilter = (filter, value, fn, searchOptions) => (
+    <Box display="flex" alignItems="center" justifyContent="space-between" key={filter}>
+      <Typography component="p">{filter}</Typography>
+
+      <FormControl variant="outlined">
+        <Select
+          value={value}
+          onChange={(e) => fn(e.target.value)}
+          IconComponent={(prop) => (
+            <Icon {...prop} className={`material-icons ${prop.className}`}>
+              <img src={SELECTICON} alt="select" />
+            </Icon>
+          )}
+        >
+          <MenuItem value={0}>
+            Select one
+          </MenuItem>
+          {
+            searchOptions.map((item) => <MenuItem value={item} key={`pre${item}`}>{item}</MenuItem>)
+          }
+        </Select>
+      </FormControl>
+    </Box>
+  );
 
   return (
     <Modal
@@ -89,53 +122,12 @@ const SynapsesFilter = (props) => {
 
           <Box className="neurons-position">
             <Typography component="h3">Neurons position</Typography>
-            <Box display="flex" alignItems="center" justifyContent="space-between">
-              <Typography component="p">Pre</Typography>
-
-              <FormControl variant="outlined">
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={position}
-                  onChange={handleSelect}
-                  IconComponent={(prop) => (
-                    <Icon {...prop} className={`material-icons ${prop.className}`}>
-                      <img src={SELECTICON} alt="select" />
-                    </Icon>
-                  )}
-                >
-                  <MenuItem value={0}>
-                    Select one
-                  </MenuItem>
-                  {
-                    menuSearchOptions.map((item) => <MenuItem value={item} key={`pre${item}`}>{item}</MenuItem>)
-                  }
-                </Select>
-              </FormControl>
-            </Box>
-            <Box display="flex" alignItems="center" justifyContent="space-between">
-              <Typography component="p">Post</Typography>
-              <FormControl variant="outlined">
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={position}
-                  onChange={handleSelect}
-                  IconComponent={(prop) => (
-                    <Icon {...prop} className={`material-icons ${prop.className}`}>
-                      <img src={SELECTICON} alt="select" />
-                    </Icon>
-                  )}
-                >
-                  <MenuItem value={0}>
-                    Select one
-                  </MenuItem>
-                  {
-                    menuSearchOptions.map((item) => <MenuItem value={item} key={`post${item}`}>{item}</MenuItem>)
-                  }
-                </Select>
-              </FormControl>
-            </Box>
+            {
+              selectFilter('Pre', pre, setPre, preSearchOptions)
+            }
+            {
+              selectFilter('Post', post, setPost, postSearchOptions)
+            }
           </Box>
         </Box>
         <Box className="modal-footer" justifyContent="space-between">
