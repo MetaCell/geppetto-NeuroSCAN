@@ -7,13 +7,22 @@ import {
   List,
   ListItem,
   makeStyles,
+  Checkbox,
+  Chip,
+  IconButton,
 } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Header from '../components/Header';
 import { VIEWS } from '../utilities/constants';
 import ResultCard from '../components/PromoterResultCard/ResultCard';
 import SubHeader from '../components/SubHeader';
 import TIMELINE from '../images/timeline.png';
 import MODEL from '../images/modelnew.svg';
+import CLOSE from '../images/icon-close-white.svg';
+import DOWN from '../images/expand_less.svg';
+import REMOVE from '../images/remove-new.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -97,6 +106,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const top100Films = [
+  { title: 'Pro 1', year: 1994 },
+  { title: 'Pro 2', year: 1994 },
+  { title: 'Pro 3', year: 1994 },
+  { title: 'Pro 4', year: 1994 },
+];
+
 const promoter = {
   title: 'odr-2b3a',
   cellLineage: [
@@ -165,6 +181,9 @@ const results = [
   promoter,
 ];
 
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
 const PromoterDB = () => {
   const classes = useStyles();
 
@@ -183,25 +202,77 @@ const PromoterDB = () => {
         <Box className="wrapper">
           <Typography>Promoter DB</Typography>
           <Typography component="h1">Explore Promoters and Neurons in seconds.</Typography>
-
-          <List className="filters">
-            <ListItem>
-              <TextField fullWidth label="Promoter" variant="filled" />
-            </ListItem>
-            <ListItem>
-              <TextField fullWidth label="Neuron" variant="filled" />
-            </ListItem>
-            <ListItem>
-              <TextField fullWidth label="Developmental Stage" variant="filled" />
-            </ListItem>
-            <ListItem>
-              <Button color="primary" disableElevation variant="contained">
-                Search
-              </Button>
-            </ListItem>
-          </List>
-
         </Box>
+      </Box>
+
+      <Box className="wrapper filter-box">
+        <List className="filters">
+          <ListItem>
+            <Autocomplete
+              fullWidth
+              multiple
+              id="Promoter"
+              closeIcon={false}
+              options={top100Films}
+              disableCloseOnSelect
+              ChipProps={{ deleteIcon: <IconButton><img src={REMOVE} alt="" /></IconButton>, onDelete: null }}
+              popupIcon={<img src={DOWN} alt="DOWN" />}
+              getOptionLabel={(option) => option.title}
+              renderOption={(option, { selected }) => (
+                <>
+                  <Checkbox
+                    icon={icon}
+                    checkedIcon={checkedIcon}
+                    style={{ marginRight: 8 }}
+                    checked={selected}
+                    color="primary"
+                  />
+                  {option.title}
+                </>
+              )}
+              renderInput={(params) => (
+                <TextField {...params} InputLabelProps={{ shrink: true }} placeholder="Type or search a promoter" variant="filled" label="Promoter" />
+              )}
+            />
+          </ListItem>
+          <ListItem>
+            <Autocomplete
+              fullWidth
+              multiple
+              id="Promoter"
+              closeIcon={false}
+              options={top100Films}
+              disableCloseOnSelect
+              ChipProps={{ deleteIcon: <IconButton><img src={REMOVE} alt="" /></IconButton>, onDelete: null }}
+              popupIcon={<img src={DOWN} alt="DOWN" />}
+              getOptionLabel={(option) => option.title}
+              renderOption={(option, { selected }) => (
+                <>
+                  <Checkbox
+                    icon={icon}
+                    checkedIcon={checkedIcon}
+                    style={{ marginRight: 8 }}
+                    checked={selected}
+                    color="primary"
+                  />
+                  {option.title}
+                </>
+              )}
+              renderInput={(params) => (
+                <TextField {...params} InputLabelProps={{ shrink: true }} placeholder="Type or search a promoter" variant="filled" label="Promoter" />
+              )}
+            />
+          </ListItem>
+          <ListItem>
+            <TextField InputLabelProps={{ shrink: true }} placeholder="Select a developmental stage" fullWidth label="Developmental Stage" variant="filled" />
+          </ListItem>
+          <ListItem>
+            <Button color="primary" disableElevation variant="contained">
+              Search
+            </Button>
+          </ListItem>
+        </List>
+
       </Box>
 
       <Box className="main-content scrollbar">

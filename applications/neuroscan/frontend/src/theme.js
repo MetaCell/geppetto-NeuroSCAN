@@ -92,13 +92,13 @@ const theme = createTheme({
           '& .MuiMenu-list .MuiMenuItem-root': {
             '&:before': {
               content: '""',
-              width: '8.5px',
-              height: '5.5px',
-              border: '2px solid #fff',
+              width: '0.53125rem',
+              height: '0.423076rem',
+              border: `0.125rem solid ${whiteTextColor}`,
               borderTop: 'none',
               borderRight: 'none',
               transform: 'rotate(-45deg)',
-              marginRight: '11px',
+              marginRight: '0.6875rem',
               opacity: '0',
             },
             '&.Mui-selected': {
@@ -834,7 +834,7 @@ const theme = createTheme({
         '.sub-header': {
           height: 'calc(16.75rem - 2.5rem)',
           background: subHeaderBg,
-          marginBottom: '4rem',
+          paddingBottom: '4.1875rem',
           transition: 'height ease-in .3s',
 
           '& .wrapper': {
@@ -860,62 +860,134 @@ const theme = createTheme({
               color: subHeaderHeadingColor,
               marginBottom: '1.8125rem',
             },
+          },
+        },
 
-            '& .filters': {
-              height: '5rem',
-              background: filtersBgColor,
-              display: 'flex',
-              alignItems: 'center',
-              boxShadow: `0 .25rem 3.125rem -1.0625rem ${filterShadowColor}`,
-              borderRadius: '0.5rem',
-              marginBottom: '-2.5rem',
-              '& .MuiFormLabel-root': {
-                color: paragraphColor,
-                fontWeight: '600',
-                top: '0 !important',
-              },
-              '& .MuiInputBase-input': {
-                color: whiteTextColor,
-              },
-              '& .MuiFilledInput-root': {
+        '.filter-box': {
+          '& .MuiAutocomplete-clearIndicator': {
+            color: whiteTextColor,
+          },
+
+          '& .MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon .MuiAutocomplete-inputRoot[class*="MuiFilledInput-root"]': {
+            paddingRight: '2.1875rem',
+          },
+
+          '& .MuiAutocomplete-tag': {
+            fontWeight: '600',
+            fontSize: '0.75rem',
+            lineHeight: '1rem',
+            letterSpacing: '0.005em',
+            textTransform: 'uppercase',
+            color: whiteTextColor,
+          },
+
+          '& .MuiChip-root': {
+            background: primaryColor,
+            borderRadius: '0.75rem',
+            margin: '0.1875rem 0.125rem',
+            // paddingRight: '0.1875rem',
+            '& .MuiChip-deleteIcon': {
+              color: whiteTextColor,
+              margin: '0 0 0 0.25rem',
+            },
+            '& .MuiChip-label': {
+              fontWeight: '600',
+              fontSize: '0.75rem',
+              lineHeight: '1rem',
+              letterSpacing: '0.005em',
+              textTransform: 'uppercase',
+              color: whiteTextColor,
+            },
+          },
+          '& .filters': {
+            // minHeight: '5rem',
+            background: filtersBgColor,
+            display: 'flex',
+            alignItems: 'flex-start',
+            marginBottom: '4rem',
+            boxShadow: `0 .25rem 3.125rem -1.0625rem ${filterShadowColor}`,
+            borderRadius: '0.5rem',
+            padding: '0.75rem 0',
+            marginTop: '-2.5rem !important',
+            '& .MuiFormLabel-root': {
+              color: paragraphColor,
+              fontWeight: '600',
+              top: '0 !important',
+              '&.Mui-focused + .MuiFilledInput-root': {
+                flexWrap: 'wrap',
                 background: borderColor,
-                borderRadius: '0.3125rem',
+              },
+            },
+            '& .MuiInputBase-input': {
+              color: whiteTextColor,
+              textOverflow: 'ellipsis',
+            },
+            '& .MuiFilledInput-root': {
+              background: 'transparent',
+              borderRadius: '0.3125rem',
+              // flexWrap: 'nowrap',
+              '&::before': {
+                display: 'none',
+              },
+              '&::after': {
+                display: 'none',
+              },
+            },
+            '& .MuiListItem-root': {
+              width: 'calc((100% - 8.375rem) / 3)',
+              padding: '0 0.75rem',
+              position: 'relative',
+              '& .MuiAutocomplete-fullWidth': {
+                maxWidth: '100%',
+              },
+              '&+ .MuiListItem-root': {
                 '&::before': {
-                  display: 'none',
-                },
-                '&::after': {
-                  display: 'none',
-                },
-              },
-              '& .MuiListItem-root': {
-                width: 'calc((100% - 8.375rem) / 3)',
-                padding: '0 0.75rem',
-                position: 'relative',
-                '&+ .MuiListItem-root': {
-                  '&::before': {
-                    content: '""',
-                    background: borderColor,
-                    width: '0.0625rem',
-                    height: '3.1875rem',
-                    position: 'absolute',
-                    left: 0,
-                    top: 0,
-                  },
-                },
-                '&:last-child': {
-                  width: '8.375rem',
+                  content: '""',
+                  background: borderColor,
+                  width: '0.0625rem',
+                  height: '3.1875rem',
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
                 },
               },
-              '& .MuiButton-contained': {
-                height: '3.1875rem',
-                width: '100%',
-                '& .MuiButton-label': {
-                  fontSize: '0.875rem',
+              '&:last-child': {
+                width: '8.375rem',
+                // padding: '0 0.75rem',
+              },
+            },
+            '& .MuiButton-contained': {
+              height: '3.1875rem',
+              width: '100%',
+              '& .MuiButton-label': {
+                fontSize: '0.875rem',
+              },
+            },
+          },
+        },
+
+        '.MuiAutocomplete-popper': {
+          '& .MuiAutocomplete-paper': {
+            '& .MuiAutocomplete-listbox': {
+              padding: '0.625rem 0',
+            },
+            '& .MuiAutocomplete-option': {
+              padding: '0.4375rem 1rem',
+              fontSize: '0.75rem',
+              lineHeight: '1.25rem',
+              letterSpacing: '0.16px',
+              color: 'rgba(0, 0, 0, 0.8)',
+              background: 'transparent',
+              '& .MuiCheckbox-root': {
+                padding: '0',
+                '&:not(.Mui-checked)': {
+                  color: 'rgba(0, 0, 0, 0.8)',
                 },
               },
             },
           },
         },
+
         '.primary-structure': {
           // paddingTop: '2.5rem',
           height: '100vh',
