@@ -31,7 +31,7 @@ export const setOriginalColorSelectedInstances = (instances) => (
   instances
     .map((instance) => ({
       ...instance,
-      color: instance.colorOriginal,
+      color: instance.colorOriginal ? instance.colorOriginal : instance.color,
     }))
 );
 
