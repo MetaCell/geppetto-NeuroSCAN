@@ -1,5 +1,5 @@
 import * as search from './actions/search';
-import { doSearch } from '../services/helpers';
+import doSearch from '../services/helpers';
 
 const searchMiddleware = (store) => (next) => (action) => {
   switch (action.type) {

@@ -4,24 +4,22 @@ export const UPDATE_COUNTERS = 'UPDATE_COUNTERS';
 export const START_SEARCH = 'START_SEARCH';
 export const LOAD_MORE = 'LOAD_MORE';
 
-export const updateFilters = (searchTerms, developmentalStage, synapsesFilter) => ({
+export const updateFilters = (filter) => ({
   type: UPDATE_FILTERS,
-  searchTerms,
-  developmentalStage,
-  synapsesFilter,
+  ...filter,
 });
 
-export const updateResults = ((data) => ({
+export const updateResults = (data) => ({
   type: UPDATE_RESULTS,
   data,
-}));
+});
 
-export const loadMore = ((data) => ({
+export const loadMore = (data) => ({
   type: LOAD_MORE,
   data,
-}));
+});
 
-export const updateCounters = ((counters) => ({
+export const updateCounters = (counters) => ({
   type: UPDATE_COUNTERS,
   counters,
-}));
+});

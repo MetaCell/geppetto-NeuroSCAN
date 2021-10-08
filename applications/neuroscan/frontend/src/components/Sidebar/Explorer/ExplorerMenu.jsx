@@ -1,15 +1,16 @@
 import React from 'react';
 import {
   Divider,
-  Popover,
   List,
   ListItem,
   ListItemText,
+  Popover,
   Typography,
 } from '@material-ui/core';
+import MenuGroups from './MenuGroups';
 
 const ExplorerMenu = ({
-  anchorEl, handleMenuClose, open,
+  anchorEl, handleMenuClose, open, ...other
 }) => {
   const menuId = 'explorer-menu-option';
   return (
@@ -37,6 +38,20 @@ const ExplorerMenu = ({
           <ListItemText>
             <Typography>Select</Typography>
           </ListItemText>
+        </ListItem>
+
+        <Divider />
+
+        <ListItem
+          role="button"
+          button
+        >
+          <ListItemText>
+            <Typography>Add to group</Typography>
+          </ListItemText>
+          <MenuGroups
+            {...other}
+          />
         </ListItem>
 
         <Divider />

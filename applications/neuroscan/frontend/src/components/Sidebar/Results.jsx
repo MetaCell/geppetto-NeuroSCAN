@@ -6,8 +6,8 @@ import AddToViewerMenu from './AddToViewerMenu';
 import SearchResult from '../Common/SearchResult';
 import NEURON from '../../images/neuron.svg';
 import CONTACTS from '../../images/contacts.svg';
-import { addToWidget, getLocationPrefixFromType } from '../../utilities/functions';
-import { colorDefault } from '../../utilities/defaults';
+import { addInstances } from '../../redux/actions/widget';
+import { mapToInstance } from '../../services/instanceHelpers';
 
 const list = [
   {
@@ -27,32 +27,12 @@ const list = [
   },
 ];
 
-const mapToInstance = (item) => {
-  const fileName = item.filename || '';
-  const location = getLocationPrefixFromType(item);
-  return {
-    id: item.id,
-    uid: `i${item.uid.replace(/-/g, '')}`,
-    name: item.uid,
-    selected: false,
-    color: colorDefault,
-    instanceType: item.instanceType,
-    content: {
-      type: 'url',
-      location,
-      fileName,
-    },
-    getId: () => this.id,
-  };
-};
-
 const Results = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [currentItem, setCurrentItem] = React.useState(null);
   const dispatch = useDispatch();
 
   const searchesCount = useSelector((state) => state.search.searchesCount);
-  const widgets = useSelector((state) => state.widgets);
 
   const handleClick = (event, selectedItem) => {
     setCurrentItem(selectedItem);
@@ -64,10 +44,9 @@ const Results = () => {
     setAnchorEl(null);
   };
 
-  const handleAddToViewer = async (viewerId = null) => {
+  const handleAddToViewer = (viewerId = null) => {
     const instances = [mapToInstance(currentItem)];
-    const widget = widgets[viewerId] || null;
-    dispatch(await addToWidget(widget, instances));
+    dispatch(addInstances(viewerId, instances));
     handleClose();
   };
 
