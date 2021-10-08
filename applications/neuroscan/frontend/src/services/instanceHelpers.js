@@ -103,10 +103,23 @@ const getLocationPrefixFromType = (item) => {
       return `${filesURL}/neuroscan/${devStage}/${item.timepoint}/neurons/${item.filename}`;
     }
     case CONTACT_TYPE: {
-      return `${filesURL}/neuroscan/${devStage}/${item.timepoint}/contacts/${item.filename}`;
+      return `${filesURL}/neuroscan/${devStage}/${item.timepoint}/contacts/${item.neuronA.uid}/${item.filename}`;
     }
     case SYNAPSE_TYPE: {
-      return `${filesURL}/neuroscan/${devStage}/${item.timepoint}/synapses/${item.filename}`;
+      let folder = '';
+      switch (item.position) {
+        case 'post':
+          folder = `${item.postNeuron?.uid}_PostSyn`;
+          break;
+
+        case 'pre':
+          folder = `${item.neuronPre?.uid}_PreSyn`;
+          break;
+
+        default:
+          folder = '';
+      }
+      return `${filesURL}/neuroscan/${devStage}/${item.timepoint}/synapses/${folder}/${item.filename}`;
     }
     default: {
       return '';
