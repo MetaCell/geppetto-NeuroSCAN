@@ -71,6 +71,7 @@ const MenuControl = ({
   return (
     <Popover
       id={id}
+      className="custom-popover"
       open={open}
       anchorEl={anchorEl}
       onClose={handleClose}

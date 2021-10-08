@@ -82,7 +82,7 @@ const Header = (props) => {
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Popover
-      className="dark"
+      className="custom-popover dark"
       id={menuId}
       open={isMenuOpen}
       anchorEl={anchorEl}
