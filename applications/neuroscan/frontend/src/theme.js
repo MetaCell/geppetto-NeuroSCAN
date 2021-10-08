@@ -868,6 +868,11 @@ const theme = createTheme({
             color: whiteTextColor,
           },
 
+          '& .MuiFilledInput-root': {
+            paddingTop: '19px !important',
+            paddingLeft: '8px !important',
+          },
+
           '& .MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon .MuiAutocomplete-inputRoot[class*="MuiFilledInput-root"]': {
             paddingRight: '2.1875rem',
           },
@@ -885,7 +890,7 @@ const theme = createTheme({
             background: primaryColor,
             borderRadius: '0.75rem',
             margin: '0.1875rem 0.125rem',
-            // paddingRight: '0.1875rem',
+            padding: '0 0.5rem !important',
             '& .MuiChip-deleteIcon': {
               color: whiteTextColor,
               margin: '0 0 0 0.25rem',
@@ -917,10 +922,30 @@ const theme = createTheme({
                 flexWrap: 'wrap',
                 background: borderColor,
               },
+
+              '&.Mui-focused + div .MuiFilledInput-root': {
+                flexWrap: 'wrap',
+                background: borderColor,
+              },
+              '&.Mui-focused + div .MuiFilledInput-root .chipAdornment .development-icon': {
+                transform: 'rotate(180deg)',
+              },
+            },
+            '& .chipAdornment': {
+              position: 'absolute',
+              right: '9px',
+              top: 'calc(50% - 14px)',
+              height: 'auto',
+              margin: '0',
+              '& .development-icon': {
+                padding: '2px',
+                marginRight: '-2px',
+              },
             },
             '& .MuiInputBase-input': {
               color: whiteTextColor,
               textOverflow: 'ellipsis',
+              padding: '9px 4px !important',
             },
             '& .MuiFilledInput-root': {
               background: 'transparent',

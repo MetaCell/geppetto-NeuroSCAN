@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Typography,
   Box,
@@ -10,10 +10,14 @@ import {
   Checkbox,
   Chip,
   IconButton,
+  InputAdornment,
+  Popover,
+  ListItemText,
 } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import ChipInput from 'material-ui-chip-input';
 import Header from '../components/Header';
 import { VIEWS } from '../utilities/constants';
 import ResultCard from '../components/PromoterResultCard/ResultCard';
@@ -23,6 +27,7 @@ import MODEL from '../images/modelnew.svg';
 import CLOSE from '../images/icon-close-white.svg';
 import DOWN from '../images/expand_less.svg';
 import REMOVE from '../images/remove-new.svg';
+import DevelopmentalStageFilter from '../components/PromoterSearch/DevelopmentalStageFilter';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -181,11 +186,47 @@ const results = [
   promoter,
 ];
 
+const chipValue = ['Pro 1'];
+
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 const PromoterDB = () => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const isMenuOpen = Boolean(anchorEl);
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const menuId = 'primary-search-account-menu';
+  const [timePoint, setTimePoint] = useState(0);
+  const renderMenu = (
+    <Popover
+      id={menuId}
+      open={isMenuOpen}
+      anchorEl={anchorEl}
+      onClose={handleMenuClose}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+    >
+      <DevelopmentalStageFilter
+        timePoint={timePoint}
+        setTimePoint={setTimePoint}
+      />
+    </Popover>
+  );
 
   return (
     <Box className={classes.root}>
@@ -239,7 +280,7 @@ const PromoterDB = () => {
             <Autocomplete
               fullWidth
               multiple
-              id="Promoter"
+              id="Neurons"
               closeIcon={false}
               options={top100Films}
               disableCloseOnSelect
@@ -259,12 +300,51 @@ const PromoterDB = () => {
                 </>
               )}
               renderInput={(params) => (
-                <TextField {...params} InputLabelProps={{ shrink: true }} placeholder="Type or search a promoter" variant="filled" label="Promoter" />
+                <TextField {...params} InputLabelProps={{ shrink: true }} placeholder="Type or search a neuron" variant="filled" label="Neurons" />
               )}
             />
           </ListItem>
           <ListItem>
-            <TextField InputLabelProps={{ shrink: true }} placeholder="Select a developmental stage" fullWidth label="Developmental Stage" variant="filled" />
+            <ChipInput
+              fullWidth
+              InputLabelProps={{ shrink: true }}
+              label="Developmental Stage"
+              variant="filled"
+              placeholder={chipValue ? 'Select a developmental stage' : ''}
+              defaultValue={chipValue}
+              InputProps={{
+                endAdornment:
+  <InputAdornment position="end" className="chipAdornment">
+    <IconButton
+      edge="start"
+      color="inherit"
+      aria-label="menu"
+      aria-controls={menuId}
+      aria-haspopup="true"
+      onClick={handleProfileMenuOpen}
+      aria-describedby={menuId}
+      className="development-icon"
+    >
+      <img src={DOWN} alt="DOWN" />
+    </IconButton>
+  </InputAdornment>,
+              }}
+              chipRenderer={(
+                {
+                  value,
+                  className,
+                },
+                key,
+              ) => (
+                <Chip
+                  key={key}
+                  className={className}
+                  label={value}
+                  deleteIcon={false}
+                />
+              )}
+            />
+            {renderMenu}
           </ListItem>
           <ListItem>
             <Button color="primary" disableElevation variant="contained">
