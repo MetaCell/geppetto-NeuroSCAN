@@ -50,7 +50,7 @@ const updateInstanceSelected = (instances, selectedUids) => instances.map((insta
 });
 
 export const setSelectedInstances = (dispatch, widget, selectedUids) => {
-  const newWidget = widget;
+  const newWidget = { ...widget };
   newWidget.config.instances = updateInstanceSelected(
     widget.config.instances, selectedUids,
   );
@@ -58,7 +58,7 @@ export const setSelectedInstances = (dispatch, widget, selectedUids) => {
     widget.config.instances,
   );
   newWidget.config.flash = true;
-  newWidget.status = WidgetStatus.ACTIVE;
+  // newWidget.status = WidgetStatus.ACTIVE;
   dispatch(layoutActions.updateWidget(newWidget));
 };
 

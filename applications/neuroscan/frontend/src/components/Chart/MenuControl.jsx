@@ -33,7 +33,10 @@ const MenuControl = ({
   };
   const widgets = useSelector((state) => state.widgets);
   const currentWidget = widgets[viewerId];
-  const { instances } = currentWidget.config;
+  let instances = [];
+  if (currentWidget) {
+    instances = currentWidget.config.instances;
+  }
   const groups = getInstancesByGroups(instances);
   const neurons = getInstancesOfType(instances, NEURON_TYPE) || [];
   const contacts = getInstancesOfType(instances, CONTACT_TYPE) || [];
