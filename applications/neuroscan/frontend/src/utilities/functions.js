@@ -2,6 +2,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model';
 import { addWidget, updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
+import RecordControls from '@metacell/geppetto-meta-ui/record-controls/RecordControls';
 import { VIEWERS } from './constants';
 import CameraControls from '../components/Chart/CameraControls';
 
@@ -62,6 +63,13 @@ export const addToWidget = (
         reset: false,
         autorotate: false,
         wireframe: false,
+      },
+      recorderOptions: {
+        allowRecorder: false,
+        recorderControls: {
+          instance: RecordControls,
+          props: {},
+        },
       },
       viewerId: newViewerId,
       flash: false,

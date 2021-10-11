@@ -18,21 +18,93 @@ const useStyles = makeStyles({
   },
 });
 
+const CanvasToolTip = (props) => {
+  const {
+    id,
+    x,
+    y,
+    visible,
+    text,
+  } = props;
+  return (
+    <div
+      id={id}
+      style={{
+        position: 'fixed',
+        left: x,
+        top: y,
+        minWidth: '100px',
+        textAlign: 'center',
+        padding: '5px 12px',
+        fontFamily: 'monospace',
+        background: '#a0c020',
+        display: visible ? 'block' : 'none',
+        opacity: '1',
+        border: '1px solid black',
+        boxShadow: '2px 2px 3px rgba(0, 0, 0, 0.5)',
+        transition: 'opacity 0.25s linear',
+        borderRadius: '3px',
+      }}
+    >
+      {text}
+    </div>
+  );
+};
+
 function InstanceViewer(props) {
-  const { viewerId, cameraOptions } = props;
+  const {
+    viewerId,
+    instances,
+    cameraOptions,
+    recorderOptions,
+    flash,
+  } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const widget = useSelector((state) => state.widgets[viewerId]);
+  const [canvasData, setCanvasData] = useState([]);
+  const [intersected, setIntersected] = useState(null);
+
   const camOptionsRef = useRef(null);
+  const instancesRef = useRef([]);
+
+  const findInstanceForObj = (obj, insts) => {
+    if (obj.instancePath) {
+      return instancesRef.current
+        .find((i) => i.uid === obj.instancePath);
+    }
+    return findInstanceForObj(obj.parent);
+  };
+
+  const hoverListener = (objs, canvasX, canvasY) => {
+    const obj = objs[0];
+    setIntersected({
+      o: findInstanceForObj(obj.object),
+      x: canvasX + 10,
+      y: canvasY + 10,
+    });
+
+    setTimeout(() => {
+      setIntersected(null);
+    }, 5000);
+  };
+
+  useEffect(() => {
+    instancesRef.current = instances;
+    setCanvasData(instances.map((instance) => ({
+      instancePath: instance.uid,
+      color: instance.color,
+    })));
+  }, [instances]);
 
   if (widget.config.flash) {
     let counter = 1;
     const interval = setInterval(() => {
-      widget.config.instances = invertColorSelectedInstances(widget.config.instances);
+      widget.config.instances = invertColorSelectedInstances(instancesRef.current);
       if (counter === 6) {
         clearInterval(interval);
-        widget.config.instances = setOriginalColorSelectedInstances(widget.config.instances);
+        widget.config.instances = setOriginalColorSelectedInstances(instancesRef.current);
       }
       dispatch(layoutActions.updateWidget(widget));
       counter += 1;
@@ -40,11 +112,6 @@ function InstanceViewer(props) {
     widget.config.flash = false;
     dispatch(layoutActions.updateWidget(widget));
   }
-
-  const canvasData = widget.config.instances.map((instance) => ({
-    instancePath: instance.uid,
-    color: instance.color,
-  }));
 
   const cameraHandler = (data) => {
     if (data.position.x !== 0) {
@@ -74,11 +141,25 @@ function InstanceViewer(props) {
 
   return (
     <div className={classes.canvasContainer}>
+      <div>
+        { intersected && intersected.o
+          && (
+            <CanvasToolTip
+              visible
+              x={intersected.x}
+              y={intersected.y}
+              text={intersected.o.name}
+              id={`canvas-tooltip-${intersected.o.uid}`}
+            />
+          )}
+      </div>
       <Canvas
         key={viewerId}
         data={canvasData}
         cameraOptions={camOptions}
         cameraHandler={cameraHandler}
+        recorderOptions={recorderOptions}
+        hoverListeners={[hoverListener]}
         backgroundColor={0x2C2C2C}
         onSelection={onSelection}
         onMount={onMount}
