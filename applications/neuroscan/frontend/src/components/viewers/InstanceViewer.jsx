@@ -68,6 +68,7 @@ function InstanceViewer(props) {
 
   const camOptionsRef = useRef(null);
   const instancesRef = useRef([]);
+  const timeoutRef = useRef(null);
 
   const findInstanceForObj = (obj) => {
     if (obj.instancePath) {
@@ -87,9 +88,12 @@ function InstanceViewer(props) {
         y: canvasY + 10, // and not on the tooltip ;-)
       });
 
-      setTimeout(() => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = setTimeout(() => {
         setIntersected(null);
-      }, 2500);
+      }, 3000);
     }
   };
 
