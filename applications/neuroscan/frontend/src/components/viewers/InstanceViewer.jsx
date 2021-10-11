@@ -69,7 +69,7 @@ function InstanceViewer(props) {
   const camOptionsRef = useRef(null);
   const instancesRef = useRef([]);
 
-  const findInstanceForObj = (obj, insts) => {
+  const findInstanceForObj = (obj) => {
     if (obj.instancePath) {
       return instancesRef.current
         .find((i) => i.uid === obj.instancePath);
@@ -79,15 +79,18 @@ function InstanceViewer(props) {
 
   const hoverListener = (objs, canvasX, canvasY) => {
     const obj = objs[0];
-    setIntersected({
-      o: findInstanceForObj(obj.object),
-      x: canvasX + 10,
-      y: canvasY + 10,
-    });
+    const intersectedInstance = findInstanceForObj(obj.object);
+    if (!intersected || (intersectedInstance.uid !== intersected.o.uid)) {
+      setIntersected({
+        o: intersectedInstance,
+        x: canvasX + 10, // move it 10 px so the onselect (onclick) will fire on the instance
+        y: canvasY + 10, // and not on the tooltip ;-)
+      });
 
-    setTimeout(() => {
-      setIntersected(null);
-    }, 5000);
+      setTimeout(() => {
+        setIntersected(null);
+      }, 2500);
+    }
   };
 
   useEffect(() => {

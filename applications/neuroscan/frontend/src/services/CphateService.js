@@ -1,4 +1,4 @@
-import { backendURL, backendClient } from '../utilities/constants';
+import { backendURL, backendClient, CPHATE_TYPE } from '../utilities/constants';
 
 const cphateUrl = '/cphates';
 
@@ -23,6 +23,10 @@ export class CphateService {
     return {
       id,
       uid: id,
+      name: `i:${obj.i} g:${obj.g}`,
+      selected: false,
+      instanceType: CPHATE_TYPE,
+      group: null,
       content: {
         type: 'zip',
         location: `${backendURL}${cphate.zipfile.url}`,
