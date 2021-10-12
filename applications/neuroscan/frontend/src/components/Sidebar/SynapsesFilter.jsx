@@ -47,9 +47,11 @@ const SynapsesFilter = (props) => {
 
   const applyFilters = () => {
     dispatch(
-      search.updateFilters(
-        { synapsesFilter },
-      ),
+      search.updateFilters({
+        synapsesFilter: {
+          ...synapsesFilter,
+        },
+      }),
     );
     handleClose();
   };
