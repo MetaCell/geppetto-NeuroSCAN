@@ -39,6 +39,16 @@ export class SynapseService {
         type: 'electrical',
       });
     }
+    if (filters.synapsesFilter.preNeuron) {
+      andPart.push({
+        preNeuron: filters.synapsesFilter.preNeuron,
+      });
+    }
+    if (filters.synapsesFilter.postNeuron) {
+      andPart.push({
+        postNeuron: filters.synapsesFilter.postNeuron,
+      });
+    }
     return qs.stringify({
       _where: andPart,
       _sort: 'uid:ASC',

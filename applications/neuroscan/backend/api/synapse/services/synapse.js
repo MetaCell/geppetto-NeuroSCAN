@@ -6,24 +6,29 @@
  */
 
 const searchSynapseByTerms = (
-  timePoint,
-  searchTerms,
-  type = [],
-  pre = null,
-  post = null
+  params,
 ) => {
+  const where = params._where || [];
+  const { searchTerms } = where.find(t => 'searchTerms' in t);
   const terms = searchTerms.toUpperCase().split('|');
+  const { timepoint } = where.find(t => 'timepoint' in t);
+  const type = where.filter(t => 'type' in t).map(t => t.type) || {type: []};
+  const { preNeuron } = where.find(t => 'preNeuron' in t) || {preNeuron: null};
+  const { postNeuron } = where.find(t => 'postNeuron' in t) || {postNeuron: null};
+  const termsPre = preNeuron ? [preNeuron.toUpperCase()] : terms;
 
-  return terms.reduce((r, t, i) => {
+  return termsPre.reduce((r, t, i) => {
     return `${r} ${i != 0 ? 'UNION ': ''}
   select * 
   from (
-    select s.*
+    select s.*, n_pre.uid as neuronPre_uid
     from synapses as s
     join neurons as n_pre on n_pre.id = s.neuronPre
-    where s.timepoint = ${timePoint}
-    ${type.length > 0 ? `and type in ('${type.join("','")}')` : ''}
+    left join neurons as n_post on n_post.id = s.postNeuron
+    where s.timepoint = ${timepoint}
     and upper(n_pre.uid) like '%${t}%'
+    ${type.length > 0 ? `and type in ('${type.join("','")}')` : ''}
+    ${postNeuron ? `and upper(n_post.uid) like '%${postNeuron.toUpperCase()}%'` : ''}
     and ${terms.length - 1} <= (
       select count(1)
       from (
@@ -37,11 +42,15 @@ const searchSynapseByTerms = (
           }, '')}
         )
       )
+  ${!preNeuron ? `
     union
-      select s.*
+      select s.*, n_pre.uid as neuronPre_uid
       from synapses as s
-      where s.timepoint = ${timePoint}
+      join neurons as n_pre on n_pre.id = s.neuronPre
+      left join neurons as n_post on n_post.id = s.postNeuron
+      where s.timepoint = ${timepoint}
       ${type.length > 0 ? `and type in ('${type.join("','")}')` : ''}
+      ${postNeuron ? `and upper(n_post.uid) like '%${postNeuron.toUpperCase()}%'` : ''}
       and ${terms.length} = (
         select count(1)
         from (
@@ -55,8 +64,7 @@ const searchSynapseByTerms = (
             }, '')}
           )
         )
-      )
-  `}, '');
+  ` : ''}) `}, '');
 }
 
 module.exports = {
@@ -68,22 +76,21 @@ module.exports = {
       return strapi.query('synapse').find(params, populate);
     }
 
-    const { timepoint } = where.find(t => 'timepoint' in t);
-    const type = where.filter(t => 'type' in t).map(t => t.type);
     const limit = params._limit || null;
     const offset = params._start || null;
+  
     const query = `
     select *
     from (
-    ${searchSynapseByTerms(timepoint, searchTerms.searchTerms, type)}
+    ${searchSynapseByTerms(params)}
     )
-    order by uid
+    order by neuronPre_uid
     ${limit !== null ? `limit (${limit})` : ''}
     ${offset !== null ? `offset (${offset})` : ''}
     `;
-    console.log(query);
     const knex = strapi.connections.default;
-    return await knex.raw(query);
+    const ids = await knex.raw(query);
+    return await strapi.query('synapse').find({ id_in: ids.map(x => x.id), _sort: 'uid' });
   },
 
   async count(params, populate) {
@@ -92,12 +99,10 @@ module.exports = {
     if (!searchTerms) {
       return strapi.query('synapse').count(params, populate);
     }
-    const { timepoint } = where.find(t => 'timepoint' in t);
-    const type = where.filter(t => 'type' in t).map(t => t.type);
     const query = `
     select count(1) as c
     from (
-    ${searchSynapseByTerms(timepoint, searchTerms.searchTerms, type)}
+    ${searchSynapseByTerms(params)}
     )
     `
     const knex = strapi.connections.default;

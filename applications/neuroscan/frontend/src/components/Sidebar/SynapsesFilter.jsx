@@ -50,6 +50,8 @@ const SynapsesFilter = (props) => {
       search.updateFilters({
         synapsesFilter: {
           ...synapsesFilter,
+          preNeuron: pre,
+          postNeuron: post,
         },
       }),
     );

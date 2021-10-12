@@ -9,6 +9,8 @@ export const SEARCH_DEFAULT_STATUS = {
       synapsesFilter: {
         chemical: false,
         electrical: false,
+        preNeuron: null,
+        postNeuron: null,
       },
     },
     counters: {
