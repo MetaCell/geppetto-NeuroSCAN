@@ -876,7 +876,7 @@ const theme = createTheme({
           '& .MuiPopover-paper': {
             padding: '3.75rem 1.375rem 1rem',
             transform: 'translateX(1.25rem) translateY(1.75rem) !important',
-            width: '70%',
+            width: '90%',
           },
         },
         '.filter-box': {
