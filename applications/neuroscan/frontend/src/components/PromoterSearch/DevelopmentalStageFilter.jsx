@@ -14,7 +14,7 @@ import TwoCellEmbryo from '../../images/2cellEmbryo.svg';
 import TwoFoldEmbryo from '../../images/2FoldEmbryo.svg';
 import ThreeFoldEmbryo from '../../images/3foldEmbryo.svg';
 import OneFiveEmbryo from '../../images/1.5FoldEmbryo.svg';
-import HatchingEmbryo from '../../images/hatching.svg';
+import HatchingEmbryo from '../../images/Hatching.svg';
 
 const useStyles = makeStyles(() => ({
   root: {
