@@ -81,25 +81,14 @@ const theme = createTheme({
     toolbarBackground: { main: toolbarBackground },
   },
   overrides: {
-    MuiFormGroup: {
-      root: {
-        flexDirection: 'row',
-      },
-    },
     MuiPopover: {
       root: {
-        '&:not(.custom-popover)': {
-          '& .MuiMenu-list .MuiMenuItem-root': {
-            '&:before': {
-              content: '""',
-              width: '8.5px',
-              height: '5.5px',
-              border: '2px solid #fff',
-              borderTop: 'none',
-              borderRight: 'none',
-              transform: 'rotate(-45deg)',
-              marginRight: '11px',
-              opacity: '0',
+        '&.dark': {
+          '&.right': {
+            '&#addToViewerMenu': {
+              '& .MuiPaper-root': {
+                transform: 'translateY(1rem) translateX(0) !important',
+              },
             },
             '&#explorer-menu-option': {
               '& .MuiPaper-root': {
@@ -122,41 +111,23 @@ const theme = createTheme({
               },
             },
           },
-        },
-        '&.custom-popover': {
           '& .MuiPaper-root': {
-            transform: 'translateY(0.75rem) translateX(-1.5rem) !important',
+            minWidth: '10rem',
+            padding: '0.5rem 0',
+            background: buttonOutlineColor,
+            border: 'none',
+            boxShadow: '0 .125rem .4375rem rgba(0, 0, 0, 0.15), 0 .3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
+            borderRadius: `calc(${radius} - .25rem)`,
+            transform: 'translateY(0.1875rem) translateX(-1rem) !important',
             '&::before': {
-              content: '""',
-              width: '0.875rem',
-              height: '0.875rem',
-              position: 'absolute',
-              top: '-0.4375rem',
-              left: '1.0625rem',
-              background: whiteTextColor,
-              transform: 'rotate(45deg)',
-            },
-          },
-          '&.dark': {
-            '&.right': {
-              '& .MuiPaper-root': {
-                transform: 'translateY(0.1875rem) translateX(0) !important',
-                '&::before': {
-                  left: 'auto',
-                  right: '1.0625rem',
-                },
-              },
-            },
-            '& .MuiPaper-root': {
-              minWidth: '10rem',
-              padding: '0.5rem 0',
               background: buttonOutlineColor,
-              border: 'none',
-              boxShadow: '0 .125rem .4375rem rgba(0, 0, 0, 0.15), 0 .3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
-              borderRadius: `calc(${radius} - .25rem)`,
-              transform: 'translateY(0.1875rem) translateX(-1rem) !important',
-              '&::before': {
-                background: buttonOutlineColor,
+            },
+
+            '& .MuiList-root': {
+              '& .MuiDivider-root': {
+                backgroundColor: dividerBackgroundColor,
+                marginTop: `calc(${gutter} / 2)`,
+                marginBottom: `calc(${gutter} / 2)`,
               },
               '& .MuiListItem-root': {
                 padding: '0.25rem 1rem',
@@ -179,11 +150,13 @@ const theme = createTheme({
                   display: 'block',
                 },
 
-              '& .MuiList-root': {
-                '& .MuiDivider-root': {
-                  backgroundColor: dividerBackgroundColor,
-                  marginTop: `calc(${gutter} / 2)`,
-                  marginBottom: `calc(${gutter} / 2)`,
+                '& .MuiTypography-caption': {
+                  maxWidth: '11.875rem',
+                  wordBreak: 'break-all',
+                  whiteSpace: 'normal',
+                },
+                '&:hover': {
+                  background: primaryColor,
                 },
                 '& .MuiListItemText-root': {
                   margin: '0',
@@ -197,27 +170,17 @@ const theme = createTheme({
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   },
-                  '& .MuiListItemText-root': {
-                    margin: '0',
-                    '& p': {
-                      fontSize: '0.75rem',
-                      fontWeight: '400',
-                      lineHeight: '1rem',
-                      letterSpacing: '0.005em',
-                      color: whiteTextColor,
-                    },
-                    '& strong': {
-                      fontSize: '0.75rem',
-                      fontWeight: '500',
-                      lineHeight: '1rem',
-                      letterSpacing: '0.005em',
-                      color: whiteTextColor,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      '& .MuiSvgIcon-root': {
-                        fontSize: `calc(${gutter} - .125rem)`,
-                      },
+                  '& strong': {
+                    fontSize: '0.75rem',
+                    fontWeight: '500',
+                    lineHeight: '1rem',
+                    letterSpacing: '0.005em',
+                    color: whiteTextColor,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    '& .MuiSvgIcon-root': {
+                      fontSize: `calc(${gutter} - .125rem)`,
                     },
                   },
                 },
@@ -232,6 +195,17 @@ const theme = createTheme({
         borderRadius: '0.125rem',
         overflowX: 'visible',
         overflowY: 'visible',
+        transform: 'translateY(0.75rem) translateX(-1.5rem) !important',
+        '&::before': {
+          content: '""',
+          width: '0.875rem',
+          height: '0.875rem',
+          position: 'absolute',
+          top: '-0.4375rem',
+          left: '1.0625rem',
+          background: whiteTextColor,
+          transform: 'rotate(45deg)',
+        },
 
         '& .color-picker': {
           '&--body': {
@@ -639,10 +613,6 @@ const theme = createTheme({
           lineHeight: 'normal',
           minHeight: 1,
           color: whiteTextColor,
-          '&.Mui-selected': {
-            backgroundColor: primaryColor,
-            position: 'relative',
-          },
           '&:hover': {
             backgroundColor: primaryColor,
           },
@@ -1068,52 +1038,6 @@ const theme = createTheme({
                 letterSpacing: '0.01rem',
                 '& + p': {
                   marginTop: '0.3125rem',
-                },
-              },
-              '& .neurons-position': {
-                marginTop: '1rem',
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: 0,
-                  '&:not(.Mui-focused) .MuiOutlinedInput-notchedOutline': {
-                    borderColor: modalBorderColor,
-                  },
-                },
-                '& .MuiOutlinedInput-input': {
-                  padding: '0',
-                  minWidth: '6.375rem',
-                  minHeight: '2rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  paddingLeft: '.5rem',
-                  paddingRight: '2rem',
-                },
-
-                '& .MuiSelect-icon': {
-                  background: modalBorderColor,
-                  width: '1.5rem',
-                  height: '1.875rem',
-                  top: '0.0625rem',
-                  right: '0.0625rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  // borderRadius: '0 0.1875rem 0.1875rem 0',
-                },
-                '& h3': {
-                  fontWeight: 'bold',
-                  fontSize: '0.75rem',
-                  lineHeight: '1rem',
-                  letterSpacing: '0.005em',
-                  color: 'rgba(0, 0, 0, 0.8)',
-                  '& ~ .MuiBox-root': {
-                    marginTop: '0.75rem',
-                  },
-                },
-                '& p': {
-                  fontSize: '0.75rem',
-                  lineHeight: '1.25rem',
-                  letterSpacing: '0.16px',
-                  color: 'rgba(0, 0, 0, 0.8)',
                 },
               },
             },
