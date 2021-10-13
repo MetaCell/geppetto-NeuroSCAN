@@ -101,9 +101,24 @@ const theme = createTheme({
               marginRight: '11px',
               opacity: '0',
             },
-            '&.Mui-selected': {
-              '&:before': {
-                opacity: '1',
+            '&#explorer-menu-option': {
+              '& .MuiPaper-root': {
+                transform: 'translateY(0.5rem) translateX(0) !important',
+              },
+            },
+            '&.no-pin': {
+              '& .MuiPaper-root': {
+                transform: 'none !important',
+                '&::before': {
+                  display: 'none',
+                },
+              },
+            },
+            '& .MuiPaper-root': {
+              transform: 'translateY(0.1875rem) translateX(0) !important',
+              '&::before': {
+                left: 'auto',
+                right: '1.0625rem',
               },
             },
           },
@@ -143,6 +158,26 @@ const theme = createTheme({
               '&::before': {
                 background: buttonOutlineColor,
               },
+              '& .MuiListItem-root': {
+                padding: '0.25rem 1rem',
+                position: 'relative',
+
+                '& ul': {
+                  display: 'none',
+                  position: 'absolute',
+                  right: '-10rem',
+                  top: '-0.5rem',
+                  minWidth: '10rem',
+                  padding: '0.5rem 0',
+                  background: buttonOutlineColor,
+                  border: 'none',
+                  boxShadow: '0 .125rem .4375rem rgba(0, 0, 0, 0.15), 0 .3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
+                  borderRadius: `calc(${radius} - .25rem)`,
+                },
+
+                '&:hover > ul': {
+                  display: 'block',
+                },
 
               '& .MuiList-root': {
                 '& .MuiDivider-root': {
@@ -150,10 +185,17 @@ const theme = createTheme({
                   marginTop: `calc(${gutter} / 2)`,
                   marginBottom: `calc(${gutter} / 2)`,
                 },
-                '& .MuiListItem-root': {
-                  padding: '0.25rem 1rem',
-                  '&:hover': {
-                    background: primaryColor,
+                '& .MuiListItemText-root': {
+                  margin: '0',
+                  '& p': {
+                    fontSize: '0.75rem',
+                    fontWeight: '400',
+                    lineHeight: '1rem',
+                    letterSpacing: '0.005em',
+                    color: whiteTextColor,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
                   },
                   '& .MuiListItemText-root': {
                     margin: '0',
