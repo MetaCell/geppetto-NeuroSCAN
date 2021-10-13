@@ -4,7 +4,7 @@ import { CONTACT_TYPE, backendClient, maxRecordsPerFetch } from '../utilities/co
 const contactsUrl = '/contacts';
 
 /* eslint class-methods-use-this:
-    ["error", { "exceptMethods": ["getById", "constructQuery"] }]
+    ["error", { "exceptMethods": ["getById", "constructQuery", "getByUID"] }]
 */
 export class ContactService {
   async getById(id) {
@@ -18,6 +18,12 @@ export class ContactService {
       },
       getId: () => this.id,
     };
+  }
+
+  async getByUID(timePoint, uids = []) {
+    const query = `timepoint=${timePoint}${uids.map((uid, i) => `${(i === 0) ? '&' : ''}uid_in=${uid}`)}`;
+    const response = await backendClient.get(`${contactsUrl}?${query}`);
+    return response.data;
   }
 
   constructQuery(searchState) {

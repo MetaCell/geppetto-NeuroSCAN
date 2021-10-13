@@ -19,9 +19,7 @@ import {
   getInstancesOfType,
   getInstancesByGroups,
 } from '../../services/instanceHelpers';
-import neuronService from '../../services/NeuronService';
-import contactService from '../../services/ContactService';
-import synapseService from '../../services/SynapseService';
+import { updateTimePointViewer } from '../../redux/actions/widget';
 
 const MenuControl = ({
   anchorEl, handleClose, open, id, selection, viewerId,
@@ -33,6 +31,7 @@ const MenuControl = ({
 
   const [content, setContent] = useState(null);
   const [timePoint, setTimePoint] = useState(currentWidget.config.timePoint);
+  const [curTimePoint, setCurTimePoint] = useState(currentWidget.config.timePoint);
   const layersList = ['Worm Body', 'Pharynx', 'NerveRing'];
   const downloadFiles = (option) => {
     console.log(`selected option: ${option}`);
@@ -44,11 +43,9 @@ const MenuControl = ({
   const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || [];
 
   useEffect(() => {
-    if (currentWidget.config.timePoint !== timePoint) {
-      // eslint-disable-next-line no-console
-      console.log('Hier');
-      // const cphateInstances = neuronService.getInstances(cphate);
-      // dispatch(addInstances(null, cphateInstances));
+    if (timePoint !== curTimePoint) {
+      setCurTimePoint(timePoint);
+      dispatch(updateTimePointViewer(viewerId, timePoint));
     }
   }, [timePoint]);
 

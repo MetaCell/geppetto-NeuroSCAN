@@ -4,7 +4,7 @@ import { SYNAPSE_TYPE, backendClient, maxRecordsPerFetch } from '../utilities/co
 const synapsesBackendUrl = '/synapses';
 
 /* eslint class-methods-use-this:
-    ["error", { "exceptMethods": ["getById", "constructQuery"] }]
+    ["error", { "exceptMethods": ["getById", "constructQuery", "getByUID"] }]
 */
 export class SynapseService {
   async getById(id) {
@@ -18,6 +18,12 @@ export class SynapseService {
       },
       getId: () => this.id,
     };
+  }
+
+  async getByUID(timePoint, uids = []) {
+    const query = `timepoint=${timePoint}${uids.map((uid) => `&uid_in=${uid}`)}`;
+    const response = await backendClient.get(`${synapsesBackendUrl}?${query}`);
+    return response.data;
   }
 
   constructQuery(searchState) {

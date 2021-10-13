@@ -5,8 +5,17 @@ import {
   ADD_INSTANCES,
   ADD_INSTANCES_TO_GROUP,
   SET_INSTANCES_COLOR,
+  UPDATE_TIMEPOINT_VIEWER,
 } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
+import neuronService from '../services/NeuronService';
+import contactService from '../services/ContactService';
+import synapseService from '../services/SynapseService';
+import {
+  CONTACT_TYPE,
+  NEURON_TYPE,
+  SYNAPSE_TYPE,
+} from '../utilities/constants';
 // eslint-disable-next-line import/no-cycle
 import { addToWidget } from '../utilities/functions';
 // eslint-disable-next-line import/no-cycle
@@ -14,6 +23,7 @@ import {
   createSimpleInstancesFromInstances,
   updateInstanceGroup,
   setInstancesColor,
+  getInstancesOfType,
 } from '../services/instanceHelpers';
 
 const devStagesService = new DevStageService();
@@ -58,6 +68,38 @@ const middleware = (store) => (next) => (action) => {
               action.instances,
             ),
           ));
+      break;
+    }
+
+    case UPDATE_TIMEPOINT_VIEWER: {
+      const widget = getWidget(store, action.viewerId);
+      const { timePoint } = action;
+      const { instances } = widget.config;
+      const neurons = getInstancesOfType(instances, NEURON_TYPE) || ['-1'];
+      const contacts = getInstancesOfType(instances, CONTACT_TYPE) || ['-1'];
+      const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || ['-1'];
+
+      neuronService.getByUID(timePoint, neurons.map((n) => n.uidDb))
+        .then((newNeurons) => {
+          contactService.getByUID(timePoint, contacts.map((n) => n.uidDb))
+            .then((newContacts) => {
+              synapseService.getByUID(timePoint, synapses.map((n) => n.uidDb))
+                .then((newSynapses) => {
+                  const newInstances = newNeurons.concat(newContacts.concat(newSynapses));
+                  createSimpleInstancesFromInstances(newInstances)
+                    .then(() => {
+                      store
+                        .dispatch(
+                          addToWidget(
+                            widget,
+                            newInstances,
+                            true,
+                          ),
+                        );
+                    });
+                });
+            });
+        });
       break;
     }
 

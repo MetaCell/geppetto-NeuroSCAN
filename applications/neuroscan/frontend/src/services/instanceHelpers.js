@@ -133,6 +133,7 @@ export const mapToInstance = (item) => {
   return {
     id: item.id,
     uid: `i_${item.uid.replace(/-/g, '_')}_${item.timepoint}`,
+    uidFromDb: item.uid,
     name: item.uid,
     selected: false,
     color: {
