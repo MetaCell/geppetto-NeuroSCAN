@@ -19,29 +19,37 @@ import {
   getInstancesOfType,
   getInstancesByGroups,
 } from '../../services/instanceHelpers';
+import neuronService from '../../services/NeuronService';
+import contactService from '../../services/ContactService';
+import synapseService from '../../services/SynapseService';
 
 const MenuControl = ({
   anchorEl, handleClose, open, id, selection, viewerId,
 }) => {
   const dispatch = useDispatch();
+  const widgets = useSelector((state) => state.widgets);
+  const currentWidget = widgets[viewerId];
+  const { instances } = currentWidget.config;
+
   const [content, setContent] = useState(null);
-  const [timePoint, setTimePoint] = useState(0);
+  const [timePoint, setTimePoint] = useState(currentWidget.config.timePoint);
   const layersList = ['Worm Body', 'Pharynx', 'NerveRing'];
   const downloadFiles = (option) => {
     console.log(`selected option: ${option}`);
     handleClose();
   };
-  const widgets = useSelector((state) => state.widgets);
-  const currentWidget = widgets[viewerId];
-  const { instances } = currentWidget.config;
   const groups = getInstancesByGroups(instances);
   const neurons = getInstancesOfType(instances, NEURON_TYPE) || [];
   const contacts = getInstancesOfType(instances, CONTACT_TYPE) || [];
   const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || [];
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('Hier');
+    if (currentWidget.config.timePoint !== timePoint) {
+      // eslint-disable-next-line no-console
+      console.log('Hier');
+      // const cphateInstances = neuronService.getInstances(cphate);
+      // dispatch(addInstances(null, cphateInstances));
+    }
   }, [timePoint]);
 
   useEffect(() => {

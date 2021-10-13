@@ -132,7 +132,7 @@ export const mapToInstance = (item) => {
   const location = getLocationPrefixFromType(item);
   return {
     id: item.id,
-    uid: `i${item.uid.replace(/-/g, '')}`,
+    uid: `i_${item.uid.replace(/-/g, '_')}_${item.timepoint}`,
     name: item.uid,
     selected: false,
     color: {
