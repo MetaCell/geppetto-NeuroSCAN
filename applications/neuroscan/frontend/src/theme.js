@@ -95,6 +95,14 @@ const theme = createTheme({
                 transform: 'translateY(0.5rem) translateX(0) !important',
               },
             },
+            '&.no-pin': {
+              '& .MuiPaper-root': {
+                transform: 'none !important',
+                '&::before': {
+                  display: 'none',
+                },
+              },
+            },
             '& .MuiPaper-root': {
               transform: 'translateY(0.1875rem) translateX(0) !important',
               '&::before': {
@@ -123,6 +131,24 @@ const theme = createTheme({
               },
               '& .MuiListItem-root': {
                 padding: '0.25rem 1rem',
+                position: 'relative',
+
+                '& ul': {
+                  display: 'none',
+                  position: 'absolute',
+                  right: '-10rem',
+                  top: '-0.5rem',
+                  minWidth: '10rem',
+                  padding: '0.5rem 0',
+                  background: buttonOutlineColor,
+                  border: 'none',
+                  boxShadow: '0 .125rem .4375rem rgba(0, 0, 0, 0.15), 0 .3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
+                  borderRadius: `calc(${radius} - .25rem)`,
+                },
+
+                '&:hover > ul': {
+                  display: 'block',
+                },
 
                 '& .MuiTypography-caption': {
                   maxWidth: '11.875rem',
@@ -140,6 +166,9 @@ const theme = createTheme({
                     lineHeight: '1rem',
                     letterSpacing: '0.005em',
                     color: whiteTextColor,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
                   },
                   '& strong': {
                     fontSize: '0.75rem',
