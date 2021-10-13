@@ -21,7 +21,19 @@ const devStagesService = new DevStageService();
 const getWidget = (store, viewerId) => {
   const state = store.getState();
   const { widgets } = state;
-  return widgets[viewerId];
+  const widget = widgets[viewerId];
+  if (!widget) {
+    const { timePoint } = state.search.filters;
+    const devStages = state.devStages.neuroSCAN;
+    const devStage = devStages.find((ds) => ds.begin <= timePoint && ds.end >= timePoint);
+    const viewerNumber = Object.keys(widgets).length + 1;
+    return {
+      id: null,
+      name: `Viewer ${viewerNumber} (${devStage.name} ${timePoint})`,
+      timePoint,
+    };
+  }
+  return widget;
 };
 
 const middleware = (store) => (next) => (action) => {

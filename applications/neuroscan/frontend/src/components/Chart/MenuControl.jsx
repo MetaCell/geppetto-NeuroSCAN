@@ -25,7 +25,7 @@ const MenuControl = ({
 }) => {
   const dispatch = useDispatch();
   const [content, setContent] = useState(null);
-  const [developmentalStage, setDevelopmentalStage] = useState(0);
+  const [timePoint, setTimePoint] = useState(0);
   const layersList = ['Worm Body', 'Pharynx', 'NerveRing'];
   const downloadFiles = (option) => {
     console.log(`selected option: ${option}`);
@@ -38,12 +38,18 @@ const MenuControl = ({
   const neurons = getInstancesOfType(instances, NEURON_TYPE) || [];
   const contacts = getInstancesOfType(instances, CONTACT_TYPE) || [];
   const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || [];
+
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('Hier');
+  }, [timePoint]);
+
   useEffect(() => {
     switch (selection) {
       case VIEWER_MENU.devStage: setContent(
         <DevStageMenu
-          setDevelopmentalStage={setDevelopmentalStage}
-          developmentalStage={developmentalStage}
+          timePoint={timePoint}
+          setTimePoint={setTimePoint}
         />,
       );
         break;

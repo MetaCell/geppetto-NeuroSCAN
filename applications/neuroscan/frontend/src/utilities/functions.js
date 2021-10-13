@@ -27,7 +27,7 @@ export const getViewersFromWidgets = (widgets) => {
 
 export const widgetFromViewerSpec = (viewerSpec) => ({
   id: viewerSpec.viewerId,
-  name: `${viewerSpec.type}_${viewerSpec.viewerId}`,
+  name: viewerSpec.name,
   component: viewerSpec.type,
   panelName: 'centralPanel',
   enableClose: true,
@@ -43,7 +43,7 @@ export const addToWidget = (
   widget = null,
   instances,
 ) => {
-  if (widget === null) {
+  if (widget.id === null) {
     const newViewerId = uuidv4();
     const newWidget = {
       type: VIEWERS.InstanceViewer,
@@ -65,6 +65,8 @@ export const addToWidget = (
       },
       viewerId: newViewerId,
       flash: false,
+      timePoint: widget.timePoint,
+      name: widget.name,
       instances,
     };
     return addWidget(widgetFromViewerSpec(newWidget));
