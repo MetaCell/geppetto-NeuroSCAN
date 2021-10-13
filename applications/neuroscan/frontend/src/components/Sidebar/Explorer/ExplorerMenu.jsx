@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import MenuGroups from './MenuGroups';
+import MENU from '../../../images/menu-chevron.svg';
 
 const ExplorerMenu = ({
   anchorEl, handleMenuClose, open, ...other
@@ -15,18 +16,18 @@ const ExplorerMenu = ({
   const menuId = 'explorer-menu-option';
   return (
     <Popover
-      className="custom-popover dark right"
+      className="dark right no-pin"
       id={menuId}
       open={open}
       anchorEl={anchorEl}
       onClose={handleMenuClose}
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'right',
+        horizontal: 'left',
       }}
       transformOrigin={{
         vertical: 'top',
-        horizontal: 'right',
+        horizontal: 'left',
       }}
     >
       <List>
@@ -47,7 +48,10 @@ const ExplorerMenu = ({
           button
         >
           <ListItemText>
-            <Typography>Add to group</Typography>
+            <Typography>
+              Add to group
+              <img src={MENU} alt="Menu" />
+            </Typography>
           </ListItemText>
           <MenuGroups
             {...other}
