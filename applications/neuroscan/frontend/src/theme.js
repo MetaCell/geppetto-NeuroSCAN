@@ -81,6 +81,11 @@ const theme = createTheme({
     toolbarBackground: { main: toolbarBackground },
   },
   overrides: {
+    MuiFormGroup: {
+      root: {
+        flexDirection: 'row',
+      },
+    },
     MuiPopover: {
       root: {
         '&:not(.custom-popover)': {
@@ -102,14 +107,10 @@ const theme = createTheme({
               },
             },
           },
+        },
+        '&.custom-popover': {
           '& .MuiPaper-root': {
-            minWidth: '10rem',
-            padding: '0.5rem 0',
-            background: buttonOutlineColor,
-            border: 'none',
-            boxShadow: '0 .125rem .4375rem rgba(0, 0, 0, 0.15), 0 .3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
-            borderRadius: `calc(${radius} - .25rem)`,
-            transform: 'translateY(0.1875rem) translateX(-1rem) !important',
+            transform: 'translateY(0.75rem) translateX(-1.5rem) !important',
             '&::before': {
               content: '""',
               width: '0.875rem',
@@ -131,6 +132,16 @@ const theme = createTheme({
                 },
               },
             },
+            '&#addToViewerMenu': {
+              '& .MuiPaper-root': {
+                transform: 'translateY(1rem) translateX(0) !important',
+              },
+            },
+            '&#explorer-menu-option': {
+              '& .MuiPaper-root': {
+                transform: 'translateY(0.5rem) translateX(0) !important',
+              },
+            },
             '&.no-pin': {
               '& .MuiPaper-root': {
                 transform: 'none !important',
@@ -143,22 +154,19 @@ const theme = createTheme({
               minWidth: '10rem',
               padding: '0.5rem 0',
               background: buttonOutlineColor,
-            },
-
-            '& .MuiList-root': {
-              '& .MuiDivider-root': {
-                backgroundColor: dividerBackgroundColor,
-                marginTop: `calc(${gutter} / 2)`,
-                marginBottom: `calc(${gutter} / 2)`,
+              border: 'none',
+              boxShadow: '0 .125rem .4375rem rgba(0, 0, 0, 0.15), 0 .3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
+              borderRadius: `calc(${radius} - .25rem)`,
+              transform: 'translateY(0.1875rem) translateX(-1rem) !important',
+              '&::before': {
+                background: buttonOutlineColor,
               },
 
-                '& .MuiTypography-caption': {
-                  maxWidth: '11.875rem',
-                  wordBreak: 'break-all',
-                  whiteSpace: 'normal',
-                },
-                '&:hover': {
-                  background: primaryColor,
+              '& .MuiList-root': {
+                '& .MuiDivider-root': {
+                  backgroundColor: dividerBackgroundColor,
+                  marginTop: `calc(${gutter} / 2)`,
+                  marginBottom: `calc(${gutter} / 2)`,
                 },
                 '& .MuiListItem-root': {
                   padding: '0.25rem 1rem',
@@ -210,6 +218,7 @@ const theme = createTheme({
                   },
                 },
               },
+            },
           },
         },
       },
@@ -219,17 +228,6 @@ const theme = createTheme({
         borderRadius: '0.125rem',
         overflowX: 'visible',
         overflowY: 'visible',
-        transform: 'translateY(0.75rem) translateX(-1.5rem) !important',
-        '&::before': {
-          content: '""',
-          width: '0.875rem',
-          height: '0.875rem',
-          position: 'absolute',
-          top: '-0.4375rem',
-          left: '1.0625rem',
-          background: whiteTextColor,
-          transform: 'rotate(45deg)',
-        },
 
         '& .color-picker': {
           '&--body': {
@@ -637,6 +635,10 @@ const theme = createTheme({
           lineHeight: 'normal',
           minHeight: 1,
           color: whiteTextColor,
+          '&.Mui-selected': {
+            backgroundColor: primaryColor,
+            position: 'relative',
+          },
           '&:hover': {
             backgroundColor: primaryColor,
           },
@@ -1175,6 +1177,52 @@ const theme = createTheme({
                 letterSpacing: '0.01rem',
                 '& + p': {
                   marginTop: '0.3125rem',
+                },
+              },
+              '& .neurons-position': {
+                marginTop: '1rem',
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 0,
+                  '&:not(.Mui-focused) .MuiOutlinedInput-notchedOutline': {
+                    borderColor: modalBorderColor,
+                  },
+                },
+                '& .MuiOutlinedInput-input': {
+                  padding: '0',
+                  minWidth: '6.375rem',
+                  minHeight: '2rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  paddingLeft: '.5rem',
+                  paddingRight: '2rem',
+                },
+
+                '& .MuiSelect-icon': {
+                  background: modalBorderColor,
+                  width: '1.5rem',
+                  height: '1.875rem',
+                  top: '0.0625rem',
+                  right: '0.0625rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  // borderRadius: '0 0.1875rem 0.1875rem 0',
+                },
+                '& h3': {
+                  fontWeight: 'bold',
+                  fontSize: '0.75rem',
+                  lineHeight: '1rem',
+                  letterSpacing: '0.005em',
+                  color: 'rgba(0, 0, 0, 0.8)',
+                  '& ~ .MuiBox-root': {
+                    marginTop: '0.75rem',
+                  },
+                },
+                '& p': {
+                  fontSize: '0.75rem',
+                  lineHeight: '1.25rem',
+                  letterSpacing: '0.16px',
+                  color: 'rgba(0, 0, 0, 0.8)',
                 },
               },
             },
