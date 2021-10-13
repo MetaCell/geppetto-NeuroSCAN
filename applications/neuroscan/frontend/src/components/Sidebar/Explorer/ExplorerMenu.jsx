@@ -16,7 +16,7 @@ const ExplorerMenu = ({
   const menuId = 'explorer-menu-option';
   return (
     <Popover
-      className="dark right no-pin"
+      className="custom-popover dark right no-pin"
       id={menuId}
       open={open}
       anchorEl={anchorEl}

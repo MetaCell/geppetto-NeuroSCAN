@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Typography,
   Box,
   Button,
-  TextField,
   List,
   ListItem,
   makeStyles,
+  Popover,
 } from '@material-ui/core';
 import Header from '../components/Header';
 import { VIEWS } from '../utilities/constants';
@@ -14,11 +14,15 @@ import ResultCard from '../components/PromoterResultCard/ResultCard';
 import SubHeader from '../components/SubHeader';
 import TIMELINE from '../images/timeline.png';
 import MODEL from '../images/modelnew.svg';
+import DOWN from '../images/expand_less.svg';
+import DevelopmentalStageFilter from '../components/PromoterSearch/DevelopmentalStageFilter';
+import AutocompleteFilter from '../components/PromoterSearch/AutocompleteFilter';
+import DevInputFilter from '../components/PromoterSearch/DevInputFilter';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.down('md')]: {
-      paddingTop: '40px',
+      paddingTop: '2.5rem',
       '& .wrapper': {
         maxWidth: 'calc(100% - 4rem)',
       },
@@ -86,7 +90,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   left: {
-    // paddingTop: '2.5rem',
     flexShrink: 0,
   },
   right: {
@@ -96,6 +99,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+const dummyList = [
+  { title: 'Pro 1', year: 1994 },
+  { title: 'Pro 2', year: 1994 },
+  { title: 'Pro 3', year: 1994 },
+  { title: 'Pro 4', year: 1994 },
+];
 
 const promoter = {
   title: 'odr-2b3a',
@@ -167,6 +177,44 @@ const results = [
 
 const PromoterDB = () => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const isMenuOpen = Boolean(anchorEl);
+  const [timePoint, setTimePoint] = useState(0);
+  const [selectedDevStage, setSelectedDevStage] = useState([]);
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleDevStageMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const setTimePointAndStage = (value) => {
+    setTimePoint(value);
+    setSelectedDevStage([value]);
+  };
+  const menuId = 'delevlopment-stage-menu';
+  const renderMenu = (
+    <Popover
+      id={menuId}
+      open={isMenuOpen}
+      anchorEl={anchorEl}
+      onClose={handleMenuClose}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+    >
+      <DevelopmentalStageFilter
+        timePoint={timePoint}
+        setTimePoint={setTimePointAndStage}
+      />
+    </Popover>
+  );
 
   return (
     <Box className={classes.root}>
@@ -183,25 +231,32 @@ const PromoterDB = () => {
         <Box className="wrapper">
           <Typography>Promoter DB</Typography>
           <Typography component="h1">Explore Promoters and Neurons in seconds.</Typography>
-
-          <List className="filters">
-            <ListItem>
-              <TextField fullWidth label="Promoter" variant="filled" />
-            </ListItem>
-            <ListItem>
-              <TextField fullWidth label="Neuron" variant="filled" />
-            </ListItem>
-            <ListItem>
-              <TextField fullWidth label="Developmental Stage" variant="filled" />
-            </ListItem>
-            <ListItem>
-              <Button color="primary" disableElevation variant="contained">
-                Search
-              </Button>
-            </ListItem>
-          </List>
-
         </Box>
+      </Box>
+
+      <Box className="wrapper filter-box">
+        <List className="filters">
+          <ListItem>
+            <AutocompleteFilter id="Promoter" options={dummyList} placeholder="Type or search a promoter" />
+          </ListItem>
+          <ListItem>
+            <AutocompleteFilter id="Neurons" options={dummyList} placeholder="Type or search a neuron" />
+          </ListItem>
+          <ListItem>
+            <DevInputFilter
+              handleDevStageMenuOpen={handleDevStageMenuOpen}
+              selectedDevStage={selectedDevStage}
+              menuId={menuId}
+            />
+            {renderMenu}
+          </ListItem>
+          <ListItem>
+            <Button color="primary" disableElevation variant="contained">
+              Search
+            </Button>
+          </ListItem>
+        </List>
+
       </Box>
 
       <Box className="main-content scrollbar">
