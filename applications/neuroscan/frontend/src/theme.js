@@ -862,15 +862,31 @@ const theme = createTheme({
             },
           },
         },
+        '#delevlopment-stage-menu': {
 
+          '& .MuiSlider-markLabel': {
+            top: 'auto !important',
+            bottom: '1.25rem',
+            '&.MuiSlider-markLabelActive': {
+              '& span': {
+                borderColor: primaryColor,
+              },
+            },
+          },
+          '& .MuiPopover-paper': {
+            padding: '3.75rem 1.375rem 1rem',
+            transform: 'translateX(1.25rem) translateY(1.75rem) !important',
+            width: '70%',
+          },
+        },
         '.filter-box': {
           '& .MuiAutocomplete-clearIndicator': {
             color: whiteTextColor,
           },
 
           '& .MuiFilledInput-root': {
-            paddingTop: '19px !important',
-            paddingLeft: '8px !important',
+            paddingTop: '1.1875rem !important',
+            paddingLeft: '0.5rem !important',
           },
 
           '& .MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon .MuiAutocomplete-inputRoot[class*="MuiFilledInput-root"]': {
@@ -933,19 +949,19 @@ const theme = createTheme({
             },
             '& .chipAdornment': {
               position: 'absolute',
-              right: '9px',
-              top: 'calc(50% - 14px)',
+              right: '0.5625rem',
+              top: 'calc(50% - 0.875rem)',
               height: 'auto',
               margin: '0',
               '& .development-icon': {
-                padding: '2px',
-                marginRight: '-2px',
+                padding: '0.125rem',
+                marginRight: '-0.125rem',
               },
             },
             '& .MuiInputBase-input': {
               color: whiteTextColor,
               textOverflow: 'ellipsis',
-              padding: '9px 4px !important',
+              padding: '0.5625rem 0.25rem !important',
             },
             '& .MuiFilledInput-root': {
               background: 'transparent',

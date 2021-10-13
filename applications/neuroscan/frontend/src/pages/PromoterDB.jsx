@@ -3,36 +3,26 @@ import {
   Typography,
   Box,
   Button,
-  TextField,
   List,
   ListItem,
   makeStyles,
-  Checkbox,
-  Chip,
-  IconButton,
-  InputAdornment,
   Popover,
-  ListItemText,
 } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import ChipInput from 'material-ui-chip-input';
 import Header from '../components/Header';
 import { VIEWS } from '../utilities/constants';
 import ResultCard from '../components/PromoterResultCard/ResultCard';
 import SubHeader from '../components/SubHeader';
 import TIMELINE from '../images/timeline.png';
 import MODEL from '../images/modelnew.svg';
-import CLOSE from '../images/icon-close-white.svg';
 import DOWN from '../images/expand_less.svg';
-import REMOVE from '../images/remove-new.svg';
 import DevelopmentalStageFilter from '../components/PromoterSearch/DevelopmentalStageFilter';
+import AutocompleteFilter from '../components/PromoterSearch/AutocompleteFilter';
+import DevInputFilter from '../components/PromoterSearch/DevInputFilter';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.down('md')]: {
-      paddingTop: '40px',
+      paddingTop: '2.5rem',
       '& .wrapper': {
         maxWidth: 'calc(100% - 4rem)',
       },
@@ -100,7 +90,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   left: {
-    // paddingTop: '2.5rem',
     flexShrink: 0,
   },
   right: {
@@ -111,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const top100Films = [
+const dummyList = [
   { title: 'Pro 1', year: 1994 },
   { title: 'Pro 2', year: 1994 },
   { title: 'Pro 3', year: 1994 },
@@ -186,26 +175,25 @@ const results = [
   promoter,
 ];
 
-const chipValue = ['Pro 1'];
-
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
 const PromoterDB = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
-
+  const [timePoint, setTimePoint] = useState(0);
+  const [selectedDevStage, setSelectedDevStage] = useState([]);
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
-  const handleProfileMenuOpen = (event) => {
+  const handleDevStageMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const menuId = 'primary-search-account-menu';
-  const [timePoint, setTimePoint] = useState(0);
+  const setTimePointAndStage = (value) => {
+    setTimePoint(value);
+    setSelectedDevStage([value]);
+  };
+  const menuId = 'delevlopment-stage-menu';
   const renderMenu = (
     <Popover
       id={menuId}
@@ -214,16 +202,16 @@ const PromoterDB = () => {
       onClose={handleMenuClose}
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'center',
+        horizontal: 'right',
       }}
       transformOrigin={{
         vertical: 'top',
-        horizontal: 'center',
+        horizontal: 'right',
       }}
     >
       <DevelopmentalStageFilter
         timePoint={timePoint}
-        setTimePoint={setTimePoint}
+        setTimePoint={setTimePointAndStage}
       />
     </Popover>
   );
@@ -249,100 +237,16 @@ const PromoterDB = () => {
       <Box className="wrapper filter-box">
         <List className="filters">
           <ListItem>
-            <Autocomplete
-              fullWidth
-              multiple
-              id="Promoter"
-              closeIcon={false}
-              options={top100Films}
-              disableCloseOnSelect
-              ChipProps={{ deleteIcon: <IconButton><img src={REMOVE} alt="" /></IconButton>, onDelete: null }}
-              popupIcon={<img src={DOWN} alt="DOWN" />}
-              getOptionLabel={(option) => option.title}
-              renderOption={(option, { selected }) => (
-                <>
-                  <Checkbox
-                    icon={icon}
-                    checkedIcon={checkedIcon}
-                    style={{ marginRight: 8 }}
-                    checked={selected}
-                    color="primary"
-                  />
-                  {option.title}
-                </>
-              )}
-              renderInput={(params) => (
-                <TextField {...params} InputLabelProps={{ shrink: true }} placeholder="Type or search a promoter" variant="filled" label="Promoter" />
-              )}
-            />
+            <AutocompleteFilter id="Promoter" options={dummyList} placeholder="Type or search a promoter" />
           </ListItem>
           <ListItem>
-            <Autocomplete
-              fullWidth
-              multiple
-              id="Neurons"
-              closeIcon={false}
-              options={top100Films}
-              disableCloseOnSelect
-              ChipProps={{ deleteIcon: <IconButton><img src={REMOVE} alt="" /></IconButton>, onDelete: null }}
-              popupIcon={<img src={DOWN} alt="DOWN" />}
-              getOptionLabel={(option) => option.title}
-              renderOption={(option, { selected }) => (
-                <>
-                  <Checkbox
-                    icon={icon}
-                    checkedIcon={checkedIcon}
-                    style={{ marginRight: 8 }}
-                    checked={selected}
-                    color="primary"
-                  />
-                  {option.title}
-                </>
-              )}
-              renderInput={(params) => (
-                <TextField {...params} InputLabelProps={{ shrink: true }} placeholder="Type or search a neuron" variant="filled" label="Neurons" />
-              )}
-            />
+            <AutocompleteFilter id="Neurons" options={dummyList} placeholder="Type or search a neuron" />
           </ListItem>
           <ListItem>
-            <ChipInput
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-              label="Developmental Stage"
-              variant="filled"
-              placeholder={chipValue ? 'Select a developmental stage' : ''}
-              defaultValue={chipValue}
-              InputProps={{
-                endAdornment:
-  <InputAdornment position="end" className="chipAdornment">
-    <IconButton
-      edge="start"
-      color="inherit"
-      aria-label="menu"
-      aria-controls={menuId}
-      aria-haspopup="true"
-      onClick={handleProfileMenuOpen}
-      aria-describedby={menuId}
-      className="development-icon"
-    >
-      <img src={DOWN} alt="DOWN" />
-    </IconButton>
-  </InputAdornment>,
-              }}
-              chipRenderer={(
-                {
-                  value,
-                  className,
-                },
-                key,
-              ) => (
-                <Chip
-                  key={key}
-                  className={className}
-                  label={value}
-                  deleteIcon={false}
-                />
-              )}
+            <DevInputFilter
+              handleDevStageMenuOpen={handleDevStageMenuOpen}
+              selectedDevStage={selectedDevStage}
+              menuId={menuId}
             />
             {renderMenu}
           </ListItem>
