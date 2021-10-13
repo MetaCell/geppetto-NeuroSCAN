@@ -42,7 +42,7 @@ export class ContactService {
     }
     return qs.stringify({
       _where: andPart,
-      _sort: 'uid:ASC',
+      _sort: 'weight:DESC',
       _start: results.items.length,
       _limit: maxRecordsPerFetch,
     });

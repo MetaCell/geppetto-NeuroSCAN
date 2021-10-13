@@ -8,7 +8,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import MENU_CHECKMARK_ON from '../../images/menu-checkmark-on.svg';
-import PLUS from '../../images/plus_white.svg';
+import PLUS from '../../images/plus-white.svg';
 import { getViewersFromWidgets } from '../../utilities/functions';
 
 const useStyles = makeStyles(() => ({

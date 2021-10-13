@@ -1,13 +1,9 @@
+/* eslint-disable import/no-cycle */
 import { v4 as uuidv4 } from 'uuid';
 import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model';
 import { addWidget, updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
-import { defaultCameraOptions } from './defaults';
-import { createSimpleInstancesFromInstances } from '../services/helpers';
-import {
-  VIEWERS,
-  filesURL,
-  NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE,
-} from './constants';
+import { VIEWERS } from './constants';
+import CameraControls from '../components/Chart/CameraControls';
 
 // flatten the tree to an flat array
 export const flatten = (children, extractChildren) => Array.prototype.concat.apply(
@@ -29,20 +25,6 @@ export const getViewersFromWidgets = (widgets) => {
   return viewers;
 };
 
-export const instanceEqualsInstance = (instanceA, instanceB) => instanceA.uid === instanceB.uid
-  && instanceA.instanceType === instanceB.instanceType;
-
-export const setInstanceSelected = (instances, selectedUids) => instances.map((instance) => {
-  let selected = false;
-  if (selectedUids.find((x) => x === instance.uid)) {
-    selected = !instance.selected;
-  }
-  return {
-    ...instance,
-    selected,
-  };
-});
-
 export const widgetFromViewerSpec = (viewerSpec) => ({
   id: viewerSpec.viewerId,
   name: `${viewerSpec.type}_${viewerSpec.viewerId}`,
@@ -57,46 +39,43 @@ export const widgetFromViewerSpec = (viewerSpec) => ({
   },
 });
 
-export const addToWidget = async (
+export const addToWidget = (
   widget = null,
   instances,
-) => createSimpleInstancesFromInstances(instances)
-  .then(() => {
-    let newWidget = widget;
-    if (newWidget === null) {
-      newWidget = {
-        type: VIEWERS.InstanceViewer,
-        instances,
-        cameraOptions: defaultCameraOptions,
-        viewerId: uuidv4(),
-      };
-      return addWidget(widgetFromViewerSpec(newWidget));
-    }
-    newWidget.status = WidgetStatus.ACTIVE;
-    newWidget.config.instances = widget.config.instances.concat(instances);
-    return updateWidget(newWidget);
-  });
-
-export const getDevStageFromTimepoint = (timepoint) => {
-  // TODO: implement logic to determine the devstage from the timepoint
-  const devStage = 'L4_JSH';
-  return devStage;
-};
-
-export const getLocationPrefixFromType = (item) => {
-  const devStage = getDevStageFromTimepoint(item.timepoint);
-  switch (item.instanceType) {
-    case NEURON_TYPE: {
-      return `${filesURL}/neuroscan/${devStage}/${item.timepoint}/neurons/${item.filename}`;
-    }
-    case CONTACT_TYPE: {
-      return `${filesURL}/neuroscan/${devStage}/${item.timepoint}/contacts/${item.filename}`;
-    }
-    case SYNAPSE_TYPE: {
-      return `${filesURL}/neuroscan/${devStage}/${item.timepoint}/synapses/${item.filename}`;
-    }
-    default: {
-      return '';
-    }
+) => {
+  if (widget === null) {
+    const newViewerId = uuidv4();
+    const newWidget = {
+      type: VIEWERS.InstanceViewer,
+      cameraOptions: {
+        angle: 50,
+        near: 0.01,
+        far: 1000,
+        baseZoom: 1,
+        cameraControls: {
+          instance: CameraControls,
+          props: {
+            wireframeButtonEnabled: false,
+            viewerId: newViewerId,
+          },
+        },
+        reset: false,
+        autorotate: false,
+        wireframe: false,
+      },
+      viewerId: newViewerId,
+      flash: false,
+      instances,
+    };
+    return addWidget(widgetFromViewerSpec(newWidget));
   }
+  const newWidget = {
+    ...widget,
+    status: WidgetStatus.ACTIVE,
+    config: {
+      ...widget.config,
+      instances: widget.config.instances.concat(instances),
+    },
+  };
+  return updateWidget(newWidget);
 };

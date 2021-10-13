@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '@material-ui/core';
 import cphateService from '../../services/CphateService';
-import { addToWidget } from '../../utilities/functions';
+import { addInstances } from '../../redux/actions/widget';
 
 function TestComponent() {
   const dispatch = useDispatch();
@@ -17,11 +17,11 @@ function TestComponent() {
       }
     }
     const cphateInstances = cphateService.getInstances(cphate);
-    dispatch(await addToWidget(null, cphateInstances));
+    dispatch(addInstances(null, cphateInstances));
   };
 
   const createEmptyViewer = async () => {
-    dispatch(await addToWidget(null, []));
+    dispatch(addInstances(null, []));
   };
 
   return (

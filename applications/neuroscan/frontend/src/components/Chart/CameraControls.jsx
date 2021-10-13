@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import React, { useState, useRef } from 'react';
 import {
   IconButton,
@@ -31,6 +32,7 @@ export const cameraControlsActions = {
 const CameraControls = (props) => {
   const {
     cameraControlsHandler,
+    viewerId,
   } = props;
   const pickerRef = useRef();
   const developmentRef = useRef();
@@ -162,6 +164,7 @@ const CameraControls = (props) => {
           handleClose={handleClose}
           anchorEl={anchorEl}
           selection={selection}
+          viewerId={viewerId}
         />
       </div>
 

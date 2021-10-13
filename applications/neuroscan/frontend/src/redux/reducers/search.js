@@ -5,6 +5,7 @@ export const SEARCH_DEFAULT_STATUS = {
     filters: {
       searchTerms: [],
       developmentalStage: 0,
+      timePoint: 0,
       synapsesFilter: {
         chemical: false,
         electrical: false,
@@ -38,8 +39,8 @@ export default (state = SEARCH_DEFAULT_STATUS, action) => {
         ...state,
         filters: {
           ...state.filters,
-          ...action.searchTerms,
-          ...action.timePoint,
+          searchTerms: action.searchTerms || state.filters.searchTerms,
+          timePoint: action.timePoint,
           ...action.synapsesFilter,
         },
         searchesCount: state.searchesCount + 3, // neurons, contacts, synapses

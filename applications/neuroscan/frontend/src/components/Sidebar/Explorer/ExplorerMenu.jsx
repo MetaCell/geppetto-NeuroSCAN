@@ -1,31 +1,33 @@
 import React from 'react';
 import {
   Divider,
-  Popover,
   List,
   ListItem,
   ListItemText,
+  Popover,
   Typography,
 } from '@material-ui/core';
+import MenuGroups from './MenuGroups';
+import MENU from '../../../images/menu-chevron.svg';
 
 const ExplorerMenu = ({
-  anchorEl, handleMenuClose, open,
+  anchorEl, handleMenuClose, open, ...other
 }) => {
   const menuId = 'explorer-menu-option';
   return (
     <Popover
-      className="custom-popover dark right"
+      className="custom-popover dark right no-pin"
       id={menuId}
       open={open}
       anchorEl={anchorEl}
       onClose={handleMenuClose}
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'right',
+        horizontal: 'left',
       }}
       transformOrigin={{
         vertical: 'top',
-        horizontal: 'right',
+        horizontal: 'left',
       }}
     >
       <List>
@@ -37,6 +39,23 @@ const ExplorerMenu = ({
           <ListItemText>
             <Typography>Select</Typography>
           </ListItemText>
+        </ListItem>
+
+        <Divider />
+
+        <ListItem
+          role="button"
+          button
+        >
+          <ListItemText>
+            <Typography>
+              Add to group
+              <img src={MENU} alt="Menu" />
+            </Typography>
+          </ListItemText>
+          <MenuGroups
+            {...other}
+          />
         </ListItem>
 
         <Divider />
