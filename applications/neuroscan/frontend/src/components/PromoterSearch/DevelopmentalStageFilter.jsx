@@ -8,6 +8,13 @@ import {
 } from '@material-ui/core';
 import DOWN from '../../images/chevron-down.svg';
 import vars from '../../styles/constants';
+import BeanEmbryo from '../../images/BeanEmbryo.svg';
+import CommaEmbryo from '../../images/CommaEmbryo.svg';
+import TwoCellEmbryo from '../../images/2cellEmbryo.svg';
+import TwoFoldEmbryo from '../../images/2FoldEmbryo.svg';
+import ThreeFoldEmbryo from '../../images/3foldEmbryo.svg';
+import OneFiveEmbryo from '../../images/1.5FoldEmbryo.svg';
+import HatchingEmbryo from '../../images/hatching.svg';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -21,10 +28,29 @@ const useStyles = makeStyles(() => ({
       pointerEvents: 'none',
     },
   },
+  stageIcons: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    '& span': {
+      marginBottom: '0.8125rem',
+      '& img': {
+        width: 'auto',
+      },
+      width: '2.25rem',
+      height: '2.25rem',
+      background: vars.whiteTextColor,
+      boxShadow: '0 0 0.9375rem rgba(0, 0, 0, 0.4)',
+      borderRadius: '2.25rem',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      border: '0.0625rem solid transparent',
+    },
+  },
   sliderValue: {
     display: 'flex',
     alignItems: 'center',
-    position: 'relative',
     '& p': {
       letterSpacing: '0.005em',
       fontSize: '.5rem',
@@ -33,25 +59,31 @@ const useStyles = makeStyles(() => ({
       color: vars?.captionTextColor,
       textAlign: 'center',
       flexShrink: 0,
-      paddingLeft: '2px',
-      borderLeft: `1px solid ${vars.sliderBorderColor}`,
+      paddingLeft: '0.125rem',
+      borderLeft: `0.0625rem solid ${vars.sliderBorderColor}`,
       '&:last-child': {
-        borderRight: `1px solid ${vars.sliderBorderColor}`,
+        borderRight: `0.0625rem solid ${vars.sliderBorderColor}`,
       },
     },
   },
 }));
 
-const sliderMarker = <img width="6" height="4" src={DOWN} alt="DOWN" />;
+const devStageImages = {
+  '2cell': TwoCellEmbryo,
+  bean: BeanEmbryo,
+  comma: CommaEmbryo,
+  '1-5-fold': OneFiveEmbryo,
+  twitching: BeanEmbryo,
+  '2-fold': TwoFoldEmbryo,
+  '3-fold': ThreeFoldEmbryo,
+  hatching: HatchingEmbryo,
+};
 
 const DevelopmentalStageFilter = (props) => {
   const { timePoint, setTimePoint } = props;
   const classes = useStyles();
-
   const [sliderVal, setSliderVal] = React.useState(timePoint);
   const devStages = useSelector((state) => state.devStages.promoterDB);
-  console.log(devStages);
-
   const handleChange = (e, value) => {
     if (value !== sliderVal) {
       setSliderVal(value);
@@ -59,23 +91,22 @@ const DevelopmentalStageFilter = (props) => {
     }
   };
 
-  // const marks = devStages
-  //   .reduce((x, devStage) => (x.concat(devStage.timepoints?.split(','))), [])
-  //   .filter((item) => item !== undefined)
-  //   .map((mark) => ({
-  //     value: parseInt(mark, 10),
-  //     label: sliderMarker,
-  //   }));
-  const marks = [
-    {
-      value: 300,
-      label: sliderMarker,
-    },
-    {
-      value: 600,
-      label: sliderMarker,
-    },
-  ];
+  const sliderMarker = (icon) => (
+    <Box className={classes.stageIcons}>
+      <Typography component="span">
+        <img src={icon} alt="icon" />
+      </Typography>
+      <img width="6" height="4" src={DOWN} alt="DOWN" />
+    </Box>
+  );
+
+  const marks = devStages
+    .reduce((x, devStage) => (x.concat(devStage.timepoints?.split(','))), [])
+    .filter((item) => item !== undefined)
+    .map((mark, index) => ({
+      value: parseInt(mark, 10),
+      label: sliderMarker(devStageImages[devStages[index]?.uid]),
+    }));
 
   const min = Math.min(...devStages.map((devStage) => devStage.begin));
   // eslint-disable-next-line max-len
@@ -98,6 +129,7 @@ const DevelopmentalStageFilter = (props) => {
       <Box className={classes.sliderValue}>
         {
           devStages.map((stage) => {
+            console.log(stage);
             const stageWidth = (Math.max(stage.end, stage.begin) - stage.begin) / stepWidth;
             return (
               <Typography
