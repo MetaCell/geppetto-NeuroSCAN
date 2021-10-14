@@ -92,11 +92,11 @@ const middleware = (store) => (next) => (action) => {
         const contacts = getInstancesOfType(instances, CONTACT_TYPE) || ['-1'];
         const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || ['-1'];
 
-        neuronService.getByUID(timePoint, neurons.map((n) => n.uidDb))
+        neuronService.getByUID(timePoint, neurons.map((n) => n.uidFromDb))
           .then((newNeurons) => {
-            contactService.getByUID(timePoint, contacts.map((n) => n.uidDb))
+            contactService.getByUID(timePoint, contacts.map((n) => n.uidFromDb))
               .then((newContacts) => {
-                synapseService.getByUID(timePoint, synapses.map((n) => n.uidDb))
+                synapseService.getByUID(timePoint, synapses.map((n) => n.uidFromDb))
                   .then((newSynapses) => {
                     const newInstances = newNeurons.concat(newContacts.concat(newSynapses));
                     widget.config.timePoint = timePoint; // update the current widget's timepoint
