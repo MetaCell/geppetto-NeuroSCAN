@@ -23,7 +23,6 @@ COPY ./frontend/yarn.lock ./
 COPY ./frontend/development_package ./development_package
 COPY ./frontend/geppetto-setup.sh ./geppetto-setup.sh
 RUN chmod +x geppetto-setup.sh
-RUN ls -l
 RUN sh -c ./geppetto-setup.sh
 #
 ### END GEPPETTO META DEVELOP
