@@ -43,7 +43,9 @@ const getWidget = (store, viewerId) => {
       timePoint,
     };
   }
-  return widget;
+  return {
+    ...widget,
+  };
 };
 
 const middleware = (store) => (next) => (action) => {
@@ -86,6 +88,7 @@ const middleware = (store) => (next) => (action) => {
               synapseService.getByUID(timePoint, synapses.map((n) => n.uidDb))
                 .then((newSynapses) => {
                   const newInstances = newNeurons.concat(newContacts.concat(newSynapses));
+                  widget.config.timePoint = timePoint; // update the current widget's timepoint
                   createSimpleInstancesFromInstances(newInstances)
                     .then(() => {
                       store

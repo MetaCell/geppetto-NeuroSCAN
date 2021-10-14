@@ -31,7 +31,6 @@ const MenuControl = ({
 
   const [content, setContent] = useState(null);
   const [timePoint, setTimePoint] = useState(currentWidget.config.timePoint);
-  const [curTimePoint, setCurTimePoint] = useState(currentWidget.config.timePoint);
   const layersList = ['Worm Body', 'Pharynx', 'NerveRing'];
   const downloadFiles = (option) => {
     console.log(`selected option: ${option}`);
@@ -43,8 +42,7 @@ const MenuControl = ({
   const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || [];
 
   useEffect(() => {
-    if (timePoint !== curTimePoint) {
-      setCurTimePoint(timePoint);
+    if (timePoint !== currentWidget.timePoint) {
       dispatch(updateTimePointViewer(viewerId, timePoint));
     }
   }, [timePoint]);
