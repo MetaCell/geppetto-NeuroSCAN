@@ -19,7 +19,7 @@
      entities = entities.map(entity => {
       return ({
          ...entity,
-         uid: `${entity.neuronA.uid} contact ${entity.neuronB.uid}`,
+         name: entity.name ? entity.name : `${entity.neuronA.uid} contact ${entity.neuronB.uid}`,
        })});
  
      return entities.map(entity => {

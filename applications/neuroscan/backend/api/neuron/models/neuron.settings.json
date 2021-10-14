@@ -39,6 +39,9 @@
     "timepoint": {
       "type": "biginteger",
       "required": true
+    },
+    "name": {
+      "type": "string"
     }
   }
 }

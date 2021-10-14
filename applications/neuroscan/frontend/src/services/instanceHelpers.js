@@ -133,7 +133,7 @@ export const mapToInstance = (item) => {
     id: item.id,
     uid: `i_${item.uid.replace(/-/g, '_')}_${item.timepoint}`,
     uidFromDb: item.uid,
-    name: item.uid,
+    name: item.name,
     selected: false,
     color: {
       r: Math.random(), g: Math.random(), b: Math.random(), a: 1,

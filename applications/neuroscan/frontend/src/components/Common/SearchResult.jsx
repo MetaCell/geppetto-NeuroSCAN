@@ -63,7 +63,7 @@ const SearchResult = (props) => {
                   <ListItemIcon>
                     <img src={image} width="10" height="10" alt={title} />
                   </ListItemIcon>
-                  <ListItemText primary={item.uid} />
+                  <ListItemText primary={item.name} />
                   <Button
                     disableElevation
                     aria-haspopup="true"

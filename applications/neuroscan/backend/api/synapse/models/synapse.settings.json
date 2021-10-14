@@ -55,6 +55,9 @@
     },
     "postNeuron": {
       "model": "neuron"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }
