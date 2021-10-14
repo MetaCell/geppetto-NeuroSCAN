@@ -12,8 +12,20 @@ RUN yarn global add typescript
 # INSTALL PACKAGES
 RUN mkdir -p /app
 WORKDIR /app/frontend
+
 COPY ./frontend/package.json ./
 COPY ./frontend/yarn.lock ./
+
+### START GEPPETTO META DEVELOP
+#
+# for now we will use geppetto-meta development branch (clone it local)
+# when geppetto meta v > 0.05 is released comment the lines below
+COPY ./frontend/development_package ./development_package
+COPY ./frontend/geppetto-setup.sh ./geppetto-setup.sh
+RUN chmod +x geppetto-setup.sh
+RUN sh -c ./geppetto-setup.sh
+#
+### END GEPPETTO META DEVELOP
 
 RUN yarn
 
