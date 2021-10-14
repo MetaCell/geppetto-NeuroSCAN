@@ -5,12 +5,12 @@ import {
 } from '@material-ui/core';
 import DevelopmentalStageFilter from '../../Common/DevelopmentalStageFilter';
 
-const DevStageMenu = ({ setDevelopmentalStage, developmentalStage }) => (
+const DevStageMenu = ({ timePoint, setTimePoint }) => (
   <Box className="development-stage">
     <Typography component="h3">Filter by Developmental Stage</Typography>
     <DevelopmentalStageFilter
-      setDevelopmentalStage={setDevelopmentalStage}
-      developmentalStage={developmentalStage}
+      timePoint={timePoint}
+      setTimePoint={setTimePoint}
     />
   </Box>
 );

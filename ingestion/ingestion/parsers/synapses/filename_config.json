@@ -9,7 +9,7 @@
     },
     "uid":{
       "expression": ".*/(\\d*)/synapses/(.+)/(.+)\\.obj",
-      "match": "$1_$2_$3"
+      "match": "$2_$3"
     },
     "timepoint": {
       "expression": ".*/\\w*/(\\d*)/synapses/\\w*[PostSyn|PreSyn]/.*\\.obj",

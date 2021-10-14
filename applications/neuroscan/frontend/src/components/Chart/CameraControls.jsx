@@ -1,5 +1,6 @@
 /* eslint-disable import/no-cycle */
 import React, { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   IconButton,
   Typography,
@@ -7,6 +8,7 @@ import {
   Radio,
   Tooltip,
 } from '@material-ui/core';
+import { updateBackgroundColorViewer } from '../../redux/actions/widget';
 import ZOOM_IN from '../../images/graph/zoom-in.svg';
 import ZOOM_OUT from '../../images/graph/zoom-out.svg';
 import HOME from '../../images/graph/home.svg';
@@ -17,7 +19,11 @@ import PICKER from '../../images/graph/color-picker.png';
 import DARK from '../../images/graph/dark.svg';
 import LIGHT from '../../images/graph/light.svg';
 import MenuControl from './MenuControl';
-import { VIEWER_MENU } from '../../utilities/constants';
+import {
+  VIEWER_MENU,
+  CANVAS_BACKGROUND_COLOR_LIGHT,
+  CANVAS_BACKGROUND_COLOR_DARK,
+} from '../../utilities/constants';
 
 export const cameraControlsActions = {
   ZOOM_IN: 'zoomIn',
@@ -34,6 +40,7 @@ const CameraControls = (props) => {
     cameraControlsHandler,
     viewerId,
   } = props;
+  const dispatch = useDispatch();
   const pickerRef = useRef();
   const developmentRef = useRef();
   const layersRef = useRef();
@@ -92,11 +99,24 @@ const CameraControls = (props) => {
 
   const [canvasBg, setCanvasBg] = useState(backgrounds.DARK);
 
+  const handleSetCanvasBackground = (value) => {
+    setCanvasBg(value);
+    let backgroundColor = 0;
+    switch (value) {
+      case backgrounds.LIGHT:
+        backgroundColor = CANVAS_BACKGROUND_COLOR_LIGHT;
+        break;
+      default:
+        backgroundColor = CANVAS_BACKGROUND_COLOR_DARK;
+    }
+    dispatch(updateBackgroundColorViewer(viewerId, backgroundColor));
+  };
+
   const RadioOption = ({
     value, image,
   }) => (
     <Typography component="label">
-      <Radio name="mode" value={value} onChange={(e) => setCanvasBg(e.target.value)} checked={canvasBg === value} />
+      <Radio name="mode" value={value} onChange={(e) => handleSetCanvasBackground(e.target.value)} checked={canvasBg === value} />
       <Typography>
         <img src={image} alt={value} />
       </Typography>

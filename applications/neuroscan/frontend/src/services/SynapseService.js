@@ -4,7 +4,7 @@ import { SYNAPSE_TYPE, backendClient, maxRecordsPerFetch } from '../utilities/co
 const synapsesBackendUrl = '/synapses';
 
 /* eslint class-methods-use-this:
-    ["error", { "exceptMethods": ["getById", "constructQuery"] }]
+    ["error", { "exceptMethods": ["getById", "constructQuery", "getByUID"] }]
 */
 export class SynapseService {
   async getById(id) {
@@ -20,6 +20,12 @@ export class SynapseService {
     };
   }
 
+  async getByUID(timePoint, uids = []) {
+    const query = `timepoint=${timePoint}${uids.map((uid) => `&uid_in=${uid}`)}`;
+    const response = await backendClient.get(`${synapsesBackendUrl}?${query}`);
+    return response.data;
+  }
+
   constructQuery(searchState) {
     const { filters } = searchState;
     const { searchTerms, timePoint } = filters;
@@ -27,20 +33,8 @@ export class SynapseService {
     const andPart = [];
     andPart.push({ timepoint: timePoint });
     if (searchTerms.length > 0) {
-      const preInPart = [];
-      const postInPart = [];
-      // eslint-disable-next-line no-plusplus
-      for (let idx = 0; idx < Math.min(searchTerms.length, 3); idx++) {
-        preInPart.push({ 'neuronPre.uid_contains': searchTerms[idx] });
-        postInPart.push({ 'neuronPost.uid_contains': searchTerms[idx] });
-      }
-      andPart.push({ _or: [{ _or: preInPart }, { _or: postInPart }] });
+      andPart.push({ searchTerms: searchTerms.join('|') });
     }
-    // if (searchTerms.length === 3) {
-    //   // 3 terms so search for the third in the synapses postNeuron
-    //   // TODO: add here the search for the Pre/Post neuron
-    //   andPart.push({ 'postNeuron.uid_contains': searchTerms[2] });
-    // }
     if (filters.synapsesFilter.chemical) {
       andPart.push({
         type: 'chemical',
@@ -49,6 +43,16 @@ export class SynapseService {
     if (filters.synapsesFilter.electrical) {
       andPart.push({
         type: 'electrical',
+      });
+    }
+    if (filters.synapsesFilter.preNeuron) {
+      andPart.push({
+        preNeuron: filters.synapsesFilter.preNeuron,
+      });
+    }
+    if (filters.synapsesFilter.postNeuron) {
+      andPart.push({
+        postNeuron: filters.synapsesFilter.postNeuron,
       });
     }
     return qs.stringify({

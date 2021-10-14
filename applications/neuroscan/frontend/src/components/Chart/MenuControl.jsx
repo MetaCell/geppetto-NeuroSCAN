@@ -15,35 +15,47 @@ import DevStageMenu from './ControlMenus/DevStageMenu';
 import DownloadMenu from './ControlMenus/DownloadMenu';
 import ColorPickerMenu from './ControlMenus/ColorPickerMenu';
 import {
-  getGroupsFromInstances,
   getInstancesOfType,
   getInstancesByGroups,
 } from '../../services/instanceHelpers';
+import { updateTimePointViewer } from '../../redux/actions/widget';
 
 const MenuControl = ({
   anchorEl, handleClose, open, id, selection, viewerId,
 }) => {
   const dispatch = useDispatch();
+  const widgets = useSelector((state) => state.widgets);
+  const currentWidget = widgets[viewerId];
+
   const [content, setContent] = useState(null);
-  const [developmentalStage, setDevelopmentalStage] = useState(0);
+  const [timePoint, setTimePoint] = useState(currentWidget?.config?.timePoint || 0);
+
   const layersList = ['Worm Body', 'Pharynx', 'NerveRing'];
   const downloadFiles = (option) => {
     console.log(`selected option: ${option}`);
     handleClose();
   };
-  const widgets = useSelector((state) => state.widgets);
-  const currentWidget = widgets[viewerId];
-  const { instances } = currentWidget.config;
+  let instances = [];
+  if (currentWidget) {
+    instances = currentWidget.config.instances;
+  }
   const groups = getInstancesByGroups(instances);
   const neurons = getInstancesOfType(instances, NEURON_TYPE) || [];
   const contacts = getInstancesOfType(instances, CONTACT_TYPE) || [];
   const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || [];
+
+  useEffect(() => {
+    if (currentWidget && timePoint !== currentWidget?.timePoint) {
+      dispatch(updateTimePointViewer(viewerId, timePoint));
+    }
+  }, [timePoint]);
+
   useEffect(() => {
     switch (selection) {
       case VIEWER_MENU.devStage: setContent(
         <DevStageMenu
-          setDevelopmentalStage={setDevelopmentalStage}
-          developmentalStage={developmentalStage}
+          timePoint={timePoint}
+          setTimePoint={setTimePoint}
         />,
       );
         break;

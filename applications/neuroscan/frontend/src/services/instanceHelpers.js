@@ -50,7 +50,7 @@ const updateInstanceSelected = (instances, selectedUids) => instances.map((insta
 });
 
 export const setSelectedInstances = (dispatch, widget, selectedUids) => {
-  const newWidget = widget;
+  const newWidget = { ...widget };
   newWidget.config.instances = updateInstanceSelected(
     widget.config.instances, selectedUids,
   );
@@ -58,7 +58,6 @@ export const setSelectedInstances = (dispatch, widget, selectedUids) => {
     widget.config.instances,
   );
   newWidget.config.flash = true;
-  newWidget.status = WidgetStatus.ACTIVE;
   dispatch(layoutActions.updateWidget(newWidget));
 };
 
@@ -132,7 +131,8 @@ export const mapToInstance = (item) => {
   const location = getLocationPrefixFromType(item);
   return {
     id: item.id,
-    uid: `i${item.uid.replace(/-/g, '')}`,
+    uid: `i_${item.uid.replace(/-/g, '_')}_${item.timepoint}`,
+    uidFromDb: item.uid,
     name: item.uid,
     selected: false,
     color: {

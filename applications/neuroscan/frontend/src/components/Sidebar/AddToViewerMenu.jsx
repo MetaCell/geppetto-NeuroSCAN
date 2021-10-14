@@ -21,6 +21,7 @@ const AddToViewerMenu = ({
   anchorEl, handleClose, handleAddToViewer, fullMenu = true,
 }) => {
   const classes = useStyles();
+  const timePoint = useSelector((state) => state.search.filters.timePoint);
   const widgets = useSelector((state) => state.widgets);
   const viewers = getViewersFromWidgets(widgets);
 
@@ -39,12 +40,15 @@ const AddToViewerMenu = ({
       { fullMenu ? (
         [
           <Typography key="add-to-viewer-text">Add to existing viewer</Typography>,
-          viewers.map((viewer) => (
-            <MenuItem key={`add-to-viewer-${viewer.id}`} disabled={viewer?.disabled} onClick={() => handleAddToViewer(viewer.id)}>
-              <img src={MENU_CHECKMARK_ON} className={classes.mr_8} alt="MENU_CHECKMARK_ON" />
-              {viewer.name}
-            </MenuItem>
-          )),
+          viewers.map((viewer) => {
+            const isEnabled = viewer.config.timePoint === timePoint;
+            return (
+              <MenuItem key={`add-to-viewer-${viewer.id}`} disabled={!isEnabled} onClick={() => handleAddToViewer(viewer.id)}>
+                <img src={MENU_CHECKMARK_ON} className={classes.mr_8} alt="MENU_CHECKMARK_ON" />
+                {viewer.name}
+              </MenuItem>
+            );
+          }),
           <Divider key="add-to-viewer-divider" />,
         ]
       ) : null}

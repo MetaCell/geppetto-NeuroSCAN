@@ -2,7 +2,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model';
 import { addWidget, updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
-import { VIEWERS } from './constants';
+import RecordControls from '@metacell/geppetto-meta-ui/record-controls/RecordControls';
+import { VIEWERS, CANVAS_BACKGROUND_COLOR_DARK } from './constants';
 import CameraControls from '../components/Chart/CameraControls';
 
 // flatten the tree to an flat array
@@ -27,7 +28,7 @@ export const getViewersFromWidgets = (widgets) => {
 
 export const widgetFromViewerSpec = (viewerSpec) => ({
   id: viewerSpec.viewerId,
-  name: `${viewerSpec.type}_${viewerSpec.viewerId}`,
+  name: viewerSpec.name,
   component: viewerSpec.type,
   panelName: 'centralPanel',
   enableClose: true,
@@ -42,8 +43,9 @@ export const widgetFromViewerSpec = (viewerSpec) => ({
 export const addToWidget = (
   widget = null,
   instances,
+  cleanInstances = false,
 ) => {
-  if (widget === null) {
+  if (widget.id === null) {
     const newViewerId = uuidv4();
     const newWidget = {
       type: VIEWERS.InstanceViewer,
@@ -63,8 +65,18 @@ export const addToWidget = (
         autorotate: false,
         wireframe: false,
       },
+      recorderOptions: {
+        allowRecorder: false,
+        recorderControls: {
+          instance: RecordControls,
+          props: {},
+        },
+      },
       viewerId: newViewerId,
       flash: false,
+      timePoint: widget.timePoint,
+      name: widget.name,
+      backgroundColor: CANVAS_BACKGROUND_COLOR_DARK,
       instances,
     };
     return addWidget(widgetFromViewerSpec(newWidget));
@@ -74,7 +86,7 @@ export const addToWidget = (
     status: WidgetStatus.ACTIVE,
     config: {
       ...widget.config,
-      instances: widget.config.instances.concat(instances),
+      instances: cleanInstances ? instances : widget.config.instances.concat(instances),
     },
   };
   return updateWidget(newWidget);

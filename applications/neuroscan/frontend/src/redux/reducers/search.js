@@ -9,6 +9,8 @@ export const SEARCH_DEFAULT_STATUS = {
       synapsesFilter: {
         chemical: false,
         electrical: false,
+        preNeuron: null,
+        postNeuron: null,
       },
     },
     counters: {
@@ -40,8 +42,10 @@ export default (state = SEARCH_DEFAULT_STATUS, action) => {
         filters: {
           ...state.filters,
           searchTerms: action.searchTerms || state.filters.searchTerms,
-          timePoint: action.timePoint,
-          ...action.synapsesFilter,
+          timePoint: action.timePoint || state.filters.timePoint,
+          synapsesFilter: {
+            ...action.synapsesFilter || state.filters.synapsesFilter,
+          },
         },
         searchesCount: state.searchesCount + 3, // neurons, contacts, synapses
         results: {

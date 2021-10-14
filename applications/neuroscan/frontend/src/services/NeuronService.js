@@ -4,7 +4,7 @@ import { NEURON_TYPE, backendClient, maxRecordsPerFetch } from '../utilities/con
 const neuronsBackendUrl = '/neurons';
 
 /* eslint class-methods-use-this:
-    ["error", { "exceptMethods": ["getById", "search", "constructQuery"] }]
+    ["error", { "exceptMethods": ["getById", "search", "constructQuery", "getByUID"] }]
 */
 export class NeuronService {
   async getById(id) {
@@ -23,6 +23,12 @@ export class NeuronService {
         getId: () => this.id,
       };
     }
+  }
+
+  async getByUID(timePoint, uids = []) {
+    const query = `timepoint=${timePoint}${uids.map((uid) => `&uid_in=${uid}`)}`;
+    const response = await backendClient.get(`${neuronsBackendUrl}?${query}`);
+    return response.data;
   }
 
   constructQuery(searchState) {

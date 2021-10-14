@@ -47,9 +47,13 @@ const SynapsesFilter = (props) => {
 
   const applyFilters = () => {
     dispatch(
-      search.updateFilters(
-        { synapsesFilter },
-      ),
+      search.updateFilters({
+        synapsesFilter: {
+          ...synapsesFilter,
+          preNeuron: pre,
+          postNeuron: post,
+        },
+      }),
     );
     handleClose();
   };

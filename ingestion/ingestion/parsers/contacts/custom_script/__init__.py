@@ -7,5 +7,5 @@ def custom_script(data):
             new_data[tp][contact_id] = {}
             for source in data[tp][contact]:
                 new_data[tp][contact_id][source] = data[tp][contact][source]
-                new_data[tp][contact_id][source]['uid'] = f"{tp}-{data[tp][contact][source]['uid']}"
+                new_data[tp][contact_id][source]['uid'] = f"{data[tp][contact][source]['uid']}"
     return new_data

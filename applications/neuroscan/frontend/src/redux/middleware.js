@@ -1,12 +1,23 @@
 import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
+import { updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
 import { ADD_DEVSTAGES, receivedDevStages } from './actions/devStages';
 import { raiseError } from './actions/misc';
 import {
   ADD_INSTANCES,
   ADD_INSTANCES_TO_GROUP,
   SET_INSTANCES_COLOR,
+  UPDATE_TIMEPOINT_VIEWER,
+  UPDATE_BACKGROUND_COLOR_VIEWER,
 } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
+import neuronService from '../services/NeuronService';
+import contactService from '../services/ContactService';
+import synapseService from '../services/SynapseService';
+import {
+  CONTACT_TYPE,
+  NEURON_TYPE,
+  SYNAPSE_TYPE,
+} from '../utilities/constants';
 // eslint-disable-next-line import/no-cycle
 import { addToWidget } from '../utilities/functions';
 // eslint-disable-next-line import/no-cycle
@@ -14,6 +25,7 @@ import {
   createSimpleInstancesFromInstances,
   updateInstanceGroup,
   setInstancesColor,
+  getInstancesOfType,
 } from '../services/instanceHelpers';
 
 const devStagesService = new DevStageService();
@@ -21,7 +33,21 @@ const devStagesService = new DevStageService();
 const getWidget = (store, viewerId) => {
   const state = store.getState();
   const { widgets } = state;
-  return widgets[viewerId];
+  const widget = widgets[viewerId];
+  if (!widget) {
+    const { timePoint } = state.search.filters;
+    const devStages = state.devStages.neuroSCAN;
+    const devStage = devStages.find((ds) => ds.begin <= timePoint && ds.end >= timePoint);
+    const viewerNumber = Object.keys(widgets).length + 1;
+    return {
+      id: null,
+      name: `Viewer ${viewerNumber} (${devStage.name} ${timePoint})`,
+      timePoint,
+    };
+  }
+  return {
+    ...widget,
+  };
 };
 
 const middleware = (store) => (next) => (action) => {
@@ -46,6 +72,49 @@ const middleware = (store) => (next) => (action) => {
               action.instances,
             ),
           ));
+      break;
+    }
+
+    case UPDATE_BACKGROUND_COLOR_VIEWER: {
+      const widget = getWidget(store, action.viewerId);
+      widget.config.backgroundColor = action.backgroundColor;
+      store.dispatch(updateWidget(widget));
+      break;
+    }
+
+    case UPDATE_TIMEPOINT_VIEWER: {
+      const widget = getWidget(store, action.viewerId);
+      const { timePoint } = action;
+      const { instances } = widget.config;
+
+      if (timePoint !== widget.config.timePoint) {
+        const neurons = getInstancesOfType(instances, NEURON_TYPE) || ['-1'];
+        const contacts = getInstancesOfType(instances, CONTACT_TYPE) || ['-1'];
+        const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || ['-1'];
+
+        neuronService.getByUID(timePoint, neurons.map((n) => n.uidDb))
+          .then((newNeurons) => {
+            contactService.getByUID(timePoint, contacts.map((n) => n.uidDb))
+              .then((newContacts) => {
+                synapseService.getByUID(timePoint, synapses.map((n) => n.uidDb))
+                  .then((newSynapses) => {
+                    const newInstances = newNeurons.concat(newContacts.concat(newSynapses));
+                    widget.config.timePoint = timePoint; // update the current widget's timepoint
+                    createSimpleInstancesFromInstances(newInstances)
+                      .then(() => {
+                        store
+                          .dispatch(
+                            addToWidget(
+                              widget,
+                              newInstances,
+                              true,
+                            ),
+                          );
+                      });
+                  });
+              });
+          });
+      }
       break;
     }
 
