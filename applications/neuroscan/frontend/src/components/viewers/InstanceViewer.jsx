@@ -58,6 +58,7 @@ const InstanceViewer = (props) => {
     instances,
     cameraOptions,
     recorderOptions,
+    backgroundColor,
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -169,7 +170,7 @@ const InstanceViewer = (props) => {
         cameraHandler={cameraHandler}
         recorderOptions={recorderOptions}
         hoverListeners={[hoverListener]}
-        backgroundColor={0x2C2C2C}
+        backgroundColor={backgroundColor}
         onSelection={onSelection}
         onMount={onMount}
       />

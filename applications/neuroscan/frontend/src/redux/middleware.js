@@ -1,4 +1,5 @@
 import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
+import { updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
 import { ADD_DEVSTAGES, receivedDevStages } from './actions/devStages';
 import { raiseError } from './actions/misc';
 import {
@@ -6,6 +7,7 @@ import {
   ADD_INSTANCES_TO_GROUP,
   SET_INSTANCES_COLOR,
   UPDATE_TIMEPOINT_VIEWER,
+  UPDATE_BACKGROUND_COLOR_VIEWER,
 } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
 import neuronService from '../services/NeuronService';
@@ -70,6 +72,13 @@ const middleware = (store) => (next) => (action) => {
               action.instances,
             ),
           ));
+      break;
+    }
+
+    case UPDATE_BACKGROUND_COLOR_VIEWER: {
+      const widget = getWidget(store, action.viewerId);
+      widget.config.backgroundColor = action.backgroundColor;
+      store.dispatch(updateWidget(widget));
       break;
     }
 

@@ -15,12 +15,10 @@ import DevStageMenu from './ControlMenus/DevStageMenu';
 import DownloadMenu from './ControlMenus/DownloadMenu';
 import ColorPickerMenu from './ControlMenus/ColorPickerMenu';
 import {
-  getGroupsFromInstances,
   getInstancesOfType,
   getInstancesByGroups,
 } from '../../services/instanceHelpers';
 import { updateTimePointViewer } from '../../redux/actions/widget';
-import store from '../../redux/store';
 
 const MenuControl = ({
   anchorEl, handleClose, open, id, selection, viewerId,

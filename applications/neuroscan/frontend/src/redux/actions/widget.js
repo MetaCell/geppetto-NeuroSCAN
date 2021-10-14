@@ -2,6 +2,7 @@ export const ADD_INSTANCES = 'ADD_INSTANCES';
 export const ADD_INSTANCES_TO_GROUP = 'ADD_INSTANCES_TO_GROUP';
 export const SET_INSTANCES_COLOR = 'SET_INSTANCES_COLOR';
 export const UPDATE_TIMEPOINT_VIEWER = 'UPDATE_TIMEPOINT_VIEWER';
+export const UPDATE_BACKGROUND_COLOR_VIEWER = 'UPDATE_BACKGROUND_COLOR_VIEWER';
 
 export const addInstances = ((viewerId, instances) => ({
   type: ADD_INSTANCES,
@@ -27,4 +28,10 @@ export const updateTimePointViewer = ((viewerId, timePoint) => ({
   type: UPDATE_TIMEPOINT_VIEWER,
   viewerId,
   timePoint,
+}));
+
+export const updateBackgroundColorViewer = ((viewerId, backgroundColor) => ({
+  type: UPDATE_BACKGROUND_COLOR_VIEWER,
+  viewerId,
+  backgroundColor,
 }));
