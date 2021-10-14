@@ -77,32 +77,35 @@ const middleware = (store) => (next) => (action) => {
       const widget = getWidget(store, action.viewerId);
       const { timePoint } = action;
       const { instances } = widget.config;
-      const neurons = getInstancesOfType(instances, NEURON_TYPE) || ['-1'];
-      const contacts = getInstancesOfType(instances, CONTACT_TYPE) || ['-1'];
-      const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || ['-1'];
 
-      neuronService.getByUID(timePoint, neurons.map((n) => n.uidDb))
-        .then((newNeurons) => {
-          contactService.getByUID(timePoint, contacts.map((n) => n.uidDb))
-            .then((newContacts) => {
-              synapseService.getByUID(timePoint, synapses.map((n) => n.uidDb))
-                .then((newSynapses) => {
-                  const newInstances = newNeurons.concat(newContacts.concat(newSynapses));
-                  widget.config.timePoint = timePoint; // update the current widget's timepoint
-                  createSimpleInstancesFromInstances(newInstances)
-                    .then(() => {
-                      store
-                        .dispatch(
-                          addToWidget(
-                            widget,
-                            newInstances,
-                            true,
-                          ),
-                        );
-                    });
-                });
-            });
-        });
+      if (timePoint !== widget.config.timePoint) {
+        const neurons = getInstancesOfType(instances, NEURON_TYPE) || ['-1'];
+        const contacts = getInstancesOfType(instances, CONTACT_TYPE) || ['-1'];
+        const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || ['-1'];
+
+        neuronService.getByUID(timePoint, neurons.map((n) => n.uidDb))
+          .then((newNeurons) => {
+            contactService.getByUID(timePoint, contacts.map((n) => n.uidDb))
+              .then((newContacts) => {
+                synapseService.getByUID(timePoint, synapses.map((n) => n.uidDb))
+                  .then((newSynapses) => {
+                    const newInstances = newNeurons.concat(newContacts.concat(newSynapses));
+                    widget.config.timePoint = timePoint; // update the current widget's timepoint
+                    createSimpleInstancesFromInstances(newInstances)
+                      .then(() => {
+                        store
+                          .dispatch(
+                            addToWidget(
+                              widget,
+                              newInstances,
+                              true,
+                            ),
+                          );
+                      });
+                  });
+              });
+          });
+      }
       break;
     }
 

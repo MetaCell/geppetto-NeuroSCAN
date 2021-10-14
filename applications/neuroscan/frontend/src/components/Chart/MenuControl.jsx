@@ -20,6 +20,7 @@ import {
   getInstancesByGroups,
 } from '../../services/instanceHelpers';
 import { updateTimePointViewer } from '../../redux/actions/widget';
+import store from '../../redux/store';
 
 const MenuControl = ({
   anchorEl, handleClose, open, id, selection, viewerId,
@@ -27,22 +28,26 @@ const MenuControl = ({
   const dispatch = useDispatch();
   const widgets = useSelector((state) => state.widgets);
   const currentWidget = widgets[viewerId];
-  const { instances } = currentWidget.config;
 
   const [content, setContent] = useState(null);
-  const [timePoint, setTimePoint] = useState(currentWidget.config.timePoint);
+  const [timePoint, setTimePoint] = useState(currentWidget?.config?.timePoint || 0);
+
   const layersList = ['Worm Body', 'Pharynx', 'NerveRing'];
   const downloadFiles = (option) => {
     console.log(`selected option: ${option}`);
     handleClose();
   };
+  let instances = [];
+  if (currentWidget) {
+    instances = currentWidget.config.instances;
+  }
   const groups = getInstancesByGroups(instances);
   const neurons = getInstancesOfType(instances, NEURON_TYPE) || [];
   const contacts = getInstancesOfType(instances, CONTACT_TYPE) || [];
   const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || [];
 
   useEffect(() => {
-    if (timePoint !== currentWidget.timePoint) {
+    if (currentWidget && timePoint !== currentWidget?.timePoint) {
       dispatch(updateTimePointViewer(viewerId, timePoint));
     }
   }, [timePoint]);
