@@ -2,7 +2,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model';
 import { addWidget, updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
-import RecordControls from '@metacell/geppetto-meta-ui/record-controls/RecordControls';
+import RecordControls from '../components/Chart/RecordControls';
 import { VIEWERS, CANVAS_BACKGROUND_COLOR_DARK } from './constants';
 import CameraControls from '../components/Chart/CameraControls';
 
