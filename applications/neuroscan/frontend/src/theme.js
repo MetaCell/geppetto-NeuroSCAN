@@ -1138,6 +1138,12 @@ const theme = createTheme({
                   minHeight: '0.0625rem',
                 },
               },
+              '&.medium': {
+                maxWidth: '29.8125rem',
+                '& .modal-body': {
+                  minHeight: '0.0625rem',
+                },
+              },
             },
             '&-header': {
               height: '3.625rem',
@@ -1161,6 +1167,25 @@ const theme = createTheme({
             '&-body': {
               padding: '1rem',
               minHeight: '24.5rem',
+              '& .video-box': {
+                position: 'relative',
+                padding: '0.625rem',
+                background: buttonOutlineColor,
+                borderRadius: '0.25rem',
+                '& img': {
+                  maxWidth: '100%',
+                  display: 'block',
+                },
+                '& .play-icon': {
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  margin: 'auto',
+                  cursor: 'pointer',
+                },
+              },
               '& .MuiFormLabel-root': {
                 fontWeight: 'bold',
                 fontSize: '0.75rem',
@@ -1232,8 +1257,13 @@ const theme = createTheme({
               height: '4.125rem',
               display: 'flex',
               alignItems: 'center',
-              '& button + button': {
-                marginLeft: '1rem',
+              '& button': {
+                '& img': {
+                  marginRight: '0.5rem',
+                },
+                '& + button': {
+                  marginLeft: '1rem',
+                },
               },
             },
           },
