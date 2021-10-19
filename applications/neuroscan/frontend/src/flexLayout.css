@@ -107,17 +107,30 @@
   top: 0;
 }
 
-.position-toolbar.recording .MuiIconButton-root {
-  margin-left: 0;
+.position-toolbar.recording {
+  position: static !important;
 }
 
-.position-toolbar.recording .MuiIconButton-root::before {
-  display: none;
+.position-toolbar.recording .MuiIconButton-root {
+  position: absolute;
+  top: 9px;
+  left: 190px;
 }
 
 .position-toolbar.recording .wrap {
   display: flex;
   align-items: center;
+  height: 32px;
+  background: #1C1C1C;
+  padding: 0 8px;
+  box-shadow: 0px 5px 17px rgba(0, 0, 0, 0.2), 0px 2px 7px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 231px;
 }
 
 .position-toolbar.recording .wrap .MuiTypography-root {
@@ -137,7 +150,12 @@
   background: rgba(255, 255, 255, 0.3);
   border-radius: 50px;
   color: rgba(255, 255, 255, 0.8);
-  padding: 4px 8px;
+  padding: 0;
+  width: 55.54px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  height: 22px;
 }
 
 .position-toolbar.recording .wrap .MuiButton-root img {
@@ -232,4 +250,14 @@
   align-items: center;
   cursor: pointer;
   justify-content: center;
+}
+
+.icon-blink {
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink{
+  0%{opacity: .5;}
+  50%{opacity: 1;}
+  100%{opacity: .5;}
 }

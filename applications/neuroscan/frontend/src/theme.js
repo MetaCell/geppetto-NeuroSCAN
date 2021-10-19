@@ -34,6 +34,7 @@ const {
   tabBackgroundColor,
   downloadBgColor,
   downloadBorderColor,
+  buttonConfirmationColor,
 } = vars;
 
 const theme = createTheme({
@@ -1169,20 +1170,18 @@ const theme = createTheme({
               minHeight: '24.5rem',
               '& .video-box': {
                 position: 'relative',
-                padding: '0.625rem',
-                background: buttonOutlineColor,
+                border: `0.625rem solid ${buttonOutlineColor}`,
+                overflow: 'hidden',
                 borderRadius: '0.25rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '22.375rem',
                 '& img': {
                   maxWidth: '100%',
                   display: 'block',
                 },
                 '& .play-icon': {
-                  position: 'absolute',
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  bottom: 0,
-                  margin: 'auto',
                   cursor: 'pointer',
                 },
               },
@@ -1380,6 +1379,12 @@ const theme = createTheme({
         backgroundColor: primaryColor,
         '&:hover': {
           backgroundColor: primaryColor,
+        },
+      },
+      containedSecondary: {
+        backgroundColor: buttonConfirmationColor,
+        '&:hover': {
+          backgroundColor: buttonConfirmationColor,
         },
       },
     },
