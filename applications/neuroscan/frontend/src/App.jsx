@@ -19,7 +19,6 @@ import './flexLayout.css';
 const GEPPETTO = {};
 window.GEPPETTO = GEPPETTO;
 window.Instances = [];
-global.GEPPETTO_CONFIGURATION = {};
 
 const App = () => {
   const dispatch = useDispatch();
