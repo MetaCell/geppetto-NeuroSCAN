@@ -65,11 +65,19 @@ export const addToWidget = (
         autorotate: false,
         wireframe: false,
       },
-      recorderOptions: {
-        allowRecorder: false,
-        recorderControls: {
+      captureOptions: {
+        captureControls: {
           instance: RecordControls,
           props: {},
+        },
+        screenshotOptions: {
+          resolution: {
+            width: 3840,
+            height: 2160,
+          },
+          quality: 0.95,
+          pixelRatio: 1,
+          filter: () => true,
         },
       },
       viewerId: newViewerId,

@@ -7,6 +7,7 @@ import {
   Tooltip,
   Button,
 } from '@material-ui/core';
+import { captureControlsActions } from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
 import RECORDING from '../../images/graph/recording.svg';
 import RECORDING_ACTIVE from '../../images/graph/recording-active.svg';
 import STOP from '../../images/graph/stop.svg';
@@ -14,15 +15,20 @@ import RecordControlModal from './RecordControlModal';
 
 const RecordControls = (props) => {
   const {
-    cameraControlsHandler,
+    captureControlsHandler,
   } = props;
   const [modalOpen, setModalOpen] = useState(false);
   const [recording, setRecording] = useState(false);
   const [timerInterval, setTimerInterval] = useState(null);
   const [timer, setTimer] = useState({ timer: 0, recordingTime: '00:00:00' });
   const stopRecording = () => {
+    captureControlsHandler(captureControlsActions.STOP);
     setRecording(false);
     setModalOpen(true);
+  };
+  const startRecording = () => {
+    captureControlsHandler(captureControlsActions.START);
+    setRecording(true);
   };
 
   const convertToTime = (sec) => {
@@ -58,7 +64,7 @@ const RecordControls = (props) => {
           <IconButton
             disableRipple
             key="recorder"
-            onClick={() => setRecording(true)}
+            onClick={startRecording}
             disabled={recording}
           >
             <img
@@ -91,6 +97,7 @@ const RecordControls = (props) => {
       <RecordControlModal
         open={modalOpen}
         handleClose={() => setModalOpen(false)}
+        captureControlsHandler={captureControlsHandler}
       />
     </>
   );

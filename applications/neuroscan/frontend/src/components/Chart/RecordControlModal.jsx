@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from '@material-ui/core/Modal';
+import { captureControlsActions } from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
 import {
   Box,
   Typography,
@@ -14,8 +15,12 @@ import VIDEO from '../../images/video.jpg';
 import PLAY from '../../images/graph/play.svg';
 
 const RecordControlModal = (props) => {
-  const { open, handleClose } = props;
+  const { open, handleClose, captureControlsHandler } = props;
   const [deleteOption, setDeleteOption] = useState(false);
+  const downloadRecording = () => {
+    captureControlsHandler(captureControlsActions.DOWNLOAD);
+    handleClose();
+  };
   return (
     <Modal
       open={open}
@@ -52,7 +57,7 @@ const RecordControlModal = (props) => {
               Sure, delete.
             </Button>
           ) }
-          <Button disableElevation color="primary" variant="contained" onClick={handleClose}>
+          <Button disableElevation color="primary" variant="contained" onClick={downloadRecording}>
             <img src={DOWNLOAD} alt="Close" />
             Download
           </Button>
