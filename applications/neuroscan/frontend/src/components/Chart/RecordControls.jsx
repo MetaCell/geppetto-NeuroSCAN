@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   IconButton,
   Typography,
@@ -21,14 +21,20 @@ const RecordControls = (props) => {
   const [recording, setRecording] = useState(false);
   const [timerInterval, setTimerInterval] = useState(null);
   const [timer, setTimer] = useState({ timer: 0, recordingTime: '00:00:00' });
+  const videoBlob = useRef(null);
   const stopRecording = () => {
-    captureControlsHandler(captureControlsActions.STOP);
+    videoBlob.current = captureControlsHandler(captureControlsActions.STOP);
     setRecording(false);
     setModalOpen(true);
   };
   const startRecording = () => {
+    videoBlob.current = null;
     captureControlsHandler(captureControlsActions.START);
     setRecording(true);
+  };
+  const handleCloseModal = () => {
+    videoBlob.current = null;
+    setModalOpen(false);
   };
 
   const convertToTime = (sec) => {
@@ -96,8 +102,9 @@ const RecordControls = (props) => {
 
       <RecordControlModal
         open={modalOpen}
-        handleClose={() => setModalOpen(false)}
+        handleClose={handleCloseModal}
         captureControlsHandler={captureControlsHandler}
+        videoBlob={videoBlob.current}
       />
     </>
   );
