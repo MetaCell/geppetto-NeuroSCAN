@@ -34,6 +34,7 @@ const vars = {
   filterButtonBg: '#F2F2F2',
   downloadBgColor: 'rgba(229, 229, 229, 0.4)',
   downloadBorderColor: 'rgba(229, 229, 229, 0.3)',
+  buttonConfirmationColor: '#F24822',
 };
 
 export default vars;

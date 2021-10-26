@@ -19,6 +19,7 @@
     "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.3",
     "axios": "^0.21.1",
+    "html-to-image": "^1.9.0",
     "jszip": "^3.7.1",
     "material-ui-chip-input": "^1.1.0",
     "qs": "^6.10.1",
@@ -32,6 +33,9 @@
     "superagent": "^6.1.0",
     "typescript": "^4.2.4",
     "uuid": "^8.3.2"
+  },
+  "resolutions": {
+    "three": "0.118.0"
   },
   "scripts": {
     "start": "craco start",

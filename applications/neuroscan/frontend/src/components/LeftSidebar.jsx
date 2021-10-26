@@ -16,7 +16,7 @@ import Results from './Sidebar/Results';
 import CPhasePlot from './Sidebar/CPhasePlot';
 import MagnifyingGlass from '../images/magnifying-glass.svg';
 import FILTER from '../images/filter.svg';
-// import TestComponent from './Sidebar/TestComponent';
+import TestComponent from './Sidebar/TestComponent';
 import SynapsesFilter from './Sidebar/SynapsesFilter';
 import vars from '../styles/constants';
 
@@ -146,7 +146,7 @@ const LeftSidebar = (props) => {
                   <Results />
 
                   <CPhasePlot timePoint={timePoint} />
-                  {/* <TestComponent /> */}
+                  <TestComponent />
                 </AccordionDetails>
               </Accordion>
             </Box>
