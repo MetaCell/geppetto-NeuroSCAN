@@ -37,6 +37,7 @@
     "superagent": "^6.1.0",
     "three": "0.118.0",
     "typescript": "^4.2.4",
+    "url-join": "^4.0.1",
     "uuid": "^8.3.2"
   },
   "resolutions": {

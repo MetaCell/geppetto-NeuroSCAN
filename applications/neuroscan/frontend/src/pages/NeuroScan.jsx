@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     width: '100%',
     height: '100%',
+    display: 'flex',
   },
   left: {
     flexShrink: 0,
@@ -61,7 +62,7 @@ export default function NeuroScan() {
     if (viewerCount === 0) {
       componentToRender = <ViewerPlaceholder />;
     } else {
-      componentToRender = <LayoutComponent />;
+      componentToRender = <LayoutComponent className={`${classes.layoutComponent}`} />;
     }
   }
 

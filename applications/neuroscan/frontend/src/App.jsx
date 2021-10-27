@@ -16,6 +16,10 @@ import { addDevStages } from './redux/actions/devStages';
 import '@metacell/geppetto-meta-ui/flex-layout/style/dark.scss';
 import './flexLayout.css';
 
+const { initGeppetto } = require('@metacell/geppetto-meta-client/GEPPETTO');
+
+initGeppetto(false, true);
+
 const GEPPETTO = {};
 window.GEPPETTO = GEPPETTO;
 window.Instances = [];
