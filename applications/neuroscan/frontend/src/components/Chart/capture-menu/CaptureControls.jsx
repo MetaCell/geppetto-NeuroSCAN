@@ -87,7 +87,7 @@ const CaptureControls = (props) => {
 
   return (
     <>
-      <Box className="position-toolbar">
+      <Box className="position-toolbar recording">
         <Tooltip title="Recording" placement="top">
           <IconButton
             disableRipple
