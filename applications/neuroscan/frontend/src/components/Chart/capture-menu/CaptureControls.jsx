@@ -1,26 +1,31 @@
 /* eslint-disable import/no-cycle */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   IconButton,
   Typography,
   Box,
   Tooltip,
-  Button,
+  Button, Popover,
 } from '@material-ui/core';
 import { captureControlsActions } from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
-import RECORDING from '../../images/graph/recording.svg';
-import RECORDING_ACTIVE from '../../images/graph/recording-active.svg';
-import STOP from '../../images/graph/stop.svg';
+import DOWNLOAD from '../../../images/graph/download.svg';
+import RECORDING from '../../../images/graph/recording.svg';
+import RECORDING_ACTIVE from '../../../images/graph/recording-active.svg';
+import STOP from '../../../images/graph/stop.svg';
 import RecordControlModal from './RecordControlModal';
+import DownloadMenu from './DownloadMenu';
+import { DOWNLOAD_OBJS, DOWNLOAD_SCREENSHOT } from '../../../utilities/constants';
 
-const RecordControls = (props) => {
+const CaptureControls = (props) => {
   const {
     captureControlsHandler,
   } = props;
   const [modalOpen, setModalOpen] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const [recording, setRecording] = useState(false);
   const [timerInterval, setTimerInterval] = useState(null);
   const [timer, setTimer] = useState({ timer: 0, recordingTime: '00:00:00' });
+  const downloadRef = useRef();
   const stopRecording = () => {
     captureControlsHandler(captureControlsActions.STOP);
     setRecording(false);
@@ -29,6 +34,29 @@ const RecordControls = (props) => {
   const startRecording = () => {
     captureControlsHandler(captureControlsActions.START);
     setRecording(true);
+  };
+  const handleDownloadOpen = () => {
+    setPopoverOpen(true);
+  };
+  const handleDownloadClose = () => {
+    setPopoverOpen(false);
+  };
+  const handleDownloadScreenshot = () => {
+    captureControlsHandler(captureControlsActions.DOWNLOAD_SCREENSHOT);
+  };
+  const handleDownloadObjs = () => {
+    console.log('objs');
+  };
+  const handleDownload = (action) => {
+    switch (action) {
+      case DOWNLOAD_SCREENSHOT:
+        handleDownloadScreenshot();
+        break;
+      case DOWNLOAD_OBJS:
+        handleDownloadObjs();
+        break;
+      default:
+    }
   };
 
   const convertToTime = (sec) => {
@@ -59,7 +87,7 @@ const RecordControls = (props) => {
 
   return (
     <>
-      <Box className="position-toolbar recording">
+      <Box className="position-toolbar">
         <Tooltip title="Recording" placement="top">
           <IconButton
             disableRipple
@@ -70,6 +98,19 @@ const RecordControls = (props) => {
             <img
               src={RECORDING}
               alt="Recording"
+            />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Download" placement="top">
+          <IconButton
+            ref={downloadRef}
+            disableRipple
+            key="downloader"
+            onClick={handleDownloadOpen}
+          >
+            <img
+              src={DOWNLOAD}
+              alt="Downloading"
             />
           </IconButton>
         </Tooltip>
@@ -94,6 +135,23 @@ const RecordControls = (props) => {
         )}
       </Box>
 
+      <Popover
+        className="custom-popover"
+        open={popoverOpen}
+        anchorEl={downloadRef.current}
+        onClose={handleDownloadClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        <DownloadMenu downloadFiles={handleDownload} />
+      </Popover>
+
       <RecordControlModal
         open={modalOpen}
         handleClose={() => setModalOpen(false)}
@@ -103,4 +161,4 @@ const RecordControls = (props) => {
   );
 };
 
-export default RecordControls;
+export default CaptureControls;

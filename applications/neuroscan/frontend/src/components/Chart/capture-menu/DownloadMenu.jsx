@@ -13,17 +13,18 @@ import SCREENSHOT from '../../../images/screenshot.svg';
 import TICK from '../../../images/tick-circle.svg';
 import OBJ_UNSELECTED from '../../../images/obj_unselected.svg';
 import SCREENSHOT_SELECT from '../../../images/screenshot_selected.svg';
+import { DOWNLOAD_OBJS, DOWNLOAD_SCREENSHOT } from '../../../utilities/constants';
 
 const DownloadMenu = ({ downloadFiles }) => {
   const controls = [
     {
-      value: 'object',
+      value: DOWNLOAD_OBJS,
       image: OBJ,
       unselectedImage: OBJ_UNSELECTED,
       displayText: 'OBJs files',
     },
     {
-      value: 'screenshot',
+      value: DOWNLOAD_SCREENSHOT,
       image: SCREENSHOT_SELECT,
       unselectedImage: SCREENSHOT,
       displayText: 'Screenshot',
