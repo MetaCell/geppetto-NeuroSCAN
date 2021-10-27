@@ -1,7 +1,6 @@
 /* eslint-disable import/no-cycle */
 import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
-import Resources from '@metacell/geppetto-meta-core/Resources';
-import Manager from '@metacell/geppetto-meta-client/common/GeppettoManager';
+import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model';
 import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import urlService from './UrlService';
 import zipService from './ZipService';
@@ -176,19 +175,19 @@ const createSimpleInstance = async (instance) => {
   switch (fileExtension) {
     case 'obj':
       visualValue = {
-        eClass: Resources.OBJ,
+        eClass: window.GEPPETTO.Resources.OBJ,
         obj: base64Content,
       };
       break;
     case 'gltf':
       visualValue = {
-        eClass: Resources.GLTF,
+        eClass: window.GEPPETTO.Resources.GLTF,
         gltf: base64Content,
       };
       break;
     default:
       visualValue = {
-        eClass: Resources.OBJ,
+        eClass: window.GEPPETTO.Resources.OBJ,
         obj: base64Content,
       };
   }
@@ -220,7 +219,7 @@ export const createSimpleInstancesFromInstances = (instances) => {
   ).then((newSimpleInstances) => {
     // add the new simple instances to geppetto
     window.Instances = removeDuplicates([...window.Instances, ...newSimpleInstances]);
-    Manager.augmentInstancesArray(window.Instances);
+    window.GEPPETTO.Manager.augmentInstancesArray(window.Instances);
   });
 };
 

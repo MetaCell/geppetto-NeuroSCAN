@@ -57,7 +57,7 @@ const InstanceViewer = (props) => {
     viewerId,
     instances,
     cameraOptions,
-    recorderOptions,
+    captureOptions,
     backgroundColor,
   } = props;
   const classes = useStyles();
@@ -168,7 +168,7 @@ const InstanceViewer = (props) => {
         data={canvasData}
         cameraOptions={camOptions}
         cameraHandler={cameraHandler}
-        recorderOptions={recorderOptions}
+        captureOptions={captureOptions}
         hoverListeners={[hoverListener]}
         backgroundColor={backgroundColor}
         onSelection={onSelection}

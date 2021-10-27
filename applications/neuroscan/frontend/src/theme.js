@@ -34,6 +34,7 @@ const {
   tabBackgroundColor,
   downloadBgColor,
   downloadBorderColor,
+  buttonConfirmationColor,
 } = vars;
 
 const theme = createTheme({
@@ -1138,6 +1139,12 @@ const theme = createTheme({
                   minHeight: '0.0625rem',
                 },
               },
+              '&.medium': {
+                maxWidth: '29.8125rem',
+                '& .modal-body': {
+                  minHeight: '0.0625rem',
+                },
+              },
             },
             '&-header': {
               height: '3.625rem',
@@ -1161,6 +1168,23 @@ const theme = createTheme({
             '&-body': {
               padding: '1rem',
               minHeight: '24.5rem',
+              '& .video-box': {
+                position: 'relative',
+                border: `0.625rem solid ${buttonOutlineColor}`,
+                overflow: 'hidden',
+                borderRadius: '0.25rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '22.375rem',
+                '& img': {
+                  maxWidth: '100%',
+                  display: 'block',
+                },
+                '& .play-icon': {
+                  cursor: 'pointer',
+                },
+              },
               '& .MuiFormLabel-root': {
                 fontWeight: 'bold',
                 fontSize: '0.75rem',
@@ -1232,8 +1256,13 @@ const theme = createTheme({
               height: '4.125rem',
               display: 'flex',
               alignItems: 'center',
-              '& button + button': {
-                marginLeft: '1rem',
+              '& button': {
+                '& img': {
+                  marginRight: '0.5rem',
+                },
+                '& + button': {
+                  marginLeft: '1rem',
+                },
               },
             },
           },
@@ -1350,6 +1379,12 @@ const theme = createTheme({
         backgroundColor: primaryColor,
         '&:hover': {
           backgroundColor: primaryColor,
+        },
+      },
+      containedSecondary: {
+        backgroundColor: buttonConfirmationColor,
+        '&:hover': {
+          backgroundColor: buttonConfirmationColor,
         },
       },
     },
