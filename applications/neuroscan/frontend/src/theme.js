@@ -1185,6 +1185,11 @@ const theme = createTheme({
                   cursor: 'pointer',
                 },
               },
+              '& .video-preview': {
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              },
               '& .MuiFormLabel-root': {
                 fontWeight: 'bold',
                 fontSize: '0.75rem',

@@ -44,7 +44,7 @@ const RecordControlModal = (props) => {
         <Box className="modal-body">
           <Box className="video-box">
             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-            <video src={videoSrc} playsInline controls />
+            <video src={videoSrc} playsInline controls="controls" className="video-preview" />
           </Box>
         </Box>
         <Box className="modal-footer" justifyContent="space-between">
