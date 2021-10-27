@@ -62,7 +62,7 @@ export default function NeuroScan() {
     if (viewerCount === 0) {
       componentToRender = <ViewerPlaceholder />;
     } else {
-      componentToRender = <LayoutComponent className={`${classes.layoutComponent}`} />;
+      componentToRender = <LayoutComponent />;
     }
   }
 
