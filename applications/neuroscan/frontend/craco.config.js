@@ -6,6 +6,7 @@ const {
   ESLINT_MODES,
   POSTCSS_MODES,
 } = require('@craco/craco');
+const webpack = require('webpack');
 
 module.exports = {
   babel: {
@@ -27,6 +28,13 @@ module.exports = {
       }
       rule.oneOf = [objLoader, ...rule.oneOf];
       return config;
+    },
+    plugins: {
+      add: [
+        new webpack.DefinePlugin({
+          GEPPETTO_CONFIGURATION: {},
+        }),
+      ],
     },
   },
 };
