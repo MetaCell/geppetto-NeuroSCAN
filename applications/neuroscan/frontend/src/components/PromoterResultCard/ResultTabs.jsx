@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Box, Tabs, Tab,
 } from '@material-ui/core';
+import TIMELINE from '../../images/timeline.svg';
 
 function a11yProps(value) {
   return {
@@ -68,7 +69,7 @@ const ResultTabs = ({
             {
               fullWidth ? (
                 <Box p={2} className={whiteBg ? 'model-box' : ''}>
-                  <img src={option?.src} alt={option?.label} />
+                  <img src={option?.src || TIMELINE} alt={option?.label} />
                 </Box>
 
               ) : (
