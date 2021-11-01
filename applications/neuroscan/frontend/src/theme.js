@@ -757,7 +757,7 @@ const theme = createTheme({
               height: '100%',
               '&.single': {
                 '& .tab-content > div': {
-                  paddingTop: '0',
+                  paddingTop: '1rem',
                   '& img': {
                     position: 'static',
                   },
