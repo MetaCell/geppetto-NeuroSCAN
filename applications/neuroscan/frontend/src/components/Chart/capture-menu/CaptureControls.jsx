@@ -88,32 +88,34 @@ const CaptureControls = (props) => {
   return (
     <>
       <Box className="position-toolbar recording">
-        <Tooltip title="Recording" placement="top">
-          <IconButton
-            disableRipple
-            key="recorder"
-            onClick={startRecording}
-            disabled={recording}
-          >
-            <img
-              src={RECORDING}
-              alt="Recording"
-            />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Download" placement="top">
-          <IconButton
-            ref={downloadRef}
-            disableRipple
-            key="downloader"
-            onClick={handleDownloadOpen}
-          >
-            <img
-              src={DOWNLOAD}
-              alt="Downloading"
-            />
-          </IconButton>
-        </Tooltip>
+        <Box display="flex" alignItems="center" className="icons">
+          <Tooltip title="Recording" placement="top">
+            <IconButton
+              disableRipple
+              key="recorder"
+              onClick={startRecording}
+              disabled={recording}
+            >
+              <img
+                src={RECORDING}
+                alt="Recording"
+              />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Download" placement="top">
+            <IconButton
+              ref={downloadRef}
+              disableRipple
+              key="downloader"
+              onClick={handleDownloadOpen}
+            >
+              <img
+                src={DOWNLOAD}
+                alt="Downloading"
+              />
+            </IconButton>
+          </Tooltip>
+        </Box>
 
         { recording && (
           <Box className="wrap">
