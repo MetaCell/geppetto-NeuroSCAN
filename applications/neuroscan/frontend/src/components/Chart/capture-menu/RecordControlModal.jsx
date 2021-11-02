@@ -11,8 +11,6 @@ import CLOSE from '../../../images/close.svg';
 import DOWNLOAD from '../../../images/download.svg';
 import DELETE from '../../../images/delete.svg';
 import DELETE_WHITE from '../../../images/delete-white.svg';
-import VIDEO from '../../../images/video.jpg';
-import PLAY from '../../../images/graph/play.svg';
 
 const RecordControlModal = (props) => {
   const {
