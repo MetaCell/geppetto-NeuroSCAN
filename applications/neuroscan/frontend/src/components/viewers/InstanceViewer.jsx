@@ -34,6 +34,7 @@ const CanvasToolTip = (props) => {
         position: 'fixed',
         left: x,
         top: y,
+        zIndex: 9999,
         minWidth: '100px',
         textAlign: 'center',
         padding: '5px 12px',
@@ -65,7 +66,7 @@ const InstanceViewer = (props) => {
 
   const widgets = useSelector((state) => state.widgets);
   const widget = widgets[viewerId];
-  const [canvasData, setCanvasData] = useState([]);
+  let canvasData = [];
   const [intersected, setIntersected] = useState(null);
 
   const camOptionsRef = useRef(null);
@@ -98,7 +99,7 @@ const InstanceViewer = (props) => {
     }
   };
 
-  useEffect(() => {
+  const setData = () => {
     let i = instances;
     if (widget && widget.config.flash) {
       const w = { ...widget };
@@ -116,11 +117,14 @@ const InstanceViewer = (props) => {
       }, 1500);
       dispatch(layoutActions.updateWidget(w));
     }
-    setCanvasData(i.map((instance) => ({
+    canvasData = (i.map((instance) => ({
       instancePath: instance.uid,
       color: instance.color,
     })));
-  }, [instances]);
+  };
+
+  setData();
+  // useEffect(() => setData(), [instances]);
 
   const cameraHandler = (data) => {
     if (data.position.x !== 0) {
