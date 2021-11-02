@@ -26,14 +26,20 @@ const CaptureControls = (props) => {
   const [timerInterval, setTimerInterval] = useState(null);
   const [timer, setTimer] = useState({ timer: 0, recordingTime: '00:00:00' });
   const downloadRef = useRef();
+  const videoBlob = useRef(null);
   const stopRecording = () => {
-    captureControlsHandler(captureControlsActions.STOP);
+    videoBlob.current = captureControlsHandler(captureControlsActions.STOP);
     setRecording(false);
     setModalOpen(true);
   };
   const startRecording = () => {
+    videoBlob.current = null;
     captureControlsHandler(captureControlsActions.START);
     setRecording(true);
+  };
+  const handleCloseModal = () => {
+    videoBlob.current = null;
+    setModalOpen(false);
   };
   const handleDownloadOpen = () => {
     setPopoverOpen(true);
@@ -156,8 +162,9 @@ const CaptureControls = (props) => {
 
       <RecordControlModal
         open={modalOpen}
-        handleClose={() => setModalOpen(false)}
+        handleClose={handleCloseModal}
         captureControlsHandler={captureControlsHandler}
+        videoBlob={videoBlob.current}
       />
     </>
   );
