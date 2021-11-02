@@ -12,7 +12,7 @@ import Header from '../components/Header';
 import { VIEWS } from '../utilities/constants';
 import ResultCard from '../components/PromoterResultCard/ResultCard';
 import SubHeader from '../components/SubHeader';
-import TIMELINE from '../images/timeline.png';
+import TIMELINE from '../images/timeline.svg';
 import MODEL from '../images/modelnew.svg';
 import DOWN from '../images/expand_less.svg';
 import DevelopmentalStageFilter from '../components/PromoterSearch/DevelopmentalStageFilter';

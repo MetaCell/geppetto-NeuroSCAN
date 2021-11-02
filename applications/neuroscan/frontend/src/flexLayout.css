@@ -109,12 +109,14 @@
 
 .position-toolbar.recording {
   position: static !important;
+  padding: 0 !important;
 }
 
-.position-toolbar.recording .MuiIconButton-root {
-  position: absolute;
-  top: 9px;
-  left: 190px;
+.position-toolbar.recording .icons {
+  position: absolute !important;
+  top: 0.0625rem;
+  padding: 0.5rem;
+  left: 9.5625rem;
 }
 
 .position-toolbar.recording .wrap {

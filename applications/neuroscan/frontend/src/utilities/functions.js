@@ -2,7 +2,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model';
 import { addWidget, updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
-import RecordControls from '../components/Chart/RecordControls';
+import CaptureControls from '../components/Chart/capture-menu/CaptureControls';
 import { VIEWERS, CANVAS_BACKGROUND_COLOR_DARK } from './constants';
 import CameraControls from '../components/Chart/CameraControls';
 
@@ -67,7 +67,7 @@ export const addToWidget = (
       },
       captureOptions: {
         captureControls: {
-          instance: RecordControls,
+          instance: CaptureControls,
           props: {},
         },
         screenshotOptions: {
