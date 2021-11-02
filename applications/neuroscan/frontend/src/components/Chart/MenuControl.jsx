@@ -12,7 +12,6 @@ import {
 } from '../../utilities/constants';
 import LayersMenu from './ControlMenus/LayersMenu';
 import DevStageMenu from './ControlMenus/DevStageMenu';
-import DownloadMenu from './ControlMenus/DownloadMenu';
 import ColorPickerMenu from './ControlMenus/ColorPickerMenu';
 import {
   getInstancesOfType,
@@ -60,8 +59,6 @@ const MenuControl = ({
       );
         break;
       case VIEWER_MENU.layers: setContent(<LayersMenu layers={layersList} />);
-        break;
-      case VIEWER_MENU.download: setContent(<DownloadMenu downloadFiles={downloadFiles} />);
         break;
       case VIEWER_MENU.colorPicker:
         setContent(

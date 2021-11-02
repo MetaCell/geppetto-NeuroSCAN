@@ -35,3 +35,6 @@ export const CPHATE_TYPE = 'cphate';
 
 export const CANVAS_BACKGROUND_COLOR_LIGHT = 0xFFFFFF;
 export const CANVAS_BACKGROUND_COLOR_DARK = 0x2C2C2C;
+
+export const DOWNLOAD_SCREENSHOT = 'screenshot';
+export const DOWNLOAD_OBJS = 'objects';
