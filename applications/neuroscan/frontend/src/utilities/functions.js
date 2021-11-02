@@ -68,7 +68,9 @@ export const addToWidget = (
       captureOptions: {
         captureControls: {
           instance: CaptureControls,
-          props: {},
+          props: {
+            widgetName: widget.name,
+          },
         },
         screenshotOptions: {
           resolution: {

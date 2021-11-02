@@ -7,7 +7,7 @@ import {
   Tooltip,
   Button, Popover,
 } from '@material-ui/core';
-import { captureControlsActions } from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
+import { captureControlsActionsStart, captureControlsActionsStop, captureControlsActionsDownloadScreenshot } from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
 import DOWNLOAD from '../../../images/graph/download.svg';
 import RECORDING from '../../../images/graph/recording.svg';
 import RECORDING_ACTIVE from '../../../images/graph/recording-active.svg';
@@ -18,7 +18,7 @@ import { DOWNLOAD_OBJS, DOWNLOAD_SCREENSHOT } from '../../../utilities/constants
 
 const CaptureControls = (props) => {
   const {
-    captureControlsHandler,
+    captureControlsHandler, widgetName,
   } = props;
   const [modalOpen, setModalOpen] = useState(false);
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -28,13 +28,13 @@ const CaptureControls = (props) => {
   const downloadRef = useRef();
   const videoBlob = useRef(null);
   const stopRecording = () => {
-    videoBlob.current = captureControlsHandler(captureControlsActions.STOP);
+    videoBlob.current = captureControlsHandler(captureControlsActionsStop());
     setRecording(false);
     setModalOpen(true);
   };
   const startRecording = () => {
     videoBlob.current = null;
-    captureControlsHandler(captureControlsActions.START);
+    captureControlsHandler(captureControlsActionsStart());
     setRecording(true);
   };
   const handleCloseModal = () => {
@@ -48,7 +48,7 @@ const CaptureControls = (props) => {
     setPopoverOpen(false);
   };
   const handleDownloadScreenshot = () => {
-    captureControlsHandler(captureControlsActions.DOWNLOAD_SCREENSHOT);
+    captureControlsHandler(captureControlsActionsDownloadScreenshot(`${widgetName}.png`));
   };
   const handleDownloadObjs = () => {
     console.log('objs');
@@ -165,6 +165,7 @@ const CaptureControls = (props) => {
         handleClose={handleCloseModal}
         captureControlsHandler={captureControlsHandler}
         videoBlob={videoBlob.current}
+        widgetName={widgetName}
       />
     </>
   );
