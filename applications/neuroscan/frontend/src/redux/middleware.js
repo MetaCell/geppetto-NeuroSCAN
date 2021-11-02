@@ -38,7 +38,14 @@ const getWidget = (store, viewerId) => {
     const { timePoint } = state.search.filters;
     const devStages = state.devStages.neuroSCAN;
     const devStage = devStages.find((ds) => ds.begin <= timePoint && ds.end >= timePoint);
-    const viewerNumber = Object.keys(widgets).length + 1;
+    const viewerNumber = Object.values(widgets).reduce((maxViewerNumber, w) => {
+      const found = w.name.match('^Viewer (?<id>\\d+) .*');
+      if (found && found.length > 0) {
+        const thisViewerNumber = parseInt(found[1], 10);
+        return Math.max(thisViewerNumber + 1, maxViewerNumber);
+      }
+      return maxViewerNumber;
+    }, 1);
     return {
       id: null,
       name: `Viewer ${viewerNumber} (${devStage.name} ${timePoint})`,
