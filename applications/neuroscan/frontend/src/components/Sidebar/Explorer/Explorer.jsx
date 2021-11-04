@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Typography, Box } from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import StyledTreeItem from './TreeItem';
@@ -37,11 +37,11 @@ const Explorer = () => {
 
   const stateLayout = useSelector((state) => state.layout.layout);
   const widgets = useSelector((state) => state.widgets);
-  const dispatch = useDispatch();
 
   const handleSelect = (viewerId, selectedInstance) => {
     if (viewerId) {
-      setSelectedInstances(dispatch, widgets[viewerId], [selectedInstance.uid]);
+      const { instances } = widgets[viewerId].config;
+      setSelectedInstances(viewerId, instances, [selectedInstance.uid]);
     }
   };
 

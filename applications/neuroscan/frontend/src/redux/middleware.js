@@ -8,6 +8,7 @@ import {
   SET_INSTANCES_COLOR,
   UPDATE_TIMEPOINT_VIEWER,
   UPDATE_BACKGROUND_COLOR_VIEWER,
+  UPDATE_WIDGET_CONFIG,
 } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
 import neuronService from '../services/NeuronService';
@@ -85,6 +86,16 @@ const middleware = (store) => (next) => (action) => {
     case UPDATE_BACKGROUND_COLOR_VIEWER: {
       const widget = getWidget(store, action.viewerId);
       widget.config.backgroundColor = action.backgroundColor;
+      store.dispatch(updateWidget(widget));
+      break;
+    }
+
+    case UPDATE_WIDGET_CONFIG: {
+      const widget = getWidget(store, action.viewerId);
+      widget.config = {
+        ...widget.config,
+        ...action.config,
+      };
       store.dispatch(updateWidget(widget));
       break;
     }
