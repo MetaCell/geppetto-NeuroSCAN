@@ -8,6 +8,7 @@ import {
   SET_INSTANCES_COLOR,
   UPDATE_TIMEPOINT_VIEWER,
   UPDATE_BACKGROUND_COLOR_VIEWER,
+  UPDATE_WIDGET_CONFIG,
 } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
 import neuronService from '../services/NeuronService';
@@ -38,7 +39,14 @@ const getWidget = (store, viewerId) => {
     const { timePoint } = state.search.filters;
     const devStages = state.devStages.neuroSCAN;
     const devStage = devStages.find((ds) => ds.begin <= timePoint && ds.end >= timePoint);
-    const viewerNumber = Object.keys(widgets).length + 1;
+    const viewerNumber = Object.values(widgets).reduce((maxViewerNumber, w) => {
+      const found = w.name.match('^Viewer (?<id>\\d+) .*');
+      if (found && found.length > 0) {
+        const thisViewerNumber = parseInt(found[1], 10);
+        return Math.max(thisViewerNumber + 1, maxViewerNumber);
+      }
+      return maxViewerNumber;
+    }, 1);
     return {
       id: null,
       name: `Viewer ${viewerNumber} (${devStage.name} ${timePoint})`,
@@ -78,6 +86,16 @@ const middleware = (store) => (next) => (action) => {
     case UPDATE_BACKGROUND_COLOR_VIEWER: {
       const widget = getWidget(store, action.viewerId);
       widget.config.backgroundColor = action.backgroundColor;
+      store.dispatch(updateWidget(widget));
+      break;
+    }
+
+    case UPDATE_WIDGET_CONFIG: {
+      const widget = getWidget(store, action.viewerId);
+      widget.config = {
+        ...widget.config,
+        ...action.config,
+      };
       store.dispatch(updateWidget(widget));
       break;
     }

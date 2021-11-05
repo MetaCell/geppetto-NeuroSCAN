@@ -14,7 +14,6 @@ import ZOOM_OUT from '../../images/graph/zoom-out.svg';
 import HOME from '../../images/graph/home.svg';
 import DEVELOPMENT from '../../images/graph/developmental-stage.svg';
 import LAYERS from '../../images/graph/layers.svg';
-import DOWNLOAD from '../../images/graph/download.svg';
 import PICKER from '../../images/graph/color-picker.png';
 import DARK from '../../images/graph/dark.svg';
 import LIGHT from '../../images/graph/light.svg';
@@ -31,7 +30,6 @@ export const cameraControlsActions = {
   COLOR_PICKER: 'COLOR_PICKER',
   DEV_STAGES: 'DEVELOPMENT_STAGES',
   LAYERS: 'LAYERS',
-  DOWNLOAD: 'DOWNLOAD',
   HOME: 'cameraHome',
 };
 
@@ -44,7 +42,6 @@ const CameraControls = (props) => {
   const pickerRef = useRef();
   const developmentRef = useRef();
   const layersRef = useRef();
-  const downloadRef = useRef();
 
   const controlsLeft = [
     {
@@ -67,13 +64,6 @@ const CameraControls = (props) => {
       image: LAYERS,
       ref: layersRef,
       constant: VIEWER_MENU.layers,
-    },
-    {
-      action: cameraControlsActions.DOWNLOAD,
-      tooltip: 'Download',
-      image: DOWNLOAD,
-      ref: downloadRef,
-      constant: VIEWER_MENU.download,
     },
   ];
 

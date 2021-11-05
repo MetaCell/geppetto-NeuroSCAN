@@ -7,20 +7,22 @@ import {
   IconButton,
   Button,
 } from '@material-ui/core';
-import CLOSE from '../../images/close.svg';
-import DOWNLOAD from '../../images/download.svg';
-import DELETE from '../../images/delete.svg';
-import DELETE_WHITE from '../../images/delete-white.svg';
-import VIDEO from '../../images/video.jpg';
-import PLAY from '../../images/graph/play.svg';
+import CLOSE from '../../../images/close.svg';
+import DOWNLOAD from '../../../images/download.svg';
+import DELETE from '../../../images/delete.svg';
+import DELETE_WHITE from '../../../images/delete-white.svg';
 
 const RecordControlModal = (props) => {
-  const { open, handleClose, captureControlsHandler } = props;
+  const {
+    open, handleClose, captureControlsHandler, videoBlob,
+  } = props;
   const [deleteOption, setDeleteOption] = useState(false);
   const downloadRecording = () => {
-    captureControlsHandler(captureControlsActions.DOWNLOAD);
+    captureControlsHandler(captureControlsActions.DOWNLOAD_VIDEO);
     handleClose();
   };
+  const videoSrc = videoBlob ? window.URL.createObjectURL(videoBlob) : null;
+
   return (
     <Modal
       open={open}
@@ -40,8 +42,9 @@ const RecordControlModal = (props) => {
           </IconButton>
         </Box>
         <Box className="modal-body">
-          <Box className="video-box" style={{ backgroundImage: `url(${VIDEO})` }}>
-            <img src={PLAY} className="play-icon" alt="Play" />
+          <Box className="video-box">
+            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+            <video src={videoSrc} playsInline controls="controls" className="video-preview" />
           </Box>
         </Box>
         <Box className="modal-footer" justifyContent="space-between">
