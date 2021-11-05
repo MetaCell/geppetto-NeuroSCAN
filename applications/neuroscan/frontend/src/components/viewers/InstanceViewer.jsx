@@ -145,14 +145,6 @@ const InstanceViewer = (props) => {
     };
   }
 
-  const getCanvasData = () => {
-    const canvasInstances = instances.map((instance) => ({
-      instancePath: instance.uid,
-      color: instance.color,
-    }));
-    return canvasInstances;
-  };
-
   return (
     <div className={classes.canvasContainer}>
       <div>
@@ -169,7 +161,7 @@ const InstanceViewer = (props) => {
       </div>
       <Canvas
         key={viewerId}
-        data={getCanvasData()}
+        data={canvasData}
         cameraOptions={camOptions}
         cameraHandler={cameraHandler}
         captureOptions={captureOptions}
