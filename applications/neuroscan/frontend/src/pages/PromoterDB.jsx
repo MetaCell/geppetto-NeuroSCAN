@@ -9,7 +9,7 @@ import {
   Popover,
 } from '@material-ui/core';
 import Header from '../components/Header';
-import { VIEWS } from '../utilities/constants';
+import { VIEWS, backendURL, PROMOTER_MEDIA_TYPES } from '../utilities/constants';
 import ResultCard from '../components/PromoterResultCard/ResultCard';
 import SubHeader from '../components/SubHeader';
 import TIMELINE from '../images/timeline.svg';
@@ -107,6 +107,8 @@ const dummyList = [
   { title: 'Pro 4', year: 1994 },
 ];
 
+const dummyVideoPath = '/uploads/Syg_1_Promoter_Database_d0a6a5a002.mp4';
+
 const promoter = {
   title: 'odr-2b3a',
   cellLineage: [
@@ -150,13 +152,15 @@ const promoter = {
   expression: [
     {
       label: '3D Expression',
-      src: '',
+      src: `${backendURL}${dummyVideoPath}`,
+      mediaType: PROMOTER_MEDIA_TYPES.video,
     },
   ],
   promoterVideos: [
     {
       label: 'Promoter',
-      src: '',
+      src: `${backendURL}${dummyVideoPath}`,
+      mediaType: PROMOTER_MEDIA_TYPES.video,
     },
     {
       label: 'Histone Marker',

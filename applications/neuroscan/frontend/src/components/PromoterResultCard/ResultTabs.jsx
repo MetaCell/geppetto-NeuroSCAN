@@ -3,6 +3,8 @@ import {
   Box, Tabs, Tab,
 } from '@material-ui/core';
 import TIMELINE from '../../images/timeline.svg';
+import { PROMOTER_MEDIA_TYPES } from '../../utilities/constants';
+import VideoPlayer from '../VideoPlayer';
 
 function a11yProps(value) {
   return {
@@ -10,6 +12,31 @@ function a11yProps(value) {
     'aria-controls': value,
   };
 }
+
+const renderTab = (option, fullWidth, whiteBg) => {
+  const { mediaType } = option;
+  switch (mediaType) {
+    case PROMOTER_MEDIA_TYPES.video:
+      return (
+        <VideoPlayer src={option?.src} />
+      );
+    default:
+      return (fullWidth ? (
+        <Box p={2} className={whiteBg ? 'model-box' : ''}>
+          <img src={option?.src || TIMELINE} alt={option?.label} />
+        </Box>
+
+      ) : (
+        <Box p={2} className={whiteBg ? 'model-box' : ''}>
+          <img
+            src={option?.src}
+            alt={option?.label}
+            style={{ visibility: option?.src ? 'visible' : 'hidden' }}
+          />
+        </Box>
+      ));
+  }
+};
 
 const ResultTabs = ({
   options, fullWidth = false, whiteBg = false,
@@ -49,42 +76,27 @@ const ResultTabs = ({
     <Box className={fullWidth ? 'custom-tabs single' : 'custom-tabs'} key={options[0]?.label}>
       <Tabs value={selected} onChange={handleChange}>
         {
-          options.map((option) => (
-            <Tab
-              value={option?.label}
-              key={option?.label}
-              label={option?.label}
-              {...a11yProps(option?.label)}
-            />
-          ))
-        }
+            options.map((option) => (
+              <Tab
+                value={option?.label}
+                key={option?.label}
+                label={option?.label}
+                {...a11yProps(option?.label)}
+              />
+            ))
+          }
       </Tabs>
       {
-        options.map((option, index) => (
-          <TabPanel
-            value={option?.label}
-            index={option?.label}
-            key={`${option?.label}${index}`}
-          >
-            {
-              fullWidth ? (
-                <Box p={2} className={whiteBg ? 'model-box' : ''}>
-                  <img src={option?.src || TIMELINE} alt={option?.label} />
-                </Box>
-
-              ) : (
-                <Box p={2} className={whiteBg ? 'model-box' : ''}>
-                  <img
-                    src={option?.src}
-                    alt={option?.label}
-                    style={{ visibility: option?.src ? 'visible' : 'hidden' }}
-                  />
-                </Box>
-              )
-            }
-          </TabPanel>
-        ))
-      }
+          options.map((option, index) => (
+            <TabPanel
+              value={option?.label}
+              index={option?.label}
+              key={`${option?.label}${index}`}
+            >
+              {renderTab(option, fullWidth, whiteBg)}
+            </TabPanel>
+          ))
+        }
     </Box>
   );
 };

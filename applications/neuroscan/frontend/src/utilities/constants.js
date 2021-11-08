@@ -38,3 +38,7 @@ export const CANVAS_BACKGROUND_COLOR_DARK = 0x2C2C2C;
 
 export const DOWNLOAD_SCREENSHOT = 'screenshot';
 export const DOWNLOAD_OBJS = 'objects';
+
+export const PROMOTER_MEDIA_TYPES = {
+  video: 'video',
+};
