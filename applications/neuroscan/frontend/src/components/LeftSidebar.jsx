@@ -146,7 +146,6 @@ const LeftSidebar = (props) => {
                   <Results />
 
                   <CPhasePlot timePoint={timePoint} />
-                  <TestComponent />
                 </AccordionDetails>
               </Accordion>
             </Box>
