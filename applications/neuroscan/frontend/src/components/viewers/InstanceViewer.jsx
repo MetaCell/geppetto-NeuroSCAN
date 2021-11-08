@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
 import React, { forwardRef, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
 import { makeStyles } from '@material-ui/core/styles';
 import { updateWidgetConfig } from '../../redux/actions/widget';
