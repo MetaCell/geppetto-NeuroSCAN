@@ -81,7 +81,6 @@ const InstanceViewer = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const camOptionsRef = useRef(null);
   const timeoutRef = useRef(null);
   const tooltipRef = useRef(null);
 
@@ -119,8 +118,7 @@ const InstanceViewer = (props) => {
   const hoverListener = (objs, canvasX, canvasY) => {
     const obj = objs[0];
     const intersectedInstance = findInstanceForObj(obj.object);
-    if (!tooltipRef?.current?.getIntersected()
-      || (intersectedInstance?.uid !== tooltipRef?.current?.getIntersected().o.uid)) {
+    if (intersectedInstance?.uid) {
       tooltipRef?.current?.updateIntersected({
         o: intersectedInstance,
         x: canvasX + 10, // move it 10 px so the onselect (onclick) will fire on the instance
@@ -136,12 +134,6 @@ const InstanceViewer = (props) => {
     }
   };
 
-  const cameraHandler = (data) => {
-    if (data.position.x !== 0) {
-      camOptionsRef.current = data;
-    }
-  };
-
   const onSelection = (selectedInstances) => {
     setSelectedInstances(viewerId, instances, selectedInstances);
   };
@@ -150,17 +142,6 @@ const InstanceViewer = (props) => {
     // eslint-disable-next-line no-console
     console.log(scene);
   };
-
-  let camOptions = {
-    ...cameraOptions,
-  };
-  if (camOptionsRef.current) {
-    // if we have a position then add it to the camOptions
-    camOptions = {
-      ...camOptions,
-      position: camOptionsRef.current.position,
-    };
-  }
 
   return (
     <div className={classes.canvasContainer}>
@@ -173,8 +154,7 @@ const InstanceViewer = (props) => {
       <Canvas
         key={viewerId}
         data={canvasData}
-        cameraOptions={camOptions}
-        cameraHandler={cameraHandler}
+        cameraOptions={cameraOptions}
         captureOptions={captureOptions}
         hoverListeners={[hoverListener]}
         backgroundColor={backgroundColor}
