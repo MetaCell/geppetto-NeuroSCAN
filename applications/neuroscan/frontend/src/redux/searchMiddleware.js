@@ -6,6 +6,7 @@ const searchMiddleware = (store) => (next) => (action) => {
     case search.UPDATE_FILTERS: {
       next(action);
       const state = store.getState();
+      state.search.filters.timePoint = action.timePoint;
       doSearch(store.dispatch, state.search);
       break;
     }
