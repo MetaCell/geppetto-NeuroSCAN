@@ -1045,7 +1045,11 @@ const theme = createTheme({
             },
           },
         },
-
+        '.video-preview': {
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+        },
         '.MuiAutocomplete-popper': {
           '& .MuiAutocomplete-paper': {
             '& .MuiAutocomplete-listbox': {
@@ -1184,11 +1188,6 @@ const theme = createTheme({
                 '& .play-icon': {
                   cursor: 'pointer',
                 },
-              },
-              '& .video-preview': {
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
               },
               '& .MuiFormLabel-root': {
                 fontWeight: 'bold',
