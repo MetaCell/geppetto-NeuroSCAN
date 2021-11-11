@@ -194,7 +194,7 @@ const createSimpleInstance = async (instance) => {
   return new SimpleInstance({
     eClass: 'SimpleInstance',
     id: instance.uid,
-    name: instance.uid,
+    name: instance.name,
     type: { eClass: 'SimpleType' },
     visualValue,
   });

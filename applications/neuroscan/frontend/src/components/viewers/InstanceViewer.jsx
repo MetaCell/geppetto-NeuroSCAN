@@ -10,6 +10,7 @@ import {
   invertColorSelectedInstances,
   setOriginalColorSelectedInstances,
 } from '../../services/instanceHelpers';
+import store from '../../redux/store';
 
 const useStyles = makeStyles({
   canvasContainer: {
@@ -107,17 +108,24 @@ const InstanceViewer = (props) => {
 
   const canvasData = initCanvasData();
 
-  const findInstanceForObj = (obj) => {
+  const findInstanceUidForObj = (obj) => {
     if (obj.instancePath) {
-      return instances
-        .find((i) => i.uid === obj.instancePath);
+      return obj.instancePath;
     }
-    return findInstanceForObj(obj.parent);
+    return findInstanceUidForObj(obj.parent);
+  };
+
+  const getInstancesFromStore = () => {
+    const state = store.getState();
+    return state.widgets[viewerId].config.instances;
   };
 
   const hoverListener = (objs, canvasX, canvasY) => {
     const obj = objs[0];
-    const intersectedInstance = findInstanceForObj(obj.object);
+    const localInstances = getInstancesFromStore();
+    const intersectedInstanceUid = findInstanceUidForObj(obj.object);
+    const intersectedInstance = localInstances.find((i) => i.uid === intersectedInstanceUid);
+
     if (intersectedInstance?.uid) {
       tooltipRef?.current?.updateIntersected({
         o: intersectedInstance,
@@ -135,7 +143,7 @@ const InstanceViewer = (props) => {
   };
 
   const onSelection = (selectedInstances) => {
-    setSelectedInstances(viewerId, instances, selectedInstances);
+    setSelectedInstances(viewerId, getInstancesFromStore(), selectedInstances);
   };
 
   const onMount = (scene) => {
