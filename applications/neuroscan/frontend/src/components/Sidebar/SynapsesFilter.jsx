@@ -99,7 +99,7 @@ const SynapsesFilter = (props) => {
     >
       <Box className="modal-dialog small">
         <Box className="modal-header">
-          <Typography>Filter results</Typography>
+          <Typography>Filters</Typography>
           <IconButton
             color="inherit"
             onClick={handleClose}
@@ -111,7 +111,7 @@ const SynapsesFilter = (props) => {
         </Box>
         <Box className="modal-body">
           <FormControl component="fieldset">
-            <FormLabel component="legend">Synapses</FormLabel>
+            <FormLabel component="legend">Synapse Types</FormLabel>
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox checked={synapsesFilter?.chemical} color="primary" onChange={handleChange} name="chemical" />}
@@ -125,7 +125,7 @@ const SynapsesFilter = (props) => {
           </FormControl>
 
           <Box className="neurons-position">
-            <Typography component="h3">Neurons position</Typography>
+            <Typography component="h3">Synapses pre and post connections</Typography>
             {
               selectFilter('Pre', pre, setPre, preSearchOptions)
             }
