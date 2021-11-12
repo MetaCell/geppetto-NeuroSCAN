@@ -125,7 +125,7 @@ const SynapsesFilter = (props) => {
           </FormControl>
 
           <Box className="neurons-position">
-            <Typography component="h3">Synapses pre and post connections</Typography>
+            <Typography component="h3">Synapse pre and post connections</Typography>
             {
               selectFilter('Pre', pre, setPre, preSearchOptions)
             }
