@@ -114,7 +114,7 @@ const Header = (props) => {
           button
           onClick={handleMenuClose}
         >
-          <ListItemText>
+          <ListItemText onClick={() => { window.Appcues.show('9aa21c73-e93c-4a73-92f6-e51b0022d473'); }}>
             <Typography>Tutorial</Typography>
           </ListItemText>
         </ListItem>
