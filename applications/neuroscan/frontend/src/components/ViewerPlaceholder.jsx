@@ -5,10 +5,10 @@ import Typography from '@material-ui/core/Typography';
 const ViewerPlaceholder = () => (
   <Box className="MuiBox-empty" display="flex" flexDirection="column" alignItems="center" justifyContent="center">
     <Typography variant="h2">
-      No Elements Added yet.
+      Nothing to display yet.
     </Typography>
     <Typography variant="h2">
-      You can add one with the Search Component.
+      You can search for neurons, contacts and synapses using the left sidebar.
     </Typography>
   </Box>
 );

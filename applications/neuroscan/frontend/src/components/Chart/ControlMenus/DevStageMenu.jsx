@@ -7,7 +7,7 @@ import DevelopmentalStageFilter from '../../Common/DevelopmentalStageFilter';
 
 const DevStageMenu = ({ timePoint, setTimePoint }) => (
   <Box className="development-stage">
-    <Typography component="h3">Filter by Developmental Stage</Typography>
+    <Typography component="h3">Slide to select one time point</Typography>
     <DevelopmentalStageFilter
       timePoint={timePoint}
       setTimePoint={setTimePoint}
