@@ -2,8 +2,8 @@
   "output_file": "promoters.csv",
   "header": [
     "uid",
-    "expressionBegin",
-    "expressionTermination",
+    "timePointStart",
+    "timePointEnd",
     "files",
     "cellsByLineaging",
     "geneFunction",

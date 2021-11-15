@@ -5,8 +5,8 @@
   "column_id": "${Promoter}",
   "column_of_interest": {
     "Promoter": "uid",
-    "Beginning of expression": "expressionBegin",
-    "Termination of expression:": "expressionTermination",
+    "Beginning of expression in minutes": "timePointStart",
+    "Termination of expression in minutes": "timePointEnd",
     "Neurons": "cellularExpressionPattern"
   }
 }
