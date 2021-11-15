@@ -7,6 +7,7 @@
     "Promoter": "uid",
     "Beginning of expression in minutes": "timePointStart",
     "Termination of expression in minutes": "timePointEnd",
-    "Neurons": "cellularExpressionPattern"
+    "Neurons": "cellularExpressionPattern",
+    "${Strain information},${Detailed expression patterns}": "information"
   }
 }

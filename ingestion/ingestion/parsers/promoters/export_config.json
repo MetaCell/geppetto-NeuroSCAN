@@ -8,6 +8,7 @@
     "cellsByLineaging",
     "geneFunction",
     "wormbase",
-    "cellularExpressionPattern"
+    "cellularExpressionPattern",
+    "information"
   ]
 }
