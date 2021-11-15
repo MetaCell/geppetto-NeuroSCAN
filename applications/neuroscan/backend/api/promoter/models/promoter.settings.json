@@ -15,26 +15,8 @@
     "uid": {
       "type": "uid"
     },
-    "files": {
-      "collection": "file",
-      "via": "related",
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos"
-      ],
-      "plugin": "upload",
-      "required": false,
-      "pluginOptions": {}
-    },
     "metadata": {
       "type": "text"
-    },
-    "timepoints": {
-      "type": "json"
-    },
-    "cellsByLineaging": {
-      "collection": "neuron"
     },
     "wormbase": {
       "type": "string"
@@ -47,6 +29,9 @@
     },
     "timePointEnd": {
       "type": "integer"
+    },
+    "cellsByLineaging": {
+      "type": "string"
     }
   }
 }
