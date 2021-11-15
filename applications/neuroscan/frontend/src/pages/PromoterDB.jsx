@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   Typography,
   Box,
@@ -18,6 +19,7 @@ import DOWN from '../images/expand_less.svg';
 import DevelopmentalStageFilter from '../components/PromoterSearch/DevelopmentalStageFilter';
 import AutocompleteFilter from '../components/PromoterSearch/AutocompleteFilter';
 import DevInputFilter from '../components/PromoterSearch/DevInputFilter';
+import * as search from '../redux/actions/promoters';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -185,6 +187,10 @@ const PromoterDB = () => {
   const isMenuOpen = Boolean(anchorEl);
   const [timePoint, setTimePoint] = useState(0);
   const [selectedDevStage, setSelectedDevStage] = useState([]);
+  const pdbState = useSelector((state) => state.promoterDB);
+  const { promoters, count, filters } = useSelector((state) => state.promoterDB);
+  const dispatch = useDispatch();
+
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -196,6 +202,10 @@ const PromoterDB = () => {
   const setTimePointAndStage = (value) => {
     setTimePoint(value);
     setSelectedDevStage([value]);
+    dispatch(search.updateFilters({
+      ...filters,
+      timepoint: value,
+    }));
   };
   const menuId = 'delevlopment-stage-menu';
   const renderMenu = (
@@ -219,6 +229,10 @@ const PromoterDB = () => {
       />
     </Popover>
   );
+
+  const handleLoadMore = ((e) => {
+    dispatch(search.loadMorePromoters());
+  });
 
   return (
     <Box className={classes.root}>
@@ -266,17 +280,17 @@ const PromoterDB = () => {
       <Box className="main-content scrollbar">
         <Box className="wrapper">
           <Typography className="available-results">
-            Available Results (487)
+            {`Available Results (${count})`}
           </Typography>
 
           <Box className="results-wrap scrollbar">
             {
-              results.map((result, index) => <ResultCard key={`result_${index}`} result={result} />)
+              promoters.map((result, index) => <ResultCard key={`result_${index}`} result={result} />)
             }
           </Box>
 
           <Box className="button-group">
-            <Button color="primary" disableElevation variant="contained">
+            <Button color="primary" disableElevation variant="contained" onClick={handleLoadMore}>
               Load More
             </Button>
             <Button variant="outlined">
