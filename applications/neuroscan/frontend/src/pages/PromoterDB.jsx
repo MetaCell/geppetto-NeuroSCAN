@@ -161,7 +161,7 @@ const PromoterDB = () => {
     setFilters(selectedPromoters, selectedNeurons, value);
   };
 
-  const menuId = 'delevlopment-stage-menu';
+  const menuId = 'development-stage-menu';
   const renderMenu = (
     <Popover
       id={menuId}

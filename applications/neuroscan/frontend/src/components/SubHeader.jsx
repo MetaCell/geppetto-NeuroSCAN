@@ -1,6 +1,11 @@
 import React from 'react';
 import { Box, Button, makeStyles } from '@material-ui/core';
-import { VIEWS } from '../utilities/constants';
+import {
+  VIEWS,
+  MAIL_TO,
+  MAIL_SUBJECT,
+  MAIL_BODY,
+} from '../utilities/constants';
 import IconSuggest from '../images/icon-suggest.svg';
 import IconCopy from '../images/icon-copy.svg';
 
@@ -22,6 +27,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const sendMail = () => {
+  const link = `mailto:${MAIL_TO}
+?subject=${encodeURIComponent(MAIL_SUBJECT)}
+&body=${encodeURIComponent(MAIL_BODY)}`;
+
+  window.location.href = link;
+};
+
 const SubHeader = (props) => {
   const { view } = props;
   const classes = useStyles();
@@ -30,7 +43,11 @@ const SubHeader = (props) => {
       <Box className="MuiBox-button">
         {view?.title === VIEWS.promoterDB.title ? (
           <>
-            <Button variant="outlined" startIcon={<img src={IconSuggest} alt="Suggest" />}>
+            <Button
+              variant="outlined"
+              startIcon={<img src={IconSuggest} alt="Suggest" />}
+              onClick={sendMail}
+            >
               Suggest a Promoter
             </Button>
             <Button color="primary" variant="contained">
