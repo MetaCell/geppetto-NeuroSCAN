@@ -73,7 +73,7 @@ const ResultCard = ({
         </Grid>
       </Grid>
 
-      <PromoterInformation info={result.promoterInfo ? result.promoterInfo : result.uid} />
+      <PromoterInformation info={result.information} />
     </Box>
   );
 };

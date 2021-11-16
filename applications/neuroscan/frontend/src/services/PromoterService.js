@@ -15,21 +15,10 @@ export class PromoterService {
   }
 
   constructQuery(state) {
-    const { filters, promoters } = state;
     const andPart = [];
-    andPart.push({ timePointStart_lte: filters.timepoint });
-    andPart.push({ timePointEnd_gt: filters.timepoint });
-    if (filters.searchString.length > 0) {
-      andPart.push({ name_contains: filter.searchString });
-    }
-    if (filters.neurons.length > 0) {
-      andPart.push({ _or: filter.neurons.map((neuron) => ({ 'cellsByLineaging.uid_contains': neuron })) });
-    }
     return qs.stringify({
       _where: andPart,
       _sort: 'uid',
-      _start: promoters.length,
-      _limit: maxRecordsPerFetch,
     });
   }
 

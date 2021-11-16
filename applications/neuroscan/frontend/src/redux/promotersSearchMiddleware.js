@@ -3,14 +3,7 @@ import doSearch from '../services/promoterHelpers';
 
 const searchMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
-    case search.PROMOTERS_UPDATE_FILTERS: {
-      next(action);
-      const state = store.getState();
-      doSearch(store.dispatch, state.promoterDB);
-      break;
-    }
-
-    case search.PROMOTERS_LOAD_MORE: {
+    case search.PROMOTERS_LOAD: {
       next({
         type: action.type,
       });

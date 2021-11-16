@@ -87,7 +87,7 @@ const DevelopmentalStageFilter = (props) => {
   // eslint-disable-next-line max-len
   const max = Math.max(...devStages.map((devStage) => Math.max(devStage.end, devStage.begin)));
   const stepWidth = (max - min) / 90;
-  const [sliderVal, setSliderVal] = React.useState(timePoint < min ? min : timePoint);
+  const [sliderVal, setSliderVal] = React.useState(timePoint);
 
   const handleChange = (e, value) => {
     if (value !== sliderVal) {
