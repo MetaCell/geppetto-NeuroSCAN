@@ -13,6 +13,7 @@ import PromoterDB from './pages/PromoterDB';
 import About from './pages/About';
 import theme from './theme';
 import { addDevStages } from './redux/actions/devStages';
+import { loadPromoters } from './redux/actions/promoters';
 import '@metacell/geppetto-meta-ui/flex-layout/style/dark.scss';
 import './flexLayout.css';
 
@@ -30,6 +31,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(addDevStages());
+    dispatch(loadPromoters());
   });
 
   return (

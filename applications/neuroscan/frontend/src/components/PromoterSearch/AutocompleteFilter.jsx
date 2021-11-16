@@ -14,7 +14,12 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 const AutoCompleteFilter = (props) => {
-  const { id, options, placeholder } = props;
+  const {
+    id,
+    options,
+    placeholder,
+    onChange,
+  } = props;
   return (
     <Autocomplete
       fullWidth
@@ -22,6 +27,7 @@ const AutoCompleteFilter = (props) => {
       id={id}
       closeIcon={false}
       options={options}
+      onChange={onChange}
       disableCloseOnSelect
       ChipProps={{ deleteIcon: <IconButton><img src={REMOVE} alt="" /></IconButton>, onDelete: null }}
       popupIcon={<img src={DOWN} alt="DOWN" />}

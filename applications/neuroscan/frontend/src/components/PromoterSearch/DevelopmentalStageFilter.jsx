@@ -82,8 +82,13 @@ const devStageImages = {
 const DevelopmentalStageFilter = (props) => {
   const { timePoint, setTimePoint } = props;
   const classes = useStyles();
-  const [sliderVal, setSliderVal] = React.useState(timePoint);
   const devStages = useSelector((state) => state.devStages.promoterDB);
+  const min = Math.min(...devStages.map((devStage) => devStage.begin));
+  // eslint-disable-next-line max-len
+  const max = Math.max(...devStages.map((devStage) => Math.max(devStage.end, devStage.begin)));
+  const stepWidth = (max - min) / 90;
+  const [sliderVal, setSliderVal] = React.useState(timePoint);
+
   const handleChange = (e, value) => {
     if (value !== sliderVal) {
       setSliderVal(value);
@@ -108,11 +113,6 @@ const DevelopmentalStageFilter = (props) => {
       label: sliderMarker(devStageImages[devStages[index]?.uid]),
     }));
 
-  const min = Math.min(...devStages.map((devStage) => devStage.begin));
-  // eslint-disable-next-line max-len
-  const max = Math.max(...devStages.map((devStage) => Math.max(devStage.end, devStage.begin)));
-  const stepWidth = (max - min) / 90;
-
   return devStages.length > 0 && (
     <Box className={classes.root}>
       <Slider
@@ -129,7 +129,6 @@ const DevelopmentalStageFilter = (props) => {
       <Box className={classes.sliderValue}>
         {
           devStages.map((stage) => {
-            console.log(stage);
             const stageWidth = (Math.max(stage.end, stage.begin) - stage.begin) / stepWidth;
             return (
               <Typography
