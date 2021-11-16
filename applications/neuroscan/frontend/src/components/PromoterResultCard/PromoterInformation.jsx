@@ -22,8 +22,8 @@ const PromoterInformation = ({
     <AccordionDetails>
       <Typography>
         <Grid container>
-          <Grid item xs={6} dangerouslySetInnerHTML={{ __html: info1 }} />
-          <Grid item xs={6} dangerouslySetInnerHTML={{ __html: info2 }} />
+          <Grid item xs={6} dangerouslySetInnerHTML={{ __html: info1.replaceAll('\n', '<br />') }} />
+          <Grid item xs={6} dangerouslySetInnerHTML={{ __html: info2.replaceAll('\n', '<br />') }} />
         </Grid>
       </Typography>
     </AccordionDetails>
