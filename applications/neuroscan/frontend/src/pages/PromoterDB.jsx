@@ -10,12 +10,9 @@ import {
   Popover,
 } from '@material-ui/core';
 import Header from '../components/Header';
-import { VIEWS, backendURL, PROMOTER_MEDIA_TYPES } from '../utilities/constants';
+import { VIEWS } from '../utilities/constants';
 import ResultCard from '../components/PromoterResultCard/ResultCard';
 import SubHeader from '../components/SubHeader';
-import TIMELINE from '../images/timeline.svg';
-import MODEL from '../images/modelnew.svg';
-import DOWN from '../images/expand_less.svg';
 import DevelopmentalStageFilter from '../components/PromoterSearch/DevelopmentalStageFilter';
 import AutocompleteFilter from '../components/PromoterSearch/AutocompleteFilter';
 import DevInputFilter from '../components/PromoterSearch/DevInputFilter';
@@ -101,85 +98,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const dummyList = [
-  { title: 'Pro 1', year: 1994 },
-  { title: 'Pro 2', year: 1994 },
-  { title: 'Pro 3', year: 1994 },
-  { title: 'Pro 4', year: 1994 },
-];
-
-const dummyVideoPath = '/uploads/Syg_1_Promoter_Database_d0a6a5a002.mp4';
-
-const promoter = {
-  title: 'odr-2b3a',
-  cellLineage: [
-    {
-      selected: true,
-      label: 'AWA',
-    },
-    {
-      selected: true,
-      label: 'AIB',
-    },
-    {
-      selected: false,
-      label: 'AIB',
-    },
-    {
-      selected: false,
-      label: 'AIB',
-    },
-    {
-      selected: false,
-      label: 'AIB',
-    },
-    {
-      selected: false,
-      label: 'AIB',
-    },
-  ],
-  timeline: [
-    {
-      label: 'Timeline',
-      src: TIMELINE,
-    },
-  ],
-  model: [
-    {
-      label: 'Model',
-      src: MODEL,
-    },
-  ],
-  expression: [
-    {
-      label: '3D Expression',
-      src: `${backendURL}${dummyVideoPath}`,
-      mediaType: PROMOTER_MEDIA_TYPES.video,
-    },
-  ],
-  promoterVideos: [
-    {
-      label: 'Promoter',
-      src: `${backendURL}${dummyVideoPath}`,
-      mediaType: PROMOTER_MEDIA_TYPES.video,
-    },
-    {
-      label: 'Histone Marker',
-      src: '',
-    },
-  ],
-  promoterInfo: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  Porttitor non adipiscing dui sed. Morbi magna in et ac.
-  Ullamcorper massa at pellentesque consectetur leo morbi.
-  Tellus leo nunc sed nibh nec amet, eget non.`,
-};
-
-const results = [
-  promoter,
-  promoter,
-  promoter,
-];
-
 const recordsPerPage = 5;
 
 const PromoterDB = () => {
@@ -219,10 +137,6 @@ const PromoterDB = () => {
       pSelectedPromoters.length === 0
       || pSelectedPromoters.find((sp) => sp.title === p.uid)
     )).filter((p) => (
-      pSelectedNeurons.length === 0
-      || p.cellsByLineaging.split(' ').filter((n) => pSelectedNeurons.findIndex((sn) => sn.title === n) > -1).length > 0
-    ));
-    const fp2 = promoters.filter((p) => (
       pSelectedNeurons.length === 0
       || p.cellsByLineaging.split(' ').filter((n) => pSelectedNeurons.findIndex((sn) => sn.title === n) > -1).length > 0
     ));

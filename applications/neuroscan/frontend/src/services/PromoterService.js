@@ -1,6 +1,5 @@
-import { filter } from 'jszip';
 import qs from 'qs';
-import { backendClient, maxRecordsPerFetch } from '../utilities/constants';
+import { backendClient } from '../utilities/constants';
 
 const promotersUrl = '/promoters';
 

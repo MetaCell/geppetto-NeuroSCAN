@@ -129,7 +129,6 @@ const DevelopmentalStageFilter = (props) => {
       <Box className={classes.sliderValue}>
         {
           devStages.map((stage) => {
-            console.log(stage);
             const stageWidth = (Math.max(stage.end, stage.begin) - stage.begin) / stepWidth;
             return (
               <Typography
