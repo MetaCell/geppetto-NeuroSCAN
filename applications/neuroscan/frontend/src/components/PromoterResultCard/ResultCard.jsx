@@ -24,19 +24,20 @@ const ResultCard = ({
   const expression = [
     {
       label: '3D Expression',
-      src: `${backendURL}/files/promoterdb/${result.uid}/3d_expression.avi`,
+      src: `${backendURL}/files/promoterdb/${result.uid}/3d_expression.mp4`,
       mediaType: PROMOTER_MEDIA_TYPES.video,
     },
   ];
   const promoterVideos = [
     {
       label: 'Promoter',
-      src: `${backendURL}/files/promoterdb/${result.uid}/promoter.avi`,
+      src: `${backendURL}/files/promoterdb/${result.uid}/promoter.mp4`,
       mediaType: PROMOTER_MEDIA_TYPES.video,
     },
     {
       label: 'Histone Marker',
-      src: `${backendURL}/files/promoterdb/${result.uid}/histone_marker.avi`,
+      src: `${backendURL}/files/promoterdb/${result.uid}/histone_marker.mp4`,
+      mediaType: PROMOTER_MEDIA_TYPES.video,
     },
   ];
   const cellsByLineaging = result.cellsByLineaging.split(' ').filter((c) => c !== '');
