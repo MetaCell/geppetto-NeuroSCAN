@@ -8,6 +8,7 @@
     "Beginning of expression in minutes": "timePointStart",
     "Termination of expression in minutes": "timePointEnd",
     "Neurons": "cellularExpressionPattern",
-    "${Strain information},${Detailed expression patterns}": "information"
+    "Strain information": "information",
+    "Detailed expression patterns": "expressionPatterns"
   }
 }

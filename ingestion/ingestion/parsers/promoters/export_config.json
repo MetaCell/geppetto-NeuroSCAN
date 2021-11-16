@@ -4,11 +4,11 @@
     "uid",
     "timePointStart",
     "timePointEnd",
-    "files",
     "cellsByLineaging",
     "geneFunction",
     "wormbase",
     "cellularExpressionPattern",
-    "information"
+    "information",
+    "expressionPatterns"
   ]
 }

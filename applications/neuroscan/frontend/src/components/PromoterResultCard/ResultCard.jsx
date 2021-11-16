@@ -74,7 +74,7 @@ const ResultCard = ({
         </Grid>
       </Grid>
 
-      <PromoterInformation info={result.information} />
+      <PromoterInformation info1={result.information} info2={result.expressionPatterns} />
     </Box>
   );
 };

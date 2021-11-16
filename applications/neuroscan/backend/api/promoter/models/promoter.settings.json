@@ -33,8 +33,11 @@
     "cellsByLineaging": {
       "type": "string"
     },
+    "expressionPatterns": {
+      "type": "richtext"
+    },
     "information": {
-      "type": "text"
+      "type": "richtext"
     }
   }
 }
