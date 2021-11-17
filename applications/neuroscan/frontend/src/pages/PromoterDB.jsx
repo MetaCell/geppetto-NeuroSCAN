@@ -121,6 +121,9 @@ const PromoterDB = () => {
   const [selectedDevStage, setSelectedDevStage] = useState([]);
   const [filteredPromoters, setFilteredPromoters] = useState(promoters);
 
+  const promoterOptions = promoters.map((p) => ({ title: p.uid }));
+  const neuronOptions = neurons.map((n) => ({ title: n }));
+
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -207,17 +210,19 @@ const PromoterDB = () => {
           <ListItem>
             <AutocompleteFilter
               id="Promoter"
-              options={promoters.map((p) => ({ title: p.uid }))}
+              options={promoterOptions}
               placeholder="Type or search a promoter"
               onChange={handlePromoterOnChange}
+              value={selectedPromoters}
             />
           </ListItem>
           <ListItem>
             <AutocompleteFilter
               id="Neurons"
               placeholder="Type or search a neuron"
-              options={neurons.map((n) => ({ title: n }))}
+              options={neuronOptions}
               onChange={handleNeuronOnChange}
+              value={selectedNeurons}
             />
           </ListItem>
           <ListItem>
