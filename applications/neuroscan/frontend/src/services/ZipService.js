@@ -1,6 +1,24 @@
 import axios from 'axios';
 import JSZip from 'jszip';
 
+const download = (fileName, blob) => {
+  const url = window.URL.createObjectURL(blob);
+  // eslint-disable-next-line no-undef
+  const a = document.createElement('a');
+  a.style.display = 'none';
+  a.href = url;
+  a.download = fileName;
+  // eslint-disable-next-line no-undef
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    // eslint-disable-next-line no-undef
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }, 100);
+  return true;
+};
+
 export default {
   zipFiles: [],
   getZipFile(url) {
@@ -15,6 +33,20 @@ export default {
       zipFile: newZipFile,
     });
     return newZipFile;
+  },
+  createZipFile(zipname, files) {
+    const zip = JSZip();
+    files.forEach((file) => {
+      zip.file(`${file.name}`, file.content);
+    });
+    zip.generateAsync({ type: 'blob' })
+      .then((blob) => {
+        download(zipname, blob);
+      }, (err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
+    return true;
   },
   async getBase64(zipFile, fileName) {
     const zipFileContent = await this.getZipFile(zipFile);
