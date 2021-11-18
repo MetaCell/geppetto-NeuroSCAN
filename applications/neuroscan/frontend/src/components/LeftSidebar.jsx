@@ -172,7 +172,7 @@ const LeftSidebar = (props) => {
                 }}
                 >
                   <img src={MagnifyingGlass} alt={rotateState ? 'Stop all' : 'Start all'} />
-                  <Typography component="body">{rotateState ? 'Stop all' : 'Start all'}</Typography>
+                  <Typography>{rotateState ? 'Stop all' : 'Start all'}</Typography>
                 </IconButton>
               </Typography>
             </Box>
