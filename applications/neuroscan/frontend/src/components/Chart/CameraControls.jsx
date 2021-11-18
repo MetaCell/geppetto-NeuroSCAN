@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   IconButton,
@@ -48,6 +48,10 @@ const CameraControls = (props) => {
 
   const widget = useSelector((state) => state.widgets[viewerId]);
   const widgetConfig = widget?.config;
+
+  useEffect(() => {
+    cameraControlsHandler(cameraControlsActions.ROTATE);
+  }, [widgetConfig]);
 
   const controlsLeft = [
     {

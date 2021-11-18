@@ -17,6 +17,8 @@ import Results from './Sidebar/Results';
 import CPhasePlot from './Sidebar/CPhasePlot';
 import MagnifyingGlass from '../images/magnifying-glass.svg';
 import FILTER from '../images/filter.svg';
+import ROTATE from '../images/rotate.svg';
+import ROTATE_PAUSE from '../images/rotate-pause.svg';
 import SynapsesFilter from './Sidebar/SynapsesFilter';
 import { updateWidgetConfig } from '../redux/actions/widget';
 import vars from '../styles/constants';
@@ -171,8 +173,8 @@ const LeftSidebar = (props) => {
                   });
                 }}
                 >
-                  <img src={MagnifyingGlass} alt={rotateState ? 'Stop all' : 'Start all'} />
-                  <Typography>{rotateState ? 'Stop all' : 'Start all'}</Typography>
+                  <img width="16" height="16" src={rotateState ? ROTATE_PAUSE : ROTATE} alt={rotateState ? 'Stop all' : 'Start all'} />
+                  <Typography>{rotateState ? 'Pause all' : 'Play all'}</Typography>
                 </IconButton>
               </Typography>
             </Box>
