@@ -86,6 +86,7 @@ export const addToWidget = (
       flash: false,
       timePoint: widget.timePoint,
       name: widget.name,
+      rotate: false,
       backgroundColor: CANVAS_BACKGROUND_COLOR_DARK,
       instances,
     };

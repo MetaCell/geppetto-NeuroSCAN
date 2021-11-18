@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
 import React, { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   IconButton,
   Typography,
@@ -8,7 +8,7 @@ import {
   Radio,
   Tooltip,
 } from '@material-ui/core';
-import { updateBackgroundColorViewer } from '../../redux/actions/widget';
+import { updateBackgroundColorViewer, updateWidgetConfig } from '../../redux/actions/widget';
 import ZOOM_IN from '../../images/graph/zoom-in.svg';
 import ZOOM_OUT from '../../images/graph/zoom-out.svg';
 import HOME from '../../images/graph/home.svg';
@@ -17,6 +17,8 @@ import LAYERS from '../../images/graph/layers.svg';
 import PICKER from '../../images/graph/color-picker.png';
 import DARK from '../../images/graph/dark.svg';
 import LIGHT from '../../images/graph/light.svg';
+import ROTATE from '../../images/graph/rotate.svg';
+import ROTATE_PAUSE from '../../images/graph/rotate-pause.svg';
 import MenuControl from './MenuControl';
 import {
   VIEWER_MENU,
@@ -25,6 +27,7 @@ import {
 } from '../../utilities/constants';
 
 export const cameraControlsActions = {
+  ROTATE: 'rotate',
   ZOOM_IN: 'zoomIn',
   ZOOM_OUT: 'zoomOut',
   COLOR_PICKER: 'COLOR_PICKER',
@@ -42,6 +45,13 @@ const CameraControls = (props) => {
   const pickerRef = useRef();
   const developmentRef = useRef();
   const layersRef = useRef();
+
+  const widget = useSelector((state) => state.widgets[viewerId]);
+  const widgetConfig = widget?.config;
+
+  if (widgetConfig?.rotate) {
+    cameraControlsHandler(ROTATE);
+  }
 
   const controlsLeft = [
     {
@@ -68,6 +78,13 @@ const CameraControls = (props) => {
   ];
 
   const controlsRight = [
+    {
+      action: cameraControlsActions.ROTATE,
+      tooltip: 'Play',
+      tooltipStop: 'Stop',
+      image: ROTATE,
+      imageStop: ROTATE_PAUSE,
+    },
     {
       action: cameraControlsActions.ZOOM_IN,
       tooltip: 'Zoom In',
@@ -128,20 +145,29 @@ const CameraControls = (props) => {
     setAnchorEl(ref.current);
   };
 
-  const Control = ({ value }) => (
-    <Tooltip title={value.tooltip} placement="top">
-      <IconButton
-        disableRipple
-        key={value?.tooltip}
-        onClick={() => cameraControlsHandler(value?.action)}
-      >
-        <img
-          src={value.image}
-          alt={value?.tooltip}
-        />
-      </IconButton>
-    </Tooltip>
-  );
+  const Control = ({ value }) => {
+    const isRotateAction = value.action === cameraControlsActions.ROTATE;
+    return (
+      <Tooltip title={value.tooltip} placement="top">
+        <IconButton
+          disableRipple
+          key={value?.tooltip}
+          onClick={() => {
+            cameraControlsHandler(value?.action);
+            if (isRotateAction) {
+              widgetConfig.rotate = !widgetConfig.rotate;
+              dispatch(updateWidgetConfig(viewerId, widgetConfig));
+            }
+          }}
+        >
+          <img
+            src={isRotateAction && widgetConfig?.rotate ? value.imageStop : value.image}
+            alt={isRotateAction && widgetConfig?.rotate ? value.tooltipStop : value?.tooltip}
+          />
+        </IconButton>
+      </Tooltip>
+    );
+  };
 
   return (
     <div className="position-toolbar">
