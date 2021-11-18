@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   makeStyles,
   Box,
@@ -17,6 +18,7 @@ import CPhasePlot from './Sidebar/CPhasePlot';
 import MagnifyingGlass from '../images/magnifying-glass.svg';
 import FILTER from '../images/filter.svg';
 import SynapsesFilter from './Sidebar/SynapsesFilter';
+import { updateWidgetConfig } from '../redux/actions/widget';
 import vars from '../styles/constants';
 
 const useStyles = makeStyles((theme) => ({
@@ -107,6 +109,10 @@ const LeftSidebar = (props) => {
   const [searchTerms, setSearchTerms] = useState([]);
   const [timePoint, setTimePoint] = useState(0);
   const [openFilterModal, setOpenFilterModal] = useState(false);
+  const widgets = useSelector((state) => state.widgets);
+  const dispatch = useDispatch();
+
+  const rotateState = Object.values(widgets).reduce((r, w) => r || w.config.rotate, false) || false;
 
   return (
     <>
@@ -152,7 +158,22 @@ const LeftSidebar = (props) => {
             <Box className="wrap explorer">
               <Typography component="h3">
                 Explorer
-                <IconButton><img src={MagnifyingGlass} alt="Search" /></IconButton>
+                <IconButton onClick={() => {
+                  Object.values(widgets).forEach((w) => {
+                    dispatch(updateWidgetConfig(w.config.viewerId, {
+                      ...w.config,
+                      rotate: !rotateState,
+                      cameraOptions: {
+                        ...w.config.cameraOptions,
+                        autorotate: !rotateState,
+                      },
+                    }));
+                  });
+                }}
+                >
+                  <img src={MagnifyingGlass} alt={rotateState ? 'Stop all' : 'Start all'} />
+                  <Typography component="body">{rotateState ? 'Stop all' : 'Start all'}</Typography>
+                </IconButton>
               </Typography>
             </Box>
 

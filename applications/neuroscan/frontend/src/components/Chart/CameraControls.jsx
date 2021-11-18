@@ -49,10 +49,6 @@ const CameraControls = (props) => {
   const widget = useSelector((state) => state.widgets[viewerId]);
   const widgetConfig = widget?.config;
 
-  if (widgetConfig?.rotate) {
-    cameraControlsHandler(ROTATE);
-  }
-
   const controlsLeft = [
     {
       action: cameraControlsActions.PICKER,
