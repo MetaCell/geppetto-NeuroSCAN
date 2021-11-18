@@ -1014,7 +1014,7 @@ const theme = createTheme({
               },
             },
             '& .MuiListItem-root': {
-              width: 'calc((100% - 8.375rem) / 3)',
+              width: 'calc(100% / 3)',
               padding: '0 0.75rem',
               position: 'relative',
               '& .MuiAutocomplete-fullWidth': {
@@ -1030,10 +1030,6 @@ const theme = createTheme({
                   left: 0,
                   top: 0,
                 },
-              },
-              '&:last-child': {
-                width: '8.375rem',
-                // padding: '0 0.75rem',
               },
             },
             '& .MuiButton-contained': {

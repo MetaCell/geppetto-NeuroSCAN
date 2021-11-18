@@ -233,11 +233,6 @@ const PromoterDB = () => {
             />
             {renderMenu}
           </ListItem>
-          <ListItem>
-            <Button color="primary" disableElevation variant="contained">
-              Search
-            </Button>
-          </ListItem>
         </List>
 
       </Box>
