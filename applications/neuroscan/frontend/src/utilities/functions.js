@@ -4,7 +4,7 @@ import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model
 import { addWidget, updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
 import CaptureControls from '../components/Chart/capture-menu/CaptureControls';
 import { VIEWERS, CANVAS_BACKGROUND_COLOR_DARK } from './constants';
-import CameraControls from '../components/Chart/CameraControls';
+import CameraControls, { cameraControlsRotateState } from '../components/Chart/CameraControls';
 
 // flatten the tree to an flat array
 export const flatten = (children, extractChildren) => Array.prototype.concat.apply(
@@ -86,6 +86,7 @@ export const addToWidget = (
       flash: false,
       timePoint: widget.timePoint,
       name: widget.name,
+      rotate: cameraControlsRotateState.STOP,
       backgroundColor: CANVAS_BACKGROUND_COLOR_DARK,
       instances,
     };

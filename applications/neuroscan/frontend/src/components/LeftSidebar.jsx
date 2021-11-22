@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   makeStyles,
   Box,
@@ -14,14 +15,28 @@ import Explorer from './Sidebar/Explorer/Explorer';
 import Search from './Sidebar/Search';
 import Results from './Sidebar/Results';
 import CPhasePlot from './Sidebar/CPhasePlot';
-import MagnifyingGlass from '../images/magnifying-glass.svg';
 import FILTER from '../images/filter.svg';
+import ROTATE from '../images/rotate.svg';
+import ROTATE_PAUSE from '../images/rotate-pause.svg';
 import SynapsesFilter from './Sidebar/SynapsesFilter';
+import { rotateStartAll, rotateStopAll } from '../redux/actions/widget';
+import { cameraControlsRotateState } from './Chart/CameraControls';
 import vars from '../styles/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .explorer': {
+      '& .rotate': {
+        '& > span > img': {
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          display: 'block',
+        },
+        '& > span > p': {
+          minWidth: '50px',
+          textAlign: 'left',
+        },
+      },
       paddingRight: '0.5rem',
     },
     '& .add-element': {
@@ -107,6 +122,12 @@ const LeftSidebar = (props) => {
   const [searchTerms, setSearchTerms] = useState([]);
   const [timePoint, setTimePoint] = useState(0);
   const [openFilterModal, setOpenFilterModal] = useState(false);
+  const widgets = useSelector((state) => state.widgets);
+  const dispatch = useDispatch();
+
+  const rotateState = Object.values(widgets).reduce(
+    (r, w) => r || w.config.rotate === cameraControlsRotateState.ROTATING, false,
+  ) || false;
 
   return (
     <>
@@ -152,7 +173,19 @@ const LeftSidebar = (props) => {
             <Box className="wrap explorer">
               <Typography component="h3">
                 Explorer
-                <IconButton><img src={MagnifyingGlass} alt="Search" /></IconButton>
+                <IconButton
+                  className="wrap explorer rotate"
+                  onClick={() => {
+                    if (rotateState) {
+                      dispatch(rotateStopAll());
+                    } else {
+                      dispatch(rotateStartAll());
+                    }
+                  }}
+                >
+                  <img src={rotateState ? ROTATE_PAUSE : ROTATE} alt={rotateState ? 'Stop all' : 'Start all'} />
+                  <Typography>{rotateState ? 'Pause all' : 'Play all'}</Typography>
+                </IconButton>
               </Typography>
             </Box>
 
