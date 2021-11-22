@@ -5,6 +5,8 @@ export const UPDATE_TIMEPOINT_VIEWER = 'UPDATE_TIMEPOINT_VIEWER';
 export const UPDATE_BACKGROUND_COLOR_VIEWER = 'UPDATE_BACKGROUND_COLOR_VIEWER';
 export const UPDATE_WIDGET_CONFIG = 'UPDATE_WIDGET_CONFIG';
 export const UPDATE_VIEWER_ROTATE = 'UPDATE_VIEWER_ROTATE';
+export const ROTATE_START_ALL = 'ROTATE_START_ALL';
+export const ROTATE_STOP_ALL = 'ROTATE_STOP_ALL';
 
 export const addInstances = ((viewerId, instances) => ({
   type: ADD_INSTANCES,
@@ -42,4 +44,12 @@ export const updateWidgetConfig = ((viewerId, config) => ({
   type: UPDATE_WIDGET_CONFIG,
   viewerId,
   config,
+}));
+
+export const rotateStartAll = (() => ({
+  type: ROTATE_START_ALL,
+}));
+
+export const rotateStopAll = (() => ({
+  type: ROTATE_STOP_ALL,
 }));

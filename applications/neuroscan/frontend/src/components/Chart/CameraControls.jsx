@@ -36,6 +36,13 @@ export const cameraControlsActions = {
   HOME: 'cameraHome',
 };
 
+export const cameraControlsRotateState = {
+  STOP: 'stop',
+  STARTING: 'starting',
+  ROTATING: 'rotating',
+  STOPPING: 'stopping',
+};
+
 const CameraControls = (props) => {
   const {
     cameraControlsHandler,
@@ -49,8 +56,23 @@ const CameraControls = (props) => {
   const widget = useSelector((state) => state.widgets[viewerId]);
   const widgetConfig = widget?.config;
 
+  const setRotationState = (rotationState) => {
+    const newWidgetConfig = {
+      ...widgetConfig,
+      rotate: rotationState,
+    };
+    dispatch(updateWidgetConfig(viewerId, newWidgetConfig));
+  };
+
   useEffect(() => {
-    cameraControlsHandler(cameraControlsActions.ROTATE);
+    if (widgetConfig?.rotate === cameraControlsRotateState.STARTING) {
+      cameraControlsHandler(cameraControlsActions.ROTATE);
+      setRotationState(cameraControlsRotateState.ROTATING);
+    }
+    if (widgetConfig?.rotate === cameraControlsRotateState.STOPPING) {
+      cameraControlsHandler(cameraControlsActions.ROTATE);
+      setRotationState(cameraControlsRotateState.STOP);
+    }
   }, [widgetConfig]);
 
   const controlsLeft = [
@@ -155,14 +177,17 @@ const CameraControls = (props) => {
           onClick={() => {
             cameraControlsHandler(value?.action);
             if (isRotateAction) {
-              widgetConfig.rotate = !widgetConfig.rotate;
-              dispatch(updateWidgetConfig(viewerId, widgetConfig));
+              const newRotateState = widgetConfig.rotate === cameraControlsRotateState.ROTATING
+                ? cameraControlsRotateState.STOP : cameraControlsRotateState.ROTATING;
+              setRotationState(newRotateState);
             }
           }}
         >
           <img
-            src={isRotateAction && widgetConfig?.rotate ? value.imageStop : value.image}
-            alt={isRotateAction && widgetConfig?.rotate ? value.tooltipStop : value?.tooltip}
+            src={isRotateAction && widgetConfig?.rotate === cameraControlsRotateState.ROTATING
+              ? value.imageStop : value.image}
+            alt={isRotateAction && widgetConfig?.rotate === cameraControlsRotateState.ROTATING
+              ? value.tooltipStop : value?.tooltip}
           />
         </IconButton>
       </Tooltip>

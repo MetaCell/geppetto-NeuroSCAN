@@ -9,6 +9,9 @@ import {
   UPDATE_TIMEPOINT_VIEWER,
   UPDATE_BACKGROUND_COLOR_VIEWER,
   UPDATE_WIDGET_CONFIG,
+  ROTATE_START_ALL,
+  ROTATE_STOP_ALL,
+  updateWidgetConfig,
 } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
 import neuronService from '../services/NeuronService';
@@ -19,6 +22,8 @@ import {
   NEURON_TYPE,
   SYNAPSE_TYPE,
 } from '../utilities/constants';
+// eslint-disable-next-line import/no-cycle
+import { cameraControlsRotateState } from '../components/Chart/CameraControls';
 // eslint-disable-next-line import/no-cycle
 import { addToWidget } from '../utilities/functions';
 // eslint-disable-next-line import/no-cycle
@@ -159,6 +164,34 @@ const middleware = (store) => (next) => (action) => {
         color,
       );
       store.dispatch(layoutActions.updateWidget(widget));
+      break;
+    }
+
+    case ROTATE_START_ALL: {
+      const state = store.getState();
+      const newRotateState = cameraControlsRotateState.STARTING;
+      Object.values(state.widgets)
+        .filter((w) => w.config.rotate === cameraControlsRotateState.STOP)
+        .forEach((w) => {
+          store.dispatch(updateWidgetConfig(w.config.viewerId, {
+            ...w.config,
+            rotate: newRotateState,
+          }));
+        });
+      break;
+    }
+
+    case ROTATE_STOP_ALL: {
+      const state = store.getState();
+      const newRotateState = cameraControlsRotateState.STOPPING;
+      Object.values(state.widgets)
+        .filter((w) => w.config.rotate === cameraControlsRotateState.ROTATING)
+        .forEach((w) => {
+          store.dispatch(updateWidgetConfig(w.config.viewerId, {
+            ...w.config,
+            rotate: newRotateState,
+          }));
+        });
       break;
     }
 
