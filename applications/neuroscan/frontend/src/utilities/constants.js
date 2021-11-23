@@ -42,3 +42,11 @@ export const DOWNLOAD_OBJS = 'objects';
 export const PROMOTER_MEDIA_TYPES = {
   video: 'video',
 };
+
+export const MAIL_SUGGEST_PROMOTER_TO = 'noelle.koonce@yale.edu';
+export const MAIL_SUGGEST_PROMOTER_SUBJECT = 'New promoter';
+export const MAIL_SUGGEST_PROMOTER_BODY = 'Suggest Promoter Mail Body';
+
+export const MAIL_CONTACT_TO = 'noelle.koonce@yale.edu';
+export const MAIL_CONTACT_SUBJECT = 'Contact';
+export const MAIL_CONTACT_BODY = 'Contact Mail Body';
