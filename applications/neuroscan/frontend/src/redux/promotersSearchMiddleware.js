@@ -1,4 +1,5 @@
 import * as search from './actions/promoters';
+import { raiseError, loading, loadingSuccess } from './actions/misc';
 import doSearch from '../services/promoterHelpers';
 
 const searchMiddleware = (store) => (next) => (action) => {
@@ -8,7 +9,13 @@ const searchMiddleware = (store) => (next) => (action) => {
         type: action.type,
       });
       const state = store.getState();
-      doSearch(store.dispatch, state.promoterDB);
+      const msg = 'Loading promoters';
+      next(loading(msg, action.type));
+      doSearch(store.dispatch, state.promoterDB).then(() => {
+        next(loadingSuccess(msg, action.type));
+      }, (e) => {
+        next(raiseError(msg));
+      });
       break;
     }
 

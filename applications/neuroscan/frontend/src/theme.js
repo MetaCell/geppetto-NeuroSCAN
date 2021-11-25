@@ -82,6 +82,11 @@ const theme = createTheme({
     toolbarBackground: { main: toolbarBackground },
   },
   overrides: {
+    MuiCircularProgress: {
+      circle: {
+        color: 'white',
+      },
+    },
     MuiFormGroup: {
       root: {
         flexDirection: 'row',

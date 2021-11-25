@@ -1,7 +1,7 @@
 import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import { updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
 import { ADD_DEVSTAGES, receivedDevStages } from './actions/devStages';
-import { raiseError } from './actions/misc';
+import { raiseError, loading, loadingSuccess } from './actions/misc';
 import {
   ADD_INSTANCES,
   ADD_INSTANCES_TO_GROUP,
@@ -66,25 +66,32 @@ const getWidget = (store, viewerId) => {
 const middleware = (store) => (next) => (action) => {
   switch (action.type) {
     case ADD_DEVSTAGES: {
+      const msg = 'Getting development stages';
+      next(loading(msg, action.type));
       devStagesService.getDevStages().then((stages) => {
         store.dispatch(receivedDevStages(stages));
+        next(loadingSuccess(msg, action.type));
       }, (e) => {
-        // eslint-disable-next-line no-console
-        console.error('Error getting development stages', e);
-        next(raiseError('Error getting development stages'));
+        next(raiseError(msg));
       });
       break;
     }
 
     case ADD_INSTANCES: {
+      const msg = 'Creating and adding instances to the viewer';
+      next(loading(msg, action.type));
       createSimpleInstancesFromInstances(action.instances)
-        .then(() => store
-          .dispatch(
+        .then(() => {
+          store.dispatch(
             addToWidget(
               getWidget(store, action.viewerId),
               action.instances,
             ),
-          ));
+          );
+          next(loadingSuccess(msg, action.type));
+        }, (e) => {
+          next(raiseError(msg));
+        });
       break;
     }
 
