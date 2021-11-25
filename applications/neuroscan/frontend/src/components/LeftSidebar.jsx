@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: '0.5rem',
     },
     '& .add-element': {
+      border: '4px solid #4c276a',
       '&_head': {
         paddingRight: '1rem',
         '& > .MuiButton-root': {

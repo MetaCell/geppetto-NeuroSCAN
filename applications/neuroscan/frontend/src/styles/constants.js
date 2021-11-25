@@ -1,6 +1,6 @@
 const vars = {
   fontFamily: "'IBM Plex Sans', sans-serif",
-  primaryColor: '#A41A45',
+  primaryColor: '#4c276a',
   primaryBgColor: '#1C1C1C',
   gutter: '16px',
   buttonOutlineColor: '#222222',
