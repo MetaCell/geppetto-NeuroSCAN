@@ -84,7 +84,7 @@ const theme = createTheme({
   overrides: {
     MuiCircularProgress: {
       circle: {
-        color: 'white',
+        color: primaryColor,
       },
     },
     MuiFormGroup: {
