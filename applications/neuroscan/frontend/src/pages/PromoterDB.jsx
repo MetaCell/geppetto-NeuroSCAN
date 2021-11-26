@@ -98,8 +98,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   promoheader: {
-    height: '12rem',
-    width: '70rem',
+    width: '100%',
+    height: '15%',
+    left: '0',
+    position: 'absolute',
+    top: '4rem',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    display: 'block',
   },
 }));
 
