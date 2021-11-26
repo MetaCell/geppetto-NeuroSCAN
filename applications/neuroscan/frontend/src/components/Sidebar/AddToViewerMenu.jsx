@@ -25,6 +25,25 @@ const AddToViewerMenu = ({
   const widgets = useSelector((state) => state.widgets);
   const viewers = getViewersFromWidgets(widgets);
 
+  function returnMenu() {
+    if (viewers.length > 0) {
+      return [
+        <Typography key="add-to-viewer-text">Add to existing viewer</Typography>,
+        viewers.map((viewer) => {
+          const isEnabled = viewer.config.timePoint === timePoint;
+          return (
+            <MenuItem key={`add-to-viewer-${viewer.id}`} disabled={!isEnabled} onClick={() => handleAddToViewer(viewer.id)}>
+              <img src={MENU_CHECKMARK_ON} className={classes.mr_8} alt="MENU_CHECKMARK_ON" />
+              {viewer.name}
+            </MenuItem>
+          );
+        }),
+        <Divider key="add-to-viewer-divider" />,
+      ];
+    }
+    return (<> </>);
+  }
+
   return (
     <Menu
       id="addToViewerMenu"
@@ -38,19 +57,7 @@ const AddToViewerMenu = ({
       getContentAnchorEl={null}
     >
       { fullMenu ? (
-        [
-          <Typography key="add-to-viewer-text">Add to existing viewer</Typography>,
-          viewers.map((viewer) => {
-            const isEnabled = viewer.config.timePoint === timePoint;
-            return (
-              <MenuItem key={`add-to-viewer-${viewer.id}`} disabled={!isEnabled} onClick={() => handleAddToViewer(viewer.id)}>
-                <img src={MENU_CHECKMARK_ON} className={classes.mr_8} alt="MENU_CHECKMARK_ON" />
-                {viewer.name}
-              </MenuItem>
-            );
-          }),
-          <Divider key="add-to-viewer-divider" />,
-        ]
+        returnMenu()
       ) : null}
       <MenuItem key="add-to-new-viewer" onClick={() => handleAddToViewer()}>
         <img src={PLUS} className={classes.mr_8} alt="PLUS" />
