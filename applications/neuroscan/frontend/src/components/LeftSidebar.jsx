@@ -173,7 +173,7 @@ const LeftSidebar = (props) => {
 
             <Box className="wrap explorer">
               <Typography component="h3">
-                Explorer
+                Navigation
                 <IconButton
                   className="wrap explorer rotate"
                   onClick={() => {
