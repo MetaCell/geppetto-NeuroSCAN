@@ -1330,7 +1330,7 @@ const theme = createTheme({
                 letterSpacing: '0.005em',
                 textOverflow: 'ellipsis',
                 overflow: 'hidden',
-                whiteSpace: 'nowrap',
+                lineHeight: '1',
               },
             },
           },
