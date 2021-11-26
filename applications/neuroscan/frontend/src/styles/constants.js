@@ -19,7 +19,7 @@ const vars = {
   modalTextColor: '#161616',
   modalBorderColor: '#E5E5E5',
   lightBlackColor: 'rgba(0, 0, 0, 0.8)',
-  captionTextColor: 'rgba(0, 0, 0, 0.3)',
+  captionTextColor: 'rgba(0, 0, 0, 0.5)',
   toolbarBackground: 'rgba(255,0,0,0.5)',
   menuPaperBG: 'rgba(0, 0, 0, 0.1)',
   filterShadowColor: 'rgba(0, 0, 0, 0.7)',
