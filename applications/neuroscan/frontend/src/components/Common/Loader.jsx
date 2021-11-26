@@ -19,6 +19,7 @@ const useStyles = makeStyles(() => ({
   },
   circle: {
     strokeLinecap: 'round',
+    color: vars.modalBorderColor,
   },
 }));
 

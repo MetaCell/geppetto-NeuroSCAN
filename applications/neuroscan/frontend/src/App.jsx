@@ -39,7 +39,7 @@ const App = () => {
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
-      <Loader style={{ color: 'white' }} active={Object.keys(misc?.loading || {}).length > 0} />
+      <Loader active={Object.keys(misc?.loading || {}).length > 0} />
       <Router>
         <Switch>
           <Route exact path="/" component={NeuroScan} />
