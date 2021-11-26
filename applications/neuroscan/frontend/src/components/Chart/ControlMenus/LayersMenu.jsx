@@ -21,7 +21,7 @@ const LayersMenu = ({ layers }) => {
   };
   return (
     <Box className="layers">
-      <Typography component="h3">Strata</Typography>
+      <Typography component="h3">Addons</Typography>
       <List>
         {layers.map((value) => {
           const labelId = `checked${value}`;
