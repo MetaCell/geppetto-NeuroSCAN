@@ -5,8 +5,10 @@
   "column_id": "${Promoter}",
   "column_of_interest": {
     "Promoter": "uid",
-    "Beginning of expression": "expressionBegin",
-    "Termination of expression:": "expressionTermination",
-    "Neurons": "cellularExpressionPattern"
+    "Beginning of expression in minutes": "timePointStart",
+    "Termination of expression in minutes": "timePointEnd",
+    "Neurons": "cellularExpressionPattern",
+    "Strain information": "information",
+    "Detailed expression patterns": "expressionPatterns"
   }
 }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Typography,
   Box,
@@ -12,9 +13,6 @@ import Header from '../components/Header';
 import { VIEWS } from '../utilities/constants';
 import ResultCard from '../components/PromoterResultCard/ResultCard';
 import SubHeader from '../components/SubHeader';
-import TIMELINE from '../images/timeline.svg';
-import MODEL from '../images/modelnew.svg';
-import DOWN from '../images/expand_less.svg';
 import DevelopmentalStageFilter from '../components/PromoterSearch/DevelopmentalStageFilter';
 import AutocompleteFilter from '../components/PromoterSearch/AutocompleteFilter';
 import DevInputFilter from '../components/PromoterSearch/DevInputFilter';
@@ -100,89 +98,61 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const dummyList = [
-  { title: 'Pro 1', year: 1994 },
-  { title: 'Pro 2', year: 1994 },
-  { title: 'Pro 3', year: 1994 },
-  { title: 'Pro 4', year: 1994 },
-];
-
-const promoter = {
-  title: 'odr-2b3a',
-  cellLineage: [
-    {
-      selected: true,
-      label: 'AWA',
-    },
-    {
-      selected: true,
-      label: 'AIB',
-    },
-    {
-      selected: false,
-      label: 'AIB',
-    },
-    {
-      selected: false,
-      label: 'AIB',
-    },
-    {
-      selected: false,
-      label: 'AIB',
-    },
-    {
-      selected: false,
-      label: 'AIB',
-    },
-  ],
-  timeline: [
-    {
-      label: 'Timeline',
-      src: TIMELINE,
-    },
-  ],
-  model: [
-    {
-      label: 'Model',
-      src: MODEL,
-    },
-  ],
-  expression: [
-    {
-      label: '3D Expression',
-      src: '',
-    },
-  ],
-  promoterVideos: [
-    {
-      label: 'Promoter',
-      src: '',
-    },
-    {
-      label: 'Histone Marker',
-      src: '',
-    },
-  ],
-  promoterInfo: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  Porttitor non adipiscing dui sed. Morbi magna in et ac.
-  Ullamcorper massa at pellentesque consectetur leo morbi.
-  Tellus leo nunc sed nibh nec amet, eget non.`,
-};
-
-const results = [
-  promoter,
-  promoter,
-  promoter,
-];
+const recordsPerPage = 5;
 
 const PromoterDB = () => {
   const classes = useStyles();
+  const [pageNumber, setPageNumber] = useState(1);
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
-  const [timePoint, setTimePoint] = useState(0);
+  const devStages = useSelector((state) => state.devStages.promoterDB);
+  const min = Math.min(...devStages.map((devStage) => devStage.begin));
+  const [timePoint, setTimePoint] = useState(min);
+  const { promoters } = useSelector((state) => state.promoterDB);
+  const neurons = [...new Set(promoters.reduce((r, p) => (
+    r.concat(
+      p.cellsByLineaging
+        .split(' ')
+        .filter((e) => e.length > 0),
+    )), [])),
+  ].sort();
+  const [selectedPromoters, setSelectedPromoters] = useState([]);
+  const [selectedNeurons, setSelectedNeurons] = useState([]);
   const [selectedDevStage, setSelectedDevStage] = useState([]);
+  const [filteredPromoters, setFilteredPromoters] = useState(promoters);
+
+  const promoterOptions = promoters.map((p) => ({ title: p.uid }));
+  const neuronOptions = neurons.map((n) => ({ title: n }));
+
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const setFilters = (pSelectedPromoters, pSelectedNeurons, pTimepoint) => {
+    setSelectedPromoters(pSelectedPromoters);
+    setSelectedNeurons(pSelectedNeurons);
+    setTimePoint(pTimepoint);
+    const fp = promoters.filter((p) => (
+      pTimepoint === min
+      || (p.timePointStart <= pTimepoint
+      && p.timePointEnd > pTimepoint)
+    )).filter((p) => (
+      pSelectedPromoters.length === 0
+      || pSelectedPromoters.find((sp) => sp.title === p.uid)
+    )).filter((p) => (
+      pSelectedNeurons.length === 0
+      || p.cellsByLineaging.split(' ').filter((n) => pSelectedNeurons.findIndex((sn) => sn.title === n) > -1).length > 0
+    ));
+    setFilteredPromoters(fp);
+    handleMenuClose();
+  };
+
+  const handlePromoterOnChange = (event, values) => {
+    setFilters(values, selectedNeurons, timePoint);
+  };
+
+  const handleNeuronOnChange = (event, values) => {
+    setFilters(selectedPromoters, values, timePoint);
   };
 
   const handleDevStageMenuOpen = (event) => {
@@ -190,10 +160,11 @@ const PromoterDB = () => {
   };
 
   const setTimePointAndStage = (value) => {
-    setTimePoint(value);
     setSelectedDevStage([value]);
+    setFilters(selectedPromoters, selectedNeurons, value);
   };
-  const menuId = 'delevlopment-stage-menu';
+
+  const menuId = 'development-stage-menu';
   const renderMenu = (
     <Popover
       id={menuId}
@@ -237,10 +208,22 @@ const PromoterDB = () => {
       <Box className="wrapper filter-box">
         <List className="filters">
           <ListItem>
-            <AutocompleteFilter id="Promoter" options={dummyList} placeholder="Type or search a promoter" />
+            <AutocompleteFilter
+              id="Promoter"
+              options={promoterOptions}
+              placeholder="Type or search a promoter"
+              onChange={handlePromoterOnChange}
+              value={selectedPromoters}
+            />
           </ListItem>
           <ListItem>
-            <AutocompleteFilter id="Neurons" options={dummyList} placeholder="Type or search a neuron" />
+            <AutocompleteFilter
+              id="Neurons"
+              placeholder="Type or search a neuron"
+              options={neuronOptions}
+              onChange={handleNeuronOnChange}
+              value={selectedNeurons}
+            />
           </ListItem>
           <ListItem>
             <DevInputFilter
@@ -250,11 +233,6 @@ const PromoterDB = () => {
             />
             {renderMenu}
           </ListItem>
-          <ListItem>
-            <Button color="primary" disableElevation variant="contained">
-              Search
-            </Button>
-          </ListItem>
         </List>
 
       </Box>
@@ -262,23 +240,43 @@ const PromoterDB = () => {
       <Box className="main-content scrollbar">
         <Box className="wrapper">
           <Typography className="available-results">
-            Available Results (487)
+            {`Available Results (${filteredPromoters.length})`}
           </Typography>
 
           <Box className="results-wrap scrollbar">
             {
-              results.map((result, index) => <ResultCard key={`result_${index}`} result={result} />)
+              filteredPromoters
+                .slice(0, pageNumber * recordsPerPage)
+                .map((result, index) => <ResultCard key={`result_${index}`} result={result} />)
             }
           </Box>
 
-          <Box className="button-group">
-            <Button color="primary" disableElevation variant="contained">
-              Load More
-            </Button>
-            <Button variant="outlined">
-              Load All
-            </Button>
-          </Box>
+          { pageNumber * recordsPerPage < filteredPromoters.length
+            && (
+              <Box className="button-group">
+                <Button
+                  color="primary"
+                  disableElevation
+                  variant="contained"
+                  onClick={() => {
+                    const p = pageNumber + (pageNumber * recordsPerPage < filteredPromoters.length
+                      ? 1 : 0);
+                    setPageNumber(p);
+                  }}
+                >
+                  Load More
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    const p = Math.ceil(filteredPromoters.length / recordsPerPage);
+                    setPageNumber(p);
+                  }}
+                >
+                  Load All
+                </Button>
+              </Box>
+            )}
         </Box>
       </Box>
     </Box>

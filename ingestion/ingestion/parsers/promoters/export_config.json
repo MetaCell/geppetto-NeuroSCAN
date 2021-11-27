@@ -2,12 +2,13 @@
   "output_file": "promoters.csv",
   "header": [
     "uid",
-    "expressionBegin",
-    "expressionTermination",
-    "files",
+    "timePointStart",
+    "timePointEnd",
     "cellsByLineaging",
     "geneFunction",
     "wormbase",
-    "cellularExpressionPattern"
+    "cellularExpressionPattern",
+    "information",
+    "expressionPatterns"
   ]
 }

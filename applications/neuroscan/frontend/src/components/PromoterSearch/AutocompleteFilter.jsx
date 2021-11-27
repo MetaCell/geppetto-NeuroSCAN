@@ -14,14 +14,32 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 const AutoCompleteFilter = (props) => {
-  const { id, options, placeholder } = props;
+  const {
+    id,
+    options,
+    placeholder,
+    onChange,
+    value,
+  } = props;
+  const isOptionEqualValue = (o, v) => (
+    o.title === v.title
+  );
+  const sortedOptions = options
+    .filter((o) => value.findIndex((v) => v.title === o.title) >= 0)
+    .sort((a, b) => a.title < b.title)
+    .concat(options
+      .filter((o) => value.findIndex((v) => v.title === o.title) < 0)
+      .sort((a, b) => a.title < b.title));
   return (
     <Autocomplete
       fullWidth
       multiple
       id={id}
       closeIcon={false}
-      options={options}
+      options={sortedOptions}
+      onChange={onChange}
+      value={value}
+      getOptionSelected={(o, v) => isOptionEqualValue(o, v)}
       disableCloseOnSelect
       ChipProps={{ deleteIcon: <IconButton><img src={REMOVE} alt="" /></IconButton>, onDelete: null }}
       popupIcon={<img src={DOWN} alt="DOWN" />}

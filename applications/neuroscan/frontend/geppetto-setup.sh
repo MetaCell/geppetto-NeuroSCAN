@@ -1,9 +1,8 @@
 #!/bin/sh
 
-set -e
 
 rm -rf node_modules
-rm yarn.lock
+rm -f yarn.lock
 cp development_package package.json 
 
 yarn global add yalc
@@ -11,6 +10,9 @@ yarn global add yalc
 git clone https://github.com/MetaCell/geppetto-meta/
 cd geppetto-meta
 git checkout development
+git fetch && git pull
+
+set -e
 
 app=$(pwd)
 

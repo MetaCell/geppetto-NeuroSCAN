@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
-import React, { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   IconButton,
   Typography,
@@ -8,7 +8,7 @@ import {
   Radio,
   Tooltip,
 } from '@material-ui/core';
-import { updateBackgroundColorViewer } from '../../redux/actions/widget';
+import { updateBackgroundColorViewer, updateWidgetConfig } from '../../redux/actions/widget';
 import ZOOM_IN from '../../images/graph/zoom-in.svg';
 import ZOOM_OUT from '../../images/graph/zoom-out.svg';
 import HOME from '../../images/graph/home.svg';
@@ -17,6 +17,8 @@ import LAYERS from '../../images/graph/layers.svg';
 import PICKER from '../../images/graph/color-picker.png';
 import DARK from '../../images/graph/dark.svg';
 import LIGHT from '../../images/graph/light.svg';
+import ROTATE from '../../images/graph/rotate.svg';
+import ROTATE_PAUSE from '../../images/graph/rotate-pause.svg';
 import MenuControl from './MenuControl';
 import {
   VIEWER_MENU,
@@ -25,12 +27,20 @@ import {
 } from '../../utilities/constants';
 
 export const cameraControlsActions = {
+  ROTATE: 'rotate',
   ZOOM_IN: 'zoomIn',
   ZOOM_OUT: 'zoomOut',
   COLOR_PICKER: 'COLOR_PICKER',
   DEV_STAGES: 'DEVELOPMENT_STAGES',
   LAYERS: 'LAYERS',
   HOME: 'cameraHome',
+};
+
+export const cameraControlsRotateState = {
+  STOP: 'stop',
+  STARTING: 'starting',
+  ROTATING: 'rotating',
+  STOPPING: 'stopping',
 };
 
 const CameraControls = (props) => {
@@ -42,6 +52,28 @@ const CameraControls = (props) => {
   const pickerRef = useRef();
   const developmentRef = useRef();
   const layersRef = useRef();
+
+  const widget = useSelector((state) => state.widgets[viewerId]);
+  const widgetConfig = widget?.config;
+
+  const setRotationState = (rotationState) => {
+    const newWidgetConfig = {
+      ...widgetConfig,
+      rotate: rotationState,
+    };
+    dispatch(updateWidgetConfig(viewerId, newWidgetConfig));
+  };
+
+  useEffect(() => {
+    if (widgetConfig?.rotate === cameraControlsRotateState.STARTING) {
+      cameraControlsHandler(cameraControlsActions.ROTATE);
+      setRotationState(cameraControlsRotateState.ROTATING);
+    }
+    if (widgetConfig?.rotate === cameraControlsRotateState.STOPPING) {
+      cameraControlsHandler(cameraControlsActions.ROTATE);
+      setRotationState(cameraControlsRotateState.STOP);
+    }
+  }, [widgetConfig]);
 
   const controlsLeft = [
     {
@@ -68,6 +100,13 @@ const CameraControls = (props) => {
   ];
 
   const controlsRight = [
+    {
+      action: cameraControlsActions.ROTATE,
+      tooltip: 'Play',
+      tooltipStop: 'Stop',
+      image: ROTATE,
+      imageStop: ROTATE_PAUSE,
+    },
     {
       action: cameraControlsActions.ZOOM_IN,
       tooltip: 'Zoom In',
@@ -128,20 +167,32 @@ const CameraControls = (props) => {
     setAnchorEl(ref.current);
   };
 
-  const Control = ({ value }) => (
-    <Tooltip title={value.tooltip} placement="top">
-      <IconButton
-        disableRipple
-        key={value?.tooltip}
-        onClick={() => cameraControlsHandler(value?.action)}
-      >
-        <img
-          src={value.image}
-          alt={value?.tooltip}
-        />
-      </IconButton>
-    </Tooltip>
-  );
+  const Control = ({ value }) => {
+    const isRotateAction = value.action === cameraControlsActions.ROTATE;
+    return (
+      <Tooltip title={value.tooltip} placement="top">
+        <IconButton
+          disableRipple
+          key={value?.tooltip}
+          onClick={() => {
+            cameraControlsHandler(value?.action);
+            if (isRotateAction) {
+              const newRotateState = widgetConfig.rotate === cameraControlsRotateState.ROTATING
+                ? cameraControlsRotateState.STOP : cameraControlsRotateState.ROTATING;
+              setRotationState(newRotateState);
+            }
+          }}
+        >
+          <img
+            src={isRotateAction && widgetConfig?.rotate === cameraControlsRotateState.ROTATING
+              ? value.imageStop : value.image}
+            alt={isRotateAction && widgetConfig?.rotate === cameraControlsRotateState.ROTATING
+              ? value.tooltipStop : value?.tooltip}
+          />
+        </IconButton>
+      </Tooltip>
+    );
+  };
 
   return (
     <div className="position-toolbar">

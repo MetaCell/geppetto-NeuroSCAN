@@ -2,13 +2,14 @@ import React from 'react';
 import {
   Accordion,
   AccordionDetails,
+  Grid,
   Typography,
   AccordionSummary,
 } from '@material-ui/core';
 import DOWN from '../../images/angle-down.svg';
 
 const PromoterInformation = ({
-  info,
+  info1, info2,
 }) => (
   <Accordion>
     <AccordionSummary
@@ -20,7 +21,10 @@ const PromoterInformation = ({
     </AccordionSummary>
     <AccordionDetails>
       <Typography>
-        {info}
+        <Grid container>
+          <Grid item xs={6} dangerouslySetInnerHTML={{ __html: info1.replaceAll('\n', '<br />') }} />
+          <Grid item xs={6} dangerouslySetInnerHTML={{ __html: info2.replaceAll('\n', '<br />') }} />
+        </Grid>
       </Typography>
     </AccordionDetails>
   </Accordion>

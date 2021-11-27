@@ -1,7 +1,6 @@
 /* eslint-disable import/no-cycle */
 import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
-import { WidgetStatus } from '@metacell/geppetto-meta-client/common/layout/model';
-import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
+import { updateWidgetConfig } from '../redux/actions/widget';
 import urlService from './UrlService';
 import zipService from './ZipService';
 import store from '../redux/store';
@@ -41,6 +40,7 @@ const updateInstanceSelected = (instances, selectedUids) => instances.map((insta
       ...instance,
       selected: true,
       colorOriginal: instance.color,
+      color: invertColor(instance.color),
     };
   }
   return {
@@ -49,16 +49,15 @@ const updateInstanceSelected = (instances, selectedUids) => instances.map((insta
   };
 });
 
-export const setSelectedInstances = (dispatch, widget, selectedUids) => {
-  const newWidget = { ...widget };
-  newWidget.config.instances = updateInstanceSelected(
-    widget.config.instances, selectedUids,
-  );
-  newWidget.config.instances = invertColorSelectedInstances(
-    widget.config.instances,
-  );
-  newWidget.config.flash = true;
-  dispatch(layoutActions.updateWidget(newWidget));
+export const setSelectedInstances = (viewerId, instances, selectedUids) => {
+  store.dispatch(updateWidgetConfig(
+    viewerId, {
+      flash: true,
+      instances: updateInstanceSelected(
+        instances, selectedUids,
+      ),
+    },
+  ));
 };
 
 export const updateInstanceGroup = (instances, instanceList, newGroup = null) => instances
@@ -195,7 +194,7 @@ const createSimpleInstance = async (instance) => {
   return new SimpleInstance({
     eClass: 'SimpleInstance',
     id: instance.uid,
-    name: instance.uid,
+    name: instance.name,
     type: { eClass: 'SimpleType' },
     visualValue,
   });

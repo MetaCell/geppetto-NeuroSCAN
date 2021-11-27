@@ -15,10 +15,14 @@ import STOP from '../../../images/graph/stop.svg';
 import RecordControlModal from './RecordControlModal';
 import DownloadMenu from './DownloadMenu';
 import { DOWNLOAD_OBJS, DOWNLOAD_SCREENSHOT } from '../../../utilities/constants';
+import store from '../../../redux/store';
+import zipService from '../../../services/ZipService';
 
 const CaptureControls = (props) => {
   const {
-    captureControlsHandler, widgetName,
+    captureControlsHandler,
+    widgetName,
+    viewerId,
   } = props;
   const [modalOpen, setModalOpen] = useState(false);
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -51,7 +55,19 @@ const CaptureControls = (props) => {
     captureControlsHandler(captureControlsActionsDownloadScreenshot(`${widgetName}.png`));
   };
   const handleDownloadObjs = () => {
-    console.log('objs');
+    const state = store.getState();
+    const { instances } = state.widgets[viewerId].config;
+    const files = instances.map((i) => {
+      const { visualValue } = window.Instances.find((wi) => wi.wrappedObj.id === i.uid).wrappedObj;
+      const base64Content = visualValue.eClass === window.GEPPETTO.Resources.GLTF
+        ? visualValue.gltf : visualValue.obj;
+      const content = atob(base64Content.slice('data:model/obj;base64,'.length));
+      return {
+        name: `${i.name}.${visualValue.eClass}`,
+        content,
+      };
+    });
+    zipService.createZipFile('instances.zip', files);
   };
   const handleDownload = (action) => {
     switch (action) {
@@ -59,7 +75,7 @@ const CaptureControls = (props) => {
         handleDownloadScreenshot();
         break;
       case DOWNLOAD_OBJS:
-        handleDownloadObjs();
+        handleDownloadObjs(viewerId);
         break;
       default:
     }

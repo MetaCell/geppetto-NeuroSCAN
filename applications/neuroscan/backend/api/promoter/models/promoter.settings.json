@@ -15,38 +15,29 @@
     "uid": {
       "type": "uid"
     },
-    "files": {
-      "collection": "file",
-      "via": "related",
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos"
-      ],
-      "plugin": "upload",
-      "required": false,
-      "pluginOptions": {}
-    },
     "metadata": {
       "type": "text"
-    },
-    "timepoints": {
-      "type": "json"
-    },
-    "cellsByLineaging": {
-      "collection": "neuron"
-    },
-    "expressionBegin": {
-      "type": "string"
-    },
-    "expressionTermination": {
-      "type": "string"
     },
     "wormbase": {
       "type": "string"
     },
     "cellularExpressionPattern": {
       "type": "text"
+    },
+    "timePointStart": {
+      "type": "integer"
+    },
+    "timePointEnd": {
+      "type": "integer"
+    },
+    "cellsByLineaging": {
+      "type": "string"
+    },
+    "expressionPatterns": {
+      "type": "richtext"
+    },
+    "information": {
+      "type": "richtext"
     }
   }
 }

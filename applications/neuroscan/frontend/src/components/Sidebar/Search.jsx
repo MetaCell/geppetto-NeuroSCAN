@@ -46,7 +46,7 @@ const Search = (props) => {
           onBeforeAdd={(chip) => addSearchTerm(chip)}
           defaultValue={[]}
           value={searchTerms}
-          placeholder="Filter by Name"
+          placeholder="Search here"
           fullWidth
           chipRenderer={(
             {
@@ -73,7 +73,7 @@ const Search = (props) => {
       </Box>
 
       <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Typography variant="caption">Filter by Developmental Stage</Typography>
+        <Typography variant="caption">Slide to select one time point</Typography>
       </Box>
       <DevelopmentalStageFilter
         timePoint={timePoint}

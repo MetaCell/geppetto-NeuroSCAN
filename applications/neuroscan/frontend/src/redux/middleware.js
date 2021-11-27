@@ -1,13 +1,17 @@
 import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import { updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
 import { ADD_DEVSTAGES, receivedDevStages } from './actions/devStages';
-import { raiseError } from './actions/misc';
+import { raiseError, loading, loadingSuccess } from './actions/misc';
 import {
   ADD_INSTANCES,
   ADD_INSTANCES_TO_GROUP,
   SET_INSTANCES_COLOR,
   UPDATE_TIMEPOINT_VIEWER,
   UPDATE_BACKGROUND_COLOR_VIEWER,
+  UPDATE_WIDGET_CONFIG,
+  ROTATE_START_ALL,
+  ROTATE_STOP_ALL,
+  updateWidgetConfig,
 } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
 import neuronService from '../services/NeuronService';
@@ -18,6 +22,8 @@ import {
   NEURON_TYPE,
   SYNAPSE_TYPE,
 } from '../utilities/constants';
+// eslint-disable-next-line import/no-cycle
+import { cameraControlsRotateState } from '../components/Chart/CameraControls';
 // eslint-disable-next-line import/no-cycle
 import { addToWidget } from '../utilities/functions';
 // eslint-disable-next-line import/no-cycle
@@ -38,7 +44,14 @@ const getWidget = (store, viewerId) => {
     const { timePoint } = state.search.filters;
     const devStages = state.devStages.neuroSCAN;
     const devStage = devStages.find((ds) => ds.begin <= timePoint && ds.end >= timePoint);
-    const viewerNumber = Object.keys(widgets).length + 1;
+    const viewerNumber = Object.values(widgets).reduce((maxViewerNumber, w) => {
+      const found = w.name.match('^Viewer (?<id>\\d+) .*');
+      if (found && found.length > 0) {
+        const thisViewerNumber = parseInt(found[1], 10);
+        return Math.max(thisViewerNumber + 1, maxViewerNumber);
+      }
+      return maxViewerNumber;
+    }, 1);
     return {
       id: null,
       name: `Viewer ${viewerNumber} (${devStage.name} ${timePoint})`,
@@ -53,31 +66,48 @@ const getWidget = (store, viewerId) => {
 const middleware = (store) => (next) => (action) => {
   switch (action.type) {
     case ADD_DEVSTAGES: {
+      const msg = 'Getting development stages';
+      next(loading(msg, action.type));
       devStagesService.getDevStages().then((stages) => {
         store.dispatch(receivedDevStages(stages));
+        next(loadingSuccess(msg, action.type));
       }, (e) => {
-        // eslint-disable-next-line no-console
-        console.error('Error getting development stages', e);
-        next(raiseError('Error getting development stages'));
+        next(raiseError(msg));
       });
       break;
     }
 
     case ADD_INSTANCES: {
+      const msg = 'Creating and adding instances to the viewer';
+      next(loading(msg, action.type));
       createSimpleInstancesFromInstances(action.instances)
-        .then(() => store
-          .dispatch(
+        .then(() => {
+          store.dispatch(
             addToWidget(
               getWidget(store, action.viewerId),
               action.instances,
             ),
-          ));
+          );
+          next(loadingSuccess(msg, action.type));
+        }, (e) => {
+          next(raiseError(msg));
+        });
       break;
     }
 
     case UPDATE_BACKGROUND_COLOR_VIEWER: {
       const widget = getWidget(store, action.viewerId);
       widget.config.backgroundColor = action.backgroundColor;
+      store.dispatch(updateWidget(widget));
+      break;
+    }
+
+    case UPDATE_WIDGET_CONFIG: {
+      const widget = getWidget(store, action.viewerId);
+      widget.config = {
+        ...widget.config,
+        ...action.config,
+      };
       store.dispatch(updateWidget(widget));
       break;
     }
@@ -141,6 +171,34 @@ const middleware = (store) => (next) => (action) => {
         color,
       );
       store.dispatch(layoutActions.updateWidget(widget));
+      break;
+    }
+
+    case ROTATE_START_ALL: {
+      const state = store.getState();
+      const newRotateState = cameraControlsRotateState.STARTING;
+      Object.values(state.widgets)
+        .filter((w) => w.config.rotate === cameraControlsRotateState.STOP)
+        .forEach((w) => {
+          store.dispatch(updateWidgetConfig(w.config.viewerId, {
+            ...w.config,
+            rotate: newRotateState,
+          }));
+        });
+      break;
+    }
+
+    case ROTATE_STOP_ALL: {
+      const state = store.getState();
+      const newRotateState = cameraControlsRotateState.STOPPING;
+      Object.values(state.widgets)
+        .filter((w) => w.config.rotate === cameraControlsRotateState.ROTATING)
+        .forEach((w) => {
+          store.dispatch(updateWidgetConfig(w.config.viewerId, {
+            ...w.config,
+            rotate: newRotateState,
+          }));
+        });
       break;
     }
 

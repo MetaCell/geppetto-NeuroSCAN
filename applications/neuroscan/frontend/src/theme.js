@@ -82,6 +82,11 @@ const theme = createTheme({
     toolbarBackground: { main: toolbarBackground },
   },
   overrides: {
+    MuiCircularProgress: {
+      circle: {
+        color: primaryColor,
+      },
+    },
     MuiFormGroup: {
       root: {
         flexDirection: 'row',
@@ -1014,7 +1019,7 @@ const theme = createTheme({
               },
             },
             '& .MuiListItem-root': {
-              width: 'calc((100% - 8.375rem) / 3)',
+              width: 'calc(100% / 3)',
               padding: '0 0.75rem',
               position: 'relative',
               '& .MuiAutocomplete-fullWidth': {
@@ -1031,10 +1036,6 @@ const theme = createTheme({
                   top: 0,
                 },
               },
-              '&:last-child': {
-                width: '8.375rem',
-                // padding: '0 0.75rem',
-              },
             },
             '& .MuiButton-contained': {
               height: '3.1875rem',
@@ -1045,7 +1046,11 @@ const theme = createTheme({
             },
           },
         },
-
+        '.video-preview': {
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+        },
         '.MuiAutocomplete-popper': {
           '& .MuiAutocomplete-paper': {
             '& .MuiAutocomplete-listbox': {
@@ -1184,11 +1189,6 @@ const theme = createTheme({
                 '& .play-icon': {
                   cursor: 'pointer',
                 },
-              },
-              '& .video-preview': {
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
               },
               '& .MuiFormLabel-root': {
                 fontWeight: 'bold',

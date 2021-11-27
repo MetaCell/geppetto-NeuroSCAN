@@ -1,10 +1,10 @@
-import { RAISE_ERROR, WAIT_DATA } from '../actions/misc';
+import { RAISE_ERROR, LOADING, LOADING_SUCCESS } from '../actions/misc';
 
 export const MISC_DEFAULT_STATUS = {};
 
 export default (state = MISC_DEFAULT_STATUS, action) => {
   switch (action.type) {
-    case WAIT_DATA:
+    case LOADING:
       return {
         ...state,
         loading: {
@@ -12,6 +12,11 @@ export default (state = MISC_DEFAULT_STATUS, action) => {
           [action.data.offAction]: action.data.message,
         },
       };
+    case LOADING_SUCCESS: {
+      const newState = { ...state };
+      delete newState.loading[action.data.offAction];
+      return newState;
+    }
     case RAISE_ERROR:
       return {
         ...state,
