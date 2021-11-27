@@ -30,7 +30,15 @@ const AddToViewerMenu = ({
       return [
         <Typography key="add-to-viewer-text">Add to existing viewer</Typography>,
         viewers.map((viewer) => {
-          const isEnabled = viewer.config.timePoint === timePoint;
+          const instanceName = anchorEl?.parentNode?.textContent.replace('Add to', '');
+          let isEnabled = viewer.config.timePoint === timePoint;
+          if (isEnabled) {
+            viewer.config.instances.forEach((instance) => {
+              if (instance.name === instanceName) {
+                isEnabled = false;
+              }
+            });
+          }
           return (
             <MenuItem key={`add-to-viewer-${viewer.id}`} disabled={!isEnabled} onClick={() => handleAddToViewer(viewer.id)}>
               <img src={MENU_CHECKMARK_ON} className={classes.mr_8} alt="MENU_CHECKMARK_ON" />
