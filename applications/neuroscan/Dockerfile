@@ -20,10 +20,10 @@ COPY ./frontend/yarn.lock ./
 #
 # for now we will use geppetto-meta development branch (clone it local)
 # when geppetto meta v > 0.05 is released comment the lines below
-COPY ./frontend/development_package ./development_package
-COPY ./frontend/geppetto-setup.sh ./geppetto-setup.sh
-RUN chmod +x geppetto-setup.sh
-RUN sh -c ./geppetto-setup.sh
+# COPY ./frontend/development_package ./development_package
+# COPY ./frontend/geppetto-setup.sh ./geppetto-setup.sh
+# RUN chmod +x geppetto-setup.sh
+# RUN sh -c ./geppetto-setup.sh
 #
 ### END GEPPETTO META DEVELOP
 
