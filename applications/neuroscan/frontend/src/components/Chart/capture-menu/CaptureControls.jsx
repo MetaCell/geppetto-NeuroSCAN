@@ -7,7 +7,7 @@ import {
   Tooltip,
   Button, Popover,
 } from '@material-ui/core';
-import { captureControlsActions } from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
+import { captureControlsActionsStart, captureControlsActionsStop, captureControlsActionsDownloadScreenshot } from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
 import DOWNLOAD from '../../../images/graph/download.svg';
 import RECORDING from '../../../images/graph/recording.svg';
 import RECORDING_ACTIVE from '../../../images/graph/recording-active.svg';
@@ -21,6 +21,7 @@ import zipService from '../../../services/ZipService';
 const CaptureControls = (props) => {
   const {
     captureControlsHandler,
+    widgetName,
     viewerId,
   } = props;
   const [modalOpen, setModalOpen] = useState(false);
@@ -31,13 +32,13 @@ const CaptureControls = (props) => {
   const downloadRef = useRef();
   const videoBlob = useRef(null);
   const stopRecording = () => {
-    videoBlob.current = captureControlsHandler(captureControlsActions.STOP);
+    videoBlob.current = captureControlsHandler(captureControlsActionsStop());
     setRecording(false);
     setModalOpen(true);
   };
   const startRecording = () => {
     videoBlob.current = null;
-    captureControlsHandler(captureControlsActions.START);
+    captureControlsHandler(captureControlsActionsStart());
     setRecording(true);
   };
   const handleCloseModal = () => {
@@ -51,7 +52,7 @@ const CaptureControls = (props) => {
     setPopoverOpen(false);
   };
   const handleDownloadScreenshot = () => {
-    captureControlsHandler(captureControlsActions.DOWNLOAD_SCREENSHOT);
+    captureControlsHandler(captureControlsActionsDownloadScreenshot(`${widgetName}.png`));
   };
   const handleDownloadObjs = () => {
     const state = store.getState();
@@ -180,6 +181,7 @@ const CaptureControls = (props) => {
         handleClose={handleCloseModal}
         captureControlsHandler={captureControlsHandler}
         videoBlob={videoBlob.current}
+        widgetName={widgetName}
       />
     </>
   );

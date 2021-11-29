@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from '@material-ui/core/Modal';
-import { captureControlsActions } from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
+import { captureControlsActionsDownloadVideo } from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
 import {
   Box,
   Typography,
@@ -14,11 +14,11 @@ import DELETE_WHITE from '../../../images/delete-white.svg';
 
 const RecordControlModal = (props) => {
   const {
-    open, handleClose, captureControlsHandler, videoBlob,
+    open, handleClose, captureControlsHandler, videoBlob, widgetName,
   } = props;
   const [deleteOption, setDeleteOption] = useState(false);
   const downloadRecording = () => {
-    captureControlsHandler(captureControlsActions.DOWNLOAD_VIDEO);
+    captureControlsHandler(captureControlsActionsDownloadVideo(`${widgetName}.webm`));
     handleClose();
   };
   const videoSrc = videoBlob ? window.URL.createObjectURL(videoBlob) : null;

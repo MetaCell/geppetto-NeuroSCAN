@@ -69,6 +69,7 @@ export const addToWidget = (
         captureControls: {
           instance: CaptureControls,
           props: {
+            widgetName: widget.name,
             viewerId: newViewerId,
           },
         },
