@@ -33,11 +33,12 @@ const AddToViewerMenu = ({
           const instanceName = anchorEl?.parentNode?.textContent.replace('Add to', '');
           let isEnabled = viewer.config.timePoint === timePoint;
           if (isEnabled) {
-            viewer.config.instances.forEach((instance) => {
-              if (instance.name === instanceName) {
+            const isInstancePresent = (inst) => {
+              if (inst.name === instanceName) {
                 isEnabled = false;
               }
-            });
+            };
+            viewer.config.instances.findIndex(isInstancePresent);
           }
           return (
             <MenuItem key={`add-to-viewer-${viewer.id}`} disabled={!isEnabled} onClick={() => handleAddToViewer(viewer.id)}>
