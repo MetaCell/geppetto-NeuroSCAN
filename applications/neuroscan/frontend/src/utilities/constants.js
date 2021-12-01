@@ -43,10 +43,10 @@ export const PROMOTER_MEDIA_TYPES = {
   video: 'video',
 };
 
-export const MAIL_SUGGEST_PROMOTER_TO = 'noelle.koonce@yale.edu';
-export const MAIL_SUGGEST_PROMOTER_SUBJECT = 'New promoter';
-export const MAIL_SUGGEST_PROMOTER_BODY = 'Suggest Promoter Mail Body';
+export const MAIL_SUGGEST_PROMOTER_TO = 'postmaster@wormguides.org';
+export const MAIL_SUGGEST_PROMOTER_SUBJECT = 'Suggest a promoter';
+export const MAIL_SUGGEST_PROMOTER_BODY = 'Hi WormGUIDES team,\nOur group has found this promoter useful in our studies. We call the promoter (promoter name) and the strain name and/or primers for the promoter are as follows: The promoter has expression from (starting timepoint) to (ending timepoint). We see expression in these cells: \n We\'ve attached an image of the promoter. \n\nThank you';
 
-export const MAIL_CONTACT_TO = 'noelle.koonce@yale.edu';
-export const MAIL_CONTACT_SUBJECT = 'Contact';
-export const MAIL_CONTACT_BODY = 'Contact Mail Body';
+export const MAIL_CONTACT_TO = 'support@wormguides.org';
+export const MAIL_CONTACT_SUBJECT = '';
+export const MAIL_CONTACT_BODY = '';
