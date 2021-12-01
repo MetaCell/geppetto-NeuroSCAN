@@ -7,13 +7,18 @@ import MORPHOLOGY from '../../../images/morphology.svg';
 import NEURONS from '../../../images/neurons.svg';
 import NEURON from '../../../images/neuron.svg';
 import CPHATE from '../../../images/cphate.svg';
-import CLUSTERS from '../../../images/cluster.svg';
+import CLUSTER from '../../../images/cluster.svg';
 import SYNAPSES from '../../../images/synapses.svg';
 import SYNAPSE from '../../../images/synapse.svg';
 import CONTACTS from '../../../images/contacts.svg';
 import CONTACT from '../../../images/contact.svg';
 import GROUP from '../../../images/group.svg';
-import { NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE } from '../../../utilities/constants';
+import {
+  NEURON_TYPE,
+  CONTACT_TYPE,
+  SYNAPSE_TYPE,
+  CPHATE_TYPE,
+} from '../../../utilities/constants';
 import { getViewersFromWidgets } from '../../../utilities/functions';
 import { setSelectedInstances, getGroupsFromInstances } from '../../../services/instanceHelpers';
 
@@ -21,7 +26,7 @@ const EXPLORER_IMGS = {
   NEURONS,
   NEURON,
   CPHATE,
-  CLUSTERS,
+  CLUSTER,
   SYNAPSES,
   SYNAPSE,
   CONTACTS,
