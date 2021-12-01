@@ -10,6 +10,14 @@
     },
     {
       "method": "GET",
+      "path": "/promoter",
+      "handler": "promoter.redirectToPromotorDb",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/promoters/count",
       "handler": "promoter.count",
       "config": {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Typography,
@@ -144,15 +144,22 @@ const PromoterDB = () => {
       || p.cellsByLineaging.split(' ').filter((n) => pSelectedNeurons.findIndex((sn) => sn.title === n) > -1).length > 0
     ));
     setFilteredPromoters(fp);
-    handleMenuClose();
   };
+
+  useEffect(() => {
+    if (promoters.length > 0) {
+      setFilteredPromoters(promoters);
+    }
+  }, [promoters]);
 
   const handlePromoterOnChange = (event, values) => {
     setFilters(values, selectedNeurons, timePoint);
+    handleMenuClose();
   };
 
   const handleNeuronOnChange = (event, values) => {
     setFilters(selectedPromoters, values, timePoint);
+    handleMenuClose();
   };
 
   const handleDevStageMenuOpen = (event) => {
@@ -162,6 +169,7 @@ const PromoterDB = () => {
   const setTimePointAndStage = (value) => {
     setSelectedDevStage([value]);
     setFilters(selectedPromoters, selectedNeurons, value);
+    handleMenuClose();
   };
 
   const menuId = 'development-stage-menu';
