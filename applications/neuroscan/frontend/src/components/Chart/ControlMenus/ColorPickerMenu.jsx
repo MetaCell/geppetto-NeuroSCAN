@@ -13,6 +13,7 @@ import GROUP from '../../../images/group.svg';
 import NEURON from '../../../images/neuron.svg';
 import SYNAPSE from '../../../images/synapse.svg';
 import CONTACT from '../../../images/contact.svg';
+import CLUSTER from '../../../images/cluster.svg';
 
 const ColorPickerMenu = ({
   dispatch,
@@ -21,6 +22,7 @@ const ColorPickerMenu = ({
   neurons,
   contacts,
   synapses,
+  clusters,
 }) => {
   const [background, setBackground] = useState({
     r: Math.random() * 255,
@@ -40,7 +42,8 @@ const ColorPickerMenu = ({
     }
   };
 
-  const [selection, setSelection] = useState('');
+  const allInstances = neurons.concat(contacts.concat(synapses.concat(clusters)));
+  const [selection, setSelection] = useState(allInstances.find((i) => i.selected));
 
   const handleSelection = (instance) => {
     setSelection(instance);
@@ -71,6 +74,10 @@ const ColorPickerMenu = ({
       button
       onClick={() => handleSelection(instance)}
       selected={selection === instance}
+      autoFocus={instance.selected}
+      classes={{
+        selected: 'Mui-selected',
+      }}
     >
       <ListItemText>
         <img src={image} alt={instance.name} />
@@ -121,6 +128,11 @@ const ColorPickerMenu = ({
             {
               synapses.map((synapse) => (
                 rowItem(SYNAPSE, synapse)
+              ))
+            }
+            {
+              clusters.map((cluster) => (
+                rowItem(CLUSTER, cluster)
               ))
             }
           </List>

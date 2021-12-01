@@ -8,6 +8,7 @@ import {
   CONTACT_TYPE,
   NEURON_TYPE,
   SYNAPSE_TYPE,
+  CPHATE_TYPE,
   VIEWER_MENU,
 } from '../../utilities/constants';
 import LayersMenu from './ControlMenus/LayersMenu';
@@ -42,6 +43,7 @@ const MenuControl = ({
   const neurons = getInstancesOfType(instances, NEURON_TYPE) || [];
   const contacts = getInstancesOfType(instances, CONTACT_TYPE) || [];
   const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || [];
+  const clusters = getInstancesOfType(instances, CPHATE_TYPE) || [];
 
   useEffect(() => {
     if (currentWidget && timePoint !== currentWidget?.timePoint) {
@@ -69,6 +71,7 @@ const MenuControl = ({
             neurons={neurons}
             contacts={contacts}
             synapses={synapses}
+            clusters={clusters}
           />,
         );
         break;
