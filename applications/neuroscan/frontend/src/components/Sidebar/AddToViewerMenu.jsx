@@ -36,7 +36,9 @@ const AddToViewerMenu = ({
             const isInstancePresent = (inst) => {
               if (inst.name === instanceName) {
                 isEnabled = false;
+                return true;
               }
+              return false;
             };
             viewer.config.instances.findIndex(isInstancePresent);
           }
