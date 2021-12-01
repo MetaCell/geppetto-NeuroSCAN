@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import NeuroSCANLogo from '../images/neuroscanLogo.svg';
-import MenuIcon from '../images/icon-menu.svg';
+import MenuIcon from '../images/hamburger.svg';
 import Toggle from '../images/toggle.svg';
 import ToggleIn from '../images/toggle-in.svg';
 import { VIEWS } from '../utilities/constants';
@@ -166,13 +166,16 @@ const Header = (props) => {
               >
                 <img src={MenuIcon} alt="Menu" />
               </IconButton>
-              <Typography variant="h6">
-                <img
-                  className={classes.logoImg}
-                  src={NeuroSCANLogo}
-                  alt={view?.title}
-                />
-                {/* {view?.title} */}
+              <Typography style={{ color: vars.primaryColor }} variant="h6">
+                { view?.title === VIEWS.neuroScan.title
+                  ? (
+                    <img
+                      className={classes.logoImg}
+                      src={NeuroSCANLogo}
+                      alt={view?.title}
+                    />
+                  )
+                  : view?.title}
               </Typography>
             </Box>
             {view?.title === VIEWS?.neuroScan?.title ? (
