@@ -73,7 +73,7 @@ const ColorPickerMenu = ({
       key={`${instance.instanceType}-${instance.uid}`}
       button
       onClick={() => handleSelection(instance)}
-      selected={selection === instance}
+      selected={selection === instance || instance.selected}
       autoFocus={instance.selected}
       classes={{
         selected: 'Mui-selected',
@@ -140,7 +140,7 @@ const ColorPickerMenu = ({
         <Box className={`picker ${selection === '' ? '' : ''}`}>
           <ChromePicker
             color={background}
-            onChange={handleChangeComplete}
+            onChangeComplete={handleChangeComplete}
           />
         </Box>
       </Box>

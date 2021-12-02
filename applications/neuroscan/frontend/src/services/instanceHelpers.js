@@ -44,7 +44,7 @@ export const setOriginalColorSelectedInstances = (instances) => (
         ...instance,
         color: instance.colorOriginal ? instance.colorOriginal : instance.color,
       };
-      if (!newInstance.colorOriginal) {
+      if (!newInstance.colorOriginal && !newInstance.color) {
         delete newInstance.color;
       }
       return newInstance;
