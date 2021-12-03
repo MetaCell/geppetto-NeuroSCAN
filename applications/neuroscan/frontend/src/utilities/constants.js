@@ -6,7 +6,8 @@ export const VIEWS = {
 };
 
 export const VIEWERS = Object.freeze({
-  InstanceViewer: 'InstanceViewer',
+  InstanceViewer: 'Viewer',
+  CphateViewer: 'Cphate',
 });
 
 export const ABOUT_CONTENT = `is an initiative from the Yale University for Neurosciences, in partnership

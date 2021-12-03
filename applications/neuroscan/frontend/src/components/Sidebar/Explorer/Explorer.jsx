@@ -106,46 +106,44 @@ const Explorer = () => {
         labelInfo={instances.length}
         key={viewerId}
       >
-        {
-          [NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE].map((instanceType) => {
-            const items = instances.filter((instance) => instance.instanceType === instanceType);
-            return (
-              <ExplorerTreeItems
-                viewerId={`${viewerId}`}
-                treeType={instanceType}
-                label={`${instanceType}`}
-                instances={items}
-                groups={groups}
-                hasExplorerMenu
-              />
-            );
-          })
-        }
-        {
-          groups.map((group) => {
-            const items = instances.filter((instance) => instance.group === group);
-            return (
-              <ExplorerTreeItems
-                viewerId={`${viewerId}`}
-                treeType="GROUP"
-                label={`${group}`}
-                instances={items}
-                groups={groups}
-              />
-            );
-          })
-        }
-        <StyledTreeItem
-          nodeId={`${viewerId}_clusters`}
-          labelText="Clusters"
-          labelIcon={EXPLORER_IMGS[CPHATE_TYPE.toLocaleUpperCase()]}
-          labelInfo={iterations.length}
-          key={`${viewerId}_clusters`}
-        >
-          {
-            iterations.map((items) => {
-              const z = 1;
-              return (
+        { iterations.length === 0
+        && [NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE].map((instanceType) => {
+          const items = instances.filter((instance) => instance.instanceType === instanceType);
+          return (
+            <ExplorerTreeItems
+              viewerId={`${viewerId}`}
+              treeType={instanceType}
+              label={`${instanceType}`}
+              instances={items}
+              groups={groups}
+              hasExplorerMenu
+            />
+          );
+        })}
+        { iterations.length === 0
+        && groups.map((group) => {
+          const items = instances.filter((instance) => instance.group === group);
+          return (
+            <ExplorerTreeItems
+              viewerId={`${viewerId}`}
+              treeType="GROUP"
+              label={`${group}`}
+              instances={items}
+              groups={groups}
+            />
+          );
+        })}
+        { iterations.length !== 0
+        && (
+          <StyledTreeItem
+            nodeId={`${viewerId}_clusters`}
+            labelText="Clusters"
+            labelIcon={EXPLORER_IMGS[CPHATE_TYPE.toLocaleUpperCase()]}
+            labelInfo={iterations.length}
+            key={`${viewerId}_clusters`}
+          >
+            {
+              iterations.map((items) => (
                 <ExplorerTreeItems
                   viewerId={`${viewerId}`}
                   nodeId={`${viewerId}_cluster_${items[0].i}`}
@@ -153,10 +151,10 @@ const Explorer = () => {
                   label={`${items[0].i}`}
                   instances={items}
                 />
-              );
-            })
-          }
-        </StyledTreeItem>
+              ))
+            }
+          </StyledTreeItem>
+        )}
       </StyledTreeItem>
     );
   });

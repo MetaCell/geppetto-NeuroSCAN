@@ -10,6 +10,7 @@ import {
 import MENU_CHECKMARK_ON from '../../images/menu-checkmark-on.svg';
 import PLUS from '../../images/plus-white.svg';
 import { getViewersFromWidgets } from '../../utilities/functions';
+import { VIEWERS } from '../../utilities/constants';
 
 const useStyles = makeStyles(() => ({
   mr_8: {
@@ -41,7 +42,8 @@ const AddToViewerMenu = ({
         [
           <Typography key="add-to-viewer-text">Add to existing viewer</Typography>,
           viewers.map((viewer) => {
-            const isEnabled = viewer.config.timePoint === timePoint;
+            const isEnabled = viewer.config.timePoint === timePoint
+              && viewer.config.type === VIEWERS.InstanceViewer;
             return (
               <MenuItem key={`add-to-viewer-${viewer.id}`} disabled={!isEnabled} onClick={() => handleAddToViewer(viewer.id)}>
                 <img src={MENU_CHECKMARK_ON} className={classes.mr_8} alt="MENU_CHECKMARK_ON" />
