@@ -25,7 +25,7 @@
       }, ' (') : '';
       return ({
          ...entity,
-         name: entity.name ? entity.name : `pre-${entity.neuronPre.uid}-${entity.type}-post-${postNeuronPart}${neuronsPostPart}`,
+         name: entity.name ? entity.name : `pre-${entity.neuronPre.uid}-${entity.type}-post${postNeuronPart}${neuronsPostPart}`,
        })});
  
      return entities.map(entity => {
