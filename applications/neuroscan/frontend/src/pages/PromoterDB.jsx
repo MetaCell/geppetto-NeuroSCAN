@@ -16,6 +16,7 @@ import SubHeader from '../components/SubHeader';
 import DevelopmentalStageFilter from '../components/PromoterSearch/DevelopmentalStageFilter';
 import AutocompleteFilter from '../components/PromoterSearch/AutocompleteFilter';
 import DevInputFilter from '../components/PromoterSearch/DevInputFilter';
+import PromoterHeader from '../images/promoterHeader.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,6 +96,16 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       height: '100%',
     },
+  },
+  promoheader: {
+    width: '100%',
+    height: '15%',
+    left: '0',
+    position: 'absolute',
+    top: '4rem',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    display: 'block',
   },
 }));
 
@@ -208,8 +219,9 @@ const PromoterDB = () => {
 
       <Box className="sub-header">
         <Box className="wrapper">
-          <Typography>Promoter DB</Typography>
-          <Typography component="h1">Explore Promoters and Neurons in seconds.</Typography>
+          <Box>
+            <img className={classes.promoheader} src={PromoterHeader} alt={<Typography component="h1">Explore Promoters and Neurons in seconds.</Typography>} />
+          </Box>
         </Box>
       </Box>
 

@@ -23,7 +23,7 @@ const {
 
 const useStyles = makeStyles(() => ({
   MuiTypographyRoot: {
-    fontSize: '0.75rem',
+    fontSize: '0.80rem',
     fontWeight: '500',
     lineHeight: '1rem',
     letterSpacing: '0.005em',
@@ -41,7 +41,7 @@ const useStyles = makeStyles(() => ({
   labelText: {
     fontWeight: '500',
     flexGrow: 1,
-    fontSize: '0.75rem',
+    fontSize: '0.80rem',
     lineHeight: '1rem',
     color: lightBlackColor,
     letterSpacing: '0.005em',

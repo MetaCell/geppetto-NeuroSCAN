@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: '0.5rem',
     },
     '& .add-element': {
+      border: '4px solid #4c276a',
       '&_head': {
         paddingRight: '1rem',
         '& > .MuiButton-root': {
@@ -146,7 +147,7 @@ const LeftSidebar = (props) => {
                     expandIcon={null}
                   >
                     <Typography component="h3">
-                      Add element
+                      Add element Filter
                     </Typography>
                   </AccordionSummary>
                   <Button variant="outlined" onClick={() => setOpenFilterModal(true)}>
@@ -172,7 +173,7 @@ const LeftSidebar = (props) => {
 
             <Box className="wrap explorer">
               <Typography component="h3">
-                Explorer
+                Navigation
                 <IconButton
                   className="wrap explorer rotate"
                   onClick={() => {
