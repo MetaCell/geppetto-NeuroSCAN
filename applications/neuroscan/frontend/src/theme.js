@@ -275,6 +275,73 @@ const theme = createTheme({
                   },
                 },
               },
+              '& .MuiTreeItem-root': {
+                position: 'relative',
+                '&.Mui-expanded': {
+                  '&> .MuiTreeItem-content': {
+                    '&> .MuiTreeItem-label': {
+                      '&> .labelRoot': {
+                        '& img': {
+                          transform: 'rotate(0deg)',
+                          transition,
+                        },
+                      },
+                    },
+                  },
+                },
+                '& > .MuiTreeItem-content .MuiTreeItem-label': {
+                  background: 'transparent',
+                },
+                '&.Mui-selected': {
+                  '& > .MuiTreeItem-content .MuiTreeItem-label': {
+                    background: `${treeItemActiveColor} !important`,
+                  },
+                },
+                '& .MuiTreeItem-content': {
+                  position: 'relative',
+                  zIndex: 1,
+                  '& .labelRoot': {
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0.5625rem 0.6875rem',
+                    '&:hover': {
+                      '& .MuiIconButton-root': {
+                        display: 'block',
+                        transition,
+                      },
+                    },
+                    '& .MuiIconButton-root': {
+                      padding: 0,
+                      display: 'none',
+                      marginLeft: '0.5rem',
+                      transition,
+                    },
+                    '& > img': {
+                      transform: 'rotate(-90deg)',
+                      transition,
+                      marginRight: '.5rem',
+                    },
+                  },
+                  '& .labelIcon': {
+                    margin: '0 .5rem 0 0',
+                    flexShrink: 0,
+                  },
+                  '& .MuiIconButton-edgeStart': {
+                    marginLeft: 0,
+                  },
+                  '& .labelText': {
+                    fontWeight: '500',
+                    flexGrow: 1,
+                    fontSize: '0.80rem',
+                    lineHeight: '1rem',
+                    color: lightBlackColor,
+                    letterSpacing: '0.005em',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                  },
+                },
+              },
             },
             '& .picker': {
               padding: '0.5rem',

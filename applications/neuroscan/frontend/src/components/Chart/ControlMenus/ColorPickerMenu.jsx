@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   List,
   ListItem,
   Divider,
   ListItemText,
+  Typography,
   Box,
 } from '@material-ui/core';
+import TreeView from '@material-ui/lab/TreeView';
+import TreeItem from '@material-ui/lab/TreeItem';
 import { ChromePicker } from 'react-color';
 import { setInstancesColor } from '../../../redux/actions/widget';
 import MORPHOLOGY from '../../../images/morphology.svg';
@@ -14,6 +17,8 @@ import NEURON from '../../../images/neuron.svg';
 import SYNAPSE from '../../../images/synapse.svg';
 import CONTACT from '../../../images/contact.svg';
 import CLUSTER from '../../../images/cluster.svg';
+// eslint-disable-next-line import/no-cycle
+import { groupBy } from '../../../services/instanceHelpers';
 
 const ColorPickerMenu = ({
   dispatch,
@@ -82,6 +87,38 @@ const ColorPickerMenu = ({
     </ListItem>
   );
 
+  const focusRef = useRef(null);
+
+  useEffect(() => {
+    if (focusRef.current) {
+      focusRef.current.focus();
+    }
+  }, []);
+
+  const clusterItem = (image, instance) => (
+    <TreeItem
+      nodeId={`cluster-${instance.uid}`}
+      onClick={() => handleSelection(instance)}
+      ref={instance.selected ? focusRef : undefined}
+      label={(
+        <div className="labelRoot">
+          <Box className="labelIcon">
+            <img src={CLUSTER} alt="" />
+          </Box>
+          <Typography variant="body2" className="labelText">
+            {`${instance.name} ${instance.selected}`}
+          </Typography>
+        </div>
+      )}
+    />
+  );
+
+  const iterations = Object.values(groupBy(
+    clusters,
+    'i',
+  ));
+  const selected = clusters.find((i) => i.selected);
+
   return (
     <Box className="color-picker">
       <Box className="color-picker--header">
@@ -126,11 +163,46 @@ const ColorPickerMenu = ({
                 rowItem(SYNAPSE, synapse)
               ))
             }
-            {
-              clusters.map((cluster) => (
-                rowItem(CLUSTER, cluster)
-              ))
-            }
+            { iterations.length > 0
+              && (
+              <TreeView
+                className="scrollbar"
+                defaultCollapseIcon={false}
+                defaultExpandIcon={false}
+                defaultEndIcon={false}
+                selected={selected
+                  ? [`iteration-${selected.i}`, `cluster-${selected.uid}`]
+                  : []}
+                expanded={selected
+                  ? [`iteration-${selected.i}`]
+                  : []}
+              >
+                {
+                  iterations.map((iteration) => (
+                    <TreeItem
+                      nodeId={`iteration-${iteration[0].i}`}
+                      label={(
+                        <div className="labelRoot">
+                          <Box className="labelIcon">
+                            <img src={CLUSTER} alt="" />
+                          </Box>
+                          <Typography variant="body2" className="labelText">
+                            {`${iteration[0].i}`}
+                          </Typography>
+                        </div>
+                      )}
+                    >
+                      {
+                        iteration
+                          .map((cluster) => (
+                            clusterItem(CLUSTER, cluster)
+                          ))
+                      }
+                    </TreeItem>
+                  ))
+                }
+              </TreeView>
+              )}
           </List>
         </Box>
         <Box className="picker">
