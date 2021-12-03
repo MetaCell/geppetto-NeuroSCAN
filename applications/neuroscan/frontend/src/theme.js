@@ -230,6 +230,7 @@ const theme = createTheme({
       },
       paper: {
         background: whiteTextColor,
+        maxWidth: '65%',
         boxShadow: '0 0.125rem 0.4375rem rgba(0, 0, 0, 0.15), 0 0.3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
         borderRadius: '0.125rem',
         overflowX: 'visible',
@@ -241,6 +242,7 @@ const theme = createTheme({
 
             '& .list': {
               flexGrow: 1,
+              maxWidth: '70%',
               borderRight: `0.0625rem solid ${modalBorderColor}`,
               '& .MuiList-root': {
                 overflow: 'auto',
@@ -251,7 +253,7 @@ const theme = createTheme({
                   marginBottom: `calc(${gutter} / 4)`,
                 },
                 '& .MuiListItem-root': {
-                  padding: '0',
+                  padding: '4px 0 4px 0',
                   '&.Mui-selected': {
                     background: treeItemActiveColor,
                   },
@@ -264,7 +266,6 @@ const theme = createTheme({
                       color: lightBlackColor,
                       display: 'flex',
                       alignItems: 'center',
-                      height: '2rem',
                       padding: '0 1rem',
                       cursor: 'pointer',
                       '& img': {
@@ -277,7 +278,7 @@ const theme = createTheme({
             },
             '& .picker': {
               padding: '0.5rem',
-              width: '13.0625rem',
+              maxWidth: '30%',
               '&.inactive': {
                 '& .chrome-picker ': {
                   opacity: '0.3',
