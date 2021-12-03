@@ -36,6 +36,10 @@ const ColorPickerMenu = ({
     a: 1,
   });
 
+  const [expanded, setExpanded] = useState([
+    `iteration-${clusters.find((i) => i.selected).i}`,
+  ]);
+
   const handleChangeComplete = (data) => {
     if (data.rgb !== background) {
       setBackground({
@@ -117,6 +121,11 @@ const ColorPickerMenu = ({
     clusters,
     'i',
   ));
+
+  const handleToggle = (event, nodeIds) => {
+    setExpanded([nodeIds[0]]);
+  };
+
   const selected = clusters.find((i) => i.selected);
 
   return (
@@ -170,12 +179,11 @@ const ColorPickerMenu = ({
                 defaultCollapseIcon={false}
                 defaultExpandIcon={false}
                 defaultEndIcon={false}
+                onNodeToggle={handleToggle}
                 selected={selected
                   ? [`iteration-${selected.i}`, `cluster-${selected.uid}`]
                   : []}
-                expanded={selected
-                  ? [`iteration-${selected.i}`]
-                  : []}
+                expanded={expanded}
               >
                 {
                   iterations.map((iteration) => (
