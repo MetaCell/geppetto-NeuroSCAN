@@ -45,7 +45,7 @@ const theme = createTheme({
       fontWeight: '700',
     },
     h5: {
-      fontSize: '0.75rem',
+      fontSize: '0.80rem',
       fontWeight: '700',
     },
     h6: {
@@ -54,18 +54,18 @@ const theme = createTheme({
       letterSpacing: '0.005em',
     },
     body1: {
-      fontSize: '0.75rem',
+      fontSize: '0.80rem',
       color: lightBlackColor,
       lineHeight: '1.6',
     },
     caption: {
-      fontSize: '0.75rem',
+      fontSize: '0.80rem',
       lineHeight: '1rem',
       color: captionTextColor,
     },
     button: {
       textTransform: 'none',
-      fontSize: '0.75rem',
+      fontSize: '0.80rem',
       fontWeight: '600',
     },
   },
@@ -199,7 +199,7 @@ const theme = createTheme({
                   '& .MuiListItemText-root': {
                     margin: '0',
                     '& p': {
-                      fontSize: '0.75rem',
+                      fontSize: '0.80rem',
                       fontWeight: '400',
                       lineHeight: '1rem',
                       letterSpacing: '0.005em',
@@ -209,7 +209,7 @@ const theme = createTheme({
                       justifyContent: 'space-between',
                     },
                     '& strong': {
-                      fontSize: '0.75rem',
+                      fontSize: '0.80rem',
                       fontWeight: '500',
                       lineHeight: '1rem',
                       letterSpacing: '0.005em',
@@ -258,7 +258,7 @@ const theme = createTheme({
                   '& .MuiListItemText-root': {
                     margin: '0',
                     '& .MuiTypography-root': {
-                      fontSize: '0.75rem',
+                      fontSize: '0.80rem',
                       lineHeight: '1rem',
                       letterSpacing: '0.005em',
                       color: lightBlackColor,
@@ -299,7 +299,7 @@ const theme = createTheme({
           '&--header': {
             minWidth: '26.0625rem',
             fontWeight: '500',
-            fontSize: '0.75rem',
+            fontSize: '0.80rem',
             lineHeight: '1rem',
             letterSpacing: '0.005em',
             color: lightBlackColor,
@@ -313,7 +313,7 @@ const theme = createTheme({
           minWidth: '15rem',
           '& h3': {
             fontWeight: 'bold',
-            fontSize: '0.75rem',
+            fontSize: '0.80rem',
             lineHeight: '1rem',
             letterSpacing: '0.005em',
             color: lightBlackColor,
@@ -325,7 +325,7 @@ const theme = createTheme({
           minWidth: '8.125rem',
           '& h3': {
             fontWeight: '500',
-            fontSize: '0.75rem',
+            fontSize: '0.80rem',
             lineHeight: '1rem',
             letterSpacing: '0.005em',
             color: lightBlackColor,
@@ -337,7 +337,7 @@ const theme = createTheme({
             '& .MuiTypography-root': {
               display: 'flex',
               alignItems: 'center',
-              fontSize: '0.75rem',
+              fontSize: '0.80rem',
               lineHeight: '1rem',
               letterSpacing: '0.005em',
               color: captionTextColor,
@@ -423,7 +423,7 @@ const theme = createTheme({
                   },
                   '& p': {
                     letterSpacing: '0.005em',
-                    fontSize: '0.75rem',
+                    fontSize: '0.80rem',
                     lineHeight: '1rem',
                     color: captionTextColor,
                   },
@@ -465,7 +465,7 @@ const theme = createTheme({
         },
         '& .MuiChip-label': {
           color: lightBlackColor,
-          fontSize: '0.75rem',
+          fontSize: '0.80rem',
           lineHeight: '1rem',
           fontWeight: 'normal',
           letterSpacing: '0.005em',
@@ -493,7 +493,7 @@ const theme = createTheme({
         },
       },
       wrapper: {
-        fontSize: '0.75rem',
+        fontSize: '0.80rem',
         lineHeight: '1rem',
         letterSpacing: '0.005em',
         color: whiteTextColor,
@@ -534,7 +534,7 @@ const theme = createTheme({
         paddingLeft: 0,
         paddingRight: 0,
         color: dividerBackgroundColor,
-        fontSize: '0.75rem',
+        fontSize: '0.80rem',
         lineHeight: '1rem',
         fontWeight: '600',
         letterSpacing: '0.005em',
@@ -600,8 +600,8 @@ const theme = createTheme({
           '&>span': {
             transform: 'none',
             fontWeight: '500',
-            fontSize: '0.625rem',
-            lineHeight: '0.625rem',
+            fontSize: '0.675rem',
+            lineHeight: '0.675rem',
           },
         },
       },
@@ -623,7 +623,7 @@ const theme = createTheme({
       },
       list: {
         '& > .MuiTypography-root': {
-          fontSize: '0.75rem',
+          fontSize: '0.80rem',
           fontWeight: '500',
           lineHeight: '1rem',
           letterSpacing: '0.005em',
@@ -738,7 +738,7 @@ const theme = createTheme({
           },
           '& .available-results': {
             fontWeight: '600',
-            fontSize: '0.75rem',
+            fontSize: '0.80rem',
             lineHeight: '1rem',
             letterSpacing: '0.005em',
             color: paragraphColor,
@@ -828,7 +828,7 @@ const theme = createTheme({
                   order: 1,
                   '& p': {
                     fontWeight: '600',
-                    fontSize: '0.75rem',
+                    fontSize: '0.80rem',
                     lineHeight: '1rem',
                     color: paragraphColor,
                     letterSpacing: '0.005em',
@@ -845,7 +845,7 @@ const theme = createTheme({
               '& .wrap': {
                 '& p': {
                   fontWeight: '600',
-                  fontSize: '0.75rem',
+                  fontSize: '0.80rem',
                   lineHeight: '0.875rem',
                   letterSpacing: '0.005em',
                   color: dividerBackgroundColor,
@@ -888,7 +888,7 @@ const theme = createTheme({
             justifyContent: 'flex-end',
             '& p': {
               fontWeight: '600',
-              fontSize: '0.75rem',
+              fontSize: '0.80rem',
               lineHeight: '1rem',
               letterSpacing: '0.005em',
               color: paragraphColor,
@@ -939,7 +939,7 @@ const theme = createTheme({
 
           '& .MuiAutocomplete-tag': {
             fontWeight: '600',
-            fontSize: '0.75rem',
+            fontSize: '0.80rem',
             lineHeight: '1rem',
             letterSpacing: '0.005em',
             textTransform: 'uppercase',
@@ -957,7 +957,7 @@ const theme = createTheme({
             },
             '& .MuiChip-label': {
               fontWeight: '600',
-              fontSize: '0.75rem',
+              fontSize: '0.80rem',
               lineHeight: '1rem',
               letterSpacing: '0.005em',
               textTransform: 'uppercase',
@@ -977,6 +977,7 @@ const theme = createTheme({
             '& .MuiFormLabel-root': {
               color: paragraphColor,
               fontWeight: '600',
+              fontSize: '0.95rem',
               top: '0 !important',
               '&.Mui-focused + .MuiFilledInput-root': {
                 flexWrap: 'wrap',
@@ -1058,7 +1059,7 @@ const theme = createTheme({
             },
             '& .MuiAutocomplete-option': {
               padding: '0.4375rem 1rem',
-              fontSize: '0.75rem',
+              fontSize: '0.80rem',
               lineHeight: '1.25rem',
               letterSpacing: '0.16px',
               color: 'rgba(0, 0, 0, 0.8)',
@@ -1089,7 +1090,7 @@ const theme = createTheme({
 
             '& .MuiBox-button': {
               paddingRight: `calc(${gutter} / 4)`,
-              width: '17.7rem',
+              width: '17.8rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
@@ -1192,7 +1193,7 @@ const theme = createTheme({
               },
               '& .MuiFormLabel-root': {
                 fontWeight: 'bold',
-                fontSize: '0.75rem',
+                fontSize: '0.80rem',
                 lineHeight: '1rem',
                 letterSpacing: '0.005em',
                 color: lightBlackColor,
@@ -1239,7 +1240,7 @@ const theme = createTheme({
                 },
                 '& h3': {
                   fontWeight: 'bold',
-                  fontSize: '0.75rem',
+                  fontSize: '0.80rem',
                   lineHeight: '1rem',
                   letterSpacing: '0.005em',
                   color: 'rgba(0, 0, 0, 0.8)',
@@ -1248,7 +1249,7 @@ const theme = createTheme({
                   },
                 },
                 '& p': {
-                  fontSize: '0.75rem',
+                  fontSize: '0.80rem',
                   lineHeight: '1.25rem',
                   letterSpacing: '0.16px',
                   color: 'rgba(0, 0, 0, 0.8)',
@@ -1329,7 +1330,7 @@ const theme = createTheme({
                 letterSpacing: '0.005em',
                 textOverflow: 'ellipsis',
                 overflow: 'hidden',
-                whiteSpace: 'nowrap',
+                lineHeight: '1',
               },
             },
           },
@@ -1377,7 +1378,7 @@ const theme = createTheme({
       },
       label: {
         fontFamily,
-        fontSize: '0.75rem',
+        fontSize: '0.80rem',
         fontWeight: '600',
       },
       containedPrimary: {
@@ -1535,7 +1536,7 @@ const theme = createTheme({
                   '& .labelText': {
                     fontWeight: '500',
                     flexGrow: 1,
-                    fontSize: '0.75rem',
+                    fontSize: '0.80rem',
                     lineHeight: '1rem',
                     color: lightBlackColor,
                     letterSpacing: '0.005em',
@@ -1556,7 +1557,7 @@ const theme = createTheme({
             height: '2.5rem',
             fontWeight: '500',
             cursor: 'pointer',
-            fontSize: '0.75rem',
+            fontSize: '0.80rem',
             lineHeight: '1rem',
             '& img': {
               marginRight: '0.625rem',
@@ -1564,7 +1565,7 @@ const theme = createTheme({
           },
           '& h3': {
             fontWeight: 'bold',
-            fontSize: '0.75rem',
+            fontSize: '0.80rem',
             lineHeight: '1rem',
             height: '2.5rem',
             display: 'flex',

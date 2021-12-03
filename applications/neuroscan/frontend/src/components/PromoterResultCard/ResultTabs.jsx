@@ -3,6 +3,7 @@ import {
   Box, Tabs, Tab,
 } from '@material-ui/core';
 import TIMELINE from '../../images/timeline.svg';
+import MODEL from '../../images/model.svg';
 import { PROMOTER_MEDIA_TYPES } from '../../utilities/constants';
 import VideoPlayer from '../VideoPlayer';
 
@@ -15,6 +16,7 @@ function a11yProps(value) {
 
 const renderTab = (option, fullWidth, whiteBg) => {
   const { mediaType } = option;
+  const idImage = `TIMELINE${option?.label}`;
   switch (mediaType) {
     case PROMOTER_MEDIA_TYPES.video:
       return (
@@ -23,7 +25,12 @@ const renderTab = (option, fullWidth, whiteBg) => {
     default:
       return (fullWidth ? (
         <Box p={2} className={whiteBg ? 'model-box' : ''}>
-          <img src={option?.src || TIMELINE} alt={option?.label} />
+          <img
+            id={idImage}
+            src={option?.src}
+            alt={option?.label}
+            onError={(e) => { e.target.onerror = null; e.target.src = TIMELINE; }}
+          />
         </Box>
 
       ) : (
@@ -31,7 +38,14 @@ const renderTab = (option, fullWidth, whiteBg) => {
           <img
             src={option?.src}
             alt={option?.label}
-            style={{ visibility: option?.src ? 'visible' : 'hidden' }}
+            style={{
+              visibility: option?.src ? 'visible' : 'hidden',
+            }}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.parentElement.style.backgroundColor = 'black';
+              e.target.src = MODEL;
+            }}
           />
         </Box>
       ));

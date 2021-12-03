@@ -92,7 +92,7 @@ const CameraControls = (props) => {
     },
     {
       action: cameraControlsActions.LAYERS,
-      tooltip: 'Layers',
+      tooltip: 'Addons',
       image: LAYERS,
       ref: layersRef,
       constant: VIEWER_MENU.layers,

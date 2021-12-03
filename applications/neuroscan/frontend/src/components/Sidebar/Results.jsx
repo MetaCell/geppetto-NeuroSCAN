@@ -6,6 +6,7 @@ import AddToViewerMenu from './AddToViewerMenu';
 import SearchResult from '../Common/SearchResult';
 import NEURON from '../../images/neuron.svg';
 import CONTACTS from '../../images/contacts.svg';
+import SYNAPSES from '../../images/synapses.svg';
 import { addInstances } from '../../redux/actions/widget';
 import { mapToInstance } from '../../services/instanceHelpers';
 
@@ -23,7 +24,7 @@ const list = [
   {
     title: 'Synapses',
     resultItem: 'synapses',
-    image: CONTACTS,
+    image: SYNAPSES,
   },
 ];
 

@@ -27,8 +27,8 @@ const useStyles = makeStyles(() => ({
     position: 'relative',
     '& p': {
       letterSpacing: '0.005em',
-      fontSize: '.5rem',
-      lineHeight: '.5rem',
+      fontSize: '.6rem',
+      lineHeight: '.6rem',
       fontWeight: 'bold',
       color: vars?.captionTextColor,
       textAlign: 'center',
