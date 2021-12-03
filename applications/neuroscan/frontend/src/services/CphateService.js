@@ -23,7 +23,9 @@ export class CphateService {
     return {
       id,
       uid: id,
-      name: `i:${obj.i} g:${obj.g}`,
+      name: obj.neurons.join(', '),
+      i: obj.i,
+      c: obj.g,
       selected: false,
       instanceType: CPHATE_TYPE,
       group: null,

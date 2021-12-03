@@ -252,7 +252,7 @@ export const getGroupsFromInstances = (instances) => (
     ),
   ]);
 
-const groupBy = (items, key) => items
+export const groupBy = (items, key) => items
   .filter((item) => item[key] !== null)
   .reduce(
     (result, item) => ({

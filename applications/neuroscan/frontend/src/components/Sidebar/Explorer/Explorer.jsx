@@ -20,7 +20,11 @@ import {
   CPHATE_TYPE,
 } from '../../../utilities/constants';
 import { getViewersFromWidgets } from '../../../utilities/functions';
-import { setSelectedInstances, getGroupsFromInstances } from '../../../services/instanceHelpers';
+import {
+  setSelectedInstances,
+  getGroupsFromInstances,
+  groupBy,
+} from '../../../services/instanceHelpers';
 
 const EXPLORER_IMGS = {
   NEURONS,
@@ -57,12 +61,13 @@ const Explorer = () => {
       label,
       instances,
       groups,
+      nodeId,
       ...other
     } = props;
     return (
       <StyledTreeItem
-        nodeId={`${viewerId}_${treeType}`}
-        key={`${viewerId}_${treeType}`}
+        nodeId={nodeId || `${viewerId}_${treeType}`}
+        key={nodeId || `${viewerId}_${treeType}`}
         labelText={label}
         labelIcon={EXPLORER_IMGS[treeType.toUpperCase()]}
         labelInfo={instances.length}
@@ -88,6 +93,10 @@ const Explorer = () => {
     const { viewerId, instances } = widget.config;
     const labelIcon = EXPLORER_IMGS.MORPHOLOGY;
     const groups = getGroupsFromInstances(instances);
+    const iterations = Object.values(groupBy(
+      instances.filter((instance) => instance.instanceType === CPHATE_TYPE),
+      'i',
+    ));
 
     return (
       <StyledTreeItem
@@ -126,6 +135,28 @@ const Explorer = () => {
             );
           })
         }
+        <StyledTreeItem
+          nodeId={`${viewerId}_clusters`}
+          labelText="Clusters"
+          labelIcon={EXPLORER_IMGS[CPHATE_TYPE.toLocaleUpperCase()]}
+          labelInfo={iterations.length}
+          key={`${viewerId}_clusters`}
+        >
+          {
+            iterations.map((items) => {
+              const z = 1;
+              return (
+                <ExplorerTreeItems
+                  viewerId={`${viewerId}`}
+                  nodeId={`${viewerId}_cluster_${items[0].i}`}
+                  treeType={CPHATE_TYPE.toLocaleUpperCase()}
+                  label={`${items[0].i}`}
+                  instances={items}
+                />
+              );
+            })
+          }
+        </StyledTreeItem>
       </StyledTreeItem>
     );
   });

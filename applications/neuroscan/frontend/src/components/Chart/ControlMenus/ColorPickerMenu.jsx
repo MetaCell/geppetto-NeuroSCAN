@@ -42,11 +42,7 @@ const ColorPickerMenu = ({
     }
   };
 
-  const allInstances = neurons.concat(contacts.concat(synapses.concat(clusters)));
-  const [selection, setSelection] = useState(allInstances.find((i) => i.selected));
-
   const handleSelection = (instance) => {
-    setSelection(instance);
     let colorInstances;
     switch (instance.instanceType) {
       case 'ALL':
@@ -73,7 +69,7 @@ const ColorPickerMenu = ({
       key={`${instance.instanceType}-${instance.uid}`}
       button
       onClick={() => handleSelection(instance)}
-      selected={selection === instance || instance.selected}
+      selected={instance.selected}
       autoFocus={instance.selected}
       classes={{
         selected: 'Mui-selected',
@@ -137,7 +133,7 @@ const ColorPickerMenu = ({
             }
           </List>
         </Box>
-        <Box className={`picker ${selection === '' ? '' : ''}`}>
+        <Box className="picker">
           <ChromePicker
             color={background}
             onChangeComplete={handleChangeComplete}
