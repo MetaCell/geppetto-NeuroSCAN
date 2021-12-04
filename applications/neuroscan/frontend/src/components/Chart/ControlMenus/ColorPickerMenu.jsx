@@ -37,7 +37,7 @@ const ColorPickerMenu = ({
   });
 
   const [expanded, setExpanded] = useState([
-    `iteration-${clusters.find((i) => i.selected).i}`,
+    `iteration-${clusters.find((i) => i.selected)?.i || {}}`,
   ]);
 
   const handleChangeComplete = (data) => {
