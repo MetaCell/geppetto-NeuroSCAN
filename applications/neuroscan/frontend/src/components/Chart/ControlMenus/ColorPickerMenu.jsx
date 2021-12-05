@@ -110,7 +110,7 @@ const ColorPickerMenu = ({
             <img src={CLUSTER} alt="" />
           </Box>
           <Typography variant="body2" className="labelText">
-            {`${instance.name} ${instance.selected}`}
+            {`${instance.name}`}
           </Typography>
         </div>
       )}
