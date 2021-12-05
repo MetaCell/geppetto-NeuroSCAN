@@ -55,7 +55,7 @@ const ColorPickerMenu = ({
     let colorInstances;
     switch (instance.instanceType) {
       case 'ALL':
-        colorInstances = neurons.concat(contacts, synapses);
+        colorInstances = neurons.concat(contacts, synapses, clusters);
         break;
 
       case 'GROUP':
