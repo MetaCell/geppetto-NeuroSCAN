@@ -1656,7 +1656,7 @@ const theme = createTheme({
           alignItems: 'center',
         },
         '& .MuiBox-menu': {
-          background: primaryColor,
+          background: whiteTextColor,
           width: '17.7rem',
           height: '2.5rem',
           paddingLeft: gutter,
