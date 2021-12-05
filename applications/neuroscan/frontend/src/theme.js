@@ -242,7 +242,7 @@ const theme = createTheme({
 
             '& .list': {
               flexGrow: 1,
-              maxWidth: '70%',
+              maxWidth: '65%',
               borderRight: `0.0625rem solid ${modalBorderColor}`,
               '& .MuiList-root': {
                 overflow: 'auto',
@@ -299,6 +299,7 @@ const theme = createTheme({
                 },
                 '& .MuiTreeItem-content': {
                   position: 'relative',
+                  width: '95%',
                   zIndex: 1,
                   '& .labelRoot': {
                     display: 'flex',
@@ -345,7 +346,10 @@ const theme = createTheme({
             },
             '& .picker': {
               padding: '0.5rem',
-              maxWidth: '30%',
+              maxWidth: '35%',
+              minWidth: '225px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
               '&.inactive': {
                 '& .chrome-picker ': {
                   opacity: '0.3',
