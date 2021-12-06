@@ -490,6 +490,7 @@ const theme = createTheme({
         '&.Mui-selected': {
           background: blackColor,
           borderRadius: '0.3125rem 0.3125rem 0 0',
+          border: '1px solid #ffffff',
         },
       },
       wrapper: {
@@ -702,6 +703,7 @@ const theme = createTheme({
         '.main-content': {
           height: 'calc(100vh - (20.75rem))',
           overflow: 'auto',
+          backgroundColor: blackColor,
           '& .button-group': {
             padding: '4.25rem 0',
             display: 'flex',
@@ -748,15 +750,18 @@ const theme = createTheme({
             position: 'sticky',
             top: 0,
             zIndex: 2,
+            backgroundColor: blackColor,
           },
           '& .results-wrap': {
             borderBottom: `0.0625rem solid ${borderColor}`,
             paddingBottom: '3.75rem',
           },
           '& .results-box': {
-            background: borderColor,
+            background: blackColor,
             borderRadius: '0.5rem',
             padding: '1.25rem',
+            border: '1px solid',
+            borderColor: whiteTextColor,
             '& .custom-tabs': {
               paddingBottom: '1.5rem',
               height: '100%',
@@ -770,6 +775,7 @@ const theme = createTheme({
               },
               '& .tab-wrap': {
                 height: 'calc(100% - (2.375rem))',
+                border: '1px solid #ffffff',
               },
             },
 
@@ -880,6 +886,7 @@ const theme = createTheme({
           background: subHeaderBg,
           paddingBottom: '4.1875rem',
           transition: 'height ease-in .3s',
+          backgroundColor: blackColor,
 
           '& .wrapper': {
             display: 'flex',
@@ -1649,7 +1656,7 @@ const theme = createTheme({
           alignItems: 'center',
         },
         '& .MuiBox-menu': {
-          background: primaryColor,
+          background: whiteTextColor,
           width: '17.7rem',
           height: '2.5rem',
           paddingLeft: gutter,
