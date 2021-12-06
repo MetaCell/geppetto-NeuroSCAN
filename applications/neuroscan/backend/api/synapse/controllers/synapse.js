@@ -17,7 +17,7 @@
      }
 
      entities = entities.map(entity => {
-      const postNeuronPart = entity.postNeuron ? `-${entity.postNeuron.uid}` : '';
+      const postNeuronPart = entity.postNeuron ? `${entity.postNeuron.uid}` : '';
       const neuronsPostPart = entity.neuronPost.length > 0 ? entity.neuronPost.reduce((r, n, i) => {
         let s = (i != 0 ? ', ' : '');
         let e = (i == entity.neuronPost.length - 1 ? ')' : '');
@@ -25,7 +25,7 @@
       }, ' (') : '';
       return ({
          ...entity,
-         name: entity.name ? entity.name : `pre-${entity.neuronPre.uid}-${entity.type}-post-${postNeuronPart}${neuronsPostPart}`,
+         name: entity.name ? entity.name : `pre-${entity.neuronPre.uid}-${entity.type}-${entity.section}-post-${postNeuronPart}${neuronsPostPart}`,
        })});
  
      return entities.map(entity => {
