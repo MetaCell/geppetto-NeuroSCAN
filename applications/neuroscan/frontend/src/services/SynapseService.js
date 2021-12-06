@@ -47,7 +47,7 @@ export class SynapseService {
     }
     if (filters.synapsesFilter.preNeuron) {
       andPart.push({
-        preNeuron: filters.synapsesFilter.preNeuron,
+        neuronPre: filters.synapsesFilter.preNeuron,
       });
     }
     if (filters.synapsesFilter.postNeuron) {
