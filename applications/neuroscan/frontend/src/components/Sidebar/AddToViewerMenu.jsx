@@ -54,7 +54,7 @@ const AddToViewerMenu = ({
         <Divider key="add-to-viewer-divider" />,
       ];
     }
-    return (<> </>);
+    return [];
   }
 
   return (
