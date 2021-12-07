@@ -147,7 +147,7 @@ const LeftSidebar = (props) => {
                     expandIcon={null}
                   >
                     <Typography component="h3">
-                      Add element Filter
+                      Add Filter
                     </Typography>
                   </AccordionSummary>
                   <Button variant="outlined" onClick={() => setOpenFilterModal(true)}>
