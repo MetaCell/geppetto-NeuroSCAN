@@ -14,6 +14,7 @@ const StyledTreeItem = (props) => {
     labelText,
     labelIcon: LabelIcon,
     labelInfo,
+    viewerId,
     onClick,
     hasExplorerMenu,
     ...other
@@ -52,7 +53,7 @@ const StyledTreeItem = (props) => {
                   color="inherit"
                   aria-label="menu"
                   aria-haspopup="true"
-                  handleMenuClose={handleMenuClose}
+                  // handleMenuClose={handladdteMenuClose}
                   onClick={handleProfileMenuOpen}
                 >
                   <MoreHorizIcon />
@@ -69,6 +70,7 @@ const StyledTreeItem = (props) => {
             anchorEl={anchorEl}
             open={isMenuOpen}
             handleMenuClose={handleMenuClose}
+            viewerId={viewerId}
             {...other}
           />
         )

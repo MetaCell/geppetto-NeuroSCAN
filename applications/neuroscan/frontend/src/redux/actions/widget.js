@@ -9,9 +9,10 @@ export const UPDATE_VIEWER_ROTATE = 'UPDATE_VIEWER_ROTATE';
 export const ROTATE_START_ALL = 'ROTATE_START_ALL';
 export const ROTATE_STOP_ALL = 'ROTATE_STOP_ALL';
 
-export const addInstances = ((viewerId, instances) => ({
+export const addInstances = ((viewerId, instances, viewerType = null) => ({
   type: ADD_INSTANCES,
   viewerId,
+  viewerType,
   instances,
 }));
 

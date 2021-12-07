@@ -230,6 +230,7 @@ const theme = createTheme({
       },
       paper: {
         background: whiteTextColor,
+        maxWidth: '65%',
         boxShadow: '0 0.125rem 0.4375rem rgba(0, 0, 0, 0.15), 0 0.3125rem 1.0625rem rgba(0, 0, 0, 0.2)',
         borderRadius: '0.125rem',
         overflowX: 'visible',
@@ -241,6 +242,7 @@ const theme = createTheme({
 
             '& .list': {
               flexGrow: 1,
+              maxWidth: '65%',
               borderRight: `0.0625rem solid ${modalBorderColor}`,
               '& .MuiList-root': {
                 overflow: 'auto',
@@ -251,7 +253,7 @@ const theme = createTheme({
                   marginBottom: `calc(${gutter} / 4)`,
                 },
                 '& .MuiListItem-root': {
-                  padding: '0',
+                  padding: '4px 0 4px 0',
                   '&.Mui-selected': {
                     background: treeItemActiveColor,
                   },
@@ -264,7 +266,6 @@ const theme = createTheme({
                       color: lightBlackColor,
                       display: 'flex',
                       alignItems: 'center',
-                      height: '2rem',
                       padding: '0 1rem',
                       cursor: 'pointer',
                       '& img': {
@@ -274,10 +275,81 @@ const theme = createTheme({
                   },
                 },
               },
+              '& .MuiTreeItem-root': {
+                position: 'relative',
+                '&.Mui-expanded': {
+                  '&> .MuiTreeItem-content': {
+                    '&> .MuiTreeItem-label': {
+                      '&> .labelRoot': {
+                        '& img': {
+                          transform: 'rotate(0deg)',
+                          transition,
+                        },
+                      },
+                    },
+                  },
+                },
+                '& > .MuiTreeItem-content .MuiTreeItem-label': {
+                  background: 'transparent',
+                },
+                '&.Mui-selected': {
+                  '& > .MuiTreeItem-content .MuiTreeItem-label': {
+                    background: `${treeItemActiveColor} !important`,
+                  },
+                },
+                '& .MuiTreeItem-content': {
+                  position: 'relative',
+                  width: '95%',
+                  zIndex: 1,
+                  '& .labelRoot': {
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0.5625rem 0.6875rem',
+                    '&:hover': {
+                      '& .MuiIconButton-root': {
+                        display: 'block',
+                        transition,
+                      },
+                    },
+                    '& .MuiIconButton-root': {
+                      padding: 0,
+                      display: 'none',
+                      marginLeft: '0.5rem',
+                      transition,
+                    },
+                    '& > img': {
+                      transform: 'rotate(-90deg)',
+                      transition,
+                      marginRight: '.5rem',
+                    },
+                  },
+                  '& .labelIcon': {
+                    margin: '0 .5rem 0 0',
+                    flexShrink: 0,
+                  },
+                  '& .MuiIconButton-edgeStart': {
+                    marginLeft: 0,
+                  },
+                  '& .labelText': {
+                    fontWeight: '500',
+                    flexGrow: 1,
+                    fontSize: '0.80rem',
+                    lineHeight: '1rem',
+                    color: lightBlackColor,
+                    letterSpacing: '0.005em',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                  },
+                },
+              },
             },
             '& .picker': {
               padding: '0.5rem',
-              width: '13.0625rem',
+              maxWidth: '35%',
+              minWidth: '225px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
               '&.inactive': {
                 '& .chrome-picker ': {
                   opacity: '0.3',

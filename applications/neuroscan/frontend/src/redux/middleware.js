@@ -36,7 +36,7 @@ import {
 
 const devStagesService = new DevStageService();
 
-const getWidget = (store, viewerId) => {
+const getWidget = (store, viewerId, viewerType) => {
   const state = store.getState();
   const { widgets } = state;
   const widget = widgets[viewerId];
@@ -54,7 +54,8 @@ const getWidget = (store, viewerId) => {
     }, 1);
     return {
       id: null,
-      name: `Viewer ${viewerNumber} (${devStage.name} ${timePoint})`,
+      name: `${viewerType} ${viewerNumber} (${devStage.name} ${timePoint})`,
+      type: viewerType,
       timePoint,
     };
   }
@@ -84,7 +85,7 @@ const middleware = (store) => (next) => (action) => {
         .then(() => {
           store.dispatch(
             addToWidget(
-              getWidget(store, action.viewerId),
+              getWidget(store, action.viewerId, action.viewerType),
               action.instances,
             ),
           );

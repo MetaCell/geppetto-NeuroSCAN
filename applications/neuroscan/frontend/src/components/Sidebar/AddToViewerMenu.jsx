@@ -10,6 +10,7 @@ import {
 import MENU_CHECKMARK_ON from '../../images/menu-checkmark-on.svg';
 import PLUS from '../../images/plus-white.svg';
 import { getViewersFromWidgets } from '../../utilities/functions';
+import { VIEWERS } from '../../utilities/constants';
 
 const useStyles = makeStyles(() => ({
   mr_8: {
@@ -31,7 +32,8 @@ const AddToViewerMenu = ({
         <Typography key="add-to-viewer-text">Add to existing viewer</Typography>,
         viewers.map((viewer) => {
           const instanceName = anchorEl?.parentNode?.textContent.replace('Add to', '');
-          let isEnabled = viewer.config.timePoint === timePoint;
+          let isEnabled = viewer.config.timePoint === timePoint
+            && viewer.config.type === VIEWERS.InstanceViewer;
           if (isEnabled) {
             const isInstancePresent = (inst) => {
               if (inst.name === instanceName) {
@@ -52,7 +54,7 @@ const AddToViewerMenu = ({
         <Divider key="add-to-viewer-divider" />,
       ];
     }
-    return (<> </>);
+    return [];
   }
 
   return (

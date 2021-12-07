@@ -20,36 +20,59 @@ export const invertColor = ({
 
 export const invertColorSelectedInstances = (instances) => (
   instances
-    .map((instance) => ({
-      ...instance,
-      color: instance.selected ? invertColor(instance.color) : instance.color,
-    }))
-);
+    .map((instance) => {
+      if (!instance.selected) {
+        return instance;
+      }
+      const { color } = instance;
+      const newInstance = { ...instance };
+      if (instance.colorOriginal) {
+        newInstance.color = instance.selected ? invertColor(color) : color;
+      } else if (color) {
+        delete newInstance.color;
+      } else {
+        // eslint-disable-next-line object-curly-newline
+        newInstance.color = { r: 1, g: 0, b: 0, a: 1 };
+      }
+      return newInstance;
+    }));
 
 export const setOriginalColorSelectedInstances = (instances) => (
   instances
-    .map((instance) => ({
-      ...instance,
-      color: instance.colorOriginal ? instance.colorOriginal : instance.color,
-    }))
-);
+    .map((instance) => {
+      const newInstance = {
+        ...instance,
+        color: instance.colorOriginal ? instance.colorOriginal : instance.color,
+      };
+      if (!instance.colorOriginal || !instance.color) {
+        delete newInstance.color;
+        delete newInstance.colorOriginal;
+      }
+      return newInstance;
+    }));
 
-const updateInstanceSelected = (instances, selectedUids) => instances.map((instance) => {
-  if (selectedUids.find((x) => x === instance.uid)) {
+const updateInstanceSelected = (instances, selectedUids) => {
+  const i = instances.map((instance) => {
+    if (selectedUids.find((x) => x === instance.uid)) {
+      return {
+        ...instance,
+        selected: true,
+        colorOriginal: instance.color,
+        color: instance.color
+          ? invertColor(instance.color)
+          // eslint-disable-next-line object-curly-newline
+          : { r: 1, g: 0, b: 0, a: 1 },
+      };
+    }
     return {
       ...instance,
-      selected: true,
-      colorOriginal: instance.color,
-      color: invertColor(instance.color),
+      selected: false,
     };
-  }
-  return {
-    ...instance,
-    selected: false,
-  };
-});
+  });
+  return i;
+};
 
-export const setSelectedInstances = (viewerId, instances, selectedUids) => {
+export const setSelectedInstances = (viewerId, instances, selectedUids) => (
   store.dispatch(updateWidgetConfig(
     viewerId, {
       flash: true,
@@ -57,8 +80,7 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
         instances, selectedUids,
       ),
     },
-  ));
-};
+  )));
 
 export const updateInstanceGroup = (instances, instanceList, newGroup = null) => instances
   .map((instance) => {
@@ -231,18 +253,33 @@ export const getGroupsFromInstances = (instances) => (
     ),
   ]);
 
-const groupBy = (items, key) => items
-  .filter((item) => item[key] !== null)
-  .reduce(
-    (result, item) => ({
-      ...result,
-      [item[key]]: [
-        ...(result[item[key]] || []),
-        item,
-      ],
-    }),
-    {},
-  );
+// export const groupBy = (items, key) => items
+//   .filter((item) => item[key] !== null)
+//   .reduce(
+//     (result, item) => ({
+//       ...result,
+//       [item[key]]: [
+//         ...(result[item[key]] || []),
+//         item,
+//       ],
+//     }),
+//     {},
+//   );
+
+export const groupBy = (items, key) => {
+  const results = {};
+  for (let i = 0; items.length > i; i += 1) {
+    if (items[i][key] === null) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    if (!(items[i][key] in results)) {
+      results[items[i][key]] = [];
+    }
+    results[items[i][key]].push(items[i]);
+  }
+  return results;
+};
 
 export const getInstancesOfType = (instances, instanceType) => (
   groupBy(instances, 'instanceType'))[instanceType];

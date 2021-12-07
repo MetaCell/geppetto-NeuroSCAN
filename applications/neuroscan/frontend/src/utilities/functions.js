@@ -19,7 +19,8 @@ export const flatten = (children, extractChildren) => Array.prototype.concat.app
 export const getViewersFromWidgets = (widgets) => {
   const viewers = [];
   Object.values(widgets).forEach((item) => {
-    if (item.component === VIEWERS.InstanceViewer) {
+    if ((item.component === VIEWERS.InstanceViewer)
+     || (item.component === VIEWERS.CphateViewer)) {
       viewers.push(item);
     }
   });
@@ -48,7 +49,7 @@ export const addToWidget = (
   if (widget.id === null) {
     const newViewerId = uuidv4();
     const newWidget = {
-      type: VIEWERS.InstanceViewer,
+      type: widget.type,
       cameraOptions: {
         angle: 50,
         near: 0.01,

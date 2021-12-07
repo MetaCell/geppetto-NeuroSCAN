@@ -9,6 +9,7 @@ import CONTACTS from '../../images/contacts.svg';
 import SYNAPSES from '../../images/synapses.svg';
 import { addInstances } from '../../redux/actions/widget';
 import { mapToInstance } from '../../services/instanceHelpers';
+import { VIEWERS } from '../../utilities/constants';
 
 const list = [
   {
@@ -47,7 +48,7 @@ const Results = () => {
 
   const handleAddToViewer = (viewerId = null) => {
     const instances = [mapToInstance(currentItem)];
-    dispatch(addInstances(viewerId, instances));
+    dispatch(addInstances(viewerId, instances, VIEWERS.InstanceViewer));
     handleClose();
   };
 
