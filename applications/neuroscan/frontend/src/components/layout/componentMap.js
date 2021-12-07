@@ -4,6 +4,7 @@ import InstanceViewer from '../viewers/InstanceViewer';
 
 const componentMap = {
   [VIEWERS.InstanceViewer]: InstanceViewer,
+  [VIEWERS.CphateViewer]: InstanceViewer,
 };
 
 export default componentMap;

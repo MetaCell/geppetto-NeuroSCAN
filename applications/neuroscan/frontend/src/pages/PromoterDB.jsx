@@ -20,6 +20,7 @@ import PromoterHeader from '../images/promoterHeader.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    backgroundColor: '#000000',
     [theme.breakpoints.down('md')]: {
       paddingTop: '2.5rem',
       '& .wrapper': {

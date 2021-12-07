@@ -6,7 +6,8 @@ export const VIEWS = {
 };
 
 export const VIEWERS = Object.freeze({
-  InstanceViewer: 'InstanceViewer',
+  InstanceViewer: 'Viewer',
+  CphateViewer: 'Cphate',
 });
 
 export const ABOUT_CONTENT = `is an initiative from the Yale University for Neurosciences, in partnership
@@ -31,7 +32,7 @@ export const filesURL = `${backendURL}/files`;
 export const NEURON_TYPE = 'neuron';
 export const CONTACT_TYPE = 'contact';
 export const SYNAPSE_TYPE = 'synapse';
-export const CPHATE_TYPE = 'cphate';
+export const CPHATE_TYPE = 'cluster';
 
 export const CANVAS_BACKGROUND_COLOR_LIGHT = 0xFFFFFF;
 export const CANVAS_BACKGROUND_COLOR_DARK = 0x2C2C2C;

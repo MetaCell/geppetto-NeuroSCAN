@@ -3,6 +3,7 @@ import doSearch from '../services/helpers';
 import cphateService from '../services/CphateService';
 import { ADD_CPHATE, addInstances } from './actions/widget';
 import { raiseError, loading, loadingSuccess } from './actions/misc';
+import { VIEWERS } from '../utilities/constants';
 
 const searchMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
@@ -33,7 +34,7 @@ const searchMiddleware = (store) => (next) => (action) => {
         .then((cphate) => {
           if (cphate) {
             const cphateInstances = cphateService.getInstances(cphate);
-            store.dispatch(addInstances(null, cphateInstances));
+            store.dispatch(addInstances(null, cphateInstances, VIEWERS.CphateViewer));
           }
           next(loadingSuccess(msg, action.type));
         }, (e) => {

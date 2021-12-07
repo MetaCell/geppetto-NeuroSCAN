@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   List,
   ListItem,
   Divider,
   ListItemText,
+  Typography,
   Box,
 } from '@material-ui/core';
+import TreeView from '@material-ui/lab/TreeView';
+import TreeItem from '@material-ui/lab/TreeItem';
 import { ChromePicker } from 'react-color';
 import { setInstancesColor } from '../../../redux/actions/widget';
 import MORPHOLOGY from '../../../images/morphology.svg';
@@ -13,6 +16,9 @@ import GROUP from '../../../images/group.svg';
 import NEURON from '../../../images/neuron.svg';
 import SYNAPSE from '../../../images/synapse.svg';
 import CONTACT from '../../../images/contact.svg';
+import CLUSTER from '../../../images/cluster.svg';
+// eslint-disable-next-line import/no-cycle
+import { groupBy } from '../../../services/instanceHelpers';
 
 const ColorPickerMenu = ({
   dispatch,
@@ -21,6 +27,7 @@ const ColorPickerMenu = ({
   neurons,
   contacts,
   synapses,
+  clusters,
 }) => {
   const [background, setBackground] = useState({
     r: Math.random() * 255,
@@ -28,6 +35,10 @@ const ColorPickerMenu = ({
     b: Math.random() * 255,
     a: 1,
   });
+
+  const [expanded, setExpanded] = useState([
+    `iteration-${clusters.find((i) => i.selected)?.i || {}}`,
+  ]);
 
   const handleChangeComplete = (data) => {
     if (data.rgb !== background) {
@@ -40,14 +51,11 @@ const ColorPickerMenu = ({
     }
   };
 
-  const [selection, setSelection] = useState('');
-
   const handleSelection = (instance) => {
-    setSelection(instance);
     let colorInstances;
     switch (instance.instanceType) {
       case 'ALL':
-        colorInstances = neurons.concat(contacts, synapses);
+        colorInstances = neurons.concat(contacts, synapses, clusters);
         break;
 
       case 'GROUP':
@@ -70,7 +78,11 @@ const ColorPickerMenu = ({
       key={`${instance.instanceType}-${instance.uid}`}
       button
       onClick={() => handleSelection(instance)}
-      selected={selection === instance}
+      selected={instance.selected}
+      autoFocus={instance.selected}
+      classes={{
+        selected: 'Mui-selected',
+      }}
     >
       <ListItemText>
         <img src={image} alt={instance.name} />
@@ -78,6 +90,43 @@ const ColorPickerMenu = ({
       </ListItemText>
     </ListItem>
   );
+
+  const focusRef = useRef(null);
+
+  useEffect(() => {
+    if (focusRef.current) {
+      focusRef.current.focus();
+    }
+  }, []);
+
+  const clusterItem = (image, instance) => (
+    <TreeItem
+      nodeId={`cluster-${instance.uid}`}
+      onClick={() => handleSelection(instance)}
+      ref={instance.selected ? focusRef : undefined}
+      label={(
+        <div className="labelRoot">
+          <Box className="labelIcon">
+            <img src={CLUSTER} alt="" />
+          </Box>
+          <Typography variant="body2" className="labelText">
+            {`${instance.name}`}
+          </Typography>
+        </div>
+      )}
+    />
+  );
+
+  const iterations = Object.values(groupBy(
+    clusters,
+    'i',
+  ));
+
+  const handleToggle = (event, nodeIds) => {
+    setExpanded([nodeIds[0]]);
+  };
+
+  const selected = clusters.find((i) => i.selected);
 
   return (
     <Box className="color-picker">
@@ -123,12 +172,51 @@ const ColorPickerMenu = ({
                 rowItem(SYNAPSE, synapse)
               ))
             }
+            { iterations.length > 0
+              && (
+              <TreeView
+                className="scrollbar"
+                defaultCollapseIcon={false}
+                defaultExpandIcon={false}
+                defaultEndIcon={false}
+                onNodeToggle={handleToggle}
+                selected={selected
+                  ? [`iteration-${selected.i}`, `cluster-${selected.uid}`]
+                  : []}
+                expanded={expanded}
+              >
+                {
+                  iterations.map((iteration) => (
+                    <TreeItem
+                      nodeId={`iteration-${iteration[0].i}`}
+                      label={(
+                        <div className="labelRoot">
+                          <Box className="labelIcon">
+                            <img src={CLUSTER} alt="" />
+                          </Box>
+                          <Typography variant="body2" className="labelText">
+                            {`${iteration[0].i}`}
+                          </Typography>
+                        </div>
+                      )}
+                    >
+                      {
+                        iteration
+                          .map((cluster) => (
+                            clusterItem(CLUSTER, cluster)
+                          ))
+                      }
+                    </TreeItem>
+                  ))
+                }
+              </TreeView>
+              )}
           </List>
         </Box>
-        <Box className={`picker ${selection === '' ? '' : ''}`}>
+        <Box className="picker">
           <ChromePicker
             color={background}
-            onChange={handleChangeComplete}
+            onChangeComplete={handleChangeComplete}
           />
         </Box>
       </Box>
