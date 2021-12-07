@@ -80,12 +80,11 @@ class Viewer extends React.Component {
     this.onSelection = this.onSelection.bind(this);
     this.hoverListener = this.hoverListener.bind(this);
     this.initCanvasData = this.initCanvasData.bind(this);
-    this.findInstanceUidForObj = this.findInstanceUidForObj.bind(this);
   }
 
   onSelection(selectedInstances) {
-    const { viewerId } = this.props;
-    setSelectedInstances(viewerId, this.getInstancesFromStore(), selectedInstances);
+    const { viewerId, instances } = this.props;
+    setSelectedInstances(viewerId, instances, selectedInstances);
   }
 
   onMount(scene) {
@@ -93,17 +92,11 @@ class Viewer extends React.Component {
     console.log(scene);
   }
 
-  getInstancesFromStore() {
-    const { viewerId } = this.props;
-    const state = store.getState();
-    return state.widgets[viewerId].config.instances;
-  }
-
   hoverListener(objs, canvasX, canvasY) {
     const obj = objs[0];
-    const localInstances = this.getInstancesFromStore();
+    const { instances } = this.props;
     const intersectedInstanceUid = this.findInstanceUidForObj(obj.object);
-    const intersectedInstance = localInstances.find((i) => i.uid === intersectedInstanceUid);
+    const intersectedInstance = instances.find((i) => i.uid === intersectedInstanceUid);
 
     if (intersectedInstance?.uid) {
       this.tooltipRef?.current?.updateIntersected({
@@ -139,15 +132,15 @@ class Viewer extends React.Component {
     if (flash) {
       let counter = 1;
       const interval = setInterval(() => {
-        i = invertColorSelectedInstances(i);
-        if (counter === 4) {
+        if (counter === 6) {
           clearInterval(interval);
           i = setOriginalColorSelectedInstances(i);
+        } else {
+          i = invertColorSelectedInstances(i);
         }
         updateWidget(viewerId, { flash: false, instances: i });
         counter += 1;
-      }, 300);
-      updateWidget(viewerId, { flash: false });
+      }, 750);
     }
     return (i.map((instance) => ({
       instancePath: instance.uid,
