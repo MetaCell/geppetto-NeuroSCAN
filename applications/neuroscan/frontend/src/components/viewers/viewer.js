@@ -110,7 +110,7 @@ class Viewer extends React.Component {
       }
       this.timeoutRef.current = setTimeout(() => {
         this.tooltipRef?.current?.updateIntersected(null);
-      }, 100);
+      }, 1000);
     }
   }
 
