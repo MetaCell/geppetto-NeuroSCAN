@@ -253,18 +253,33 @@ export const getGroupsFromInstances = (instances) => (
     ),
   ]);
 
-export const groupBy = (items, key) => items
-  .filter((item) => item[key] !== null)
-  .reduce(
-    (result, item) => ({
-      ...result,
-      [item[key]]: [
-        ...(result[item[key]] || []),
-        item,
-      ],
-    }),
-    {},
-  );
+// export const groupBy = (items, key) => items
+//   .filter((item) => item[key] !== null)
+//   .reduce(
+//     (result, item) => ({
+//       ...result,
+//       [item[key]]: [
+//         ...(result[item[key]] || []),
+//         item,
+//       ],
+//     }),
+//     {},
+//   );
+
+export const groupBy = (items, key) => {
+  const results = {};
+  for (let i = 0; items.length > i; i += 1) {
+    if (items[i][key] === null) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    if (!(items[i][key] in results)) {
+      results[items[i][key]] = [];
+    }
+    results[items[i][key]].push(items[i]);
+  }
+  return results;
+};
 
 export const getInstancesOfType = (instances, instanceType) => (
   groupBy(instances, 'instanceType'))[instanceType];
