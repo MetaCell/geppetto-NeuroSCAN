@@ -701,8 +701,8 @@ const theme = createTheme({
           margin: '0 auto',
         },
         '.main-content': {
-          height: 'calc(100vh - (20.75rem))',
-          overflow: 'auto',
+          // height: 'calc(100vh - (20.75rem))',
+          // overflow: 'auto',
           backgroundColor: blackColor,
           '& .button-group': {
             padding: '4.25rem 0',
@@ -748,7 +748,7 @@ const theme = createTheme({
             paddingTop: '2.625rem',
             paddingBottom: '2rem',
             position: 'sticky',
-            top: 0,
+            top: 100,
             zIndex: 2,
             backgroundColor: blackColor,
           },
@@ -887,12 +887,14 @@ const theme = createTheme({
           paddingBottom: '4.1875rem',
           transition: 'height ease-in .3s',
           backgroundColor: blackColor,
+          position: 'sticky',
 
           '& .wrapper': {
             display: 'flex',
             height: '100%',
             flexDirection: 'column',
             justifyContent: 'flex-end',
+
             '& p': {
               fontWeight: '600',
               fontSize: '0.80rem',
@@ -901,6 +903,10 @@ const theme = createTheme({
               color: paragraphColor,
               marginBottom: '1.5rem',
               transition,
+            },
+
+            '& img': {
+              maxHeight: '100%',
             },
 
             '& h1': {
@@ -931,6 +937,18 @@ const theme = createTheme({
           },
         },
         '.filter-box': {
+
+          '&.sticky': {
+            top: '2.125rem',
+            zIndex: 10,
+            position: 'sticky',
+
+            // '& .filters': {
+            //   borderRadius: 0,
+            //   transition: 'border-radius ease-in-out .3s',
+            // },
+          },
+
           '& .MuiAutocomplete-clearIndicator': {
             color: whiteTextColor,
           },
@@ -973,6 +991,7 @@ const theme = createTheme({
           },
           '& .filters': {
             // minHeight: '5rem',
+            // transition: 'border-radius ease-in-out .3s',
             background: filtersBgColor,
             display: 'flex',
             alignItems: 'flex-start',
@@ -1086,6 +1105,9 @@ const theme = createTheme({
           height: '100vh',
           '&.height-auto': {
             height: 'auto',
+            position: 'sticky',
+            top: 0,
+            zIndex: 999,
           },
 
           '& .section-header': {

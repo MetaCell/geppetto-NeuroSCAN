@@ -98,16 +98,6 @@ const useStyles = makeStyles((theme) => ({
       height: '100%',
     },
   },
-  promoheader: {
-    width: '100%',
-    height: '15%',
-    left: '0',
-    position: 'absolute',
-    top: '4rem',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    display: 'block',
-  },
 }));
 
 const recordsPerPage = 5;
@@ -220,13 +210,11 @@ const PromoterDB = () => {
 
       <Box className="sub-header">
         <Box className="wrapper">
-          <Box>
-            <img className={classes.promoheader} src={PromoterHeader} alt={<Typography component="h1">Explore Promoters and Neurons in seconds.</Typography>} />
-          </Box>
+          <img src={PromoterHeader} alt={<Typography component="h1">Explore Promoters and Neurons in seconds.</Typography>} />
         </Box>
       </Box>
 
-      <Box className="wrapper filter-box">
+      <Box className="wrapper filter-box sticky">
         <List className="filters">
           <ListItem>
             <AutocompleteFilter
@@ -255,7 +243,6 @@ const PromoterDB = () => {
             {renderMenu}
           </ListItem>
         </List>
-
       </Box>
 
       <Box className="main-content scrollbar">
