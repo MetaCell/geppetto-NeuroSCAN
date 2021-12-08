@@ -232,18 +232,16 @@ const theme = createTheme({
           '& .MuiPopover-paper': {
             width: 'calc(100% - 6.25rem) !important',
             left: '3.125rem !important',
-            top: '19.6875rem !important',
+            transform: 'translateY(2.5rem) !important',
 
             '@media screen and (max-width: 1279.95px)': {
               width: 'calc(100% - 4rem) !important',
               left: '2rem !important',
-              top: '22.1875rem !important',
             },
 
             '@media screen and (max-width: 599.95px)': {
               width: 'calc(100% - 2rem) !important',
               left: '1rem !important',
-              top: '26.25rem !important',
             },
             '& > .MuiBox-root': {
               justifyContent: 'flex-end',
