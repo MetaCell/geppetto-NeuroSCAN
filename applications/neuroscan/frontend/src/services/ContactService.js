@@ -23,7 +23,10 @@ export class ContactService {
   async getByUID(timePoint, uids = []) {
     const query = `timepoint=${timePoint}${uids.map((uid, i) => `${(i === 0) ? '&' : ''}uid_in=${uid}`)}`;
     const response = await backendClient.get(`${contactsUrl}?${query}`);
-    return response.data;
+    return response.data.map((contact) => ({
+      instanceType: CONTACT_TYPE,
+      ...contact,
+    }));
   }
 
   constructQuery(searchState) {

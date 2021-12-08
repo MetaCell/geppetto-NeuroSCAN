@@ -83,6 +83,6 @@ def get_source_split(source, split):
     if split:
         try:
             return apply_regex(split, source)
-        except:
+        except Exception as e:
             return 'unknown_source'
     return 'common_source'

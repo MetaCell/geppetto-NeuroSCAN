@@ -32,6 +32,7 @@ import {
   updateInstanceGroup,
   setInstancesColor,
   getInstancesOfType,
+  mapToInstance,
 } from '../services/instanceHelpers';
 
 const devStagesService = new DevStageService();
@@ -129,7 +130,8 @@ const middleware = (store) => (next) => (action) => {
               .then((newContacts) => {
                 synapseService.getByUID(timePoint, synapses.map((n) => n.uidFromDb))
                   .then((newSynapses) => {
-                    const newInstances = newNeurons.concat(newContacts.concat(newSynapses));
+                    const newInstances = newNeurons.concat(newContacts.concat(newSynapses))
+                      .map((i) => mapToInstance(i));
                     widget.config.timePoint = timePoint; // update the current widget's timepoint
                     createSimpleInstancesFromInstances(newInstances)
                       .then(() => {

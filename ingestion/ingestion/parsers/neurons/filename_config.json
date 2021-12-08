@@ -1,18 +1,18 @@
 {
   "parser": "file",
   "directory": "../../../data/neuroscan/",
-  "include": ".*/\\w*/\\d*/neurons/\\w*\\.obj",
+  "include": ".*/\\w*/\\d*/neurons/\\w*\\.gltf",
   "regex": {
     "id":{
-      "expression": "_(.*)_\\1",
-      "match": "$1"
+      "expression": ".*\\/\\w*\\/(\\d*)\\/neurons\\/.*_(.*)\\.gltf",
+      "match": "$1_$2"
     },
     "uid":{
-      "expression": "_(.*)_\\1",
+      "expression": "_(.*)\\.gltf",
       "match": "$1"
     },
     "timepoint": {
-      "expression": ".*\\/\\w*\\/(\\d*)\\/neurons\\/\\w*\\.obj",
+      "expression": ".*\\/\\w*\\/(\\d*)\\/neurons\\/\\w*\\.gltf",
       "match": "$1"
     }
   }

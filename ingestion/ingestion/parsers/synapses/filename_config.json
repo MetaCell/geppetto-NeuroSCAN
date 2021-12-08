@@ -1,50 +1,50 @@
 {
   "parser": "file",
   "directory": "../../../data/neuroscan/",
-  "include": ".*/\\w*/\\d*/synapses/\\w*[PostSyn|PreSyn]/.*\\.obj",
+  "include": ".*/\\w*/\\d*/synapses/.*\\.gltf",
   "regex": {
     "id":{
-      "expression": ".*/(\\d*)/synapses/(.+)/(.+)\\.obj",
-      "match": "$1_$2_$3"
+      "expression": ".*/(\\d*)/synapses/(.+)\\.gltf",
+      "match": "$1_$2"
     },
     "uid":{
-      "expression": ".*/(\\d*)/synapses/(.+)/(.+)\\.obj",
-      "match": "$2_$3"
+      "expression": ".*/(\\d*)/synapses/(.+)\\.gltf",
+      "match": "$2"
     },
     "timepoint": {
-      "expression": ".*/\\w*/(\\d*)/synapses/\\w*[PostSyn|PreSyn]/.*\\.obj",
+      "expression": ".*/\\w*/(\\d*)/synapses/.*\\.gltf",
       "match": "$1"
     },
     "type": {
-      "expression": ".+/.+(electrical|chemical).+\\.obj",
+      "expression": ".+/.+(electrical|chemical|undefined).+\\.gltf",
       "match": "$1"
     },
     "section": {
-      "expression": ".+/.+_((:?certain|uncertain).+?)_.+\\.obj",
+      "expression": ".*/.*\\-(.*)_.*\\.gltf",
       "match": "$1"
     },
     "zs": {
-      "expression": ".+/.+zs(\\d*).+\\.obj",
+      "expression": ".+/.+zs(\\d*).+\\.gltf",
       "match": "$1"
     },
     "position": {
-      "expression": ".*/\\w*/\\d*/synapses/\\w*(Post|Pre)Syn/.*\\.obj",
+      "expression": ".*/\\w*/\\d*/synapses/.*(post|pre).*\\.gltf",
       "match": "$1"
     },
     "neuronSite": {
-      "expression": ".*-(\\d*)\\.obj",
+      "expression": ".*/\\w*/\\d*/synapses/.*[post|pre](\\d*)\\.gltf",
       "match": "$1"
     },
     "neuronPre": {
-      "expression": "_(\\w*?)(?:chemical|electrical).+\\.obj",
+      "expression": "_(.*?)(?:chemical|electrical|undefined).+\\.gltf",
       "match": "$1"
     },
     "neuronPost": {
-      "expression": ".*_.+(?:chemical|electrical)(.+?(:?&.+?)*?)_.*\\.obj",
+      "expression": ".*_.*(?:chemical|electrical|undefined)(.+?(:?_.+?)*?)-[A-Z].*\\.gltf",
       "match": "$1"
     },
     "postNeuron": {
-      "expression": ".*/\\w*/\\d*/synapses/(.*)_[PostSyn|PreSyn]*/.*\\.obj",
+      "expression": ".*/\\w*/\\d*/synapses/(.*)[post|pre]*/.*\\.gltf",
       "match": "$1"
     }
   },

@@ -23,7 +23,10 @@ export class SynapseService {
   async getByUID(timePoint, uids = []) {
     const query = `timepoint=${timePoint}${uids.map((uid) => `&uid_in=${uid}`)}`;
     const response = await backendClient.get(`${synapsesBackendUrl}?${query}`);
-    return response.data;
+    return response.data.map((synapse) => ({
+      instanceType: SYNAPSE_TYPE,
+      ...synapse,
+    }));
   }
 
   constructQuery(searchState) {

@@ -12,9 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "uid": {
-      "type": "uid"
-    },
     "neuronA": {
       "model": "neuron"
     },
@@ -36,6 +33,9 @@
       "type": "biginteger"
     },
     "name": {
+      "type": "string"
+    },
+    "uid": {
       "type": "string"
     }
   }

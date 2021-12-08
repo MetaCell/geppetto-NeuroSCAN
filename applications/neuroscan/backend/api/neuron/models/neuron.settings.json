@@ -18,10 +18,6 @@
     "wormatlas": {
       "type": "string"
     },
-    "uid": {
-      "type": "uid",
-      "required": true
-    },
     "embryonic": {
       "type": "boolean"
     },
@@ -41,6 +37,9 @@
       "required": true
     },
     "name": {
+      "type": "string"
+    },
+    "uid": {
       "type": "string"
     }
   }
