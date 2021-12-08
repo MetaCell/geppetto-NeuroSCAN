@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
       },
       '& .sub-header': {
         height: 'auto',
-        paddingTop: '0',
+        paddingTop: '0.5rem',
         '& .wrapper p': {
           padding: '1rem 0',
           margin: 0,
@@ -97,16 +97,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       height: '100%',
     },
-  },
-  promoheader: {
-    width: '100%',
-    height: '15%',
-    left: '0',
-    position: 'absolute',
-    top: '4rem',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    display: 'block',
   },
 }));
 
@@ -220,13 +210,11 @@ const PromoterDB = () => {
 
       <Box className="sub-header">
         <Box className="wrapper">
-          <Box>
-            <img className={classes.promoheader} src={PromoterHeader} alt={<Typography component="h1">Explore Promoters and Neurons in seconds.</Typography>} />
-          </Box>
+          <img src={PromoterHeader} alt={<Typography component="h1">Explore Promoters and Neurons in seconds.</Typography>} />
         </Box>
       </Box>
 
-      <Box className="wrapper filter-box">
+      <Box className="wrapper filter-box sticky">
         <List className="filters">
           <ListItem>
             <AutocompleteFilter
@@ -255,7 +243,6 @@ const PromoterDB = () => {
             {renderMenu}
           </ListItem>
         </List>
-
       </Box>
 
       <Box className="main-content scrollbar">

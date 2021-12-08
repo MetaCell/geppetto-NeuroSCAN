@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: '0.5rem',
     },
     '& .add-element': {
-      border: '4px solid #4c276a',
+      border: `4px solid ${vars.primaryColor}`,
       '&_head': {
         paddingRight: '1rem',
         '& > .MuiButton-root': {
@@ -147,7 +147,7 @@ const LeftSidebar = (props) => {
                     expandIcon={null}
                   >
                     <Typography component="h3">
-                      Add element Filter
+                      Add Filter
                     </Typography>
                   </AccordionSummary>
                   <Button variant="outlined" onClick={() => setOpenFilterModal(true)}>
