@@ -1,10 +1,10 @@
 {
   "parser": "file",
   "directory": "../../../data/neuroscan/",
-  "include": ".*/cphate/.*.obj",
+  "include": ".*/cphate/.*.gltf",
   "regex": {
     "id":{
-      "expression": ".*i(\\d+)\\.g(\\d*).*\\.obj",
+      "expression": ".*i(\\d+)\\.c(\\d*).*\\.gltf",
       "match": "$1-$2"
     }
   }

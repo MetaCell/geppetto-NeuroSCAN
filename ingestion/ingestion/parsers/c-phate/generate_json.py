@@ -8,8 +8,8 @@ from ingestion.parsers.common.config import Config
 
 NEURON_COL_NAME = 'Neuron'
 ITER_COL_IDENTIFIER = 'iter'
-SHEET_NAME = 'CPHATE clusters'
-INPUT_CSV = '../../../data/neuroscan/L4_JSH/300/cphate.xls'
+SHEET_NAME = 'cphate'
+INPUT_CSV = '../../../data/neuroscan/Adult/2880/cphate.xls'
 OUTPUT_JSON = 'cphate.json'
 
 
@@ -57,7 +57,7 @@ def get_iter_key(i):
 
 
 def get_group_key(g):
-    return f'g{g}'
+    return f'c{g}'
 
 
 def add_objfile(data_dict):
@@ -79,7 +79,7 @@ def dict_to_array(data_dict):
             data_array.append(
                 {
                     'i': get_number(i),
-                    'g': get_number(g),
+                    'c': get_number(g),
                     **data_dict[i][g]
                 }
             )

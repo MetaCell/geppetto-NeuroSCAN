@@ -19,13 +19,13 @@ export class CphateService {
   }
 
   mapCphateInstance(cphate, obj) {
-    const id = `Cphate_${cphate.timepoint}_${obj.i}_${obj.g}`;
+    const id = `Cphate_${cphate.timepoint}_${obj.i}_${obj.c}`;
     return {
       id,
       uid: id,
-      name: `${obj.neurons.join(', ')} (${obj.g})`,
+      name: `${obj.neurons.join(', ')} (${obj.c})`,
       i: obj.i,
-      c: obj.g,
+      c: obj.c,
       selected: false,
       instanceType: CPHATE_TYPE,
       group: null,
