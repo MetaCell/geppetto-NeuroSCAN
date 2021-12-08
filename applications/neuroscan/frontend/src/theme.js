@@ -232,7 +232,7 @@ const theme = createTheme({
           '& .MuiPopover-paper': {
             width: 'calc(100% - 6.25rem) !important',
             left: '3.125rem !important',
-            transform: 'translateY(2.5rem) !important',
+            transform: 'translateY(2rem) !important',
 
             '@media screen and (max-width: 1279.95px)': {
               width: 'calc(100% - 4rem) !important',
