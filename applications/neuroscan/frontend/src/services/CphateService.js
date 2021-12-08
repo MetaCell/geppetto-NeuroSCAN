@@ -19,7 +19,7 @@ export class CphateService {
   }
 
   mapCphateInstance(cphate, obj) {
-    const id = `Cphate_${obj.i}_${obj.g}`;
+    const id = `Cphate_${cphate.timepoint}_${obj.i}_${obj.g}`;
     return {
       id,
       uid: id,
