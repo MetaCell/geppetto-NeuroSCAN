@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
       },
       '& .sub-header': {
         height: 'auto',
-        paddingTop: '0',
+        paddingTop: '0.5rem',
         '& .wrapper p': {
           padding: '1rem 0',
           margin: 0,

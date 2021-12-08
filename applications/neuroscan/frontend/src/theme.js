@@ -227,6 +227,35 @@ const theme = createTheme({
             },
           },
         },
+
+        '&#development-stage-menu': {
+          '& .MuiPopover-paper': {
+            width: 'calc(100% - 6.25rem) !important',
+            left: '3.125rem !important',
+            top: '19.6875rem !important',
+
+            '@media screen and (max-width: 1279.95px)': {
+              width: 'calc(100% - 4rem) !important',
+              left: '2rem !important',
+              top: '22.1875rem !important',
+            },
+
+            '@media screen and (max-width: 599.95px)': {
+              width: 'calc(100% - 2rem) !important',
+              left: '1rem !important',
+              top: '26.25rem !important',
+            },
+            '& > .MuiBox-root': {
+              justifyContent: 'flex-end',
+              height: '7rem',
+              padding: '0 2rem .6rem',
+              '& .MuiSlider-markLabel': {
+                top: 'auto !important',
+                bottom: '1.125rem',
+              },
+            },
+          },
+        },
       },
       paper: {
         background: whiteTextColor,
@@ -490,7 +519,7 @@ const theme = createTheme({
         '&.Mui-selected': {
           background: blackColor,
           borderRadius: '0.3125rem 0.3125rem 0 0',
-          border: '1px solid #ffffff',
+          border: '0.0625rem solid #ffffff',
         },
       },
       wrapper: {
@@ -760,7 +789,7 @@ const theme = createTheme({
             background: blackColor,
             borderRadius: '0.5rem',
             padding: '1.25rem',
-            border: '1px solid',
+            border: '0.0625rem solid',
             borderColor: whiteTextColor,
             '& .custom-tabs': {
               paddingBottom: '1.5rem',
@@ -775,7 +804,7 @@ const theme = createTheme({
               },
               '& .tab-wrap': {
                 height: 'calc(100% - (2.375rem))',
-                border: '1px solid #ffffff',
+                border: '0.0625rem solid #ffffff',
               },
             },
 
@@ -1087,7 +1116,7 @@ const theme = createTheme({
               padding: '0.4375rem 1rem',
               fontSize: '0.80rem',
               lineHeight: '1.25rem',
-              letterSpacing: '0.16px',
+              letterSpacing: '0.01rem',
               color: 'rgba(0, 0, 0, 0.8)',
               background: 'transparent',
               '& .MuiCheckbox-root': {
@@ -1280,7 +1309,7 @@ const theme = createTheme({
                 '& p': {
                   fontSize: '0.80rem',
                   lineHeight: '1.25rem',
-                  letterSpacing: '0.16px',
+                  letterSpacing: '0.01rem',
                   color: 'rgba(0, 0, 0, 0.8)',
                 },
               },
