@@ -1,5 +1,5 @@
 {
-  "output_file": "contacts_${split}.csv",
+  "output_file": "contacts.csv",
   "header": [
     "uid",
     "neuronA",

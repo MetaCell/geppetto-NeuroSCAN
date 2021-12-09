@@ -5,7 +5,7 @@
     "timePointStart",
     "timePointEnd",
     "cellsByLineaging",
-    "geneFunction",
+    "otherCells",
     "wormbase",
     "cellularExpressionPattern",
     "information",
