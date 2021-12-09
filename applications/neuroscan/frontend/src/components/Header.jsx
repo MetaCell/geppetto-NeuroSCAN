@@ -14,6 +14,7 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
+import introJs from 'intro.js';
 import NeuroSCANLogo from '../images/neuroscanLogo.svg';
 import MenuIcon from '../images/hamburger.svg';
 import Toggle from '../images/toggle.svg';
@@ -21,6 +22,7 @@ import ToggleIn from '../images/toggle-in.svg';
 import { VIEWS } from '../utilities/constants';
 import vars from '../styles/constants';
 import AboutModal from './AboutModal';
+import 'intro.js/introjs.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,6 +84,84 @@ const Header = (props) => {
     setAnchorEl(null);
   };
 
+  const handleTutorial = () => {
+    setAnchorEl(null);
+    introJs().start();
+    if (view?.title === 'NeuroSCAN') {
+      introJs().setOptions({
+        steps: [{
+          element: window.document.querySelector('#search-bar'),
+          title: 'Search in NeuroSCAN',
+          intro: 'Search Search Search Search Search Search Search Search Search Search Search Search Search Search ',
+          position: 'right',
+        },
+        {
+          element: window.document.querySelector('#filter-icon'),
+          title: 'How to filter data',
+          intro: 'I am the filter, i filter because I like filtering, like coffe, dust, sound, anything.',
+          position: 'right',
+        },
+        {
+          element: window.document.querySelector('#Neurons-result'),
+          title: 'Results',
+          intro: 'Results results results results results results results results results results results results results results results',
+          position: 'right',
+        },
+        {
+          element: window.document.querySelector('#cphate-id'),
+          title: 'CPHATE cluster viewer',
+          intro: 'This is the CPHATE This is the CPHATE This is the CPHATE This is the CPHATE This is the CPHATE This is the CPHATE This is the CPHATE ',
+          position: 'right',
+        },
+        {
+          element: window.document.querySelector('.position-toolbar'),
+          title: '3D viewer controls',
+          intro: 'This are the controls, you can do stuff with them.',
+          position: 'down',
+        },
+        {
+          element: window.document.querySelector('#left-controls-id'),
+          title: 'Left Controls',
+          intro: 'Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls ',
+          position: 'right',
+        },
+        {
+          element: window.document.querySelector('#right-controls-id'),
+          title: 'Right Controls',
+          intro: 'Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls ',
+          position: 'down',
+        },
+        {
+          element: window.document.querySelector('.instances-box'),
+          title: 'Navigator',
+          intro: 'Navigator Navigator Navigator Navigator Navigator Navigator Navigator Navigator Navigator Navigator Navigator Navigator Navigator ',
+          position: 'right',
+        }].filter((step) => step.element !== null),
+      }).start();
+    } else {
+      introJs().setOptions({
+        steps: [{
+          element: window.document.querySelector('.lineaged-cells'),
+          title: 'Lineaged Cells',
+          intro: 'Lineaged Cells Lineaged Cells Lineaged Cells Lineaged Cells Lineaged Cells Lineaged Cells Lineaged Cells Lineaged Cells Lineaged Cells ',
+          position: 'left',
+        },
+        {
+          element: window.document.querySelector('#timeline-image'),
+          title: 'Timeline',
+          intro: 'Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline ',
+          position: 'down',
+        },
+        {
+          element: window.document.querySelector('#panel1a-header'),
+          title: 'Promoter Information',
+          intro: 'Promoter Information Promoter Information Promoter Information Promoter Information Promoter Information Promoter Information Promoter Information ',
+          position: 'up',
+        }].filter((step) => step.element !== null),
+      }).start();
+    }
+  };
+
   const handeModalToggle = () => {
     setAnchorEl(null);
     setOpenAboutModal(true);
@@ -120,7 +200,7 @@ const Header = (props) => {
           disableGutters
           dense
           button
-          onClick={handleMenuClose}
+          onClick={handleTutorial}
         >
           <ListItemText>
             <Typography>Tutorial</Typography>

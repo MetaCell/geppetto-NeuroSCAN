@@ -12,7 +12,7 @@ const CPhasePlot = ({ timePoint }) => {
   };
 
   return (
-    <Box className="wrap" onClick={createCphateViewer}>
+    <Box className="wrap" onClick={createCphateViewer} id="cphate-id">
       <Typography component="h5">
         <img src={PLUS} alt="Plus" />
         Add CPHATE Plot
