@@ -8,6 +8,7 @@
     "Beginning of expression in minutes": "timePointStart",
     "Termination of expression in minutes": "timePointEnd",
     "Neurons": "cellularExpressionPattern",
+    "OTHER CELLS (lineage status unknown)": "otherCells",
     "Strain information": "information",
     "Detailed expression patterns": "expressionPatterns"
   }
