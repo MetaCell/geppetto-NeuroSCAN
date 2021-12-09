@@ -15,28 +15,28 @@ const ResultCard = ({
 }) => {
   const timeline = [{
     label: 'Timeline',
-    src: `${backendURL}/files/promoterdb/${result.uid}/timeline.svg`,
+    src: `${backendURL}/files/promoterdb/promoters/${result.uid}/timeline.svg`,
   }];
   const model = [{
     label: 'Model',
-    src: `${backendURL}/files/promoterdb/${result.uid}/model.svg`,
+    src: `${backendURL}/files/promoterdb/promoters/${result.uid}/model.svg`,
   }];
   const expression = [
     {
       label: '3D Expression',
-      src: `${backendURL}/files/promoterdb/${result.uid}/3d_expression.mp4`,
+      src: `${backendURL}/files/promoterdb/promoters/${result.uid}/3d_expression.mp4`,
       mediaType: PROMOTER_MEDIA_TYPES.video,
     },
   ];
   const promoterVideos = [
     {
       label: 'Promoter',
-      src: `${backendURL}/files/promoterdb/${result.uid}/promoter.mp4`,
+      src: `${backendURL}/files/promoterdb/promoters/${result.uid}/promoter.mp4`,
       mediaType: PROMOTER_MEDIA_TYPES.video,
     },
     {
       label: 'Histone Marker',
-      src: `${backendURL}/files/promoterdb/${result.uid}/histone_marker.mp4`,
+      src: `${backendURL}/files/promoterdb/promoters/${result.uid}/histone_marker.mp4`,
       mediaType: PROMOTER_MEDIA_TYPES.video,
     },
   ];
