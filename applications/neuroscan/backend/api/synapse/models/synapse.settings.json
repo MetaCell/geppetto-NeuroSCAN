@@ -22,9 +22,6 @@
         "electrical"
       ]
     },
-    "uid": {
-      "type": "uid"
-    },
     "metadata": {
       "type": "text"
     },
@@ -57,6 +54,9 @@
       "model": "neuron"
     },
     "name": {
+      "type": "string"
+    },
+    "uid": {
       "type": "string"
     }
   }

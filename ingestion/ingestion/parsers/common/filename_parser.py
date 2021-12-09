@@ -39,8 +39,8 @@ class FilenameParser(IParser):
         pattern = self.cfg.regex.__dict__[key]
         try:
             return apply_regex(pattern, test_string)
-        except:
-            logging.error(f"{test_string} failed to get fields")
+        except Exception as e:
+            logging.error(f"{test_string} failed to get fields {e}")
 
     def _update_data(self, fields, filename):
         augmented_fields = {**fields, 'filename': self._get_filename(filename)}

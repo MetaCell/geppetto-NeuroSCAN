@@ -20,19 +20,15 @@
       "match": "$1"
     },
     "section": {
-      "expression": ".*/.*\\-(.*)_.*\\.gltf",
-      "match": "$1"
-    },
-    "zs": {
-      "expression": ".+/.+zs(\\d*).+\\.gltf",
+      "expression": ".*/.*\\-(.).*\\.gltf",
       "match": "$1"
     },
     "position": {
-      "expression": ".*/\\w*/\\d*/synapses/.*(post|pre).*\\.gltf",
+      "expression": ".*-._*((post|pre)*).*\\.gltf",
       "match": "$1"
     },
     "neuronSite": {
-      "expression": ".*/\\w*/\\d*/synapses/.*[post|pre](\\d*)\\.gltf",
+      "expression": ".*-.*?(\\d?)\\.gltf",
       "match": "$1"
     },
     "neuronPre": {
@@ -41,10 +37,6 @@
     },
     "neuronPost": {
       "expression": ".*_.*(?:chemical|electrical|undefined)(.+?(:?_.+?)*?)-[A-Z].*\\.gltf",
-      "match": "$1"
-    },
-    "postNeuron": {
-      "expression": ".*/\\w*/\\d*/synapses/(.*)[post|pre]*/.*\\.gltf",
       "match": "$1"
     }
   },
