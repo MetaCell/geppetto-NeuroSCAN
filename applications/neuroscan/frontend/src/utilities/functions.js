@@ -65,6 +65,7 @@ export const addToWidget = (
         reset: false,
         autorotate: false,
         wireframe: false,
+        depthWrite: false,
       },
       captureOptions: {
         captureControls: {
