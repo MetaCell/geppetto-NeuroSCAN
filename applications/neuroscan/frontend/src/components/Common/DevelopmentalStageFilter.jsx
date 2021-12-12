@@ -68,7 +68,7 @@ const DevelopmentalStageFilter = (props) => {
   const min = Math.min(...devStages.map((devStage) => devStage.begin));
   // eslint-disable-next-line max-len
   const max = Math.max(...devStages.map((devStage) => Math.max(devStage.end, devStage.begin)));
-  const stepWidth = (max - min) / 90;
+  const stepWidth = (max - min) / 100;
 
   return devStages.length > 0 && (
     <Box className={classes.root}>
@@ -87,7 +87,7 @@ const DevelopmentalStageFilter = (props) => {
         {
           devStages.map((stage) => {
             const stageWidth = (Math.max(stage.end, stage.begin) - stage.begin) / stepWidth;
-            return (
+            return stageWidth > 0 && (
               <Typography
                 key={stage.id}
                 style={{ width: `${stageWidth}%` }}
