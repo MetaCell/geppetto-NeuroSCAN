@@ -12,6 +12,8 @@ import {
   ROTATE_START_ALL,
   ROTATE_STOP_ALL,
   updateWidgetConfig,
+  INVERT_COLORS_FLASHING,
+  SET_ORIGINAL_COLORS_FLASHING,
 } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
 import neuronService from '../services/NeuronService';
@@ -33,6 +35,8 @@ import {
   setInstancesColor,
   getInstancesOfType,
   mapToInstance,
+  invertColorSelectedInstances,
+  setOriginalColorSelectedInstances,
 } from '../services/instanceHelpers';
 
 const devStagesService = new DevStageService();
@@ -109,6 +113,34 @@ const middleware = (store) => (next) => (action) => {
       widget.config = {
         ...widget.config,
         ...action.config,
+      };
+      store.dispatch(updateWidget(widget));
+      break;
+    }
+
+    case INVERT_COLORS_FLASHING: {
+      const widget = getWidget(store, action.viewerId);
+      const instances = invertColorSelectedInstances(
+        widget.config.instances,
+        action.uids,
+      );
+      widget.config = {
+        ...widget.config,
+        instances,
+      };
+      store.dispatch(updateWidget(widget));
+      break;
+    }
+
+    case SET_ORIGINAL_COLORS_FLASHING: {
+      const widget = getWidget(store, action.viewerId);
+      const instances = setOriginalColorSelectedInstances(
+        widget.config.instances,
+        action.uids,
+      );
+      widget.config = {
+        ...widget.config,
+        instances,
       };
       store.dispatch(updateWidget(widget));
       break;
