@@ -1761,14 +1761,14 @@
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
 
-"@metacell/geppetto-meta-client@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@metacell/geppetto-meta-client/-/geppetto-meta-client-0.0.6.tgz#7d694940682349fefd1f4e11a30522ba261e6016"
-  integrity sha512-mYdW5MO+7x9kKcJScR717TjqhaxwXyFlLfCPHI24FI2R6DnA6u5FU4T5SPNLMP//Og6F7NeChXcm4MoGq+O95w==
+"@metacell/geppetto-meta-client@0.0.7-rc.5":
+  version "0.0.7-rc.5"
+  resolved "https://registry.yarnpkg.com/@metacell/geppetto-meta-client/-/geppetto-meta-client-0.0.7-rc.5.tgz#9f9e23a0402b767f2c3c544296906fc56e0064fa"
+  integrity sha512-j3uVx2iXkozvH2cc6NZ8PLCRSOWdyeO/kuPcb0uOCfNG4gSA1yLcSeu7OtqoVLAkouuHHjDU9WZbX5jjfV25Lg==
   dependencies:
     "@material-ui/core" "^4.1.3"
-    "@metacell/geppetto-meta-core" "0.0.6"
-    "@metacell/geppetto-meta-ui" "0.0.6"
+    "@metacell/geppetto-meta-core" "0.0.7-rc.5"
+    "@metacell/geppetto-meta-ui" "0.0.7-rc.5"
     anchorme "^0.7.1"
     backbone "^1.3.3"
     backbone-associations "^0.6.2"
@@ -1809,10 +1809,10 @@
     underscore "~1.9.1"
     url-join "^4.0.0"
 
-"@metacell/geppetto-meta-core@0.0.6", "@metacell/geppetto-meta-core@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@metacell/geppetto-meta-core/-/geppetto-meta-core-0.0.6.tgz#28a28c67c265d6f199dae1120bc125a36fb73f4c"
-  integrity sha512-i6Sv9ihaO87uY4f0UXw3DYn2n2ifPV3OoPpz/X7Vfe//z8St2FBoaE+mg4gOYlOlWt2UwljIdFtnX5SbH9knzw==
+"@metacell/geppetto-meta-core@0.0.7-rc.5":
+  version "0.0.7-rc.5"
+  resolved "https://registry.yarnpkg.com/@metacell/geppetto-meta-core/-/geppetto-meta-core-0.0.7-rc.5.tgz#a945ba578199bb74e2dc114eedf892cf14dd1690"
+  integrity sha512-QbCvxp//mv7VERC/IpDAGA4GS5vE6NMJs9worBJpMC3M42EvGNCXR3dsaI6M5AeWzUyIbkT2wQxnI/kRXO9Wdw==
   dependencies:
     backbone "^1.3.3"
     file-saver "^1.3.3"
@@ -1820,10 +1820,10 @@
     jszip "^3.2.1"
     underscore "~1.9.1"
 
-"@metacell/geppetto-meta-ui@0.0.6", "@metacell/geppetto-meta-ui@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@metacell/geppetto-meta-ui/-/geppetto-meta-ui-0.0.6.tgz#fccc3a6111b0bed4e6c0fa823d0b7fcc22169c57"
-  integrity sha512-qH8FZCtovU1DjVY3T+ErDvBxMLDSH42HyE1dqAevGPYAs7zASag6u41ATOfU/2tccFscmv3P5i59TQBFz7jatw==
+"@metacell/geppetto-meta-ui@0.0.7-rc.5":
+  version "0.0.7-rc.5"
+  resolved "https://registry.yarnpkg.com/@metacell/geppetto-meta-ui/-/geppetto-meta-ui-0.0.7-rc.5.tgz#5320c598fe9ffe4dfb2f12c3cffe7492578225ef"
+  integrity sha512-AAtJn19+N2MGGr0nJyShzxhLYJZMIV/JEl9YjDfAP5oZKJROpSqB0WPSIbBvOqIIsdVEy6vPcNdc8DCYGGYEXw==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.35"
     "@fortawesome/free-solid-svg-icons" "^5.13.0"
@@ -2877,7 +2877,7 @@ JSONStream@^1.0.3:
     jsonparse "^1.2.0"
     through ">=2.2.7 <3"
 
-"OpenJPEG.js@github:joedrago/openjpeg#master":
+OpenJPEG.js@joedrago/openjpeg#master:
   version "0.10.1"
   resolved "https://codeload.github.com/joedrago/openjpeg/tar.gz/797aeec0c953fa826f8243a3a1924a7f0a0266fd"
 
@@ -6171,7 +6171,7 @@ debug@^3.1.1, debug@^3.2.6, debug@^3.2.7:
   dependencies:
     ms "^2.1.1"
 
-"debug@github:ngokevin/debug#noTimestamp":
+debug@ngokevin/debug#noTimestamp:
   version "2.2.0"
   resolved "https://codeload.github.com/ngokevin/debug/tar.gz/ef5f8e66d49ce8bc64c6f282c15f8b7164409e3a"
 
@@ -6472,7 +6472,7 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
-"document-register-element@github:dmarcos/document-register-element#8ccc532b7f3744be954574caf3072a5fd260ca90":
+document-register-element@dmarcos/document-register-element#8ccc532b7f3744be954574caf3072a5fd260ca90:
   version "0.5.4"
   resolved "https://codeload.github.com/dmarcos/document-register-element/tar.gz/8ccc532b7f3744be954574caf3072a5fd260ca90"
 
@@ -9085,7 +9085,7 @@ ignore@^5.1.4, ignore@^5.1.8:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.9.tgz#9ec1a5cbe8e1446ec60d4420060d43aa6e7382fb"
   integrity sha512-2zeMQpbKz5dhZ9IwL0gbxSW5w0NK/MSAMtNuhgIHEPmaU3vPdKPL0UdvUCXs5SS4JAwsBxysK5sFMW8ocFiVjQ==
 
-"image-JPEG2000@github:ReflexionMed/image-JPEG2000#master":
+image-JPEG2000@ReflexionMed/image-JPEG2000#master:
   version "0.3.1"
   resolved "https://codeload.github.com/ReflexionMed/image-JPEG2000/tar.gz/77ea3cb026de90629c2d013bda46e82a36edaeb6"
 
@@ -9286,6 +9286,11 @@ interval-tree-1d@^1.0.1:
   integrity sha512-wY8QJH+6wNI0uh4pDQzMvl+478Qh7Rl4qLmqiluxALlNvl+I+o5x38Pw3/z7mDPTPS1dQalZJXsmbvxx5gclhQ==
   dependencies:
     binary-search-bounds "^2.0.0"
+
+intro.js@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/intro.js/-/intro.js-4.3.0.tgz#39d072e638eae9c8491e225b8565ad63b6aaf1f7"
+  integrity sha512-F4LXM42QIXcO3/2myGBBFdbbUVUK0lBhK7pAxPLd082u+3HfvigFR+Rptqy05q3OzjG/O0vMFDedrnHdSPi2rQ==
 
 invariant@^2.1.0, invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
@@ -16480,7 +16485,7 @@ text@^0.1.0:
   resolved "https://registry.yarnpkg.com/text/-/text-0.1.0.tgz#87f82a2e98eb5250ce0c397d46bfa34e299d1d63"
   integrity sha1-h/gqLpjrUlDODDl9Rr+jTimdHWM=
 
-"three-bmfont-text@github:dmarcos/three-bmfont-text#1babdf8507c731a18f8af3b807292e2b9740955e":
+three-bmfont-text@dmarcos/three-bmfont-text#1babdf8507c731a18f8af3b807292e2b9740955e:
   version "2.3.0"
   resolved "https://codeload.github.com/dmarcos/three-bmfont-text/tar.gz/1babdf8507c731a18f8af3b807292e2b9740955e"
   dependencies:
@@ -16552,10 +16557,20 @@ three-trackballcontrols@^0.0.8:
   resolved "https://registry.yarnpkg.com/three-trackballcontrols/-/three-trackballcontrols-0.0.8.tgz#4af85312d211387e451023f9bef576094993a118"
   integrity sha512-9my4rB/ILaJw8E6khOcC6d8F8kEe6BvRtCer9bFJGZOh9txy4BqzwPrG7d8YCKK9MfcyTUoLsB5LKIsbtsZRTg==
 
-three@0.111.0, three@0.118.0, "three@>=0.118 <1", three@^0.87.0, three@latest:
+three@0.111.0:
+  version "0.111.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.111.0.tgz#9cedb73e79b7f6bf2440cb67a273f883faa923b6"
+  integrity sha512-AcTqyGJ3H75AIusOuADy0LsP958QKQwm/YhABHFMzd6RFXPNVay1rlSbbG6WYv7KM72G2THMMwqbjQd4dVHMkQ==
+
+"three@>=0.118 <1", three@latest:
   version "0.118.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.118.0.tgz#a471dd31f75b95e29ba73502f372d73191dda17b"
   integrity sha512-lCzCH6ZdOj4aO/qdp98vNyOY8NK5uGkVcd++vw2hTJMZwYLrEhAYirJ96C4j0/2bxaKRNyE+VF1G4nWeJP2l9g==
+
+three@^0.87.0:
+  version "0.87.1"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.87.1.tgz#466a34edc4543459ced9b9d7d276b65216fe2ba8"
+  integrity sha1-Rmo07cRUNFnO2bnX0na2Uhb+K6g=
 
 throat@^5.0.0:
   version "5.0.0"
