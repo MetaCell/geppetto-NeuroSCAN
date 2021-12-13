@@ -108,8 +108,8 @@ const PromoterDB = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const devStages = useSelector((state) => state.devStages.promoterDB);
-  const min = Math.min(...devStages.map((devStage) => devStage.begin));
-  const [timePoint, setTimePoint] = useState(min);
+  // const min = Math.min(...devStages.map((devStage) => devStage.begin));
+  const [timePoint, setTimePoint] = useState(null);
   const { promoters } = useSelector((state) => state.promoterDB);
   const neurons = [...new Set(promoters.reduce((r, p) => (
     r.concat(
@@ -134,8 +134,10 @@ const PromoterDB = () => {
     setSelectedPromoters(pSelectedPromoters);
     setSelectedNeurons(pSelectedNeurons);
     setTimePoint(pTimepoint);
+    const minTimePoint = Math.min(...devStages.map((devStage) => devStage.begin));
     const fp = promoters.filter((p) => (
-      pTimepoint === min
+      pTimepoint === Infinity
+      || pTimepoint === minTimePoint
       || (p.timePointStart <= pTimepoint
       && p.timePointEnd > pTimepoint)
     )).filter((p) => (
@@ -152,7 +154,11 @@ const PromoterDB = () => {
     if (promoters.length > 0) {
       setFilteredPromoters(promoters);
     }
-  }, [promoters]);
+    const minTimePoint = Math.min(...devStages.map((devStage) => devStage.begin));
+    if (timePoint === null) {
+      setTimePoint(minTimePoint);
+    }
+  }, [promoters, devStages]);
 
   const handlePromoterOnChange = (event, values) => {
     setFilters(values, selectedNeurons, timePoint);
