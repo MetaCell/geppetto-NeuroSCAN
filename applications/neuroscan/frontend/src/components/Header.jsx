@@ -91,50 +91,63 @@ const Header = (props) => {
       introJs().setOptions({
         steps: [{
           element: window.document.querySelector('#search-bar'),
-          title: 'Search in NeuroSCAN',
-          intro: 'Search Search Search Search Search Search Search Search Search Search Search Search Search Search ',
+          title: 'Search bar',
+          intro: `Type in one or more neuron names (AIB, AIBR, RIML) to filter results for 
+          <b>Neurons, Contacts and Synapses</b>.`,
           position: 'right',
         },
         {
           element: window.document.querySelector('#filter-icon'),
-          title: 'How to filter data',
-          intro: 'I am the filter, i filter because I like filtering, like coffe, dust, sound, anything.',
+          title: 'Synapse filter',
+          intro: `Assign neurons typed in the search bar to <b>Pre</b> or <b>Post</b> synaptic 
+          identities to filter the <b>Synapses</b> data.`,
           position: 'right',
         },
         {
           element: window.document.querySelector('#Neurons-result'),
-          title: 'Results',
-          intro: 'Results results results results results results results results results results results results results results results',
+          title: 'Neurons',
+          intro: `Click on <b>Neurons</b>, <b>Contacts</b> or <b>Synapses</b> to expand and use the 
+          <b>Add to</b> button next to the neuron/contact/synapse name to add it to a 3D viewer. 
+          Refine your results by using the search bar.`,
           position: 'right',
         },
         {
           element: window.document.querySelector('#cphate-id'),
-          title: 'CPHATE cluster viewer',
-          intro: 'This is the CPHATE This is the CPHATE This is the CPHATE This is the CPHATE This is the CPHATE This is the CPHATE This is the CPHATE ',
+          title: 'CPHATE',
+          intro: `Add contact profile plot (<b>CPHATE</b>) of the entire nerve ring for the 
+          developmental time point selected above.`,
           position: 'right',
-        },
-        {
-          element: window.document.querySelector('.position-toolbar'),
-          title: '3D viewer controls',
-          intro: 'This are the controls, you can do stuff with them.',
-          position: 'down',
         },
         {
           element: window.document.querySelector('#left-controls-id'),
-          title: 'Left Controls',
-          intro: 'Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls ',
-          position: 'right',
-        },
-        {
-          element: window.document.querySelector('#right-controls-id'),
-          title: 'Right Controls',
-          intro: 'Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls Controls ',
+          title: 'Toolbar on Left',
+          intro: `Tool usage from Left to Right:<br>
+          Change <b>background</b> from dark to white.<br>
+          Change <b>color</b> and <b>transparency</b> of Neurons, Contacts, Synapses, and CPHATE 
+          clusters.<br>
+          Change <b>developmental stage</b> of all the renderings in the viewer.<br>
+          <b>Add</b> additional renderings to the viewer.<br>
+          <b>Record</b> video of the current viewer and <b>download</b> video.<br>
+          <b>Download</b> the viewer files for your own desktop viewing or download a <b>screenshot</b> 
+          of the current viewer.`,
           position: 'down',
         },
         {
-          element: window.document.querySelector('.instances-box'),
-          title: 'Navigator',
-          intro: 'Navigator Navigator Navigator Navigator Navigator Navigator Navigator Navigator Navigator Navigator Navigator Navigator Navigator ',
+          element: window.document.querySelector('#right-controls-id'),
+          title: 'Toolbar on Right',
+          intro: `Tool usage from Left to Right:<br>
+          <b>Play</b> a 360&#176; rotation of the viewer.<br>
+          <b>Zoom</b> in and out of the viewer.<br>
+          Use home button to <b>reset</b> the viewer to center.<br>`,
+          position: 'down',
+        },
+        {
+          element: window.document.querySelector('.explorer'),
+          title: 'Navigation',
+          intro: `<b>Play all</b> for 360&#176; rotation of all open windows.<br>
+          Click <b>viewer name</b> to expand names for all <b>Neurons</b>, <b>Contacts</b> and <b>Synapses</b>
+          in viewers. Hover over neuron names and click three dots on the right to open a menu to <b>Select</b>, 
+          <b>Group</b>, <b>Hide</b> and <b>Delete</b> the neuron.`,
           position: 'right',
         }].filter((step) => step.element !== null),
       }).start();
