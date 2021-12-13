@@ -8,6 +8,8 @@ export const UPDATE_WIDGET_CONFIG = 'UPDATE_WIDGET_CONFIG';
 export const UPDATE_VIEWER_ROTATE = 'UPDATE_VIEWER_ROTATE';
 export const ROTATE_START_ALL = 'ROTATE_START_ALL';
 export const ROTATE_STOP_ALL = 'ROTATE_STOP_ALL';
+export const INVERT_COLORS_FLASHING = 'INVERT_COLORS_FLASHING';
+export const SET_ORIGINAL_COLORS_FLASHING = 'SET_ORIGINAL_COLORS_FLASHING';
 
 export const addInstances = ((viewerId, instances, viewerType = null) => ({
   type: ADD_INSTANCES,
@@ -59,4 +61,16 @@ export const rotateStartAll = (() => ({
 
 export const rotateStopAll = (() => ({
   type: ROTATE_STOP_ALL,
+}));
+
+export const invertColorsFlashing = ((viewerId, uids) => ({
+  type: INVERT_COLORS_FLASHING,
+  viewerId,
+  uids,
+}));
+
+export const setOriginalColors = ((viewerId, uids) => ({
+  type: SET_ORIGINAL_COLORS_FLASHING,
+  viewerId,
+  uids,
 }));

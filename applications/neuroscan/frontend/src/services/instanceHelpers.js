@@ -1,6 +1,10 @@
 /* eslint-disable import/no-cycle */
 import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
-import { updateWidgetConfig } from '../redux/actions/widget';
+import {
+  updateWidgetConfig,
+  invertColorsFlashing,
+  setOriginalColors,
+} from '../redux/actions/widget';
 import urlService from './UrlService';
 import zipService from './ZipService';
 import store from '../redux/store';
@@ -18,16 +22,16 @@ export const invertColor = ({
   r: 1 - r, g: 1 - g, b: 1 - b, a,
 });
 
-export const invertColorSelectedInstances = (instances) => (
+export const invertColorSelectedInstances = (instances, selectedUids) => (
   instances
     .map((instance) => {
-      if (!instance.selected) {
+      if (selectedUids.indexOf(instance.uid) < 0) {
         return instance;
       }
       const { color } = instance;
       const newInstance = { ...instance };
       if (instance.colorOriginal) {
-        newInstance.color = instance.selected ? invertColor(color) : color;
+        newInstance.color = instance.flash ? invertColor(color) : color;
       } else if (color) {
         delete newInstance.color;
       } else {
@@ -37,11 +41,15 @@ export const invertColorSelectedInstances = (instances) => (
       return newInstance;
     }));
 
-export const setOriginalColorSelectedInstances = (instances) => (
+export const setOriginalColorSelectedInstances = (instances, selectedUids) => (
   instances
     .map((instance) => {
+      if (selectedUids.indexOf(instance.uid) < 0) {
+        return instance;
+      }
       const newInstance = {
         ...instance,
+        flash: false,
         color: instance.colorOriginal ? instance.colorOriginal : instance.color,
       };
       if (!instance.colorOriginal || !instance.color) {
@@ -57,6 +65,7 @@ const updateInstanceSelected = (instances, selectedUids) => {
       return {
         ...instance,
         selected: true,
+        flash: true,
         colorOriginal: instance.color,
         color: instance.color
           ? invertColor(instance.color)
@@ -72,15 +81,27 @@ const updateInstanceSelected = (instances, selectedUids) => {
   return i;
 };
 
-export const setSelectedInstances = (viewerId, instances, selectedUids) => (
+export const setSelectedInstances = (viewerId, instances, selectedUids) => {
+  const newInstances = updateInstanceSelected(
+    instances, selectedUids,
+  );
   store.dispatch(updateWidgetConfig(
     viewerId, {
       flash: true,
-      instances: updateInstanceSelected(
-        instances, selectedUids,
-      ),
+      instances: newInstances,
     },
-  )));
+  ));
+  let counter = 1;
+  const interval = setInterval(() => {
+    if (counter === 6) {
+      clearInterval(interval);
+      store.dispatch(setOriginalColors(viewerId, selectedUids));
+    } else {
+      store.dispatch(invertColorsFlashing(viewerId, selectedUids));
+    }
+    counter += 1;
+  }, 750);
+};
 
 export const updateInstanceGroup = (instances, instanceList, newGroup = null) => instances
   .map((instance) => {

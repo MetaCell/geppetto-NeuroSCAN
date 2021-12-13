@@ -6,10 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
 import {
   setSelectedInstances,
-  invertColorSelectedInstances,
-  setOriginalColorSelectedInstances,
 } from '../../services/instanceHelpers';
-import store from '../../redux/store';
 
 const styles = () => ({
   canvasContainer: {
@@ -124,25 +121,8 @@ class Viewer extends React.Component {
   initCanvasData() {
     const {
       instances,
-      flash,
-      updateWidget,
-      viewerId,
     } = this.props;
-    let i = instances;
-    if (flash) {
-      let counter = 1;
-      const interval = setInterval(() => {
-        if (counter === 6) {
-          clearInterval(interval);
-          i = setOriginalColorSelectedInstances(i);
-        } else {
-          i = invertColorSelectedInstances(i);
-        }
-        updateWidget(viewerId, { flash: false, instances: i });
-        counter += 1;
-      }, 750);
-    }
-    return (i.map((instance) => ({
+    return (instances.map((instance) => ({
       instancePath: instance.uid,
       color: instance.color,
     })));
