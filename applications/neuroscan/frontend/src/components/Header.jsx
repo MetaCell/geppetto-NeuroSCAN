@@ -89,6 +89,7 @@ const Header = (props) => {
     introJs().start();
     if (view?.title === 'NeuroSCAN') {
       introJs().setOptions({
+        tooltipClass: 'customTooltip',
         steps: [{
           element: window.document.querySelector('#search-bar'),
           title: 'Search bar',
@@ -153,6 +154,7 @@ const Header = (props) => {
       }).start();
     } else {
       introJs().setOptions({
+        tooltipClass: 'customTooltip',
         steps: [{
           element: window.document.querySelector('.lineaged-cells'),
           title: 'Lineaged cells',
