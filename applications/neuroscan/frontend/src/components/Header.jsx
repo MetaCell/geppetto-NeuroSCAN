@@ -121,7 +121,7 @@ const Header = (props) => {
         },
         {
           element: window.document.querySelector('#left-controls-id'),
-          title: 'Toolbar on Left',
+          title: 'Left toolbar',
           intro: `Tool usage from Left to Right:<br>
           Change <b>background</b> from dark to white.<br>
           Change <b>color</b> and <b>transparency</b> of Neurons, Contacts, Synapses, and CPHATE 
@@ -135,7 +135,7 @@ const Header = (props) => {
         },
         {
           element: window.document.querySelector('#right-controls-id'),
-          title: 'Toolbar on Right',
+          title: 'Right toolbar',
           intro: `Tool usage from Left to Right:<br>
           <b>Play</b> a 360&#176; rotation of the viewer.<br>
           <b>Zoom</b> in and out of the viewer.<br>
