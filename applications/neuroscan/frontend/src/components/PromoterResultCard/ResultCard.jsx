@@ -48,8 +48,8 @@ const ResultCard = ({
         <Typography component="h3">
           {result.uid}
         </Typography>
-        <Box className="wrap lineaged-cells">
-          <Box className="tags">
+        <Box className="wrap">
+          <Box className="tags" display="flex" flexWrap="wrap" justifyContent="flex-end">
             {
               cellsByLineaging.map((cell, index) => <Chip key={`celllineage_${index}`} avatar={<img src={TICK} alt="tick" />} label={cell} className="active" />)
             }
