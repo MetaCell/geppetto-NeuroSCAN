@@ -155,20 +155,22 @@ const Header = (props) => {
       introJs().setOptions({
         steps: [{
           element: window.document.querySelector('.lineaged-cells'),
-          title: 'Lineaged Cells',
-          intro: 'Lineaged Cells Lineaged Cells Lineaged Cells Lineaged Cells Lineaged Cells Lineaged Cells Lineaged Cells Lineaged Cells Lineaged Cells ',
+          title: 'Lineaged cells',
+          intro: `Neuron names with check marks have been identified by <b>lineage tracking</b>, 
+          and all other neurons are suspected to have promoter expression. 
+          `,
           position: 'left',
         },
         {
           element: window.document.querySelector('#timeline-image'),
-          title: 'Timeline',
-          intro: 'Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline Timeline ',
+          title: 'Timelapse',
+          intro: 'View the <b>developmental time course</b> of the promoter expression.',
           position: 'down',
         },
         {
           element: window.document.querySelector('#panel1a-header'),
-          title: 'Promoter Information',
-          intro: 'Promoter Information Promoter Information Promoter Information Promoter Information Promoter Information Promoter Information Promoter Information ',
+          title: 'Promoter information',
+          intro: 'Find information about the <b>promoter</b> (primers, strains, and more) and <b>expression</b>.',
           position: 'up',
         }].filter((step) => step.element !== null),
       }).start();
