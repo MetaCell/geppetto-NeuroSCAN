@@ -74,6 +74,14 @@ export const addToWidget = (
             viewerId: newViewerId,
           },
         },
+        recorderOptions: {
+          mediaRecorderOptions: {
+            mimeType: 'video/webm;codecs=h264',
+          },
+          blobOptions: {
+            type: 'video/mp4',
+          },
+        },
         screenshotOptions: {
           resolution: {
             width: 3840,
