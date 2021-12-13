@@ -21,7 +21,7 @@ with con:
             else:
                 timepoint = row[2]
                 # save neuroPost and remove it from row
-                neuronPost = json.loads(row[neuronPostIdx].replace('.',''))
+                neuronPost = json.loads(row[neuronPostIdx])
                 row.pop(neuronPostIdx)
 
                 # substitute relations to neurons
