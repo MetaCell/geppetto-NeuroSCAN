@@ -6,7 +6,10 @@ def custom_script(data):
         for synapse in data[tp]:
             source = list(data[tp][synapse].keys())[0]  # synapses only have 1 source
             data[tp][synapse] = {source: data[tp][synapse][source]}
-            data[tp][synapse][source]['neuronPost'] = data[tp][synapse][source]['neuronPost'].split('_')
+            if data[tp][synapse][source]['neuronPost']:
+                data[tp][synapse][source]['neuronPost'] = data[tp][synapse][source]['neuronPost'].split('_')
+            else:
+                data[tp][synapse][source]['neuronPost'] = None
             data[tp][synapse][source]['position'] = data[tp][synapse][source]['position']
             if (data[tp][synapse][source]['neuronSite'] != '') and \
                (data[tp][synapse][source]['neuronSite'] is not None):

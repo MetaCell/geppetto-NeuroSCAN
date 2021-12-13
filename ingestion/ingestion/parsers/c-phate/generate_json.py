@@ -1,15 +1,29 @@
 import json
 import re
+import os
 
 import pandas as pd
 
 from ingestion.parsers.common.filename_parser import FilenameParser
 from ingestion.parsers.common.config import Config
 
+
+NEUROSCAN_ROOT = os.environ.get("NEUROSCAN_ROOT", "../../../data/neuroscan/")
+
+INPUT_CSV = None
+for root, dirs, files in os.walk(NEUROSCAN_ROOT):
+    for file in files:
+        if file.startswith("cphate"):
+            INPUT_CSV = os.path.join(root, file)
+            break
+else:
+    if not INPUT_CSV:
+        print("No cphate file found, exiting...")
+        exit(-1)
+
 NEURON_COL_NAME = 'Neuron'
 ITER_COL_IDENTIFIER = 'iter'
-SHEET_NAME = 'cphate'
-INPUT_CSV = '../../../data/neuroscan/Adult/2880/cphate.xls'
+SHEET_NAME = 0  # let's use the first sheet instead of a sheet name 'cphate'
 OUTPUT_JSON = 'cphate.json'
 
 
@@ -45,11 +59,11 @@ def get_iter_from_header(df):
 
 
 def is_iter(name):
-    return ITER_COL_IDENTIFIER in name
+    return ITER_COL_IDENTIFIER in name.lower()
 
 
 def get_iter_step(name):
-    return get_iter_key(int(name.split(ITER_COL_IDENTIFIER)[1]))
+    return get_iter_key(int(name.lower().split(ITER_COL_IDENTIFIER)[1]))
 
 
 def get_iter_key(i):

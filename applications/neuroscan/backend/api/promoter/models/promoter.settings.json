@@ -38,6 +38,9 @@
     },
     "information": {
       "type": "richtext"
+    },
+    "otherCells": {
+      "type": "string"
     }
   }
 }

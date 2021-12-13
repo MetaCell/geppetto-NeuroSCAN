@@ -13,30 +13,31 @@ import PromoterInformation from './PromoterInformation';
 const ResultCard = ({
   result,
 }) => {
+  const promoterBaseUrl = `${backendURL}/files/promoterdb/promoters/promoter${result.uid}`;
   const timeline = [{
     label: 'Timeline',
-    src: `${backendURL}/files/promoterdb/${result.uid}/timeline.svg`,
+    src: `${promoterBaseUrl}/timeline.svg`,
   }];
   const model = [{
     label: 'Model',
-    src: `${backendURL}/files/promoterdb/${result.uid}/model.svg`,
+    src: `${promoterBaseUrl}/model.svg`,
   }];
   const expression = [
     {
       label: '3D Expression',
-      src: `${backendURL}/files/promoterdb/${result.uid}/3d_expression.mp4`,
+      src: `${promoterBaseUrl}/3d_expression.mp4`,
       mediaType: PROMOTER_MEDIA_TYPES.video,
     },
   ];
   const promoterVideos = [
     {
       label: 'Promoter',
-      src: `${backendURL}/files/promoterdb/${result.uid}/promoter.mp4`,
+      src: `${promoterBaseUrl}/promoter.mp4`,
       mediaType: PROMOTER_MEDIA_TYPES.video,
     },
     {
       label: 'Histone Marker',
-      src: `${backendURL}/files/promoterdb/${result.uid}/histone_marker.mp4`,
+      src: `${promoterBaseUrl}/histone_marker.mp4`,
       mediaType: PROMOTER_MEDIA_TYPES.video,
     },
   ];

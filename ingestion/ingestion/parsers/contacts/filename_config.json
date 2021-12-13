@@ -4,20 +4,20 @@
   "include": ".*/\\w*/\\d*/contacts/.*\\.gltf",
   "regex": {
     "id":{
-      "expression": ".*/(\\d*)/contacts/.*_(\\w*?)by(\\w*?).gltf",
+      "expression": ".*/(\\d*)/contacts/.*_(\\w*?)by(\\w*?)\\.gltf",
       "match": "$1-$2-$3"
     },
     "uid":{
-      "expression": ".*/(\\d*)/contacts/.*_(\\w*?)by(\\w*?).gltf",
+      "expression": ".*/(\\d*)/contacts/.*_(\\w*?)by(\\w*?)\\.gltf",
       "match": "$2-$3"
     },
     "neuronA":{
-      "expression": "_(\\w*?)by(\\w*?)",
+      "expression": "_(.+?)by",
       "match": "$1"
     },
     "neuronB":{
-      "expression": "_(\\w*?)by(\\w*?)",
-      "match": "$2"
+      "expression": "_.+?by(.+?)\\.gltf",
+      "match": "$1"
     },
     "timepoint": {
       "expression": ".*/\\w*/(\\d*)/contacts/.*\\.gltf",

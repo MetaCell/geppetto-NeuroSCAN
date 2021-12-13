@@ -45,7 +45,7 @@ const SearchResult = (props) => {
 
   return (
     <>
-      <Accordion className={searchesCount > 0 ? classes.fade : ''}>
+      <Accordion className={searchesCount > 0 ? classes.fade : ''} id={`${title}-result`}>
         <AccordionSummary
           expandIcon={<img src={CHEVRON} width="4" height="6" alt="CHEVRON" />}
           IconButtonProps={{ disableRipple: true }}

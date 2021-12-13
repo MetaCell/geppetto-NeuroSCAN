@@ -1,12 +1,11 @@
 {
-  "output_file": "synapses_${split}.csv",
+  "output_file": "synapses.csv",
   "header": [
     "uid",
     "filename",
     "timepoint",
     "type",
     "section",
-    "zs",
     "position",
     "neuronSite",
     "neuronPre",
