@@ -150,7 +150,7 @@ const LeftSidebar = (props) => {
                       Add Filter
                     </Typography>
                   </AccordionSummary>
-                  <Button variant="outlined" onClick={() => setOpenFilterModal(true)}>
+                  <Button variant="outlined" onClick={() => setOpenFilterModal(true)} id="filter-icon">
                     <img src={FILTER} alt="filter" />
                   </Button>
                 </Box>

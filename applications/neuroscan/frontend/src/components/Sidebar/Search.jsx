@@ -39,7 +39,7 @@ const Search = (props) => {
 
   return (
     <Box className="wrap">
-      <Box position="relative" className="search-bar">
+      <Box position="relative" className="search-bar" id="search-bar">
         <img src={MagnifyingGlass} alt="MagnifyingGlass" />
         <ChipInput
           variant="outlined"

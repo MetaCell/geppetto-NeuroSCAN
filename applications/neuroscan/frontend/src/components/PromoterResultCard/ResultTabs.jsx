@@ -24,7 +24,7 @@ const renderTab = (option, fullWidth, whiteBg) => {
       );
     default:
       return (fullWidth ? (
-        <Box p={2} className={whiteBg ? 'model-box' : ''}>
+        <Box p={2} className={whiteBg ? 'model-box' : ''} id="timeline-image">
           <img
             id={idImage}
             src={option?.src}

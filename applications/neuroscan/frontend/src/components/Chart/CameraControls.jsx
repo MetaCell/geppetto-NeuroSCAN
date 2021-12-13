@@ -196,7 +196,7 @@ const CameraControls = (props) => {
 
   return (
     <div className="position-toolbar">
-      <div className="left">
+      <div className="left" id="left-controls-id">
         <Box className="mode-selector">
           <RadioOption value={backgrounds.DARK} image={DARK} />
           <RadioOption value={backgrounds.LIGHT} image={LIGHT} />
@@ -229,7 +229,7 @@ const CameraControls = (props) => {
         />
       </div>
 
-      <div className="right">
+      <div className="right" id="right-controls-id">
         {
           controlsRight.map((value, index) => (
             <Control key={index} value={value} />

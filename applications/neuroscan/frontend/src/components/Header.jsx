@@ -14,6 +14,7 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
+import introJs from 'intro.js';
 import NeuroSCANLogo from '../images/neuroscanLogo.svg';
 import MenuIcon from '../images/hamburger.svg';
 import Toggle from '../images/toggle.svg';
@@ -21,6 +22,7 @@ import ToggleIn from '../images/toggle-in.svg';
 import { VIEWS } from '../utilities/constants';
 import vars from '../styles/constants';
 import AboutModal from './AboutModal';
+import 'intro.js/introjs.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,6 +84,101 @@ const Header = (props) => {
     setAnchorEl(null);
   };
 
+  const handleTutorial = () => {
+    setAnchorEl(null);
+    introJs().start();
+    if (view?.title === 'NeuroSCAN') {
+      introJs().setOptions({
+        tooltipClass: 'customTooltip',
+        steps: [{
+          element: window.document.querySelector('#search-bar'),
+          title: 'Search bar',
+          intro: `Type in one or more neuron names (AIB, AIBR, RIML) to filter results for 
+          <b>Neurons, Contacts and Synapses</b>.`,
+          position: 'right',
+        },
+        {
+          element: window.document.querySelector('#filter-icon'),
+          title: 'Synapse filter',
+          intro: `Assign neurons typed in the search bar to <b>Pre</b> or <b>Post</b> synaptic 
+          identities to filter the <b>Synapses</b> data.`,
+          position: 'right',
+        },
+        {
+          element: window.document.querySelector('#Neurons-result'),
+          title: 'Neurons',
+          intro: `Click on <b>Neurons</b>, <b>Contacts</b> or <b>Synapses</b> to expand and use the 
+          <b>Add to</b> button next to the neuron/contact/synapse name to add it to a 3D viewer. 
+          Refine your results by using the search bar.`,
+          position: 'right',
+        },
+        {
+          element: window.document.querySelector('#cphate-id'),
+          title: 'CPHATE',
+          intro: `Add contact profile plot (<b>CPHATE</b>) of the entire nerve ring for the 
+          developmental time point selected above.`,
+          position: 'right',
+        },
+        {
+          element: window.document.querySelector('#left-controls-id'),
+          title: 'Left toolbar',
+          intro: `Tool usage from Left to Right:<br>
+          Change <b>background</b> from dark to white.<br>
+          Change <b>color</b> and <b>transparency</b> of Neurons, Contacts, Synapses, and CPHATE 
+          clusters.<br>
+          Change <b>developmental stage</b> of all the renderings in the viewer.<br>
+          <b>Add</b> additional renderings to the viewer.<br>
+          <b>Record</b> video of the current viewer and <b>download</b> video.<br>
+          <b>Download</b> the viewer files for your own desktop viewing or download a <b>screenshot</b> 
+          of the current viewer.`,
+          position: 'down',
+        },
+        {
+          element: window.document.querySelector('#right-controls-id'),
+          title: 'Right toolbar',
+          intro: `Tool usage from Left to Right:<br>
+          <b>Play</b> a 360&#176; rotation of the viewer.<br>
+          <b>Zoom</b> in and out of the viewer.<br>
+          Use home button to <b>reset</b> the viewer to center.<br>`,
+          position: 'down',
+        },
+        {
+          element: window.document.querySelector('.explorer'),
+          title: 'Navigation',
+          intro: `<b>Play all</b> for 360&#176; rotation of all open windows.<br>
+          Click <b>viewer name</b> to expand names for all <b>Neurons</b>, <b>Contacts</b> and <b>Synapses</b>
+          in viewers. Hover over neuron names and click three dots on the right to open a menu to <b>Select</b>, 
+          <b>Group</b>, <b>Hide</b> and <b>Delete</b> the neuron.`,
+          position: 'right',
+        }].filter((step) => step.element !== null),
+      }).start();
+    } else {
+      introJs().setOptions({
+        tooltipClass: 'customTooltip',
+        steps: [{
+          element: window.document.querySelector('.lineaged-cells'),
+          title: 'Lineaged cells',
+          intro: `Neuron names with check marks have been identified by <b>lineage tracking</b>, 
+          and all other neurons are suspected to have promoter expression. 
+          `,
+          position: 'left',
+        },
+        {
+          element: window.document.querySelector('#timeline-image'),
+          title: 'Timelapse',
+          intro: 'View the <b>developmental time course</b> of the promoter expression.',
+          position: 'down',
+        },
+        {
+          element: window.document.querySelector('#panel1a-header'),
+          title: 'Promoter information',
+          intro: 'Find information about the <b>promoter</b> (primers, strains, and more) and <b>expression</b>.',
+          position: 'up',
+        }].filter((step) => step.element !== null),
+      }).start();
+    }
+  };
+
   const handeModalToggle = () => {
     setAnchorEl(null);
     setOpenAboutModal(true);
@@ -120,7 +217,7 @@ const Header = (props) => {
           disableGutters
           dense
           button
-          onClick={handleMenuClose}
+          onClick={handleTutorial}
         >
           <ListItemText>
             <Typography>Tutorial</Typography>
