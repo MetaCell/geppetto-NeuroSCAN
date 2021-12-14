@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Modal from '@material-ui/core/Modal';
-import { captureControlsActionsDownloadVideo } from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
 import {
   Box,
   Typography,
   IconButton,
   Button,
 } from '@material-ui/core';
+import { captureControlsActionsDownloadVideo } from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
 import CLOSE from '../../../images/close.svg';
 import DOWNLOAD from '../../../images/download.svg';
 import DELETE from '../../../images/delete.svg';
@@ -18,7 +18,7 @@ const RecordControlModal = (props) => {
   } = props;
   const [deleteOption, setDeleteOption] = useState(false);
   const downloadRecording = () => {
-    captureControlsHandler(captureControlsActionsDownloadVideo(`${widgetName}.webm`));
+    captureControlsHandler(captureControlsActionsDownloadVideo(`${widgetName}.mp4`));
     handleClose();
   };
   const videoSrc = videoBlob ? window.URL.createObjectURL(videoBlob) : null;
