@@ -17,6 +17,11 @@ const ExplorerMenu = ({
 }) => {
   const widgets = useSelector((state) => state.widgets);
 
+  const handleSelectClick = () => {
+    handleSelect(viewerId, instance, widgets);
+    handleMenuClose();
+  };
+
   const menuId = 'explorer-menu-option';
   return (
     <Popover
@@ -36,7 +41,7 @@ const ExplorerMenu = ({
     >
       <List>
         <ListItem
-          onClick={() => handleSelect(viewerId, instance, widgets)}
+          onClick={handleSelectClick}
           role="button"
           button
         >
