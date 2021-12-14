@@ -294,3 +294,10 @@ export const getInstancesOfType = (instances, instanceType) => (
 
 export const getInstancesByGroups = (instances) => (
   groupBy(instances, 'group'));
+
+export const handleSelect = (viewerId, selectedInstance, widgets) => {
+  if (viewerId) {
+    const { instances } = widgets[viewerId].config;
+    setSelectedInstances(viewerId, instances, [selectedInstance.uid]);
+  }
+};

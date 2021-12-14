@@ -15,6 +15,7 @@ const StyledTreeItem = (props) => {
     labelIcon: LabelIcon,
     labelInfo,
     viewerId,
+    instance,
     onClick,
     hasExplorerMenu,
     ...other
@@ -71,6 +72,7 @@ const StyledTreeItem = (props) => {
             open={isMenuOpen}
             handleMenuClose={handleMenuClose}
             viewerId={viewerId}
+            instance={instance}
             {...other}
           />
         )

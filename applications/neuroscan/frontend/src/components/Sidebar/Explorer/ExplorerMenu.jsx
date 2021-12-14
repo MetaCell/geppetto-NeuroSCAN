@@ -7,12 +7,16 @@ import {
   Popover,
   Typography,
 } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 import MenuGroups from './MenuGroups';
 import MENU from '../../../images/menu-chevron.svg';
+import { handleSelect } from '../../../services/instanceHelpers';
 
 const ExplorerMenu = ({
-  anchorEl, handleMenuClose, open, ...other
+  anchorEl, handleMenuClose, open, viewerId, instance, ...other
 }) => {
+  const widgets = useSelector((state) => state.widgets);
+
   const menuId = 'explorer-menu-option';
   return (
     <Popover
@@ -32,7 +36,7 @@ const ExplorerMenu = ({
     >
       <List>
         <ListItem
-          onClick={handleMenuClose}
+          onClick={() => handleSelect(viewerId, instance, widgets)}
           role="button"
           button
         >
