@@ -122,7 +122,7 @@ class Viewer extends React.Component {
     const {
       instances,
     } = this.props;
-    return (instances.map((instance) => ({
+    return (instances.filter((instance) => !instance.hidden).map((instance) => ({
       instancePath: instance.uid,
       color: instance.color,
     })));

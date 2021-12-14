@@ -10,7 +10,7 @@ import {
 import { useSelector } from 'react-redux';
 import MenuGroups from './MenuGroups';
 import MENU from '../../../images/menu-chevron.svg';
-import { handleSelect } from '../../../services/instanceHelpers';
+import { deleteSelectedInstances, handleSelect, hideSelectedInstances } from '../../../services/instanceHelpers';
 
 const ExplorerMenu = ({
   anchorEl, handleMenuClose, open, viewerId, instance, ...other
@@ -19,6 +19,22 @@ const ExplorerMenu = ({
 
   const handleSelectClick = () => {
     handleSelect(viewerId, instance, widgets);
+    handleMenuClose();
+  };
+
+  const handleDeleteClick = () => {
+    if (viewerId) {
+      const { instances } = widgets[viewerId].config;
+      deleteSelectedInstances(viewerId, instances, [instance.uid]);
+    }
+    handleMenuClose();
+  };
+
+  const handleHideClick = () => {
+    if (viewerId) {
+      const { instances } = widgets[viewerId].config;
+      hideSelectedInstances(viewerId, instances, [instance.uid]);
+    }
     handleMenuClose();
   };
 
@@ -70,7 +86,7 @@ const ExplorerMenu = ({
         <Divider />
 
         <ListItem
-          onClick={handleMenuClose}
+          onClick={handleHideClick}
           role="button"
           button
         >
@@ -80,7 +96,7 @@ const ExplorerMenu = ({
         </ListItem>
 
         <ListItem
-          onClick={handleMenuClose}
+          onClick={handleDeleteClick}
           role="button"
           disableGutters
           button

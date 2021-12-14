@@ -87,6 +87,7 @@ export const addToWidget = (
       },
       viewerId: newViewerId,
       flash: false,
+      hidden: false,
       timePoint: widget.timePoint,
       name: widget.name,
       rotate: cameraControlsRotateState.STOP,
