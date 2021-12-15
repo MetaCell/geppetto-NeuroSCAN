@@ -16,8 +16,10 @@
        entities = await strapi.services.synapse.find(ctx.query);
      }
 
+     if (entities.length > 0) {console.log(entities[0])}
      entities = entities.map(entity => {
       const postNeuronPart = entity.postNeuron ? `-${entity.postNeuron?.uid}` : '';
+      const synapseSection = entity.section ? `, section ${entity.section}` : '';
       const neuronsPostPart = entity.neuronPost.length > 0 ? entity.neuronPost.reduce((r, n, i) => {
         let s = (i != 0 ? ', ' : '');
         let e = (i == entity.neuronPost.length - 1 ? ')' : '');
@@ -25,7 +27,7 @@
       }, ' (') : '';
       return ({
          ...entity,
-         name: entity.name ? entity.name : `pre-${entity.neuronPre?.uid}-${entity.type}-post-${postNeuronPart}${neuronsPostPart}`,
+         name: entity.name ? entity.name : `pre-${entity.neuronPre?.uid}-${entity.type}-post${postNeuronPart}${neuronsPostPart}${synapseSection}`,
        })});
  
      return entities.map(entity => {
