@@ -51,3 +51,6 @@ export const MAIL_SUGGEST_PROMOTER_BODY = 'Hi WormGUIDES team,\nOur group has fo
 export const MAIL_CONTACT_TO = 'support@wormguides.org';
 export const MAIL_CONTACT_SUBJECT = '';
 export const MAIL_CONTACT_BODY = '';
+
+export const CANVAS_STARTED = 'STARTED';
+export const CANVAS_FINISHED = 'FINISHED';

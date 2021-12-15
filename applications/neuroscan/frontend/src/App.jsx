@@ -17,6 +17,7 @@ import { addDevStages } from './redux/actions/devStages';
 import { loadPromoters } from './redux/actions/promoters';
 import '@metacell/geppetto-meta-ui/flex-layout/style/dark.scss';
 import './flexLayout.css';
+import { CANVAS_STARTED } from './utilities/constants';
 
 const Manager = require('@metacell/geppetto-meta-client/common/Manager').default;
 
@@ -36,10 +37,19 @@ const App = () => {
     dispatch(loadPromoters());
   }, []);
 
+  const getActiveStatus = () => {
+    const loading = Object.keys(misc?.loading || {}).length > 0;
+    const canvasLoading = misc?.canvas === CANVAS_STARTED;
+    if (loading || canvasLoading) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
-      <Loader active={Object.keys(misc?.loading || {}).length > 0} />
+      <Loader active={getActiveStatus()} />
       <Router>
         <Switch>
           <Route exact path="/" component={NeuroScan} />
