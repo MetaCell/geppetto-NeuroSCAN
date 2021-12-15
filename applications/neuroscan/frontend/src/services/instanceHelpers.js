@@ -88,6 +88,18 @@ const hideInstanceSelected = (instances, selectedUids) => instances.map((instanc
   };
 });
 
+const showInstanceSelected = (instances, selectedUids) => instances.map((instance) => {
+  if (selectedUids.find((x) => x === instance.uid)) {
+    return {
+      ...instance,
+      hidden: false,
+    };
+  }
+  return {
+    ...instance,
+  };
+});
+
 export const setSelectedInstances = (viewerId, instances, selectedUids) => {
   const newInstances = updateInstanceSelected(
     instances, selectedUids,
@@ -122,6 +134,15 @@ export const deleteSelectedInstances = (viewerId, instances, selectedUids) => {
 
 export const hideSelectedInstances = (viewerId, instances, selectedUids) => {
   const newInstances = hideInstanceSelected(instances, selectedUids);
+  store.dispatch(updateWidgetConfig(
+    viewerId, {
+      instances: newInstances,
+    },
+  ));
+};
+
+export const showSelectedInstances = (viewerId, instances, selectedUids) => {
+  const newInstances = showInstanceSelected(instances, selectedUids);
   store.dispatch(updateWidgetConfig(
     viewerId, {
       instances: newInstances,

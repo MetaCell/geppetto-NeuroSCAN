@@ -10,7 +10,12 @@ import {
 import { useSelector } from 'react-redux';
 import MenuGroups from './MenuGroups';
 import MENU from '../../../images/menu-chevron.svg';
-import { deleteSelectedInstances, handleSelect, hideSelectedInstances } from '../../../services/instanceHelpers';
+import {
+  deleteSelectedInstances,
+  handleSelect,
+  hideSelectedInstances,
+  showSelectedInstances,
+} from '../../../services/instanceHelpers';
 
 const ExplorerMenu = ({
   anchorEl, handleMenuClose, open, viewerId, instance, ...other
@@ -38,7 +43,36 @@ const ExplorerMenu = ({
     handleMenuClose();
   };
 
+  const handleShowClick = () => {
+    if (viewerId) {
+      const { instances } = widgets[viewerId].config;
+      showSelectedInstances(viewerId, instances, [instance.uid]);
+    }
+    handleMenuClose();
+  };
+
   const menuId = 'explorer-menu-option';
+  const showHideButton = instance.hidden ? (
+    <ListItem
+      onClick={handleShowClick}
+      role="button"
+      button
+    >
+      <ListItemText>
+        <Typography>Show</Typography>
+      </ListItemText>
+    </ListItem>
+  ) : (
+    <ListItem
+      onClick={handleHideClick}
+      role="button"
+      button
+    >
+      <ListItemText>
+        <Typography>Hide</Typography>
+      </ListItemText>
+    </ListItem>
+  );
   return (
     <Popover
       className="custom-popover dark right no-pin"
@@ -85,15 +119,7 @@ const ExplorerMenu = ({
 
         <Divider />
 
-        <ListItem
-          onClick={handleHideClick}
-          role="button"
-          button
-        >
-          <ListItemText>
-            <Typography>Hide</Typography>
-          </ListItemText>
-        </ListItem>
+        {showHideButton}
 
         <ListItem
           onClick={handleDeleteClick}
