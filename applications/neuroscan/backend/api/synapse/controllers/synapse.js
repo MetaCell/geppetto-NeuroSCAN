@@ -16,7 +16,6 @@
        entities = await strapi.services.synapse.find(ctx.query);
      }
 
-     if (entities.length > 0) {console.log(entities[0])}
      entities = entities.map(entity => {
       const postNeuronPart = entity.postNeuron ? `-${entity.postNeuron?.uid}` : '';
       const synapseSection = entity.section ? `, section ${entity.section}` : '';
