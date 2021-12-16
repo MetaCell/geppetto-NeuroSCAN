@@ -91,6 +91,20 @@ const SynapsesFilter = (props) => {
     </Box>
   );
 
+  if ((searchTerms.length === 0) && ((pre !== 0) || (post !== 0))) {
+    setPre(0);
+    setPost(0);
+    dispatch(
+      search.updateFilters({
+        synapsesFilter: {
+          ...synapsesFilter,
+          preNeuron: 0,
+          postNeuron: 0,
+        },
+      }),
+    );
+  }
+
   return (
     <Modal
       open={open}

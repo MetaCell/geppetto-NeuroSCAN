@@ -42,16 +42,20 @@ const ResultCard = ({
     },
   ];
   const cellsByLineaging = result.cellsByLineaging.split(' ').filter((c) => c !== '');
+  const otherCells = result.otherCells.split(' ').filter((c) => c !== '');
   return (
     <Box className="results-box">
       <Box className="results-box_header">
         <Typography component="h3">
           {result.uid}
         </Typography>
-        <Box className="wrap lineaged-cells">
-          <Box className="tags">
+        <Box className="wrap">
+          <Box className="tags" display="flex" flexWrap="wrap" justifyContent="flex-end">
             {
               cellsByLineaging.map((cell, index) => <Chip key={`celllineage_${index}`} avatar={<img src={TICK} alt="tick" />} label={cell} className="active" />)
+            }
+            {
+              otherCells.map((cell, index) => <Chip key={`otherCells_${index}`} label={cell} />)
             }
           </Box>
           <Typography>

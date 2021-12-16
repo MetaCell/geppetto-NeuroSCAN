@@ -917,6 +917,7 @@ const theme = createTheme({
                   lineHeight: '1.3125rem',
                   letterSpacing: '0.005em',
                   color: dividerBackgroundColor,
+                  wordBreak: 'break-word',
                 },
               },
               '& .MuiAccordionSummary-root': {
@@ -965,6 +966,14 @@ const theme = createTheme({
                     marginRight: '0.3125rem',
                   },
                 },
+                '& .tags': {
+                  '& .MuiChip-root': {
+                    margin: '0 0 0.5rem 0.5rem',
+                    '&:not(:last-child)': {
+                      marginRight: 0,
+                    },
+                  },
+                },
               },
               '& h3': {
                 fontWeight: '600',
@@ -972,6 +981,9 @@ const theme = createTheme({
                 lineHeight: '2rem',
                 letterSpacing: '0.005em',
                 color: subHeaderHeadingColor,
+                wordBreak: 'break-word',
+                flexShrink: 0,
+                maxWidth: '8rem',
               },
             },
             '&:not(:last-child)': {
