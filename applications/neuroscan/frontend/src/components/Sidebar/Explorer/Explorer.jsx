@@ -21,9 +21,8 @@ import {
 } from '../../../utilities/constants';
 import { getViewersFromWidgets } from '../../../utilities/functions';
 import {
-  setSelectedInstances,
   getGroupsFromInstances,
-  groupBy,
+  groupBy, handleSelect,
 } from '../../../services/instanceHelpers';
 
 const EXPLORER_IMGS = {
@@ -46,13 +45,6 @@ const Explorer = () => {
 
   const stateLayout = useSelector((state) => state.layout.layout);
   const widgets = useSelector((state) => state.widgets);
-
-  const handleSelect = (viewerId, selectedInstance) => {
-    if (viewerId) {
-      const { instances } = widgets[viewerId].config;
-      setSelectedInstances(viewerId, instances, [selectedInstance.uid]);
-    }
-  };
 
   const ExplorerTreeItems = (props) => {
     const {
@@ -81,7 +73,7 @@ const Explorer = () => {
             instance={instance}
             viewerId={viewerId}
             groups={groups}
-            onClick={() => handleSelect(viewerId, instance)}
+            onClick={() => handleSelect(viewerId, instance, widgets)}
             {...other}
           />
         ))}

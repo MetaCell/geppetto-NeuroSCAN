@@ -7,13 +7,72 @@ import {
   Popover,
   Typography,
 } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 import MenuGroups from './MenuGroups';
 import MENU from '../../../images/menu-chevron.svg';
+import {
+  deleteSelectedInstances,
+  handleSelect,
+  hideSelectedInstances,
+  showSelectedInstances,
+} from '../../../services/instanceHelpers';
 
 const ExplorerMenu = ({
-  anchorEl, handleMenuClose, open, ...other
+  anchorEl, handleMenuClose, open, viewerId, instance, ...other
 }) => {
+  const widgets = useSelector((state) => state.widgets);
+
+  const handleSelectClick = () => {
+    handleSelect(viewerId, instance, widgets);
+    handleMenuClose();
+  };
+
+  const handleDeleteClick = () => {
+    if (viewerId) {
+      const { instances } = widgets[viewerId].config;
+      deleteSelectedInstances(viewerId, instances, [instance.uid]);
+    }
+    handleMenuClose();
+  };
+
+  const handleHideClick = () => {
+    if (viewerId) {
+      const { instances } = widgets[viewerId].config;
+      hideSelectedInstances(viewerId, instances, [instance.uid]);
+    }
+    handleMenuClose();
+  };
+
+  const handleShowClick = () => {
+    if (viewerId) {
+      const { instances } = widgets[viewerId].config;
+      showSelectedInstances(viewerId, instances, [instance.uid]);
+    }
+    handleMenuClose();
+  };
+
   const menuId = 'explorer-menu-option';
+  const showHideButton = instance.hidden ? (
+    <ListItem
+      onClick={handleShowClick}
+      role="button"
+      button
+    >
+      <ListItemText>
+        <Typography>Show</Typography>
+      </ListItemText>
+    </ListItem>
+  ) : (
+    <ListItem
+      onClick={handleHideClick}
+      role="button"
+      button
+    >
+      <ListItemText>
+        <Typography>Hide</Typography>
+      </ListItemText>
+    </ListItem>
+  );
   return (
     <Popover
       className="custom-popover dark right no-pin"
@@ -32,7 +91,7 @@ const ExplorerMenu = ({
     >
       <List>
         <ListItem
-          onClick={handleMenuClose}
+          onClick={handleSelectClick}
           role="button"
           button
         >
@@ -60,18 +119,10 @@ const ExplorerMenu = ({
 
         <Divider />
 
-        <ListItem
-          onClick={handleMenuClose}
-          role="button"
-          button
-        >
-          <ListItemText>
-            <Typography>Hide</Typography>
-          </ListItemText>
-        </ListItem>
+        {showHideButton}
 
         <ListItem
-          onClick={handleMenuClose}
+          onClick={handleDeleteClick}
           role="button"
           disableGutters
           button

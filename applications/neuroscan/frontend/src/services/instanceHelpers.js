@@ -1,16 +1,11 @@
 /* eslint-disable import/no-cycle */
 import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
-import {
-  updateWidgetConfig,
-  invertColorsFlashing,
-  setOriginalColors,
-} from '../redux/actions/widget';
+import { invertColorsFlashing, setOriginalColors, updateWidgetConfig } from '../redux/actions/widget';
 import urlService from './UrlService';
 import zipService from './ZipService';
 import store from '../redux/store';
 import {
-  filesURL,
-  NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE,
+  CONTACT_TYPE, filesURL, NEURON_TYPE, SYNAPSE_TYPE,
 } from '../utilities/constants';
 
 export const instanceEqualsInstance = (instanceA, instanceB) => instanceA.uid === instanceB.uid
@@ -81,6 +76,30 @@ const updateInstanceSelected = (instances, selectedUids) => {
   return i;
 };
 
+const hideInstanceSelected = (instances, selectedUids) => instances.map((instance) => {
+  if (selectedUids.find((x) => x === instance.uid)) {
+    return {
+      ...instance,
+      hidden: true,
+    };
+  }
+  return {
+    ...instance,
+  };
+});
+
+const showInstanceSelected = (instances, selectedUids) => instances.map((instance) => {
+  if (selectedUids.find((x) => x === instance.uid)) {
+    return {
+      ...instance,
+      hidden: false,
+    };
+  }
+  return {
+    ...instance,
+  };
+});
+
 export const setSelectedInstances = (viewerId, instances, selectedUids) => {
   const newInstances = updateInstanceSelected(
     instances, selectedUids,
@@ -88,6 +107,7 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
   store.dispatch(updateWidgetConfig(
     viewerId, {
       flash: true,
+      hidden: false,
       instances: newInstances,
     },
   ));
@@ -101,6 +121,33 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
     }
     counter += 1;
   }, 750);
+};
+
+export const deleteSelectedInstances = (viewerId, instances, selectedUids) => {
+  const newInstances = instances.filter((instance) => !selectedUids.includes(instance.uid));
+  store.dispatch(updateWidgetConfig(
+    viewerId, {
+      instances: newInstances,
+    },
+  ));
+};
+
+export const hideSelectedInstances = (viewerId, instances, selectedUids) => {
+  const newInstances = hideInstanceSelected(instances, selectedUids);
+  store.dispatch(updateWidgetConfig(
+    viewerId, {
+      instances: newInstances,
+    },
+  ));
+};
+
+export const showSelectedInstances = (viewerId, instances, selectedUids) => {
+  const newInstances = showInstanceSelected(instances, selectedUids);
+  store.dispatch(updateWidgetConfig(
+    viewerId, {
+      instances: newInstances,
+    },
+  ));
 };
 
 export const updateInstanceGroup = (instances, instanceList, newGroup = null) => instances
@@ -294,3 +341,10 @@ export const getInstancesOfType = (instances, instanceType) => (
 
 export const getInstancesByGroups = (instances) => (
   groupBy(instances, 'group'));
+
+export const handleSelect = (viewerId, selectedInstance, widgets) => {
+  if (viewerId) {
+    const { instances } = widgets[viewerId].config;
+    setSelectedInstances(viewerId, instances, [selectedInstance.uid]);
+  }
+};
