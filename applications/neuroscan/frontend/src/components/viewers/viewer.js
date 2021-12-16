@@ -135,6 +135,8 @@ class Viewer extends React.Component {
       cameraOptions,
       captureOptions,
       backgroundColor,
+      loadingStarted,
+      loadingFinished,
     } = this.props;
 
     const canvasData = this.initCanvasData();
@@ -155,6 +157,8 @@ class Viewer extends React.Component {
           backgroundColor={backgroundColor}
           onSelection={this.onSelection}
           onMount={this.onMount}
+          updateStarted={loadingStarted}
+          updateEnded={loadingFinished}
         />
       </div>
     );

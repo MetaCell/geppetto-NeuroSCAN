@@ -1,4 +1,11 @@
-import { RAISE_ERROR, LOADING, LOADING_SUCCESS } from '../actions/misc';
+import {
+  RAISE_ERROR,
+  LOADING,
+  LOADING_SUCCESS,
+  CANVAS_UPDATE_STARTED,
+  CANVAS_UPDATE_ENDED,
+} from '../actions/misc';
+import { CANVAS_STARTED, CANVAS_FINISHED } from '../../utilities/constants';
 
 export const MISC_DEFAULT_STATUS = {};
 
@@ -22,6 +29,16 @@ export default (state = MISC_DEFAULT_STATUS, action) => {
         ...state,
         error: action.error,
         loading: {},
+      };
+    case CANVAS_UPDATE_STARTED:
+      return {
+        ...state,
+        canvas: CANVAS_STARTED,
+      };
+    case CANVAS_UPDATE_ENDED:
+      return {
+        ...state,
+        canvas: CANVAS_FINISHED,
       };
     default:
       return state;
