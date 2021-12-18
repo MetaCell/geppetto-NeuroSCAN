@@ -1,26 +1,41 @@
 import React, { useState } from 'react';
 import Modal from '@material-ui/core/Modal';
 import {
-  Box,
-  Typography,
-  IconButton,
-  Button,
+  Box, Typography, IconButton, Button,
 } from '@material-ui/core';
-import { captureControlsActionsDownloadVideo } from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
+import { formatDate } from '@metacell/geppetto-meta-ui/3d-canvas/captureManager/utils';
 import CLOSE from '../../../images/close.svg';
 import DOWNLOAD from '../../../images/download.svg';
 import DELETE from '../../../images/delete.svg';
 import DELETE_WHITE from '../../../images/delete-white.svg';
 
+const webmToMp4 = require('webm-to-mp4');
+
+export const downloadBlob = (blob, filename) => {
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.style.display = 'none';
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }, 100);
+};
+
 const RecordControlModal = (props) => {
   const {
-    open, handleClose, captureControlsHandler, videoBlob, widgetName,
+    open, handleClose, videoBlob, widgetName,
   } = props;
   const [deleteOption, setDeleteOption] = useState(false);
-  const downloadRecording = () => {
-    captureControlsHandler(captureControlsActionsDownloadVideo(`${widgetName}.mp4`));
+  const downloadRecording = async () => {
+    const mp4 = webmToMp4(Buffer.from(await videoBlob.arrayBuffer()));
+    downloadBlob(new Blob([mp4]), `${widgetName}_${formatDate(new Date())}.mp4`);
     handleClose();
   };
+
   const videoSrc = videoBlob ? window.URL.createObjectURL(videoBlob) : null;
 
   return (
