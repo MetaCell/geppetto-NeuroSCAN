@@ -1,4 +1,6 @@
 import { backendURL, backendClient, CPHATE_TYPE } from '../utilities/constants';
+// eslint-disable-next-line import/no-cycle
+import { getLocationPrefixFromType } from './instanceHelpers';
 
 const cphateUrl = '/cphates';
 
@@ -18,7 +20,7 @@ export class CphateService {
     };
   }
 
-  mapCphateInstance(cphate, obj) {
+  mapCphateInstance(cphate, cphateZipFile, obj) {
     const id = `Cphate_${cphate.timepoint}_${obj.i}_${obj.c}`;
     return {
       id,
@@ -31,7 +33,7 @@ export class CphateService {
       group: null,
       content: {
         type: 'zip',
-        location: `${backendURL}${cphate.zipfile.url}`,
+        location: `${cphateZipFile}`,
         fileName: obj.objFile.substring(obj.objFile.lastIndexOf('/') + 1),
       },
       getId: () => this.id,
@@ -39,7 +41,11 @@ export class CphateService {
   }
 
   getInstances(cphate) {
-    return cphate.structure.map((obj) => this.mapCphateInstance(cphate, obj));
+    const cphateZipFile = getLocationPrefixFromType({
+      timepoint: cphate.timepoint,
+      instanceType: CPHATE_TYPE,
+    });
+    return cphate.structure.map((obj) => this.mapCphateInstance(cphate, cphateZipFile, obj));
   }
 
   async getCphateByTimepoint(timepoint) {
