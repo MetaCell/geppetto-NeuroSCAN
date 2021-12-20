@@ -114,6 +114,13 @@ function load_data() {
   python promoters.py
 }
 
+if [ -z "$1" ]
+  then
+    echo -e "\nPlease call '$0 <timepoint>' to run this command!\n"
+    echo -e "timepoint: path of the files to ingest. The path is relative to /opt/storage/files"
+    echo -e "           e.g. L1/05  to ingest hour 5 in developmental stage L1"
+    exit 1
+fi
 
 clean
 
