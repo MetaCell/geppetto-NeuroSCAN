@@ -4,12 +4,15 @@ set -e
 
 curpwd=$(pwd)
 
-rm -rf output
-mkdir -p output
 
 parsers=$curpwd/ingestion/parsers
 loaders=$curpwd/ingestion/loaders
 data_root=/opt/storage/files/MetaCell\ structure
+
+function clean() {
+  rm -rf output
+  mkdir -p output
+}
 
 function copy_neuroscan() {
   rm -rf $curpwd/data/neuroscan/
@@ -19,6 +22,12 @@ function copy_neuroscan() {
 
 function copy_promoters() {
   cp -rf "$data_root/promoterdb"/* $curpwd/data/promoterdb
+}
+
+function zip_cphate() {
+  cd "$curpwd/data/neuroscan/$1/cphate"
+  rm -f cphate.zip
+  zip cphate.zip *
 }
 
 function transform_cphate() {
@@ -93,6 +102,8 @@ function transform_promoters() {
 
 function load_data() {
   cd $loaders
+  echo Load Cphate $1
+  python cphate.py --timepoint $(basename $1)
   echo Load Neurons $1
   python neurons.py
   echo Load Contacts $1
@@ -104,8 +115,12 @@ function load_data() {
 }
 
 
+clean
+
 copy_neuroscan "$@"
+
 transform_cphate
+zip_cphate "$@"
 transform_neurons
 transform_contacts
 transform_synapses
@@ -117,4 +132,3 @@ avi2mp4
 load_data "$@"
 
 cd $curpwd
-
