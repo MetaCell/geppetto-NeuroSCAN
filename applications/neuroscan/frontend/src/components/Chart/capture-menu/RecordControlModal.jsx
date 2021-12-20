@@ -34,13 +34,16 @@ const RecordControlModal = (props) => {
     open, handleClose, videoBlob, widgetName,
   } = props;
   const [deleteOption, setDeleteOption] = useState(false);
-  const downloadRecording = () => {
-    toBuffer(videoBlob, (err, buffer) => {
-      if (err) throw err;
-      const mp4 = webmToMp4(buffer);
-      downloadBlob(mp4, `${widgetName}_${formatDate(new Date())}.mp4`);
-      handleClose();
-    });
+  const downloadRecording = async () => {
+    const result = webmToMp4(Buffer.from(await videoBlob.arrayBuffer()));
+    downloadBlob(new Blob([result]), `${widgetName}_${formatDate(new Date())}.mp4`);
+    handleClose();
+    // toBuffer(videoBlob, (err, buffer) => {
+    //   if (err) throw err;
+    //   const mp4 = webmToMp4(buffer);
+    //   downloadBlob(mp4, `${widgetName}_${formatDate(new Date())}.mp4`);
+    //   handleClose();
+    // });
   };
   const videoSrc = videoBlob ? window.URL.createObjectURL(videoBlob) : null;
 
