@@ -32,5 +32,6 @@ with con:
         """
         con.execute(q, [structure, timepoint])
 
+con.execute("update cphates set published_at=date('now') where published_at is null")
 con.commit()
 con.close()
