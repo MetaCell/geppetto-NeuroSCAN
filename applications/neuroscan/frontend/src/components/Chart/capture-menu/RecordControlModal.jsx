@@ -9,7 +9,7 @@ import DOWNLOAD from '../../../images/download.svg';
 import DELETE from '../../../images/delete.svg';
 import DELETE_WHITE from '../../../images/delete-white.svg';
 
-const webmToMp4 = require('webm-to-mp4');
+const webmToMp4 = require('../../../utilities/webmToMp4');
 
 export const downloadBlob = (blob, filename) => {
   const url = window.URL.createObjectURL(blob);
