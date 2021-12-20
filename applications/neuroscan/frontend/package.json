@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.2",
+    "@ffmpeg/core": "^0.10.0",
+    "@ffmpeg/ffmpeg": "^0.10.1",
     "@material-ui/core": "^4.12.1",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
@@ -19,7 +21,6 @@
     "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.3",
     "axios": "^0.21.1",
-    "ffmpeg.js": "^4.2.9003",
     "intro.js": "^4.3.0",
     "jszip": "^3.7.1",
     "material-ui-chip-input": "^1.1.0",

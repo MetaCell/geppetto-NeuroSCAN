@@ -1,22 +1,13 @@
-const ffmpeg = require('ffmpeg.js/ffmpeg-mp4');
+const { createFFmpeg } = require('@ffmpeg/ffmpeg');
 
-module.exports = (webmData) => {
-  let stderr = '';
+const ffmpeg = createFFmpeg({
+  corePath: 'http://localhost:3000/ffmpeg-core.js',
+  log: true,
+});
 
-  return ffmpeg({
-    MEMFS: [{
-      name: 'input.webm',
-      data: Uint8Array.from(webmData),
-    }],
-    arguments: ['-i', 'input.webm', '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '22', '-c:a', 'aac', '-r', '25', '-strict', '2', 'output.mp4'],
-    print: () => {},
-    printErr: (data) => {
-      stderr += data;
-    },
-    onExit: (code) => {
-      if (code !== 0) {
-        throw new Error(`Conversion error: ${stderr}`);
-      }
-    },
-  }).MEMFS[0].data.buffer;
+module.exports = async (webmData) => {
+  await ffmpeg.load();
+  ffmpeg.FS('writeFile', 'i.webm', webmData);
+  await ffmpeg.run('-i', 'i.webm', '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '22', '-c:a', 'aac', '-r', '25', '-strict', '2', '-speed', '10', 'o.mp4');
+  return ffmpeg.FS('readFile', 'o.mp4');
 };
