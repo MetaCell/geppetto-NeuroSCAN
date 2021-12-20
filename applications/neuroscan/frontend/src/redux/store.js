@@ -5,6 +5,7 @@ import componentMap from '../components/layout/componentMap';
 import reducers from './reducers/all';
 // eslint-disable-next-line import/no-cycle
 import middleware from './middleware';
+// eslint-disable-next-line import/no-cycle
 import searchMiddleware from './searchMiddleware';
 import promotersSearchMiddleware from './promotersSearchMiddleware';
 

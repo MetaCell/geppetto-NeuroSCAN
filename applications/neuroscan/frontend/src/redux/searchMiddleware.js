@@ -1,5 +1,6 @@
 import * as search from './actions/search';
 import doSearch from '../services/helpers';
+// eslint-disable-next-line import/no-cycle
 import cphateService from '../services/CphateService';
 import { ADD_CPHATE, addInstances } from './actions/widget';
 import { raiseError, loading, loadingSuccess } from './actions/misc';
