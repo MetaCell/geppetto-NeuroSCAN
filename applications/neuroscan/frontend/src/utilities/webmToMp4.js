@@ -8,7 +8,7 @@ module.exports = (webmData) => {
       name: 'input.webm',
       data: Uint8Array.from(webmData),
     }],
-    arguments: ['-i', 'input.webm', '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '22', '-c:a', 'aac', '-r', '25', '-strict', '2', 'output.mp4'],
+    arguments: ['-i', 'input.webm', '-codec', 'copy', '-strict', '-2', '-pix_fmt', 'yuv420p', 'output.mp4'],
     print: () => {},
     printErr: (data) => {
       stderr += data;

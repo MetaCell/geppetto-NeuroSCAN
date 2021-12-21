@@ -77,7 +77,7 @@ export const addToWidget = (
         },
         recorderOptions: {
           mediaRecorderOptions: {
-            mimeType: 'video/webm;codecs=vp8,opus',
+            mimeType: 'video/webm;codecs=h264,opus',
           },
           blobOptions: {
             type: 'video/mp4',
