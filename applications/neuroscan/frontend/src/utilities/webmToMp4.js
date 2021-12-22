@@ -1,13 +1,21 @@
-const { createFFmpeg } = require('@ffmpeg/ffmpeg');
-
-const ffmpeg = createFFmpeg({
-  corePath: 'http://localhost:3000/ffmpeg-core.js',
-  log: true,
-});
+// Example POST method implementation:
+async function postData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(data),
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}
 
 module.exports = async (webmData) => {
-  await ffmpeg.load();
-  ffmpeg.FS('writeFile', 'i.webm', webmData);
-  await ffmpeg.run('-i', 'i.webm', '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '22', '-c:a', 'aac', '-r', '25', '-strict', '2', '-speed', '10', 'o.mp4');
-  return ffmpeg.FS('readFile', 'o.mp4');
+  const url = 'http://localhost:1337/metacell/webm2avi';
+  const result = await postData(url, { webmData });
+  return result.result.data;
 };
