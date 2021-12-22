@@ -19,6 +19,9 @@ module.exports = {
 
     const aviData = fs.readFileSync(outputFile);
 
+    fs.unlinkSync(inputFile);
+    fs.unlinkSync(outputFile);
+
     return {"result": aviData};
   },
 };
