@@ -11,7 +11,13 @@
   },
   "devDependencies": {},
   "dependencies": {
+    "@material-ui/core": "^4.11.4",
+    "content-type-parser": "^1.0.2",
+    "csv-parse": "^4.16.0",
+    "get-urls": "^10.0.0",
+    "handbrake-js": "^6.0.0",
     "knex": "0.21.18",
+    "simple-statistics": "^7.7.0",
     "sqlite3": "5.0.0",
     "strapi": "3.6.1",
     "strapi-admin": "3.6.1",
@@ -23,11 +29,6 @@
     "strapi-plugin-upload": "3.6.1",
     "strapi-plugin-users-permissions": "3.6.1",
     "strapi-utils": "3.6.1",
-    "@material-ui/core": "^4.11.4",
-    "content-type-parser": "^1.0.2",
-    "csv-parse": "^4.16.0",
-    "get-urls": "^10.0.0",
-    "simple-statistics": "^7.7.0",
     "striptags": "^3.2.0"
   },
   "author": {

@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/webm2avi",
+      "handler": "metacell.webm2avi",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
