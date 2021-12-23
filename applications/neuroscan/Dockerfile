@@ -42,9 +42,6 @@ RUN yarn build
 FROM strapi/base as base
 
 RUN apt-get update -qq && \
-    apt-get install -qq software-properties-common && \
-    add-apt-repository --yes ppa:stebbins/handbrake-releases && \
-    apt-get update -qq && \
     apt-get install -qq handbrake-cli
 
 # Configured by helm chart
