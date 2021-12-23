@@ -30,9 +30,12 @@ const RecordControlModal = (props) => {
     open, handleClose, videoBlob, widgetName,
   } = props;
   const [deleteOption, setDeleteOption] = useState(false);
+  const [showDownload, setShowDownload] = useState(true);
   const downloadRecording = async () => {
+    setShowDownload(false);
     const mp4 = Buffer.from(await webmToMp4(Buffer.from(await videoBlob.arrayBuffer())));
     downloadBlob(new Blob([mp4]), `${widgetName}_${formatDate(new Date())}.mp4`);
+    setShowDownload(true);
     handleClose();
   };
 
@@ -75,10 +78,14 @@ const RecordControlModal = (props) => {
               Sure, delete.
             </Button>
           ) }
-          <Button disableElevation color="primary" variant="contained" onClick={downloadRecording}>
-            <img src={DOWNLOAD} alt="Close" />
-            Download
-          </Button>
+          { showDownload
+            ? (
+              <Button disableElevation color="primary" variant="contained" onClick={downloadRecording}>
+                <img src={DOWNLOAD} alt="Close" />
+                Download
+              </Button>
+            )
+            : null}
         </Box>
       </Box>
     </Modal>
