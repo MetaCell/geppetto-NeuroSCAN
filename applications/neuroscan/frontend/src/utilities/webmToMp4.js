@@ -14,7 +14,7 @@ async function postData(url = '', data = {}) {
   return response.json(); // parses JSON response into native JavaScript objects
 }
 
-module.exports = async (webmData) => {
+export default async (webmData) => {
   const url = 'http://localhost:1337/metacell/webm2avi';
   const result = await postData(url, { webmData });
   return result.result.data;
