@@ -51,20 +51,13 @@ const useStyles = makeStyles(() => ({
   sliderValue: {
     display: 'flex',
     alignItems: 'center',
-    '& p': {
-      letterSpacing: '0.005em',
-      fontSize: '.5rem',
-      lineHeight: '.5rem',
-      fontWeight: 'bold',
-      color: vars?.captionTextColor,
-      textAlign: 'center',
-      flexShrink: 0,
-      paddingLeft: '0.125rem',
-      borderLeft: `0.0625rem solid ${vars.sliderBorderColor}`,
-      '&:last-child': {
-        borderRight: `0.0625rem solid ${vars.sliderBorderColor}`,
-      },
-    },
+    letterSpacing: '0.005em',
+    fontSize: '.6rem',
+    lineHeight: '.5rem',
+    fontWeight: 'bold',
+    color: vars?.captionTextColor,
+    textAlign: 'center',
+    paddingBottom: '.3rem',
   },
 }));
 
@@ -86,7 +79,7 @@ const DevelopmentalStageFilter = (props) => {
   const min = Math.min(...devStages.map((devStage) => devStage.begin));
   // eslint-disable-next-line max-len
   const max = Math.max(...devStages.map((devStage) => Math.max(devStage.end, devStage.begin)));
-  const stepWidth = (max - min) / 90;
+  const stageStep = (max / devStages.length);
   const [sliderVal, setSliderVal] = React.useState(timePoint);
 
   const handleChange = (e, value) => {
@@ -96,10 +89,13 @@ const DevelopmentalStageFilter = (props) => {
     }
   };
 
-  const sliderMarker = (icon) => (
+  const sliderMarker = (icon, stage) => (
     <Box className={classes.stageIcons}>
       <Typography component="span">
         <img src={icon} alt="icon" />
+      </Typography>
+      <Typography className={classes.sliderValue}>
+        {stage.name}
       </Typography>
       <img width="6" height="4" src={DOWN} alt="DOWN" />
     </Box>
@@ -109,8 +105,8 @@ const DevelopmentalStageFilter = (props) => {
     .reduce((x, devStage) => (x.concat(devStage.timepoints?.split(','))), [])
     .filter((item) => item !== undefined)
     .map((mark, index) => ({
-      value: parseInt(mark, 10),
-      label: sliderMarker(devStageImages[devStages[index]?.uid]),
+      value: (stageStep * (index)) + min,
+      label: sliderMarker(devStageImages[devStages[index]?.uid], devStages[index]),
     }));
 
   return devStages.length > 0 && (
@@ -126,21 +122,6 @@ const DevelopmentalStageFilter = (props) => {
         aria-label="Developmental Stages Filter"
         onChange={handleChange}
       />
-      <Box className={classes.sliderValue}>
-        {
-          devStages.map((stage) => {
-            const stageWidth = (Math.max(stage.end, stage.begin) - stage.begin) / stepWidth;
-            return (
-              <Typography
-                key={stage.id}
-                style={{ width: `${stageWidth}%` }}
-              >
-                {stage.name}
-              </Typography>
-            );
-          })
-        }
-      </Box>
     </Box>
   );
 };
