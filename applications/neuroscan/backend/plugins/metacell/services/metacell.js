@@ -10,7 +10,7 @@ module.exports = {
 
     const id = uuid.v4();
     const inputFile = `/tmp/${id}.webm`;
-    const outputFile = `/tmp/${id}.avi`;
+    const outputFile = `/tmp/${id}.mp4`;
     console.log(`Writing webm to: ${inputFile}`);
     const buf = Buffer.from(data);
     fs.writeFileSync(inputFile, buf);
