@@ -1,3 +1,5 @@
+import { backendURL } from './constants';
+
 // Example POST method implementation:
 async function postData(url = '', data = {}) {
   // Default options are marked with *
@@ -15,7 +17,6 @@ async function postData(url = '', data = {}) {
 }
 
 export default async (webmData) => {
-  const url = 'http://localhost:1337/metacell/webm2avi';
-  const result = await postData(url, { webmData });
+  const result = await postData(`${backendURL}/metacell/webm2avi`, { webmData });
   return result.result.data;
 };
