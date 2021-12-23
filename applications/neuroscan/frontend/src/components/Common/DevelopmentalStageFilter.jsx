@@ -52,9 +52,7 @@ const DevelopmentalStageFilter = (props) => {
   const devStages = useSelector((state) => state.devStages.neuroSCAN);
 
   const handleChange = (e, value) => {
-    if (value) {
-      setTimePoint(value);
-    }
+    setTimePoint(value);
   };
 
   const marks = devStages

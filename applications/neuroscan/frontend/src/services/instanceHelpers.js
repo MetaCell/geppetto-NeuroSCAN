@@ -5,7 +5,7 @@ import urlService from './UrlService';
 import zipService from './ZipService';
 import store from '../redux/store';
 import {
-  CONTACT_TYPE, filesURL, NEURON_TYPE, SYNAPSE_TYPE,
+  CONTACT_TYPE, CPHATE_TYPE, filesURL, NEURON_TYPE, SYNAPSE_TYPE,
 } from '../utilities/constants';
 
 export const instanceEqualsInstance = (instanceA, instanceB) => instanceA.uid === instanceB.uid
@@ -184,7 +184,7 @@ const getDevStageFromTimepoint = (timepoint) => {
   return devStage.name;
 };
 
-const getLocationPrefixFromType = (item) => {
+export const getLocationPrefixFromType = (item) => {
   const devStage = getDevStageFromTimepoint(item.timepoint);
   switch (item.instanceType) {
     case NEURON_TYPE: {
@@ -195,6 +195,9 @@ const getLocationPrefixFromType = (item) => {
     }
     case SYNAPSE_TYPE: {
       return `${filesURL}/neuroscan/${devStage}/${item.timepoint}/synapses/${item.filename}`;
+    }
+    case CPHATE_TYPE: {
+      return `${filesURL}/neuroscan/${devStage}/${item.timepoint}/cphate/cphate.zip`;
     }
     default: {
       return '';

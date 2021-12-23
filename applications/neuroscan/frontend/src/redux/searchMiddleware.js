@@ -1,5 +1,6 @@
 import * as search from './actions/search';
 import doSearch from '../services/helpers';
+// eslint-disable-next-line import/no-cycle
 import cphateService from '../services/CphateService';
 import { ADD_CPHATE, addInstances } from './actions/widget';
 import { raiseError, loading, loadingSuccess } from './actions/misc';
@@ -10,7 +11,7 @@ const searchMiddleware = (store) => (next) => (action) => {
     case search.UPDATE_FILTERS: {
       next(action);
       const state = store.getState();
-      state.search.filters.timePoint = action.timePoint || state.search.filters.timePoint;
+      state.search.filters.timePoint = action.timePoint;
       doSearch(store.dispatch, state.search);
       break;
     }

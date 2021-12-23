@@ -36,7 +36,7 @@
       "match": "$1"
     },
     "neuronPost": {
-      "expression": ".*_.*(?:chemical|electrical|undefined)(.+?(:?_.+?)*?)-[A-Z].*\\.gltf",
+      "expression": ".*_.*(?:chemical|electrical|undefined)(.+(:?_.+?)*?)-[A-Z].*\\.gltf",
       "match": "$1"
     }
   },
