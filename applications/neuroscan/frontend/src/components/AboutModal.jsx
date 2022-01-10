@@ -6,10 +6,16 @@ import {
   IconButton,
 } from '@material-ui/core';
 import CLOSE from '../images/close.svg';
-import { ABOUT_CONTENT } from '../utilities/constants';
+import { NEUROSCAN_ABOUT, PROMOTERDB_ABOUT } from '../utilities/constants';
 
 const AboutModal = (props) => {
   const { open, handleClose, title } = props;
+  let aboutText = '';
+  if (title === 'NeuroSCAN') {
+    aboutText = NEUROSCAN_ABOUT;
+  } else {
+    aboutText = PROMOTERDB_ABOUT;
+  }
   return (
     <Modal
       open={open}
@@ -29,11 +35,13 @@ const AboutModal = (props) => {
           </IconButton>
         </Box>
         <Box className="modal-body">
+          {aboutText.map((value) => (
+            <Typography>
+              {`${value}`}
+            </Typography>
+          ))}
           <Typography>
-            {`${title} ${ABOUT_CONTENT}`}
-          </Typography>
-          <Typography>
-            MetaCell is world-leader in software for neuroscience.
+            {`${title} has been developed with MetaCell, world-leader in software for neuroscience.`}
           </Typography>
         </Box>
         <Box className="modal-footer">
