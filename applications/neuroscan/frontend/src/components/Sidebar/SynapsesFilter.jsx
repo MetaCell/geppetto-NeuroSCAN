@@ -53,6 +53,7 @@ const SynapsesFilter = (props) => {
           preNeuron: pre,
           postNeuron: post,
         },
+        timePoint: filters.timePoint,
       }),
     );
     handleClose();
