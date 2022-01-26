@@ -100,6 +100,7 @@ export const addToWidget = (
       name: widget.name,
       rotate: cameraControlsRotateState.STOP,
       backgroundColor: CANVAS_BACKGROUND_COLOR_DARK,
+      colorPickerColor: null,
       instances,
     };
     return addWidget(widgetFromViewerSpec(newWidget));

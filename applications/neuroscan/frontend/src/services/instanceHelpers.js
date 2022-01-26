@@ -104,11 +104,15 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
   const newInstances = updateInstanceSelected(
     instances, selectedUids,
   );
+  const colorPickerColor = selectedUids.length > 0
+    ? newInstances.find((i) => i.uid === selectedUids[selectedUids.length - 1]).colorOriginal
+    : null;
   store.dispatch(updateWidgetConfig(
     viewerId, {
       flash: true,
       hidden: false,
       instances: newInstances,
+      colorPickerColor,
     },
   ));
   let counter = 1;
