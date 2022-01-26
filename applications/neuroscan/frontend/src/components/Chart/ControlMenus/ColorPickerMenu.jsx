@@ -10,6 +10,7 @@ import {
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import { ChromePicker } from 'react-color';
+import { useSelector } from 'react-redux';
 import { setInstancesColor } from '../../../redux/actions/widget';
 import MORPHOLOGY from '../../../images/morphology.svg';
 import GROUP from '../../../images/group.svg';
@@ -29,12 +30,20 @@ const ColorPickerMenu = ({
   synapses,
   clusters,
 }) => {
-  const [background, setBackground] = useState({
+  const widget = useSelector((state) => state.widgets[viewerId]);
+  const widgetColorPickerColor = widget?.config?.colorPickerColor;
+  const colorPickerColor = widgetColorPickerColor ? {
+    r: widgetColorPickerColor.r * 255,
+    g: widgetColorPickerColor.g * 255,
+    b: widgetColorPickerColor.b * 255,
+    a: widgetColorPickerColor.a,
+  } : {
     r: Math.random() * 255,
     g: Math.random() * 255,
     b: Math.random() * 255,
     a: 1,
-  });
+  };
+  const [background, setBackground] = useState(colorPickerColor);
 
   const [expanded, setExpanded] = useState([
     `iteration-${clusters.find((i) => i.selected)?.i || {}}`,

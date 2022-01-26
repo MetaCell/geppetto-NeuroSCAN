@@ -141,15 +141,25 @@ const CameraControls = (props) => {
     dispatch(updateBackgroundColorViewer(viewerId, backgroundColor));
   };
 
-  const RadioOption = ({
-    value, image,
-  }) => (
+  const getRadioElement = (value, image) => (
     <Typography component="label">
       <Radio name="mode" value={value} onChange={(e) => handleSetCanvasBackground(e.target.value)} checked={canvasBg === value} />
       <Typography>
         <img src={image} alt={value} />
       </Typography>
     </Typography>
+  );
+
+  const RadioOption = ({
+    value, image,
+  }) => (
+    value !== canvasBg
+      ? (
+        <Tooltip title={`Set ${value.charAt(0).toUpperCase() + value.slice(1)} Background `}>
+          {getRadioElement(value, image)}
+        </Tooltip>
+      )
+      : getRadioElement(value, image)
   );
 
   const [anchorEl, setAnchorEl] = useState(null);
