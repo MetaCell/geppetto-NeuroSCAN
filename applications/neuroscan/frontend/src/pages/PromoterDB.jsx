@@ -146,6 +146,8 @@ const PromoterDB = () => {
     )).filter((p) => (
       pSelectedNeurons.length === 0
       || p.cellsByLineaging.split(' ').filter((n) => pSelectedNeurons.findIndex((sn) => sn.title === n) > -1).length > 0
+      || p.otherCells.split(' ').filter((n) => pSelectedNeurons.findIndex((sn) => sn.title === n) > -1).length > 0
+
     ));
     setFilteredPromoters(fp);
   };
