@@ -63,7 +63,11 @@ const SearchResult = (props) => {
                   <ListItemIcon>
                     <img src={image} width="10" height="10" alt={title} />
                   </ListItemIcon>
-                  <ListItemText primary={item.name} />
+                  {/* <ListItemText primary={item.name} /> */}
+                  <ListItemText primary={
+                    <React.Fragment dangerouslySetInnerHTML={{ __html: item.name }} />
+                    }
+                  />
                   <Button
                     disableElevation
                     aria-haspopup="true"
