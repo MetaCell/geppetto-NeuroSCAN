@@ -1,3 +1,4 @@
+steps:
   prepare_deployment:
     title: "Prepare helm chart"
     image: python:3.7
