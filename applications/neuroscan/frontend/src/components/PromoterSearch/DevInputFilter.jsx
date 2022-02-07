@@ -16,7 +16,7 @@ const DevInputFilter = (props) => {
       label="Developmental Stage"
       variant="filled"
       placeholder={selectedDevStage.length > 0 ? '' : 'Select a developmental stage'}
-      defaultValue={selectedDevStage}
+      value={selectedDevStage}
       InputProps={{
         endAdornment:
   <InputAdornment position="end" className="chipAdornment">
