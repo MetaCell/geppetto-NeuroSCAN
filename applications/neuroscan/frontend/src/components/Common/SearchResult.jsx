@@ -12,6 +12,7 @@ import {
   ListItemIcon,
   makeStyles,
 } from '@material-ui/core';
+import HTMLViewer from '@metacell/geppetto-meta-ui/html-viewer/HTMLViewer';
 import CHEVRON from '../../images/chevron-right.svg';
 import * as search from '../../redux/actions/search';
 
@@ -63,7 +64,16 @@ const SearchResult = (props) => {
                   <ListItemIcon>
                     <img src={image} width="10" height="10" alt={title} />
                   </ListItemIcon>
-                  <ListItemText primary={item.name} />
+                  {/* <ListItemText primary={item.name} /> */}
+                  <ListItemText primary={(
+                    <HTMLViewer
+                      content={item.name}
+                      style={{
+                        width: '100%', height: '100%', float: 'center',
+                      }}
+                    />
+                  )}
+                  />
                   <Button
                     disableElevation
                     aria-haspopup="true"
