@@ -8,6 +8,28 @@ The Yale NeuroSCAN &amp; Promoter DB Project
 * `frontend/` React application composed of NeuroSCAN and PromoterDB application
 * `deployment/` Helm chart and Codefresh pipeline definition
 
+## Install and deploy
+
+### Prerequisites
+
+The Yale deployment is built on top of [CloudHarness](https://github.com/MetaCell/cloud-harness).
+The deployment process is based on Python 3.7+ scripts. It is recommended to setup a virtual 
+environment first.
+
+With conda: 
+```bash
+conda create --name yale python=3.7
+conda activate yale
+```
+
+To install CloudHarness:
+
+```
+git clone https://github.com/MetaCell/cloud-harness.git
+cd cloud-harness
+pip install -r requirements.txt
+```
+
 ## Local Development
 
 Follow the respective README in the `frontend` and `backend` project to start up a development server for each project.
