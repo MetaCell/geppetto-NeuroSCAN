@@ -102,6 +102,7 @@ const SynapsesFilter = (props) => {
           preNeuron: 0,
           postNeuron: 0,
         },
+        timePoint: filters.timePoint,
       }),
     );
   }
