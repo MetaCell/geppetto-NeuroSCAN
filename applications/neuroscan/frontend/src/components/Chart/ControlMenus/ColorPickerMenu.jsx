@@ -11,6 +11,7 @@ import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import { ChromePicker } from 'react-color';
 import { useSelector } from 'react-redux';
+import HTMLViewer from '@metacell/geppetto-meta-ui/html-viewer/HTMLViewer';
 import { setInstancesColor } from '../../../redux/actions/widget';
 import MORPHOLOGY from '../../../images/morphology.svg';
 import GROUP from '../../../images/group.svg';
@@ -93,10 +94,18 @@ const ColorPickerMenu = ({
         selected: 'Mui-selected',
       }}
     >
-      <ListItemText>
-        <img src={image} alt={instance.name} />
-        {instance.name}
-      </ListItemText>
+      <ListItemText primary={(
+        <>
+          <img src={image} alt={instance.name} />
+          <HTMLViewer
+            content={instance.name}
+            style={{
+              width: '100%', height: '100%', float: 'center',
+            }}
+          />
+        </>
+        )}
+      />
     </ListItem>
   );
 
