@@ -29,38 +29,33 @@ steps:
     stage: prepare
     working_directory: .
     commands:
-    - pip install cloud-harness/utilities
+    - pip install cloud-harness/tools
     - harness-deployment cloud-harness . -m build -t ${{DEPLOYMENT_TAG}} -d ${{DOMAIN}}
       -n ${{NAMESPACE}} -r ${{REGISTRY}} -rs ${{REGISTRY_SECRET}} ${{EXTRA_DEPLOY_ARGUMENTS}}
       -i neuroscan
   prepare_deployment_view:
     commands:
-    - helm template ./deployment/helm --debug -n ${{NAME}}
+    - helm template ./deployment/helm --debug -n ${{NAMESPACE}}
     environment:
     - ACTION=auth
-    - KUBE_CONTEXT=${{NAME}}
-    image: codefresh/cfstep-helm:3.4.1
+    - KUBE_CONTEXT=${{NAMESPACE}}
+    image: codefresh/cfstep-helm:3.6.2
     stage: prepare
     title: View helm chart
   deployment:
     stage: deploy
-    image: codefresh/cfstep-helm:3.4.1
+    image: codefresh/cfstep-helm:3.6.2
     title: Installing chart
     environment:
     - CHART_REF=./deployment/helm
     - RELEASE_NAME=${{NAMESPACE}}
     - KUBE_CONTEXT=${{CLUSTER_NAME}}
     - NAMESPACE=${{NAMESPACE}}
-    - CHART_VERSION=${{DEPLOYMENT_PUBLISH_TAG}}
+    - CHART_VERSION=${{DEPLOYMENT_TAG}}
     - HELM_REPO_USE_HTTP=false
     - HELM_REPO_CONTEXT_PATH=
     - TIMEOUT=600s
     - VALUESFILE_values=./deployment/helm/values.yaml
-    - CUSTOM_apps_sentry_harness_secrets_email-server=${{EMAIL-SERVER}}
-    - CUSTOM_apps_sentry_harness_secrets_email-user=${{EMAIL-USER}}
-    - CUSTOM_apps_sentry_harness_secrets_email-password=${{EMAIL-PASSWORD}}
-    - CUSTOM_apps_notifications_harness_secrets_email-user=${{EMAIL-USER}}
-    - CUSTOM_apps_notifications_harness_secrets_email-password=${{EMAIL-PASSWORD}}
   approval:
     type: pending-approval
     stage: publish
@@ -73,15 +68,6 @@ steps:
     type: parallel
     stage: publish
     steps:
-      publish_cloudharness-frontend-build:
-        stage: publish
-        type: push
-        title: Cloudharness frontend build
-        candidate: '${{REGISTRY}}/neuroscan/cloudharness-frontend-build:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
       publish_cloudharness-base:
         stage: publish
         type: push
@@ -91,164 +77,11 @@ steps:
         - '${{DEPLOYMENT_PUBLISH_TAG}}'
         - latest
         registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_cloudharness-base-debian:
-        stage: publish
-        type: push
-        title: Cloudharness base debian
-        candidate: '${{REGISTRY}}/neuroscan/cloudharness-base-debian:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_cloudharness-flask:
-        stage: publish
-        type: push
-        title: Cloudharness flask
-        candidate: '${{REGISTRY}}/neuroscan/cloudharness-flask:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_sentry:
-        stage: publish
-        type: push
-        title: Sentry
-        candidate: '${{REGISTRY}}/neuroscan/sentry:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_common:
-        stage: publish
-        type: push
-        title: Common
-        candidate: '${{REGISTRY}}/neuroscan/common:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_jupyterhub:
-        stage: publish
-        type: push
-        title: Jupyterhub
-        candidate: '${{REGISTRY}}/neuroscan/jupyterhub:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_notifications:
-        stage: publish
-        type: push
-        title: Notifications
-        candidate: '${{REGISTRY}}/neuroscan/notifications:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
       publish_neuroscan:
         stage: publish
         type: push
         title: Neuroscan
         candidate: '${{REGISTRY}}/neuroscan/neuroscan:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_volumemanager:
-        stage: publish
-        type: push
-        title: Volumemanager
-        candidate: '${{REGISTRY}}/neuroscan/volumemanager:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_samples:
-        stage: publish
-        type: push
-        title: Samples
-        candidate: '${{REGISTRY}}/neuroscan/samples:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_samples-sum:
-        stage: publish
-        type: push
-        title: Samples sum
-        candidate: '${{REGISTRY}}/neuroscan/samples-sum:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_accounts:
-        stage: publish
-        type: push
-        title: Accounts
-        candidate: '${{REGISTRY}}/neuroscan/accounts:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_events:
-        stage: publish
-        type: push
-        title: Events
-        candidate: '${{REGISTRY}}/neuroscan/events:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_workflows:
-        stage: publish
-        type: push
-        title: Workflows
-        candidate: '${{REGISTRY}}/neuroscan/workflows:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_workflows-extract-s3:
-        stage: publish
-        type: push
-        title: Workflows extract s3
-        candidate: '${{REGISTRY}}/neuroscan/workflows-extract-s3:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_workflows-send-result-event:
-        stage: publish
-        type: push
-        title: Workflows send result event
-        candidate: '${{REGISTRY}}/neuroscan/workflows-send-result-event:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_workflows-notify-queue:
-        stage: publish
-        type: push
-        title: Workflows notify queue
-        candidate: '${{REGISTRY}}/neuroscan/workflows-notify-queue:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_workflows-print-file:
-        stage: publish
-        type: push
-        title: Workflows print file
-        candidate: '${{REGISTRY}}/neuroscan/workflows-print-file:${{DEPLOYMENT_TAG}}'
-        tags:
-        - '${{DEPLOYMENT_PUBLISH_TAG}}'
-        - latest
-        registry: '${{REGISTRY_PUBLISH_URL}}'
-      publish_workflows-extract-download:
-        stage: publish
-        type: push
-        title: Workflows extract download
-        candidate: '${{REGISTRY}}/neuroscan/workflows-extract-download:${{DEPLOYMENT_TAG}}'
         tags:
         - '${{DEPLOYMENT_PUBLISH_TAG}}'
         - latest
