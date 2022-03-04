@@ -51,7 +51,7 @@ steps:
         type: build
         stage: build
         tag: '${{CF_BUILD_ID}}'
-        dockerfile: infrastructure/base-images/cloudharness-base/Dockerfile
+        dockerfile: cloud-harness/infrastructure/base-images/cloudharness-base/Dockerfile
         registry: '${{CODEFRESH_REGISTRY}}'
         buildkit: true
         build_arguments:
@@ -63,7 +63,7 @@ steps:
         - CLOUDHARNESS_BASE=${{REGISTRY}}/neuroscan/cloudharness-base:${{CF_BUILD_ID}}
         image_name: neuroscan/cloudharness-base
         title: Cloudharness base
-        working_directory: ./build
+        working_directory: ./cloud-harness
   build_application_images:
     type: parallel
     stage: build
@@ -84,7 +84,7 @@ steps:
         - CLOUDHARNESS_BASE=${{REGISTRY}}/neuroscan/cloudharness-base:${{CF_BUILD_ID}}
         image_name: neuroscan/neuroscan
         title: Neuroscan
-        working_directory: ./build/applications/neuroscan
+        working_directory: ./applications/neuroscan
   deployment:
     stage: deploy
     image: codefresh/cfstep-helm:3.6.2

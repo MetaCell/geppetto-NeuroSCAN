@@ -25,7 +25,7 @@ kubectl create rolebinding ${NAMESPACE}-admin-default --clusterrole=admin --serv
 
 eval $(minikube docker-env)
 
-harness-deployment cloud-harness . -l -m build -n ${NAMESPACE} -d yale.local -dtls -e dev -i neuroscan
+harness-deployment cloud-harness . -l -n ${NAMESPACE} -d yale.local -dtls -e dev -i neuroscan
 
 eval $(minikube docker-env)
 kubectl config use-context minikube
