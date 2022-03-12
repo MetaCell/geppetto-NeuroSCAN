@@ -1,5 +1,5 @@
 harness:
-  subdomain: neuroscan
+  subdomain: www
   secured: false
   service:
     port: 1337
