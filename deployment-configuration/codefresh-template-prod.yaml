@@ -6,4 +6,4 @@ steps:
     working_directory: .
     commands:
       - pip install cloud-harness/tools
-      - harness-deployment cloud-harness . -t ${{DEPLOYMENT_TAG}} -d ${{DOMAIN}} -n ${{NAMESPACE}} -r ${{REGISTRY}} -rs ${{REGISTRY_SECRET}} -i neuroscan 
+      - harness-deployment cloud-harness . -t ${{DEPLOYMENT_TAG}} -d ${{DOMAIN}} -n ${{NAMESPACE}} -r ${{REGISTRY}} -rs ${{REGISTRY_SECRET}} -e prod -i neuroscan 
