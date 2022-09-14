@@ -7,6 +7,12 @@ import store from '../redux/store';
 import {
   CONTACT_TYPE, CPHATE_TYPE, filesURL, NEURON_TYPE, SYNAPSE_TYPE,
 } from '../utilities/constants';
+import NeuronColorLegendFile from '../assets/fullUniversal_ColorLegend.lgd';
+
+const neuronColorLegend = [];
+fetch(NeuronColorLegendFile)
+  .then((response) => response.text())
+  .then((data) => data.split('\n').forEach((r) => neuronColorLegend.push(r.split(','))));
 
 export const instanceEqualsInstance = (instanceA, instanceB) => instanceA.uid === instanceB.uid
   && instanceA.instanceType === instanceB.instanceType;
@@ -212,15 +218,30 @@ export const getLocationPrefixFromType = (item) => {
 export const mapToInstance = (item) => {
   const fileName = item.filename || '';
   const location = getLocationPrefixFromType(item);
+
+  let color = {
+    r: Math.random(), g: Math.random(), b: Math.random(), a: 1,
+  };
+
+  if ('name' in item) {
+    const colorLegend = neuronColorLegend.find((value, index) => value[0] === item.name);
+    if (colorLegend) {
+      color = {
+        r: colorLegend[3] / 255,
+        g: colorLegend[4] / 255,
+        b: colorLegend[5] / 255,
+        a: 1,
+      };
+    }
+  }
+
   return {
     id: item.id,
     uid: `i_${item.uid.replace(/-/g, '_')}_${item.timepoint}`,
     uidFromDb: item.uid,
     name: item.name,
     selected: false,
-    color: {
-      r: Math.random(), g: Math.random(), b: Math.random(), a: 1,
-    },
+    color,
     instanceType: item.instanceType,
     group: null,
     content: {
