@@ -56,7 +56,7 @@ const App = () => {
           <Route path="/about">
             <About />
           </Route>
-          <Route path="/promoter" component={PromoterDB} />
+          <Route exact path="https://promoters.wormguides.org/" component={PromoterDB} />
         </Switch>
       </Router>
     </MuiThemeProvider>
