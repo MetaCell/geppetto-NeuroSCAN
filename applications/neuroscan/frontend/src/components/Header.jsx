@@ -234,7 +234,7 @@ const Header = (props) => {
           to={view?.linkToRoute}
         >
           <ListItemText>
-            <Link to={view?.linkToRoute}>
+            <Link to={{ pathname: `${view?.linkToRoute}` }}>
               <Typography component="strong">
                 {view?.linkTo}
                 <CallMadeIcon />
