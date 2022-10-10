@@ -46,17 +46,22 @@ const App = () => {
     return false;
   };
 
+  const host = window.location.host;
+  let mainComponent = NeuroScan;
+  if(host !== "promoters.wormguides.org") {
+    mainComponent = PromoterDB;
+  }
+
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
       <Loader active={getActiveStatus()} />
       <Router>
         <Switch>
-          <Route exact path="/" component={NeuroScan} />
+          <Route exact path="/" component={mainComponent} />
           <Route path="/about">
             <About />
           </Route>
-          <Route exact path="https://promoters.wormguides.org/" component={PromoterDB} />
         </Switch>
       </Router>
     </MuiThemeProvider>
