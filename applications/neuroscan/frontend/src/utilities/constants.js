@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export const VIEWS = {
-  promoterDB: { title: 'Promoter DB', linkTo: 'NeuroSCAN', linkToRoute: '/' },
-  neuroScan: { title: 'NeuroSCAN', linkTo: 'Promoter DB', linkToRoute: '/promoter' },
+  promoterDB: { title: 'Promoter DB', linkTo: 'NeuroSCAN', linkToRoute: 'https://neuroscan.org' },
+  neuroScan: { title: 'NeuroSCAN', linkTo: 'Promoter DB', linkToRoute: 'https://promoter.wormguides.org/' },
 };
 
 export const VIEWERS = Object.freeze({

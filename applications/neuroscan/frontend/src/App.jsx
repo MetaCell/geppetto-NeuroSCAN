@@ -48,7 +48,7 @@ const App = () => {
 
   const host = window.location.host;
   let mainComponent = NeuroScan;
-  if(host !== "promoters.wormguides.org") {
+  if(host === "promoters.wormguides.org") {
     mainComponent = PromoterDB;
   }
 
