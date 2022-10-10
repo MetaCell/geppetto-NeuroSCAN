@@ -61,6 +61,7 @@ const App = () => {
           <Route path="/about">
             <About />
           </Route>
+          <Route exact path="/promoter" component={PromoterDB} />
         </Switch>
       </Router>
     </MuiThemeProvider>
