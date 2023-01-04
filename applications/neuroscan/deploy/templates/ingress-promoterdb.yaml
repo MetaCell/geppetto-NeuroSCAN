@@ -10,7 +10,7 @@ metadata:
     cert-manager.io/certificate-name: tls-secret-promoterdb
     cert-manager.io/common-name: promoters.wormguides.org
     cert-manager.io/ip-sans: ""
-    cert-manager.io/issuer-kind: ClusterIssuer
+    cert-manager.io/issuer-kind: Issuer
     cert-manager.io/issuer-name: letsencrypt-neuroscan
     cert-manager.io/uri-sans: ""
   name: tls-secret-promoterdb
@@ -23,7 +23,7 @@ items:
   kind: Ingress
   metadata:
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-neuroscan
+      cert-manager.io/issuer: letsencrypt-neuroscan
       kubernetes.io/ingress.class: nginx
       kubernetes.io/tls-acme: "true"
       nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
@@ -49,8 +49,3 @@ items:
     - hosts:
       - promoters.wormguides.org
       secretName: tls-secret-promoterdb
-kind: List
-metadata:
-  resourceVersion: ""
-  selfLink: ""
-
