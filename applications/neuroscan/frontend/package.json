@@ -9,7 +9,7 @@
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@metacell/geppetto-meta-client": "0.0.8",
     "@metacell/geppetto-meta-core": "0.0.8",
-    "@metacell/geppetto-meta-ui": "0.0.7-rc3.0",
+    "@metacell/geppetto-meta-ui": "0.0.7-hotfix.1.0",
     "@reduxjs/toolkit": "^1.5.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
