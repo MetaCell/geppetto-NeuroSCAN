@@ -49,3 +49,8 @@ items:
     - hosts:
       - promoters.wormguides.org
       secretName: tls-secret-promoterdb
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
+
