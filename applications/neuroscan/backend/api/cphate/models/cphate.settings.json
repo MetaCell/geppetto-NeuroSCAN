@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cphates",
+  "info": {
+    "name": "Cphate",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "structure": {
+      "type": "json"
+    },
+    "timepoint": {
+      "type": "integer",
+      "required": true
+    }
+  }
+}

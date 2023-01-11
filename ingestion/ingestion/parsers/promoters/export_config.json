@@ -1,0 +1,14 @@
+{
+  "output_file": "promoters.csv",
+  "header": [
+    "uid",
+    "timePointStart",
+    "timePointEnd",
+    "cellsByLineaging",
+    "otherCells",
+    "wormbase",
+    "cellularExpressionPattern",
+    "information",
+    "expressionPatterns"
+  ]
+}

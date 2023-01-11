@@ -1,0 +1,265 @@
+.flexlayout__tabset {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  background-color: transparent;
+}
+
+.flexlayout__popup_menu {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.flexlayout__popup_menu_item {
+  padding: 5px 10px;
+}
+
+.flexlayout__tabset_tabbar_outer_top {
+  border-bottom: none;
+}
+
+.flexlayout__tabset-selected {
+    background-image: none;
+    background-color: transparent;
+}
+
+.flexlayout__tabset_tabbar_inner_tab_container_top {
+  border: none;
+}
+
+.flexlayout__tab_button_top {
+  box-shadow: none;
+}
+
+.flexlayout__tab_button {
+  margin: 0;
+  letter-spacing: 0.005em;
+}
+
+.flexlayout__tab_button--selected {
+  background: #2C2C2C;
+}
+
+.flexlayout__tab {
+  background: #2C2C2C;
+}
+
+.flexlayout__tab::-webkit-scrollbar {
+  width: 4px;
+}
+
+.flexlayout__tab::-webkit-scrollbar:horizontal {
+  height: 4px;
+}
+
+.flexlayout__tab::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+}
+
+.flexlayout__tab::-webkit-resizer,
+.flexlayout__tab::-webkit-scrollbar-corner,
+.flexlayout__tab::-webkit-scrollbar-track-piece,
+.flexlayout__tab::-webkit-scrollbar-track {
+  display: none;
+}
+
+.flexlayout__border_bottom {
+  background: #2C2C2C;
+  border-top-color: #2C2C2C;
+}
+
+.flexlayout__tab_button--unselected {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.flexlayout__tabset_tabbar_outer {
+  background-color: transparent;
+}
+
+.flexlayout__splitter {
+    background-color: transparent;
+    border-radius: 0 !important;
+}
+
+.flexlayout__tab_button_trailing {
+  background-image: url('./images/tab-close.svg') !important;
+}
+
+.flexlayout__tab > div {
+  display: block;
+}
+
+.flexlayout__tab_toolbar_button-max {
+  background: transparent url('./images/expand.svg') no-repeat center;
+}
+
+.flexlayout__tab_toolbar_button-min {
+  background: transparent url('./images/expand.svg') no-repeat center;
+}
+
+.position-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  position: sticky !important;
+  top: 0;
+}
+
+.position-toolbar.recording {
+  position: static !important;
+  padding: 0 !important;
+}
+
+.position-toolbar.recording .icons {
+  position: absolute !important;
+  top: 0.0625rem;
+  padding: 0.5rem;
+  left: 9.5625rem;
+}
+
+.position-toolbar.recording .wrap {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  background: #1C1C1C;
+  padding: 0 8px;
+  box-shadow: 0px 5px 17px rgba(0, 0, 0, 0.2), 0px 2px 7px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 240px;
+}
+
+.position-toolbar.recording .wrap .MuiTypography-root {
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.005em;
+  color: rgba(255, 255, 255, 0.8);
+  margin-left: 8px;
+}
+
+.position-toolbar.recording .wrap .MuiTypography-root + .MuiTypography-root {
+  color: #F24822;
+}
+
+.position-toolbar.recording .wrap .MuiButton-root {
+  margin-left: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0;
+  width: 55.54px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  height: 22px;
+}
+
+.position-toolbar.recording .wrap .MuiButton-root img {
+  margin-right: 4px;
+}
+
+.position-toolbar .MuiIconButton-root {
+  color: #fff;
+  padding: 0;
+  position: relative;
+  height: 16px;
+  line-height: 1;
+  margin-left: 20px;
+}
+
+/* .position-toolbar .MuiIconButton-root:not(:last-child) {
+
+} */
+
+.position-toolbar .MuiIconButton-root::before {
+  width: 1px;
+  content: '';
+  background-color: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  left: -10px;
+  top: 0;
+  border-radius: 50px;
+  height: 100%;
+}
+
+[class^="Canvas-container-"] {
+  height: 100%;
+  flex-direction: column;
+  position: relative;
+}
+
+.position-toolbar canvas {
+  flex-grow: 1;
+}
+
+.position-toolbar .right .MuiIconButton-root:first-child {
+  margin-left: 0;
+}
+
+.position-toolbar .right .MuiIconButton-root:first-child:before {
+  display: none;
+}
+
+.position-toolbar > div {
+  display: flex;
+  align-items: center;
+}
+
+.position-toolbar .mode-selector {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.position-toolbar .mode-selector label {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.position-toolbar .mode-selector label .MuiIconButton-root {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  cursor: pointer;
+  margin: 0;
+  opacity: 0;
+}
+
+/* .position-toolbar .mode-selector label input {
+  display: none;
+} */
+
+.position-toolbar .mode-selector label .Mui-checked + .MuiTypography-root {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.position-toolbar .mode-selector label > .MuiTypography-root {
+  width: 24px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+}
+
+.icon-blink {
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink{
+  0%{opacity: .5;}
+  50%{opacity: 1;}
+  100%{opacity: .5;}
+}

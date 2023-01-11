@@ -1,0 +1,9 @@
+{
+  "parser": "xls",
+  "filepath": "../../../data/promoterdb/id_mapper.csv",
+  "column_id": "${promoter}",
+  "column_of_interest": {
+    "https://wormbase.org/species/c_elegans/gene/${wormbaseID}": "wormbase",
+    "promoter": "uid"
+  }
+}

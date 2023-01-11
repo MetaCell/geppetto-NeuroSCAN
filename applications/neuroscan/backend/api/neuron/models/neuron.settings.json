@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "neurons",
+  "info": {
+    "name": "Neuron",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "metadata": {
+      "type": "text"
+    },
+    "wormatlas": {
+      "type": "string"
+    },
+    "embryonic": {
+      "type": "boolean"
+    },
+    "lineage": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "filename": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "timepoint": {
+      "type": "biginteger",
+      "required": true
+    },
+    "name": {
+      "type": "string"
+    },
+    "uid": {
+      "type": "string"
+    }
+  }
+}

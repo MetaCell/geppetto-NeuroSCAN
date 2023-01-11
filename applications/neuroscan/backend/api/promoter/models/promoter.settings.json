@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "promoters",
+  "info": {
+    "name": "Promoter",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "uid": {
+      "type": "uid"
+    },
+    "metadata": {
+      "type": "text"
+    },
+    "wormbase": {
+      "type": "string"
+    },
+    "cellularExpressionPattern": {
+      "type": "text"
+    },
+    "timePointStart": {
+      "type": "integer"
+    },
+    "timePointEnd": {
+      "type": "integer"
+    },
+    "cellsByLineaging": {
+      "type": "string"
+    },
+    "expressionPatterns": {
+      "type": "richtext"
+    },
+    "information": {
+      "type": "richtext"
+    },
+    "otherCells": {
+      "type": "string"
+    }
+  }
+}

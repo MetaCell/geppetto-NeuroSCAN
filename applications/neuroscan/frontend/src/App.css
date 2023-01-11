@@ -1,0 +1,197 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-float infinite 3s ease-in-out;
+  }
+}
+
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.App-link {
+  color: rgb(112, 76, 182);
+}
+
+@keyframes App-logo-float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+/* .customTooltip * {
+  color: #4a4a4a;
+  font-size: 18px
+}
+
+.customTooltip .introjs-tooltip-title {
+  color: #0a41c9;
+} */
+
+.introjs-tooltip.customTooltip * {
+  font-family: 'IBM Plex Sans', sans-serif;
+  box-sizing: border-box;
+}
+
+.introjs-tooltip.customTooltip {
+  min-width: 25.0625rem;
+  border-radius: 0;
+}
+
+.customTooltip .introjs-tooltip-header {
+  padding: 1rem;
+  display: flex;
+  box-shadow: 0 0.0625rem 0 #E5E5E5;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.customTooltip .introjs-tooltip-header h1 {
+  font-size: 1.25rem;
+  line-height: 1.625rem;
+  color: #161616;
+  font-weight: normal;
+}
+
+.customTooltip .introjs-tooltip-header a {
+  padding: 0;
+  width: 1.25rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+  height: 1.25rem;
+  font-size: 0;
+  background-image: url('./images/close.svg');
+}
+
+.customTooltip .introjs-tooltip-header::after {
+  display: none;
+}
+
+.customTooltip .introjs-tooltiptext {
+  padding: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+  letter-spacing: 0.01rem;
+  color: #161616;
+}
+
+.customTooltip .introjs-bullets {
+  padding: 0 1rem 1rem;
+}
+.customTooltip .introjs-bullets ul {
+  display: flex;
+}
+
+.customTooltip .introjs-bullets ul li a {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3.125rem;
+  transition: all 0.1s ease-in-out;
+}
+
+.customTooltip .introjs-bullets ul li a:hover {
+  width: 0.5rem;
+  transition: all 0.1s ease-in-out;
+  height: 0.5rem;
+}
+
+.customTooltip .introjs-bullets ul li a.active {
+  background: #4c276a;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.customTooltip .introjs-tooltipbuttons {
+  box-shadow: 0 -1px 0 #E5E5E5;
+  border: none;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.customTooltip .introjs-button {
+  letter-spacing: 0.005em;
+  font-weight: 500;
+  background: transparent;
+  font-size: 0.875rem;
+  height: 2.375rem;
+  text-shadow: none;
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  border: 0.0625rem solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.375rem;
+  transition: all ease-in-out .3s;
+  line-height: 1.25rem;
+}
+
+.customTooltip .introjs-button:hover {
+  transition: all ease-in-out .3s;
+  border: 0.0625rem solid rgba(0, 0, 0, 0.2);
+}
+
+.customTooltip .introjs-button:focus {
+  box-shadow: none;
+  border-color: inherit;
+  color: inherit;
+  background-color: inherit;
+}
+
+.customTooltip .introjs-prevbutton {
+  float: none;
+}
+
+.customTooltip .introjs-prevbutton:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.customTooltip .introjs-nextbutton {
+  background: #4c276a;
+  color: #fff;
+  border-color: #4c276a;
+}
+
+.customTooltip .introjs-nextbutton:hover {
+  background: #35184d;
+  color: #fff;
+  border-color: #35184d;
+}
+
+.customTooltip .introjs-nextbutton:focus {
+  background: #4c276a;
+  color: #fff;
+  border-color: #4c276a;
+}
+
+.customTooltip .introjs-tooltipbuttons::after {
+  display: none;
+}
+
+.customTooltip .introjs-disabled {
+  pointer-events: none;
+}
+
+.customTooltip .introjs-arrow.left {
+  top: 0.90625rem;
+}

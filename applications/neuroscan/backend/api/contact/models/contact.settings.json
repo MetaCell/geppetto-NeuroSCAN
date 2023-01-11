@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contacts",
+  "info": {
+    "name": "Contact",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "neuronA": {
+      "model": "neuron"
+    },
+    "neuronB": {
+      "model": "neuron"
+    },
+    "metadata": {
+      "type": "text"
+    },
+    "weight": {
+      "type": "integer"
+    },
+    "filename": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "timepoint": {
+      "type": "biginteger"
+    },
+    "name": {
+      "type": "string"
+    },
+    "uid": {
+      "type": "string"
+    }
+  }
+}

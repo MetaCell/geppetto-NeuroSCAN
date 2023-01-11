@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "developmental_stages",
+  "info": {
+    "name": "DevelopmentalStage",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "uid": {
+      "type": "uid"
+    },
+    "name": {
+      "type": "string"
+    },
+    "begin": {
+      "type": "integer"
+    },
+    "end": {
+      "type": "integer"
+    },
+    "order": {
+      "type": "integer"
+    },
+    "promoterDB": {
+      "type": "boolean"
+    },
+    "timepoints": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

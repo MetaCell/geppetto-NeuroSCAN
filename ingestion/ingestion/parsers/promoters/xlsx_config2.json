@@ -1,0 +1,10 @@
+{
+  "parser": "xls",
+  "filepath": "../../../data/promoterdb/DCR_PromoterPipeline_Revised2021_Updated.xlsx",
+  "sheet_name": "Cell-ID based on lineaging",
+  "column_id": "${Neuron}",
+  "column_of_interest": {
+    "${Promoter0},${Promoter1},${Promoter2},${Promoter3},${Promoter4},${Promoter5},${Promoter6}": "promoter",
+    "Neuron": "neuron"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "parser": "file",
+  "directory": "../../../data/neuroscan/",
+  "include": ".*/\\w*/\\d*/synapses/.*\\.gltf",
+  "regex": {
+    "id":{
+      "expression": ".*/(\\d*)/synapses/(.+)\\.gltf",
+      "match": "$1_$2"
+    },
+    "uid":{
+      "expression": ".*/(\\d*)/synapses/(.+)\\.gltf",
+      "match": "$2"
+    },
+    "timepoint": {
+      "expression": ".*/\\w*/(\\d*)/synapses/.*\\.gltf",
+      "match": "$1"
+    },
+    "type": {
+      "expression": ".+/.+(electrical|chemical|undefined).+\\.gltf",
+      "match": "$1"
+    },
+    "section": {
+      "expression": ".*/.*\\-(.).*\\.gltf",
+      "match": "$1"
+    },
+    "position": {
+      "expression": ".*-._*((post|pre)*).*\\.gltf",
+      "match": "$1"
+    },
+    "neuronSite": {
+      "expression": ".*-.*?(\\d?)\\.gltf",
+      "match": "$1"
+    },
+    "neuronPre": {
+      "expression": "_(.*?)(?:chemical|electrical|undefined).+\\.gltf",
+      "match": "$1"
+    },
+    "neuronPost": {
+      "expression": ".*_.*(?:chemical|electrical|undefined)(.+(:?_.+?)*?)-[A-Z].*\\.gltf",
+      "match": "$1"
+    }
+  },
+  "split": {
+    "expression": ".*/neuroscan/\\w*/(\\d*)/.*",
+    "match": "$1"
+  }
+}

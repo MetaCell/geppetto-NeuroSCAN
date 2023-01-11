@@ -1,0 +1,63 @@
+{
+  "kind": "collectionType",
+  "collectionName": "synapses",
+  "info": {
+    "name": "Synapse",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "neuronPre": {
+      "model": "neuron"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "chemical",
+        "electrical"
+      ]
+    },
+    "metadata": {
+      "type": "text"
+    },
+    "section": {
+      "type": "string"
+    },
+    "zs": {
+      "type": "string"
+    },
+    "position": {
+      "type": "enumeration",
+      "enum": [
+        "pre",
+        "post"
+      ]
+    },
+    "neuronPost": {
+      "collection": "neuron"
+    },
+    "neuronSite": {
+      "type": "string"
+    },
+    "filename": {
+      "type": "string"
+    },
+    "timepoint": {
+      "type": "biginteger"
+    },
+    "postNeuron": {
+      "model": "neuron"
+    },
+    "name": {
+      "type": "string"
+    },
+    "uid": {
+      "type": "string"
+    }
+  }
+}
