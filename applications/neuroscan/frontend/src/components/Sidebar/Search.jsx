@@ -32,6 +32,21 @@ const Search = (props) => {
     return true;
   }
 
+  const parseTextToTags = (text) => {
+    const trimmedText = text.trim();
+    const separators = [',', ' ', '\n'];
+    const splitTags = trimmedText.split(new RegExp(separators.join('|'), 'g'));
+    const filteredTags = splitTags.filter((tag) => tag.trim() !== '');
+    return filteredTags;
+  };
+  const handlePaste = (event) => {
+    const clipboardData = event.clipboardData || window.clipboardData;
+    const pastedText = clipboardData.getData('Text');
+    const parsedTags = parseTextToTags(pastedText);
+    setSearchTerms([...searchTerms, ...parsedTags]);
+    event.preventDefault();
+  };
+
   const removeSearchTerm = (value) => {
     const filteredList = searchTerms.filter((item) => item !== value);
     setSearchTerms(filteredList);
@@ -44,6 +59,7 @@ const Search = (props) => {
         <ChipInput
           variant="outlined"
           onBeforeAdd={(chip) => addSearchTerm(chip)}
+          onPaste={(event) => handlePaste(event)}
           defaultValue={[]}
           value={searchTerms}
           placeholder="Search here"
