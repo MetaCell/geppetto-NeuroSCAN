@@ -143,8 +143,6 @@ class Viewer extends React.Component {
     } = this.props;
 
     const canvasData = this.initCanvasData();
-    // const test = canvasData.sort((a, b) => a.name.localeCompare(b.name));
-    // console.log(canvasData.sort((a, b) => a.name.localeCompare(b.name)));
     return (
       <div className={classes.canvasContainer}>
         <div>
