@@ -376,3 +376,21 @@ export const handleSelect = (viewerId, selectedInstance, widgets) => {
     setSelectedInstances(viewerId, instances, [selectedInstance.uid]);
   }
 };
+
+export const sortIterations = (iterations) => iterations.map((insideArray) => {
+  const sortedInsideArray = insideArray.sort((a, b) => a.name.localeCompare(b.name));
+  return sortedInsideArray.map((obj) => ({
+    ...obj,
+    name: obj.name
+      .split(', ')
+      .sort((nameA, nameB) => nameA.localeCompare(nameB))
+      .join(', '),
+  }));
+});
+export const sortedInstanceNames = (instance) => {
+  const namesArray = instance.name.split(', ').sort((a, b) => a.localeCompare(b)).join(', ');
+  return {
+    ...instance,
+    name: namesArray,
+  };
+};

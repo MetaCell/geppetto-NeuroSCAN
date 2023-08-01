@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
 import {
   setSelectedInstances,
+  sortedInstanceNames,
 } from '../../services/instanceHelpers';
 
 const styles = () => ({
@@ -92,12 +93,14 @@ class Viewer extends React.Component {
   hoverListener(objs, canvasX, canvasY) {
     const obj = objs[0];
     const { instances } = this.props;
+
     const intersectedInstanceUid = this.findInstanceUidForObj(obj.object);
     const intersectedInstance = instances.find((i) => i.uid === intersectedInstanceUid);
+    const sortedIntersectedInstance = sortedInstanceNames(intersectedInstance);
 
-    if (intersectedInstance?.uid) {
+    if (sortedIntersectedInstance?.uid) {
       this.tooltipRef?.current?.updateIntersected({
-        o: intersectedInstance,
+        o: sortedIntersectedInstance,
         x: canvasX + 10, // move it 10 px so the onselect (onclick) will fire on the instance
         y: canvasY + 10, // and not on the tooltip ;-)
       });
@@ -140,6 +143,8 @@ class Viewer extends React.Component {
     } = this.props;
 
     const canvasData = this.initCanvasData();
+    // const test = canvasData.sort((a, b) => a.name.localeCompare(b.name));
+    // console.log(canvasData.sort((a, b) => a.name.localeCompare(b.name)));
     return (
       <div className={classes.canvasContainer}>
         <div>

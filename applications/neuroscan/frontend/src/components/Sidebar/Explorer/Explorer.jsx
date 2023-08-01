@@ -21,8 +21,7 @@ import {
 } from '../../../utilities/constants';
 import { getViewersFromWidgets } from '../../../utilities/functions';
 import {
-  getGroupsFromInstances,
-  groupBy, handleSelect,
+  getGroupsFromInstances, groupBy, handleSelect, sortIterations,
 } from '../../../services/instanceHelpers';
 
 const EXPLORER_IMGS = {
@@ -89,7 +88,7 @@ const Explorer = () => {
       instances.filter((instance) => instance.instanceType === CPHATE_TYPE),
       'i',
     ));
-
+    const sortedArrayOfIterations = sortIterations(iterations);
     return (
       <StyledTreeItem
         nodeId={viewerId}
@@ -98,7 +97,7 @@ const Explorer = () => {
         labelInfo={instances.length}
         key={viewerId}
       >
-        { iterations.length === 0
+        { sortedArrayOfIterations.length === 0
         && [NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE].map((instanceType) => {
           const items = instances.filter((instance) => instance.instanceType === instanceType);
           return (
@@ -112,7 +111,7 @@ const Explorer = () => {
             />
           );
         })}
-        { iterations.length === 0
+        { sortedArrayOfIterations.length === 0
         && groups.map((group) => {
           const items = instances.filter((instance) => instance.group === group);
           return (
@@ -125,17 +124,17 @@ const Explorer = () => {
             />
           );
         })}
-        { iterations.length !== 0
+        { sortedArrayOfIterations.length !== 0
         && (
           <StyledTreeItem
             nodeId={`${viewerId}_clusters`}
             labelText="Clusters"
             labelIcon={EXPLORER_IMGS[CPHATE_TYPE.toLocaleUpperCase()]}
-            labelInfo={iterations.length}
+            labelInfo={sortedArrayOfIterations.length}
             key={`${viewerId}_clusters`}
           >
             {
-              iterations.map((items) => (
+              sortedArrayOfIterations.map((items) => (
                 <ExplorerTreeItems
                   viewerId={`${viewerId}`}
                   nodeId={`${viewerId}_cluster_${items[0].i}`}
