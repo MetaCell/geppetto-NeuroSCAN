@@ -94,8 +94,17 @@
   color: #161616;
 }
 
+.customTooltip .introjs-dontShowAgain {
+  padding: 0 1rem;
+}
+
+.customTooltip .introjs-skipbutton {
+  right: 1rem;
+  top: auto;
+}
+
 .customTooltip .introjs-bullets {
-  padding: 0 1rem 1rem;
+  padding: 1rem;
 }
 .customTooltip .introjs-bullets ul {
   display: flex;
