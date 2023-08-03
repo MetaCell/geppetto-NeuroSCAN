@@ -377,20 +377,17 @@ export const handleSelect = (viewerId, selectedInstance, widgets) => {
   }
 };
 
-export const sortIterations = (iterations) => iterations.map((insideArray) => {
-  const sortedInsideArray = insideArray.sort((a, b) => a.name.localeCompare(b.name));
-  return sortedInsideArray.map((obj) => ({
-    ...obj,
-    name: obj.name
-      .split(', ')
-      .sort((nameA, nameB) => nameA.localeCompare(nameB))
-      .join(', '),
-  }));
-});
-export const sortedInstanceNames = (instance) => {
-  const namesArray = instance.name.split(', ').sort((a, b) => a.localeCompare(b)).join(', ');
-  return {
-    ...instance,
-    name: namesArray,
-  };
+export const sortedInstances = (instances) => {
+  instances.sort((a, b) => {
+    const neuronsA = a.neurons.join('');
+    const neuronsB = b.neurons.join('');
+    return neuronsA.localeCompare(neuronsB);
+  });
+
+  instances.forEach((obj) => {
+    if (obj.neurons.length > 1) {
+      obj.neurons.sort();
+    }
+  });
+  return instances;
 };

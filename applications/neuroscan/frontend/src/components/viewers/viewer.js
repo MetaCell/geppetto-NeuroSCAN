@@ -6,7 +6,6 @@ import { withStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
 import {
   setSelectedInstances,
-  sortedInstanceNames,
 } from '../../services/instanceHelpers';
 
 const styles = () => ({
@@ -96,11 +95,10 @@ class Viewer extends React.Component {
 
     const intersectedInstanceUid = this.findInstanceUidForObj(obj.object);
     const intersectedInstance = instances.find((i) => i.uid === intersectedInstanceUid);
-    const sortedIntersectedInstance = sortedInstanceNames(intersectedInstance);
 
-    if (sortedIntersectedInstance?.uid) {
+    if (intersectedInstance?.uid) {
       this.tooltipRef?.current?.updateIntersected({
-        o: sortedIntersectedInstance,
+        o: intersectedInstance,
         x: canvasX + 10, // move it 10 px so the onselect (onclick) will fire on the instance
         y: canvasY + 10, // and not on the tooltip ;-)
       });
