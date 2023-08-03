@@ -21,7 +21,8 @@ import {
 } from '../../../utilities/constants';
 import { getViewersFromWidgets } from '../../../utilities/functions';
 import {
-  getGroupsFromInstances, groupBy, handleSelect,
+  getGroupsFromInstances,
+  groupBy, handleSelect,
 } from '../../../services/instanceHelpers';
 
 const EXPLORER_IMGS = {
