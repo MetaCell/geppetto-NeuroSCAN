@@ -130,6 +130,7 @@ const ColorPickerMenu = ({
     clusters,
     'i',
   ));
+
   const handleToggle = (event, nodeIds) => {
     setExpanded([nodeIds[0]]);
   };

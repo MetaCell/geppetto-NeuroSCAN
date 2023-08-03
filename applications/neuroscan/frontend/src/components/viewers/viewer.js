@@ -92,7 +92,6 @@ class Viewer extends React.Component {
   hoverListener(objs, canvasX, canvasY) {
     const obj = objs[0];
     const { instances } = this.props;
-
     const intersectedInstanceUid = this.findInstanceUidForObj(obj.object);
     const intersectedInstance = instances.find((i) => i.uid === intersectedInstanceUid);
 
