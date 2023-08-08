@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -15,7 +14,6 @@ import {
 } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import IntroJs from 'intro.js';
-import Cookies from 'js-cookie';
 import NeuroSCANLogo from '../images/neuroscanLogo.svg';
 import MenuIcon from '../images/hamburger.svg';
 import Toggle from '../images/toggle.svg';
