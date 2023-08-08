@@ -19,7 +19,7 @@
     "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.3",
     "axios": "^0.21.1",
-    "intro.js": "^4.3.0",
+    "intro.js": "^7.0.1",
     "jszip": "^3.7.1",
     "material-ui-chip-input": "^1.1.0",
     "qs": "^6.10.1",
