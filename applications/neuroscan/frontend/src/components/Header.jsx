@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -14,6 +15,7 @@ import {
 } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import IntroJs from 'intro.js';
+import Cookies from 'js-cookie';
 import NeuroSCANLogo from '../images/neuroscanLogo.svg';
 import MenuIcon from '../images/hamburger.svg';
 import Toggle from '../images/toggle.svg';
@@ -72,7 +74,6 @@ const Header = (props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openAboutModal, setOpenAboutModal] = useState(false);
-
   const isMenuOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = (event) => {
@@ -83,12 +84,12 @@ const Header = (props) => {
     setAnchorEl(null);
   };
 
-  const handleViewTutorial = () => {
+  const handleViewTutorial = (showMessage) => {
     const intro = new IntroJs();
     if (view?.title === 'NeuroSCAN') {
       intro.setOptions({
         tooltipClass: 'customTooltip',
-        dontShowAgain: true,
+        dontShowAgain: showMessage,
         steps: [{
           element: window.document.querySelector('#search-bar'),
           title: 'Search bar',
@@ -183,8 +184,7 @@ const Header = (props) => {
 
   const handleTutorial = () => {
     setAnchorEl(null);
-    handleViewTutorial();
-    window.document.cookie = 'introjs-dontShowAgain=true; expires=Thu, 18 Dec 2013 12:00:00 UTC';
+    handleViewTutorial(false);
   };
 
   const handeModalToggle = () => {
@@ -255,7 +255,7 @@ const Header = (props) => {
   );
 
   useEffect(() => {
-    handleViewTutorial();
+    handleViewTutorial(true);
   }, []);
 
   return (

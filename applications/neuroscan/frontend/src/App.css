@@ -92,6 +92,7 @@
   line-height: 1.375rem;
   letter-spacing: 0.01rem;
   color: #161616;
+  margin-bottom: .5rem;
 }
 
 .customTooltip .introjs-dontShowAgain {
