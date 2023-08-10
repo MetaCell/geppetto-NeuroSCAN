@@ -12,7 +12,11 @@ FILE_PREFIX = 'SVV'
 
 CONTACTS_XLS = 'contacts.xls'
 CONTACTS_REQUIRED_COLUMNS = ['Neuron A', 'Neuron B', 'Weight']
+CONTACTS_XLS_NEURON_A_COL = 'Neuron 1'
+CONTACTS_XLS_NEURON_B_COL = 'Neuron 2'
+CONTACTS_XLS_WEIGHT_COL = 'Weight'
 
 CPHATE_XLS = 'cphate.xlsx'  # todo: change in documentation from xls to xlsx
 CPHATE_REQUIRED_COLUMN = 'Neuron'
 CPHATE_ITERATION_COLUMN_PREFIX = 'Iter'
+

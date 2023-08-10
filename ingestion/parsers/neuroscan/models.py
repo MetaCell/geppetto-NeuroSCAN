@@ -31,7 +31,7 @@ class Contact:
     neuronB: str
     stages: Set[str]
     files: List[str]
-    weight: float
+    weight: int
     metadata: str
 
 

@@ -1,6 +1,6 @@
 import re
 
-from ingestion.validation.settings import FILE_PREFIX
+from ingestion.settings import FILE_PREFIX
 
 MESH_FILE_TYPE_REG_GROUP = "(gltf|obj)"
 NEURON_NAME_REG_GROUP = r"([\w\s]+)"
@@ -25,6 +25,7 @@ def get_neuron_regex_components():
 
 
 def get_synapse_regex_components():
+    # todo: Add new version component
     components = [
         FILE_PREFIX,
         "_",

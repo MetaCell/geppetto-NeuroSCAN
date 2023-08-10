@@ -9,7 +9,7 @@ from ingestion.parsers.neuroscan.ContactsParser import ContactsParser
 from ingestion.parsers.neuroscan.NeuronsParser import NeuronsParser
 from ingestion.parsers.neuroscan.ParsingContext import ParsingContext
 from ingestion.parsers.neuroscan.SynapsesParser import SynapsesParser
-from ingestion.settings import NEURONS_FOLDER, NEUROSCAN_APP, SYNAPSES_FOLDER, CONTACTS_FOLDER
+from ingestion.settings import NEURONS_FOLDER, NEUROSCAN_APP, SYNAPSES_FOLDER, CONTACTS_FOLDER, CONTACTS_XLS
 
 
 def clean():
@@ -85,9 +85,9 @@ def append_logs_to_output(entity):
 
 def main(root_dir, dry_run=False):
     clean()
-    parsing_context = ParsingContext()
 
     neuroscan_app_path = os.path.join(root_dir, NEUROSCAN_APP)
+    parsing_context = ParsingContext()  # todo: parsing context should be per dev stage?
 
     for dev_stage in os.listdir(neuroscan_app_path):
         dev_stage_path = os.path.join(neuroscan_app_path, dev_stage)
@@ -99,7 +99,8 @@ def main(root_dir, dry_run=False):
         parse_synapses(synapses_path, dev_stage, parsing_context)
 
         contacts_path = os.path.join(dev_stage_path, CONTACTS_FOLDER)
-        parse_contacts(contacts_path, dev_stage, parsing_context)
+        contacts_xls = os.path.join(dev_stage_path, CONTACTS_XLS)
+        parse_contacts(contacts_path, contacts_xls, dev_stage, parsing_context)
 
     # copy_neuroscan(timepoint)
     # transform_cphate()
@@ -125,8 +126,8 @@ def parse_synapses(synapses_path, dev_stage, context):
     synapses_parser.parse()
 
 
-def parse_contacts(contacts_path, dev_stage, context):
-    contacts_parser = ContactsParser(contacts_path, dev_stage, context)
+def parse_contacts(contacts_path, contacts_xls, dev_stage, context):
+    contacts_parser = ContactsParser(contacts_path, contacts_xls, dev_stage, context)
     contacts_parser.parse()
 
 
