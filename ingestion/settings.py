@@ -1,5 +1,7 @@
 NEUROSCAN_APP = "neuroscan"
-PROMOTERDB = "promoterdb"
+PROMOTER_DB_APP = "promoterdb"
+
+GENERAL_ERRORS = "general"
 
 NEURONS_FOLDER = "neurons"
 SYNAPSES_FOLDER = "synapses"
@@ -11,7 +13,6 @@ NEUROSCAN_EXPECTED_FOLDERS_IN_TIMEPOINT = [NEURONS_FOLDER, SYNAPSES_FOLDER, CONT
 FILE_PREFIX = 'SVV'
 
 CONTACTS_XLS = 'contacts.xls'
-CONTACTS_REQUIRED_COLUMNS = ['Neuron A', 'Neuron B', 'Weight']
 CONTACTS_XLS_NEURON_A_COL = 'Neuron 1'
 CONTACTS_XLS_NEURON_B_COL = 'Neuron 2'
 CONTACTS_XLS_WEIGHT_COL = 'Weight'
@@ -20,3 +21,5 @@ CPHATE_XLS = 'cphate.xlsx'  # todo: change in documentation from xls to xlsx
 CPHATE_REQUIRED_COLUMN = 'Neuron'
 CPHATE_ITERATION_COLUMN_PREFIX = 'Iter'
 
+SYNAPSE_PRE_POSITION_TYPE = 'PreSyn'
+SYNAPSE_POST_POSITION_TYPE = 'PostSyn'
