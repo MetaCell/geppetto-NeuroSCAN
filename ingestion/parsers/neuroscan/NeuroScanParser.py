@@ -2,9 +2,11 @@ import os
 
 from ingestion.parsers.models import TimepointContext, NeuroScanIssues, Issue, Severity
 from ingestion.parsers.neuroscan.ContactsParser import ContactsParser
+from ingestion.parsers.neuroscan.CphateParser import CphateParser
 from ingestion.parsers.neuroscan.NeuronsParser import NeuronsParser
 from ingestion.parsers.neuroscan.SynapsesParser import SynapsesParser
-from ingestion.settings import NEUROSCAN_APP, NEURONS_FOLDER, SYNAPSES_FOLDER, CONTACTS_FOLDER, CONTACTS_XLS
+from ingestion.settings import NEUROSCAN_APP, NEURONS_FOLDER, SYNAPSES_FOLDER, CONTACTS_FOLDER, CONTACTS_XLS, CPHATE, \
+    CPHATE_XLS
 
 
 class NeuroScanParser:
@@ -32,6 +34,7 @@ class NeuroScanParser:
                 self.parse_neurons(timepoint_path, timepoint, timepoint_context)
                 self.parse_synapses(timepoint_path, timepoint, timepoint_context)
                 self.parse_contacts(timepoint_path, timepoint, timepoint_context)
+                self.parse_cphates(timepoint_path, timepoint, timepoint_context)
 
                 self.context_per_timepoint[timepoint] = timepoint_context
 
@@ -71,5 +74,19 @@ class NeuroScanParser:
         contacts_parser.parse()
         self.issues.contacts.extend(contacts_parser.get_issues())
 
+    def parse_cphates(self, timepoint_path, timepoint, context):
+        cphate_path = os.path.join(timepoint_path, CPHATE)
+        cphate_xls = os.path.join(timepoint_path, CPHATE_XLS)
+        try:
+            cphate_parser = CphateParser(cphate_path, cphate_xls, timepoint, context)
+        except FileNotFoundError as e:
+            self.issues.general.append(Issue(Severity.ERROR, str(e)))
+            return
+        cphate_parser.parse()
+        self.issues.cphate.extend(cphate_parser.get_issues())
+
     def get_issues(self):
         return self.issues
+
+    def get_context_per_timepoint(self):
+        return self.context_per_timepoint

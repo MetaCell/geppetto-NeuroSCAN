@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, Set, List
+from typing import Dict, Set, List, Tuple
 
 from ingestion.parsers.neuroscan.models import Neuron, Synapse, Contact, CphateGroupIteration
 
@@ -32,4 +32,4 @@ class TimepointContext:
     neurons: Dict[str, Neuron] = field(default_factory=dict)
     synapses: Dict[str, Synapse] = field(default_factory=dict)
     contacts: Dict[str, Contact] = field(default_factory=dict)
-    cphate: Set[CphateGroupIteration] = field(default_factory=set)
+    cphate: Dict[Tuple[int, int], CphateGroupIteration] = field(default_factory=dict)

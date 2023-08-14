@@ -7,7 +7,7 @@ class Neuron:
     name: str
     metadata: str
     timepoints: Set[str]
-    files: List[str]
+    file: str
     wormatlas: str
     lineage: str
     location: str
@@ -20,7 +20,7 @@ class Synapse:
     post: str
     synapse_type: str
     stages: Set[str]
-    files: List[str]
+    file: str
     metadata: str
 
 
@@ -30,7 +30,7 @@ class Contact:
     neuronA: str
     neuronB: str
     stages: Set[str]
-    files: List[str]
+    file: str
     weight: int
     metadata: str
 
