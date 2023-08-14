@@ -15,12 +15,15 @@ from ingestion.settings import PROMOTER_DB_APP, PROMOTER_XLS, PROMOTER_SHEET1, \
 
 @dataclass
 class Promoter:
+    uid: str
+    metadata: str
+    wormbase: str
+    cellularExpressionPattern: str
     name: str
-    expression_begin: int
-    expression_termination: int
-    cells_by_lineaging: List[str]
-    wormbase_url: str
-    cellular_expression_pattern: str
+    timePointStart: int
+    timePointEnd: int
+    cellsByLineaging: str
+    otherCells: str
 
 
 class PromoterDBParser:
@@ -72,14 +75,9 @@ class PromoterDBParser:
     def _extract_promoters_from_sheet1(self, df):
         for index, row in df.iterrows():
             promoter_name = row[PROMOTER_SHEET1_PROMOTER_COLUMN]
-            promoter = Promoter(
-                name=promoter_name,
-                expression_begin=row[PROMOTER_SHEET1_BEGIN_TIMEPOINT_COLUMN],
-                expression_termination=row[PROMOTER_SHEET1_END_TIMEPOINT_COLUMN],
-                cells_by_lineaging=[],
-                cellular_expression_pattern=row[PROMOTER_SHEET1_NEURONS_COLUMN],  # fixme: This seems wrong
-                wormbase_url=''  # todo
-            )
+            promoter = get_promoter(promoter_name, row[PROMOTER_SHEET1_NEURONS_COLUMN],
+                                    row[PROMOTER_SHEET1_BEGIN_TIMEPOINT_COLUMN],
+                                    row[PROMOTER_SHEET1_END_TIMEPOINT_COLUMN], [])
             self.promoters[promoter_name] = promoter
 
     def _parse_sheet2(self, xls, spreadsheet_path):
@@ -122,20 +120,16 @@ class PromoterDBParser:
                                       f"is not present in neurons."))
 
                         if promoter_name in self.promoters:
-                            self.promoters[promoter_name].cells_by_lineaging.append(neuron_name)
+                            if self.promoters[promoter_name].cellsByLineaging:
+                                self.promoters[promoter_name].cellsByLineaging += f" {neuron_name}"
+                            else:
+                                self.promoters[promoter_name].cellsByLineaging = neuron_name
                         else:
                             self.issues.append(
                                 Issue(Severity.WARNING,
                                       f"Promoter '{promoter_name}' found in {PROMOTER_SHEET2} but not in {PROMOTER_SHEET1}.")
                             )
-                            new_promoter = Promoter(
-                                name=promoter_name,
-                                expression_begin=None,
-                                expression_termination=None,
-                                cells_by_lineaging=[neuron_name],
-                                cellular_expression_pattern=None,
-                                wormbase_url=''
-                            )
+                            new_promoter = get_promoter(promoter_name, None, [neuron_name], None, [])
                             self.promoters[promoter_name] = new_promoter
 
     def _validate_promoter_folders(self):
@@ -169,3 +163,18 @@ class PromoterDBParser:
 
     def get_issues(self):
         return self.issues
+
+
+def get_promoter(name, cellular_expression_pattern, expression_begin, expression_termination,
+                 cells_by_lineaging):
+    return Promoter(
+        uid=name,
+        metadata='',
+        wormbase='',
+        cellularExpressionPattern=cellular_expression_pattern,
+        name=name,
+        timePointStart=expression_begin,
+        timePointEnd=expression_termination,
+        cellsByLineaging=" ".join(cells_by_lineaging),
+        otherCells=''
+    )

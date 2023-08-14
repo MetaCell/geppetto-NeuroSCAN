@@ -4,40 +4,43 @@ from typing import List
 
 @dataclass
 class Neuron:
-    name: str
     metadata: str
-    timepoint: str
-    file: str
     wormatlas: str
+    embryonic: bool
     lineage: str
     location: str
-    embryonic: bool
+    filename: str
+    timepoint: str
+    name: str
+    uid: str
 
 
 @dataclass
 class Synapse:
+    neuronPre: str
     type: str
-    name: str
-    timepoint: str
     metadata: str
     section: str
     zs: str
     position: str
-    file: str
-    pre: str
-    post: str
-    neuron_site: str
+    neuronPost: str
+    neuronSite: str
+    filename: str
+    timepoint: str
+    name: str
+    uid: str
 
 
 @dataclass
 class Contact:
-    name: str
     neuronA: str
     neuronB: str
-    timepoint: str
-    file: str
-    weight: int
     metadata: str
+    weight: int
+    filename: str
+    timepoint: str
+    name: str
+    uid: str
 
 
 @dataclass

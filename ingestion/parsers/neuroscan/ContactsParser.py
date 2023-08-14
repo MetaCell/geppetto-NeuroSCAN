@@ -85,14 +85,17 @@ class ContactsParser:
         if name in self.timepoint_context.contacts:
             old_contact = self.timepoint_context.synapses[name]
             self.issues.append(Issue(Severity.WARNING, f"Duplicate contact name: {name}. {filename} replaced "
-                                                       f"{old_contact.file}"))
+                                                       f"{old_contact.filename}"))
 
         self.timepoint_context.contacts[name] = Contact(name=name, neuronA=neuron_a, neuronB=neuron_b,
-                                                        timepoint=self.timepoint, file=filename, weight=weight,
-                                                        metadata='')
+                                                        timepoint=self.timepoint, filename=filename, weight=weight,
+                                                        metadata='', uid=self.get_contact_uid(name))
 
     def get_issues(self):
         return self.issues
+
+    def get_contact_uid(self, name):
+        return f"{name}-{self.timepoint}"
 
 
 def get_contact_name(neuron_a, neuron_b):

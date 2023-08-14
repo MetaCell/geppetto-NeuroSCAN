@@ -98,23 +98,27 @@ class SynapsesParser:
         if name in self.timepoint_context.synapses:
             old_synapse = self.timepoint_context.synapses[name]
             self.issues.append(Issue(Severity.WARNING, f"Duplicate synapse name: {name}. {filename} replaced "
-                                                       f"{old_synapse.file}"))
+                                                       f"{old_synapse.filename}"))
         self.timepoint_context.synapses[name] = Synapse(
             type=connection_type,
             name=name,
             timepoint=self.timepoint,
             metadata='',
             section=section,
-            pre=source,
-            post=destination,
-            file=filename,
+            neuronPre=source,
+            neuronPost=destination,
+            filename=filename,
             position=position,
             zs=zs,
-            neuron_site=neuron_site
+            neuronSite=neuron_site,
+            uid=self.get_synapse_uid(name)
         )
 
     def get_issues(self):
         return self.issues
+
+    def get_synapse_uid(self, name):
+        return f"{name}-{self.timepoint}"
 
 
 def get_synapse_name(source, destination, connection_type, synapse_id):

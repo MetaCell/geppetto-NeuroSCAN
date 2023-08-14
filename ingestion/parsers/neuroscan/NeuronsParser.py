@@ -35,11 +35,14 @@ class NeuronsParser:
             old_neuron = self.timepoint_context.neurons[name]
             self.issues.append(Issue(Severity.WARNING,
                                      f"Duplicated neuron {name} on timepoint {self.timepoint}. {filename} replaced "
-                                     f"{old_neuron.file}"))
+                                     f"{old_neuron.filename}"))
 
-        self.timepoint_context.neurons[name] = Neuron(name=name, file=filename, timepoint=self.timepoint,
-                                                      location='', lineage='', metadata='', wormatlas='',
-                                                      embryonic=False)
+        self.timepoint_context.neurons[name] = Neuron(uid=self.get_neuron_uid(name), name=name, filename=filename,
+                                                      timepoint=self.timepoint, location='', lineage='', metadata='',
+                                                      wormatlas='', embryonic=False)
 
     def get_issues(self):
         return self.issues
+
+    def get_neuron_uid(self, name):
+        return f"{name}-{self.timepoint}"
