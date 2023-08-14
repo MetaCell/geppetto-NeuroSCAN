@@ -29,7 +29,6 @@ class NeuronsParser:
                 self.create_neuron(match.group(1), filename)
 
     def create_neuron(self, name: str, filename: str):
-        # fixme: Promoter Parser needs to update neurons lineage and location. It is missing from the client's files
         # todo: Fetch data from wormatlas
 
         if name in self.timepoint_context.neurons:
@@ -39,7 +38,8 @@ class NeuronsParser:
                                      f"{old_neuron.file}"))
 
         self.timepoint_context.neurons[name] = Neuron(name=name, file=filename, timepoint=self.timepoint,
-                                                      location='', lineage='', metadata='', wormatlas='')
+                                                      location='', lineage='', metadata='', wormatlas='',
+                                                      embryonic=False)
 
     def get_issues(self):
         return self.issues

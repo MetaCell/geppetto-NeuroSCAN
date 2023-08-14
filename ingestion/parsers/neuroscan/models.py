@@ -11,6 +11,7 @@ class Neuron:
     wormatlas: str
     lineage: str
     location: str
+    embryonic: bool
 
 
 @dataclass

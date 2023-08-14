@@ -113,6 +113,7 @@ class PromoterDBParser:
                             for neuron in neuron_objs:
                                 neuron.lineage = row[PROMOTER_SHEET2_NAME_COLUMN]
                                 neuron.location = row[PROMOTER_SHEET2_LOCATION_COLUMN]
+                                neuron.embryonic = True
                             promoter_neurons.add(neuron_name)
                         else:
                             self.issues.append(
@@ -136,12 +137,6 @@ class PromoterDBParser:
                                 wormbase_url=''
                             )
                             self.promoters[promoter_name] = new_promoter
-        for neuron in self.neurons:
-            if neuron not in promoter_neurons:
-                self.issues.append(
-                    Issue(Severity.WARNING,
-                          f"Neuron '{neuron}' from all_neurons was not mentioned in any promoter in {PROMOTER_SHEET2}.")
-                )
 
     def _validate_promoter_folders(self):
         promoters_base_path = os.path.join(self.app_path, PROMOTER_FOLDER)
