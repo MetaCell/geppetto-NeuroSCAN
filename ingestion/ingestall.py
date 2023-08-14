@@ -10,19 +10,12 @@ from ingestion.parsers.neuroscan.ContactsParser import ContactsParser
 from ingestion.parsers.neuroscan.NeuroScanParser import NeuroScanParser
 from ingestion.parsers.neuroscan.NeuronsParser import NeuronsParser
 from ingestion.parsers.neuroscan.SynapsesParser import SynapsesParser
+from ingestion.parsers.promoterdb.PromoterDBParser import PromoterDBParser
 from ingestion.settings import NEURONS_FOLDER, NEUROSCAN_APP, SYNAPSES_FOLDER, CONTACTS_FOLDER, CONTACTS_XLS, \
     PROMOTER_DB_APP, GENERAL_ERRORS, PROMOTER_DB_APP
 from utils import log_issues_to_file
 
-#
-# def copy_neuroscan(timepoint):
-#     destination = os.path.join(curpwd, "data", "neuroscan", os.path.dirname(timepoint))
-#     if os.path.exists(destination):
-#         shutil.rmtree(destination)
-#     os.makedirs(destination)
-#     shutil.copytree(os.path.join(data_root, "NeuroSCAN", timepoint), destination)
-#
-#
+
 # def zip_cphate(timepoint):
 #     os.chdir(os.path.join(curpwd, "data", "neuroscan", timepoint, "cphate"))
 #     with zipfile.ZipFile('cphate.zip', 'w') as zipf:
@@ -30,16 +23,6 @@ from utils import log_issues_to_file
 #             for file in files:
 #                 zipf.write(os.path.join(root, file))
 #
-#
-# def transform_cphate():
-#     os.chdir(os.path.join(parsers, "c-phate"))
-#     subprocess.run(["python", "generate_json.py"])
-#     shutil.move("cphate.json", os.path.join(curpwd, "output"))
-#     with open(os.path.join(curpwd, "output", "output.log"), "a") as log_file:
-#         log_file.write("=====================\ncphate\n=====================\n")
-#         with open("*.log", "r") as f:
-#             log_file.write(f.read())
-#     os.remove("*.log")
 #
 #
 # def copy_promoters():
@@ -92,6 +75,16 @@ def main(root_dir, dry_run=False, output_dir="./output"):
         neuroscan_parser.parse()
         issues[NEUROSCAN_APP] = neuroscan_parser.get_issues()
 
+    promoter_db_parser = None
+    try:
+        promoter_db_parser = PromoterDBParser(root_dir)
+    except FileNotFoundError:
+        issues[GENERAL_ERRORS].append(Issue(Severity.ERROR, f"{PROMOTER_DB_APP} folder not found"))
+
+    if promoter_db_parser:
+        promoter_db_parser.parse()
+        issues[PROMOTER_DB_APP] = promoter_db_parser.get_issues()
+
     # copy_neuroscan(timepoint)
     # transform_cphate()
     # zip_cphate(timepoint)
@@ -128,8 +121,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Script to process datasets.")
     parser.add_argument('--root-dir', type=str, required=True, help="Path of the files to ingest")
     parser.add_argument("--dry-run", action="store_true", help="If set, data ingestion will not occur.")
-    parser.add_argument("--output-dir", type=str, default='./output', help="Directory to store output files. Defaults to 'output'.")
-
+    parser.add_argument("--output-dir", type=str, default='./output',
+                        help="Directory to store output files. Defaults to 'output'.")
 
     args = parser.parse_args()
 

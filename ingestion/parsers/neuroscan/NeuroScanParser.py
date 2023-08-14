@@ -5,7 +5,7 @@ from ingestion.parsers.neuroscan.ContactsParser import ContactsParser
 from ingestion.parsers.neuroscan.CphateParser import CphateParser
 from ingestion.parsers.neuroscan.NeuronsParser import NeuronsParser
 from ingestion.parsers.neuroscan.SynapsesParser import SynapsesParser
-from ingestion.settings import NEUROSCAN_APP, NEURONS_FOLDER, SYNAPSES_FOLDER, CONTACTS_FOLDER, CONTACTS_XLS, CPHATE, \
+from ingestion.settings import NEUROSCAN_APP, NEURONS_FOLDER, SYNAPSES_FOLDER, CONTACTS_FOLDER, CONTACTS_XLS, CPHATE_FOLDER, \
     CPHATE_XLS
 
 
@@ -75,7 +75,7 @@ class NeuroScanParser:
         self.issues.contacts.extend(contacts_parser.get_issues())
 
     def parse_cphates(self, timepoint_path, timepoint, context):
-        cphate_path = os.path.join(timepoint_path, CPHATE)
+        cphate_path = os.path.join(timepoint_path, CPHATE_FOLDER)
         cphate_xls = os.path.join(timepoint_path, CPHATE_XLS)
         try:
             cphate_parser = CphateParser(cphate_path, cphate_xls, timepoint, context)
