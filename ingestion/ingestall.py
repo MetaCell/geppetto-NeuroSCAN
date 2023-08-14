@@ -13,7 +13,7 @@ from ingestion.parsers.neuroscan.SynapsesParser import SynapsesParser
 from ingestion.parsers.promoterdb.PromoterDBParser import PromoterDBParser
 from ingestion.settings import NEURONS_FOLDER, NEUROSCAN_APP, SYNAPSES_FOLDER, CONTACTS_FOLDER, CONTACTS_XLS, \
     PROMOTER_DB_APP, GENERAL_ERRORS, PROMOTER_DB_APP
-from utils import log_issues_to_file
+from utils import log_issues_to_file, get_all_neurons
 
 
 # def zip_cphate(timepoint):
@@ -66,6 +66,7 @@ def main(root_dir, dry_run=False, output_dir="./output"):
     }
 
     neuroscan_parser = None
+    neurons = []
     try:
         neuroscan_parser = NeuroScanParser(root_dir)
     except FileNotFoundError:
@@ -74,10 +75,11 @@ def main(root_dir, dry_run=False, output_dir="./output"):
     if neuroscan_parser:
         neuroscan_parser.parse()
         issues[NEUROSCAN_APP] = neuroscan_parser.get_issues()
+        neurons = get_all_neurons(neuroscan_parser.get_context_per_timepoint())
 
     promoter_db_parser = None
     try:
-        promoter_db_parser = PromoterDBParser(root_dir)
+        promoter_db_parser = PromoterDBParser(root_dir, neurons)
     except FileNotFoundError:
         issues[GENERAL_ERRORS].append(Issue(Severity.ERROR, f"{PROMOTER_DB_APP} folder not found"))
 

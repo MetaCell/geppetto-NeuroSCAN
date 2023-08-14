@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, Set, List, Tuple
+from typing import Dict, List, Tuple
 
 from ingestion.parsers.neuroscan.models import Neuron, Synapse, Contact, CphateGroupIteration
 

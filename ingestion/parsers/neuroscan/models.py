@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-from typing import List, Set
+from typing import List
 
 
 @dataclass
 class Neuron:
     name: str
     metadata: str
-    timepoints: Set[str]
+    timepoint: str
     file: str
     wormatlas: str
     lineage: str
@@ -19,7 +19,7 @@ class Synapse:
     pre: str
     post: str
     synapse_type: str
-    stages: Set[str]
+    timepoint: str
     file: str
     metadata: str
 
@@ -29,7 +29,7 @@ class Contact:
     name: str
     neuronA: str
     neuronB: str
-    stages: Set[str]
+    timepoint: str
     file: str
     weight: int
     metadata: str

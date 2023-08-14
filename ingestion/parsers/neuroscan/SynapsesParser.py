@@ -89,15 +89,15 @@ class SynapsesParser:
         if name in self.timepoint_context.synapses:
             old_synapse = self.timepoint_context.synapses[name]
             self.issues.append(Issue(Severity.WARNING, f"Duplicate synapse name: {name}. {filename} replaced "
-                                                       f"{old_synapse.files[0]}"))
+                                                       f"{old_synapse.file}"))
 
             self.timepoint_context.synapses[name] = Synapse(
                 name=name,
                 pre=source,
                 post=destination,
                 synapse_type=connection_type,
-                stages={self.timepoint},
-                files=[filename],
+                timepoint=self.timepoint,
+                file=filename,
                 metadata='',
             )
 

@@ -88,7 +88,7 @@ class ContactsParser:
                                                        f"{old_contact.file}"))
 
         self.timepoint_context.contacts[name] = Contact(name=name, neuronA=neuron_a, neuronB=neuron_b,
-                                                        stages={self.timepoint}, file=filename, weight=weight,
+                                                        timepoint=self.timepoint, file=filename, weight=weight,
                                                         metadata='')
 
     def get_issues(self):

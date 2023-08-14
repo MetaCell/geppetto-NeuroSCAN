@@ -10,7 +10,7 @@ from ingestion.settings import PROMOTER_DB_APP, PROMOTER_XLS, PROMOTER_SHEET1, \
     PROMOTER_SHEET1_BEGIN_TIMEPOINT_COLUMN, PROMOTER_SHEET1_END_TIMEPOINT_COLUMN, PROMOTER_SHEET1_NEURONS_COLUMN, \
     PROMOTER_SHEET1_STRAIN_INFORMATION_COLUMN, PROMOTER_SHEET1_DETAILED_EXPRESSION_PATTERNS_COLUMN, \
     PROMOTER_SHEET2_NEURON_COLUMN, PROMOTER_SHEET2_REQUIRED_COLUMNS, PROMOTER_FOLDER, PROMOTER_FOLDER_PREFIX, \
-    PROMOTER_EXPECTED_FILES
+    PROMOTER_EXPECTED_FILES, PROMOTER_SHEET2_NAME_COLUMN, PROMOTER_SHEET2_LOCATION_COLUMN
 
 
 @dataclass
@@ -24,10 +24,12 @@ class Promoter:
 
 
 class PromoterDBParser:
-    def __init__(self, root_dir):
+    def __init__(self, root_dir, neurons):
         self.app_path = os.path.join(root_dir, PROMOTER_DB_APP)
         if not os.path.exists(self.app_path):
             raise FileNotFoundError
+
+        self.neurons = neurons
         self.issues: List[Issue] = []
         self.promoters = {}
 
@@ -97,6 +99,7 @@ class PromoterDBParser:
         return is_valid
 
     def _extract_data_from_sheet2(self, df):
+        promoter_neurons = set()
         for col in df.columns:
             if col not in PROMOTER_SHEET2_REQUIRED_COLUMNS:
                 for index, row in df.iterrows():
@@ -104,6 +107,19 @@ class PromoterDBParser:
                     if pd.notnull(promoter_name):
                         promoter_name = row[col].strip()
                         neuron_name = row[PROMOTER_SHEET2_NEURON_COLUMN]
+
+                        if neuron_name in self.neurons:
+                            neuron_objs = self.neurons[neuron_name]
+                            for neuron in neuron_objs:
+                                neuron.lineage = row[PROMOTER_SHEET2_NAME_COLUMN]
+                                neuron.location = row[PROMOTER_SHEET2_LOCATION_COLUMN]
+                            promoter_neurons.add(neuron_name)
+                        else:
+                            self.issues.append(
+                                Issue(Severity.WARNING,
+                                      f"Neuron '{neuron_name}' mentioned in {PROMOTER_SHEET2} "
+                                      f"is not present in neurons."))
+
                         if promoter_name in self.promoters:
                             self.promoters[promoter_name].cells_by_lineaging.append(neuron_name)
                         else:
@@ -120,6 +136,12 @@ class PromoterDBParser:
                                 wormbase_url=''
                             )
                             self.promoters[promoter_name] = new_promoter
+        for neuron in self.neurons:
+            if neuron not in promoter_neurons:
+                self.issues.append(
+                    Issue(Severity.WARNING,
+                          f"Neuron '{neuron}' from all_neurons was not mentioned in any promoter in {PROMOTER_SHEET2}.")
+                )
 
     def _validate_promoter_folders(self):
         promoters_base_path = os.path.join(self.app_path, PROMOTER_FOLDER)
