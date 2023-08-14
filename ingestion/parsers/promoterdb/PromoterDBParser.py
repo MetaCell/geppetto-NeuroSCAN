@@ -10,7 +10,8 @@ from ingestion.settings import PROMOTER_DB_APP, PROMOTER_XLS, PROMOTER_SHEET1, \
     PROMOTER_SHEET1_BEGIN_TIMEPOINT_COLUMN, PROMOTER_SHEET1_END_TIMEPOINT_COLUMN, PROMOTER_SHEET1_NEURONS_COLUMN, \
     PROMOTER_SHEET1_STRAIN_INFORMATION_COLUMN, PROMOTER_SHEET1_DETAILED_EXPRESSION_PATTERNS_COLUMN, \
     PROMOTER_SHEET2_NEURON_COLUMN, PROMOTER_SHEET2_REQUIRED_COLUMNS, PROMOTER_FOLDER, PROMOTER_FOLDER_PREFIX, \
-    PROMOTER_EXPECTED_FILES, PROMOTER_SHEET2_NAME_COLUMN, PROMOTER_SHEET2_LOCATION_COLUMN
+    PROMOTER_EXPECTED_FILES, PROMOTER_SHEET2_NAME_COLUMN, PROMOTER_SHEET2_LOCATION_COLUMN, WORMBASE_PROMOTER_COL, \
+    WORMBASE_ID_COL, WORMBASE_CSV, WORMBASE_PREFIX
 
 
 @dataclass
@@ -35,6 +36,7 @@ class PromoterDBParser:
         self.neurons = neurons
         self.issues: List[Issue] = []
         self.promoters = {}
+        self.wormbase_dict = load_wormbase_data()
 
     def parse(self):
         spreadsheet_path = os.path.join(self.app_path, PROMOTER_XLS)
@@ -75,9 +77,9 @@ class PromoterDBParser:
     def _extract_promoters_from_sheet1(self, df):
         for index, row in df.iterrows():
             promoter_name = row[PROMOTER_SHEET1_PROMOTER_COLUMN]
-            promoter = get_promoter(promoter_name, row[PROMOTER_SHEET1_NEURONS_COLUMN],
-                                    row[PROMOTER_SHEET1_BEGIN_TIMEPOINT_COLUMN],
-                                    row[PROMOTER_SHEET1_END_TIMEPOINT_COLUMN], [])
+            promoter = self.get_promoter(promoter_name, row[PROMOTER_SHEET1_NEURONS_COLUMN],
+                                         row[PROMOTER_SHEET1_BEGIN_TIMEPOINT_COLUMN],
+                                         row[PROMOTER_SHEET1_END_TIMEPOINT_COLUMN], [])
             self.promoters[promoter_name] = promoter
 
     def _parse_sheet2(self, xls, spreadsheet_path):
@@ -129,7 +131,7 @@ class PromoterDBParser:
                                 Issue(Severity.WARNING,
                                       f"Promoter '{promoter_name}' found in {PROMOTER_SHEET2} but not in {PROMOTER_SHEET1}.")
                             )
-                            new_promoter = get_promoter(promoter_name, None, [neuron_name], None, [])
+                            new_promoter = self.get_promoter(promoter_name, None, [neuron_name], None, [])
                             self.promoters[promoter_name] = new_promoter
 
     def _validate_promoter_folders(self):
@@ -161,20 +163,37 @@ class PromoterDBParser:
                                          f"Extra promoter directory found '{promoter_dir}' "
                                          f"which is not mentioned in the spreadsheet."))
 
+    def get_promoter(self, name, cellular_expression_pattern, expression_begin, expression_termination,
+                     cells_by_lineaging):
+
+        wormbase_id = self.wormbase_dict.get(name, None)
+        wormbase_url = ''
+        if wormbase_id:
+            wormbase_url = WORMBASE_PREFIX + wormbase_id
+        else:
+            self.issues.append(Issue(Severity.WARNING, f"No wormbase url found for {name}"))
+
+        return Promoter(
+            uid=name,
+            metadata='',
+            wormbase=wormbase_url,
+            cellularExpressionPattern=cellular_expression_pattern,
+            name=name,
+            timePointStart=expression_begin,
+            timePointEnd=expression_termination,
+            cellsByLineaging=" ".join(cells_by_lineaging),
+            otherCells=''
+        )
+
     def get_issues(self):
         return self.issues
 
 
-def get_promoter(name, cellular_expression_pattern, expression_begin, expression_termination,
-                 cells_by_lineaging):
-    return Promoter(
-        uid=name,
-        metadata='',
-        wormbase='',
-        cellularExpressionPattern=cellular_expression_pattern,
-        name=name,
-        timePointStart=expression_begin,
-        timePointEnd=expression_termination,
-        cellsByLineaging=" ".join(cells_by_lineaging),
-        otherCells=''
-    )
+def load_wormbase_data():
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(current_directory, WORMBASE_CSV)
+
+    df = pd.read_csv(csv_path)
+    wormbase_dict = {row[WORMBASE_PROMOTER_COL]: row[WORMBASE_ID_COL] for _, row in df.iterrows()}
+
+    return wormbase_dict

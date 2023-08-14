@@ -1,12 +1,15 @@
 import os
 
+import pandas as pd
+
 from ingestion.parsers.models import TimepointContext, NeuroScanIssues, Issue, Severity
 from ingestion.parsers.neuroscan.ContactsParser import ContactsParser
 from ingestion.parsers.neuroscan.CphateParser import CphateParser
 from ingestion.parsers.neuroscan.NeuronsParser import NeuronsParser
 from ingestion.parsers.neuroscan.SynapsesParser import SynapsesParser
-from ingestion.settings import NEUROSCAN_APP, NEURONS_FOLDER, SYNAPSES_FOLDER, CONTACTS_FOLDER, CONTACTS_XLS, CPHATE_FOLDER, \
-    CPHATE_XLS
+from ingestion.settings import NEUROSCAN_APP, NEURONS_FOLDER, SYNAPSES_FOLDER, CONTACTS_FOLDER, CONTACTS_XLS, \
+    CPHATE_FOLDER, \
+    CPHATE_XLS, WORMATLAS_CSV, WORMATLAS_NEURON_COL, WORMATLAS_URL_COL
 
 
 class NeuroScanParser:
@@ -14,6 +17,8 @@ class NeuroScanParser:
         self.app_path = os.path.join(root_dir, NEUROSCAN_APP)
         if not os.path.exists(self.app_path):
             raise FileNotFoundError
+
+        self.wormatlas_dict = load_wormatlas_data()
         self.context_per_timepoint = {}
         self.issues = NeuroScanIssues()
 
@@ -41,7 +46,7 @@ class NeuroScanParser:
     def parse_neurons(self, timepoint_path, timepoint, context):
         neurons_path = os.path.join(timepoint_path, NEURONS_FOLDER)
         try:
-            neurons_parser = NeuronsParser(neurons_path, timepoint, context)
+            neurons_parser = NeuronsParser(neurons_path, timepoint, self.wormatlas_dict, context)
         except FileNotFoundError:
             self.issues.general.append(Issue(Severity.ERROR, f"Neurons folder {neurons_path} not found"))
             return
@@ -90,3 +95,13 @@ class NeuroScanParser:
 
     def get_context_per_timepoint(self):
         return self.context_per_timepoint
+
+
+def load_wormatlas_data():
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(current_directory, WORMATLAS_CSV)
+
+    df = pd.read_csv(csv_path)
+    wormatlas_dict = {row[WORMATLAS_NEURON_COL]: row[WORMATLAS_URL_COL] for _, row in df.iterrows()}
+
+    return wormatlas_dict

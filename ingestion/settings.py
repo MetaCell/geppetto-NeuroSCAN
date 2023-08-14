@@ -45,3 +45,12 @@ PROMOTER_SHEET2_REQUIRED_COLUMNS = [PROMOTER_SHEET2_NEURON_COLUMN, PROMOTER_SHEE
 
 PROMOTER_FOLDER_PREFIX = "promoter"
 PROMOTER_EXPECTED_FILES = ['promoter.avi', 'timeline.svg', 'model.svg', '3d_expression.avi', 'histone_marker.avi']
+
+WORMBASE_CSV = 'id_mapper.csv'
+WORMBASE_ID_COL = 'wormbaseID'
+WORMBASE_PROMOTER_COL = 'promoter'
+WORMBASE_PREFIX = "https://wormbase.org/species/c_elegans/gene/"
+
+WORMATLAS_CSV = 'neuron_wormatlas_mapper.csv'
+WORMATLAS_NEURON_COL = 'Neuron'
+WORMATLAS_URL_COL = 'URL'

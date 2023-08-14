@@ -1,6 +1,6 @@
 import os
 import re
-from typing import List
+from typing import List, Dict
 
 from ingestion.parsers.models import TimepointContext, Issue, Severity
 from ingestion.parsers.neuroscan.models import Neuron
@@ -8,13 +8,15 @@ from ingestion.parsers.regex import get_neuron_regex_components, get_mismatch_re
 
 
 class NeuronsParser:
-    def __init__(self, neurons_path: str, timepoint: str, timepoint_context: TimepointContext):
+    def __init__(self, neurons_path: str, timepoint: str, wormatlas_dict: Dict[str, str],
+                 timepoint_context: TimepointContext):
         self.neurons_path: str = neurons_path
 
         if not os.path.exists(self.neurons_path):
             raise FileNotFoundError
 
         self.timepoint = timepoint
+        self.wormatlas_dict = wormatlas_dict
         self.timepoint_context = timepoint_context
         self.issues: List[Issue] = []
 
@@ -29,7 +31,6 @@ class NeuronsParser:
                 self.create_neuron(match.group(1), filename)
 
     def create_neuron(self, name: str, filename: str):
-        # todo: Fetch data from wormatlas
 
         if name in self.timepoint_context.neurons:
             old_neuron = self.timepoint_context.neurons[name]
@@ -37,9 +38,12 @@ class NeuronsParser:
                                      f"Duplicated neuron {name} on timepoint {self.timepoint}. {filename} replaced "
                                      f"{old_neuron.filename}"))
 
+        wormatlas_url = self.wormatlas_dict.get(name, '')
+        if wormatlas_url == '':
+            self.issues.append(Issue(Severity.WARNING, f"Wormatlas url not found for {name}"))
         self.timepoint_context.neurons[name] = Neuron(uid=self.get_neuron_uid(name), name=name, filename=filename,
                                                       timepoint=self.timepoint, location='', lineage='', metadata='',
-                                                      wormatlas='', embryonic=False)
+                                                      wormatlas=wormatlas_url, embryonic=False)
 
     def get_issues(self):
         return self.issues
