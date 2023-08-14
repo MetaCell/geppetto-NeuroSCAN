@@ -59,8 +59,8 @@ class SynapsesParser:
 
                     if not is_valid_neuron_for_connection(neuron_name, source_neuron, position_type, dest_neurons):
                         self.issues.append(Issue(Severity.ERROR,
-                                                 f"Invalid neuron name in synapse filename: "
-                                                 f"{neuron_name} not found in {filename}"))
+                                                 f"Neuron {neuron_name} seems to be in the incorrect folder "
+                                                 f"{source_neuron}"))
                         continue
 
                     if source_neuron not in self.timepoint_context.neurons:
@@ -76,9 +76,6 @@ class SynapsesParser:
                                                      f" in synapse filename: {filename}"))
                         else:
                             self.create_synapse(source_neuron, dest_neuron, connection_type, synapse_id, filename)
-
-                else:
-                    self.issues.append(Issue(Severity.WARNING, f"No synapses found in {synapse_folder_path}"))
 
             else:
                 self.issues.append(

@@ -27,8 +27,6 @@ class NeuronsParser:
                     Issue(Severity.ERROR, get_mismatch_reason(filename, components, descriptions, self.neurons_path)))
             else:
                 self.create_neuron(match.group(1), filename)
-        else:
-            self.issues.append(Issue(Severity.WARNING, f"No neurons found in {self.neurons_path}"))
 
     def create_neuron(self, name: str, filename: str):
         # fixme: Promoter Parser needs to update neurons lineage and location. It is missing from the client's files

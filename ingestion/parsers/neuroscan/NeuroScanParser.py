@@ -34,10 +34,6 @@ class NeuroScanParser:
                 self.parse_contacts(timepoint_path, timepoint, timepoint_context)
 
                 self.context_per_timepoint[timepoint] = timepoint_context
-            else:
-                self.issues.general.append(Issue(Severity.WARNING, f"No timepoints found for dev stage {dev_stage}"))
-        else:
-            self.issues.general.append(Issue(Severity.WARNING, f"No dev stages found"))
 
     def parse_neurons(self, timepoint_path, timepoint, context):
         neurons_path = os.path.join(timepoint_path, NEURONS_FOLDER)
