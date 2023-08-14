@@ -55,7 +55,15 @@ class SynapsesParser:
                     source_neuron = file_match.group(1)
                     connection_type = file_match.group(2)
                     dest_neurons = file_match.group(3).split("&")
-                    synapse_id = file_match.group(4)
+                    section = file_match.group(4)
+                    zs = file_match.group(5)
+                    position = file_match.group(6)
+                    neuron_site = ''
+                    if position == SYNAPSE_POST_POSITION_TYPE:
+                        try:
+                            neuron_site = int(file_match.group(7))
+                        except ValueError:
+                            self.issues.append(Issue(Severity.WARNING, f"Neuron site: {neuron_site} is not a number"))
 
                     if not is_valid_neuron_for_connection(neuron_name, source_neuron, position_type, dest_neurons):
                         self.issues.append(Issue(Severity.ERROR,
@@ -75,7 +83,8 @@ class SynapsesParser:
                                                      f"Invalid destination neuron name {dest_neuron}"
                                                      f" in synapse filename: {filename}"))
                         else:
-                            self.create_synapse(source_neuron, dest_neuron, connection_type, synapse_id, filename)
+                            self.create_synapse(source_neuron, dest_neuron, connection_type, section, position, zs,
+                                                neuron_site, filename)
 
             else:
                 self.issues.append(
@@ -83,23 +92,26 @@ class SynapsesParser:
                           get_mismatch_reason(synapse_folder, synapse_folder_regex_components,
                                               synapse_folder_regex_descriptions)))
 
-    def create_synapse(self, source: str, destination: str, connection_type: str, synapse_id: str,
-                       filename: str = None):
-        name = get_synapse_name(source, destination, connection_type, synapse_id)
+    def create_synapse(self, source: str, destination: str, connection_type: str, section: str, position: str, zs: str,
+                       neuron_site: str, filename: str = None):
+        name = get_synapse_name(source, destination, connection_type, section)
         if name in self.timepoint_context.synapses:
             old_synapse = self.timepoint_context.synapses[name]
             self.issues.append(Issue(Severity.WARNING, f"Duplicate synapse name: {name}. {filename} replaced "
                                                        f"{old_synapse.file}"))
-
-            self.timepoint_context.synapses[name] = Synapse(
-                name=name,
-                pre=source,
-                post=destination,
-                synapse_type=connection_type,
-                timepoint=self.timepoint,
-                file=filename,
-                metadata='',
-            )
+        self.timepoint_context.synapses[name] = Synapse(
+            type=connection_type,
+            name=name,
+            timepoint=self.timepoint,
+            metadata='',
+            section=section,
+            pre=source,
+            post=destination,
+            file=filename,
+            position=position,
+            zs=zs,
+            neuron_site=neuron_site
+        )
 
     def get_issues(self):
         return self.issues

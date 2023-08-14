@@ -4,10 +4,12 @@ from ingestion.settings import FILE_PREFIX, SYNAPSE_PRE_POSITION_TYPE, SYNAPSE_P
 
 MESH_FILE_TYPE_REG_GROUP = "(gltf|obj)"
 NEURON_NAME_REG_GROUP = r"([\w\s-]+)"
-NEURON_CONNECTION_TYPE_REG_GROUP = "(chemical|electrical)"
-NEURON_POSITION_TYPE_REG_GROUP = f"(?i)({SYNAPSE_PRE_POSITION_TYPE}|{SYNAPSE_POST_POSITION_TYPE})"
+SYNAPSE_CONNECTION_TYPE_REG_GROUP = "(chemical|electrical)"
 NEURON_COMBINED_NAME_GROUP = r"([\w\s-]+(?:&[\w-]+)*)"
-SYNAPSE_IDENTIFIER_AND_ID_GROUP = r"~([A-Za-z]_[\d_]+)"
+SYNAPSE_SECTION_REG_GROUP = r"~([A-Za-z])"
+SYNAPSE_ZS_REG_GROUP = r"(_+[\d_]+)"
+SYNAPSE_POSITION_TYPE_REG_GROUP = f"(?i)({SYNAPSE_PRE_POSITION_TYPE}|{SYNAPSE_POST_POSITION_TYPE})"
+SYNAPSE_NEURON_SITE_GROUP = "(?:\\d*)?"
 
 
 def get_neuron_regex_components():
@@ -30,7 +32,7 @@ def get_synapse_folder_regex_components():
     components = [
         NEURON_NAME_REG_GROUP,
         "_",
-        NEURON_POSITION_TYPE_REG_GROUP,
+        SYNAPSE_POSITION_TYPE_REG_GROUP,
         "$"
     ]
     descriptions = [
@@ -43,23 +45,28 @@ def get_synapse_folder_regex_components():
 
 def get_synapse_regex_components():
     components = [
-        FILE_PREFIX,
+        "SVV",
         "_",
         NEURON_NAME_REG_GROUP,
-        NEURON_CONNECTION_TYPE_REG_GROUP,
+        SYNAPSE_CONNECTION_TYPE_REG_GROUP,
         NEURON_COMBINED_NAME_GROUP,
-        SYNAPSE_IDENTIFIER_AND_ID_GROUP,
-        NEURON_POSITION_TYPE_REG_GROUP,
+        SYNAPSE_SECTION_REG_GROUP,
+        SYNAPSE_ZS_REG_GROUP,
+        SYNAPSE_POSITION_TYPE_REG_GROUP,
+        SYNAPSE_NEURON_SITE_GROUP,
         fr"\.{MESH_FILE_TYPE_REG_GROUP}$"
     ]
+
     descriptions = [
         "prefix pattern",
         "underscore separator for neuron name",
         "source neuron naming pattern",
         "connection pattern",
         "destination neurons pattern",
-        "synapse identifier pattern",
+        "synapse section pattern",
+        "synapse zs pattern",
         "synapse positioning pattern",
+        "synapse neuron site pattern",
         "filetype pattern"
     ]
     return ''.join(components), components, descriptions

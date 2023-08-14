@@ -16,13 +16,17 @@ class Neuron:
 
 @dataclass
 class Synapse:
+    type: str
     name: str
+    timepoint: str
+    metadata: str
+    section: str
+    zs: str
+    position: str
+    file: str
     pre: str
     post: str
-    synapse_type: str
-    timepoint: str
-    file: str
-    metadata: str
+    neuron_site: str
 
 
 @dataclass
