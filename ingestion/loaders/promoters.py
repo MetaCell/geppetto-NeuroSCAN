@@ -18,8 +18,9 @@ def load_promoters(data_dir=CSV_ROOT):
                 if rownum == 1:
                     # header
                     fields = row
+                    uid_index = fields.index('uid')
                 else:
-                    promoter = getPromoter(cur, row[0])
+                    promoter = getPromoter(cur, row[uid_index])
                     if not promoter:
                         # new
                         q = f"""

@@ -1,11 +1,10 @@
 import os
 from collections import defaultdict
-from dataclasses import dataclass
 from typing import List
 
 import pandas as pd
 
-from ingestion.parsers.models import Issue, Severity
+from ingestion.parsers.models import Issue, Severity, Promoter
 from ingestion.settings import PROMOTER_DB_APP, PROMOTER_XLS, PROMOTER_SHEET1, \
     PROMOTER_SHEET2, PROMOTER_SHEET1_PROMOTER_COLUMN, \
     PROMOTER_SHEET1_BEGIN_TIMEPOINT_COLUMN, PROMOTER_SHEET1_END_TIMEPOINT_COLUMN, PROMOTER_SHEET1_NEURONS_COLUMN, \
@@ -13,19 +12,6 @@ from ingestion.settings import PROMOTER_DB_APP, PROMOTER_XLS, PROMOTER_SHEET1, \
     PROMOTER_SHEET2_NEURON_COLUMN, PROMOTER_SHEET2_REQUIRED_COLUMNS, PROMOTER_FOLDER, PROMOTER_FOLDER_PREFIX, \
     PROMOTER_EXPECTED_FILES, PROMOTER_SHEET2_NAME_COLUMN, PROMOTER_SHEET2_LOCATION_COLUMN, WORMBASE_PROMOTER_COL, \
     WORMBASE_ID_COL, WORMBASE_CSV, WORMBASE_PREFIX
-
-
-@dataclass
-class Promoter:
-    uid: str
-    metadata: str
-    wormbase: str
-    cellularExpressionPattern: str
-    name: str
-    timePointStart: int
-    timePointEnd: int
-    cellsByLineaging: str
-    otherCells: str
 
 
 class PromoterDBParser:
@@ -179,7 +165,6 @@ class PromoterDBParser:
             metadata='',
             wormbase=wormbase_url,
             cellularExpressionPattern=cellular_expression_pattern,
-            name=name,
             timePointStart=expression_begin,
             timePointEnd=expression_termination,
             cellsByLineaging=" ".join(cells_by_lineaging),

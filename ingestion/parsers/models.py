@@ -1,8 +1,68 @@
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Tuple, Set
+from typing import Dict, List, Tuple
 
-from ingestion.parsers.neuroscan.models import Neuron, Synapse, Contact, CphateClusterIteration
+
+@dataclass
+class Promoter:
+    uid: str
+    metadata: str
+    wormbase: str
+    cellularExpressionPattern: str
+    timePointStart: int
+    timePointEnd: int
+    cellsByLineaging: str
+    otherCells: str
+
+
+@dataclass
+class Neuron:
+    metadata: str
+    wormatlas: str
+    embryonic: bool
+    lineage: str
+    location: str
+    filename: str
+    timepoint: str
+    name: str
+    uid: str
+
+
+@dataclass
+class Synapse:
+    neuronPre: str
+    type: str
+    metadata: str
+    section: str
+    zs: str
+    position: str
+    neuronPost: List[str]
+    neuronSite: str
+    filename: str
+    timepoint: str
+    postNeuron: str
+    name: str
+    uid: str
+
+
+@dataclass
+class Contact:
+    neuronA: str
+    neuronB: str
+    metadata: str
+    weight: int
+    filename: str
+    timepoint: str
+    name: str
+    uid: str
+
+
+@dataclass
+class CphateClusterIteration:
+    i: int
+    c: int
+    neurons: List[str]
+    objFile: str
 
 
 class Severity(Enum):

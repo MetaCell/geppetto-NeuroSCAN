@@ -18,10 +18,10 @@ def load_neurons(data_dir=CSV_ROOT):
                 if rownum == 1:
                     # header
                     fields = row
-                    uid_idx = fields.index('uid')
-                    timepoint_idx = fields.index('timepoint')
+                    uid_index = fields.index('uid')
+                    timepoint_index = fields.index('timepoint')
                 else:
-                    neuron = getNeuron(cur, row[uid_idx], row[timepoint_idx])
+                    neuron = getNeuron(cur, row[uid_index], row[timepoint_index])
                     if not neuron:
                         # new
                         q = f"""

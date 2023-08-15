@@ -2,8 +2,7 @@ import os
 import re
 from typing import List, Dict
 
-from ingestion.parsers.models import TimepointContext, Issue, Severity
-from ingestion.parsers.neuroscan.models import Neuron
+from ingestion.parsers.models import TimepointContext, Issue, Severity, Neuron
 from ingestion.parsers.regex import get_neuron_regex_components, get_mismatch_reason
 
 

@@ -1,8 +1,4 @@
-import csv
-from typing import Dict, List, Any
-
-from ingestion.parsers.models import TimepointContext, Severity
-from ingestion.parsers.neuroscan.models import Neuron
+from ingestion.parsers.models import Severity
 from ingestion.settings import GENERAL_ERRORS, NEUROSCAN_APP, PROMOTER_DB_APP
 
 

@@ -4,8 +4,7 @@ from typing import List, Tuple, Dict
 
 import pandas as pd
 
-from ingestion.parsers.models import TimepointContext, Issue, Severity
-from ingestion.parsers.neuroscan.models import CphateClusterIteration
+from ingestion.parsers.models import TimepointContext, Issue, Severity, CphateClusterIteration
 from ingestion.parsers.regex import get_cphate_regex_components, get_mismatch_reason
 from ingestion.settings import CPHATE_ITERATION_COLUMN_PREFIX, CPHATE_REQUIRED_COLUMN
 
@@ -76,7 +75,8 @@ class CphateParser:
                                                  f"A CphateGroupIteration for i={iteration_num} and c={cluster_num} "
                                                  f"already exists. {old_cphate.objFile} will be overwritten by {filename}."))
 
-                    cphate_iteration = CphateClusterIteration(i=iteration_num, c=cluster_num, neurons=neurons, objFile=filename)
+                    cphate_iteration = CphateClusterIteration(i=iteration_num, c=cluster_num, neurons=neurons,
+                                                              objFile=filename)
                     self.timepoint_context.cphate[key] = cphate_iteration
                 else:
                     self.issues.append(Issue(Severity.WARNING,
@@ -85,7 +85,6 @@ class CphateParser:
             else:
                 self.issues.append(
                     Issue(Severity.ERROR, get_mismatch_reason(filename, components, descriptions, self.cphate_path)))
-
 
     def get_issues(self):
         return self.issues

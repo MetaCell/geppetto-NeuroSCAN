@@ -3,12 +3,12 @@ from typing import Dict, List, Union, Tuple, Any
 
 import pandas as pd
 
-from ingestion.parsers.models import TimepointContext, NeuroScanIssues, Issue, Severity
+from ingestion.parsers.models import TimepointContext, NeuroScanIssues, Issue, Severity, Neuron, Synapse, Contact, \
+    CphateClusterIteration
 from ingestion.parsers.neuroscan.ContactsParser import ContactsParser
 from ingestion.parsers.neuroscan.CphateParser import CphateParser
 from ingestion.parsers.neuroscan.NeuronsParser import NeuronsParser
 from ingestion.parsers.neuroscan.SynapsesParser import SynapsesParser
-from ingestion.parsers.neuroscan.models import Neuron, Synapse, Contact, CphateClusterIteration
 from ingestion.settings import NEUROSCAN_APP, NEURONS_FOLDER, SYNAPSES_FOLDER, CONTACTS_FOLDER, CONTACTS_XLS, \
     CPHATE_FOLDER, CPHATE_XLS, WORMATLAS_CSV, WORMATLAS_NEURON_COL, WORMATLAS_URL_COL
 

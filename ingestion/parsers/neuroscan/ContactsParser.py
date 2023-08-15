@@ -4,8 +4,7 @@ from typing import List
 
 import pandas as pd
 
-from ingestion.parsers.models import Issue, Severity
-from ingestion.parsers.neuroscan.models import Contact
+from ingestion.parsers.models import Issue, Severity, Contact
 from ingestion.parsers.regex import get_contact_regex_components, get_mismatch_reason
 from ingestion.settings import CONTACTS_XLS_NEURON_A_COL, CONTACTS_XLS_NEURON_B_COL, CONTACTS_XLS_WEIGHT_COL, \
     CONTACTS_XLS

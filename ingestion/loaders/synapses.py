@@ -19,14 +19,17 @@ def load_synapses(data_dir=CSV_ROOT):
                 if rownum == 1:
                     # header
                     fields = [field for field in row if field != 'neuronPost']
-                    neuronPostIdx = row.index("neuronPost")
-                    timepointIdx = row.index("timepoint")
+                    neuronPost_index = row.index("neuronPost")
+                    timepoint_index = row.index("timepoint")
+                    uid_index = row.index("uid")
                 else:
-                    timepoint = row[timepointIdx]
-                    # save neuroPost and remove it from row
-                    neuronPost = json.loads(row[neuronPostIdx])
-                    row.pop(neuronPostIdx)
 
+                    timepoint = row[timepoint_index]
+                    # save neuroPost and remove it from row
+                    neuronPost = json.loads(row[neuronPost_index])
+                    row.pop(neuronPost_index)
+                    if uid_index > neuronPost_index:
+                        uid_index -= 1
                     # substitute relations to neurons
                     i = 0
                     for field in fields:
@@ -39,7 +42,7 @@ def load_synapses(data_dir=CSV_ROOT):
                                 row[i] = None
                         i += 1
 
-                    synapse = getSynapse(cur, row[0], timepoint)
+                    synapse = getSynapse(cur, row[uid_index], timepoint)
                     if not synapse:
                         # new
                         q = f"""
@@ -74,7 +77,7 @@ def load_synapses(data_dir=CSV_ROOT):
                         cur.execute(q, v + wherevalues)
 
                     # process the post neurons and link them to the synapse
-                    synapse = synapse = getSynapse(cur, row[0], timepoint)
+                    synapse = getSynapse(cur, row[uid_index], timepoint)
                     q = f"delete from synapses__neuron_post where synapse_id=?"
                     cur.execute(q, [synapse[0]])
                     if neuronPost:

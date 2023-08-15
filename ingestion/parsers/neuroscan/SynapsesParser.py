@@ -2,8 +2,7 @@ import os
 import re
 from typing import List
 
-from ingestion.parsers.models import TimepointContext, Issue, Severity
-from ingestion.parsers.neuroscan.models import Synapse
+from ingestion.parsers.models import TimepointContext, Issue, Severity, Synapse
 from ingestion.parsers.regex import get_synapse_folder_regex_components, get_synapse_regex_components, \
     get_mismatch_reason
 from ingestion.settings import SYNAPSE_PRE_POSITION_TYPE, SYNAPSE_POST_POSITION_TYPE
@@ -77,24 +76,40 @@ class SynapsesParser:
                                                  f"{source_neuron} in {filename}"))
                         continue
 
+                    are_dest_neuron_valid = True
                     for dest_neuron in dest_neurons:
                         if dest_neuron not in self.timepoint_context.neurons:
                             self.issues.append(Issue(Severity.ERROR,
                                                      f"Invalid destination neuron name {dest_neuron}"
                                                      f" in synapse filename: {filename}"))
-                        else:
-                            self.create_synapse(source_neuron, dest_neuron, connection_type, section, position, zs,
-                                                neuron_site, filename)
+                            are_dest_neuron_valid = False
 
+                    if are_dest_neuron_valid:
+                        post_neuron = None
+                        if connection_type == SYNAPSE_POST_POSITION_TYPE:
+                            neuron_site_idx = None
+                            try:
+                                neuron_site_idx = int(neuron_site)
+                            except ValueError:
+                                self.issues.append(Issue(Severity.ERROR, f"Neuron site: {neuron_site} is not a number"))
+                            if neuron_site_idx and len(dest_neurons) >= neuron_site_idx > 0:
+                                post_neuron = dest_neurons[neuron_site_idx - 1]
+                            else:
+                                self.issues.append(Issue(Severity.ERROR, f"Invalid neuron site: {neuron_site}"))
+
+                        self.create_synapse(source_neuron, dest_neurons, post_neuron,
+                                            connection_type, section, position, zs, neuron_site, filename)
             else:
                 self.issues.append(
                     Issue(Severity.ERROR,
                           get_mismatch_reason(synapse_folder, synapse_folder_regex_components,
                                               synapse_folder_regex_descriptions)))
 
-    def create_synapse(self, source: str, destination: str, connection_type: str, section: str, position: str, zs: str,
-                       neuron_site: str, filename: str = None):
-        name = get_synapse_name(source, destination, connection_type, section)
+    def create_synapse(self, neuron_pre: str, neurons_post: List[str], post_neuron: str, connection_type: str,
+                       section: str, position: str, zs: str, neuron_site: str, filename: str = None):
+
+        name, _ = os.path.splitext(filename)
+
         if name in self.timepoint_context.synapses:
             old_synapse = self.timepoint_context.synapses[name]
             self.issues.append(Issue(Severity.WARNING, f"Duplicate synapse name: {name}. {filename} replaced "
@@ -105,13 +120,15 @@ class SynapsesParser:
             timepoint=self.timepoint,
             metadata='',
             section=section,
-            neuronPre=source,
-            neuronPost=destination,
+            neuronPre=neuron_pre,
+            neuronPost=neurons_post,
             filename=filename,
             position=position,
             zs=zs,
             neuronSite=neuron_site,
+            postNeuron=post_neuron,
             uid=name
+
         )
 
     def get_issues(self):
@@ -119,10 +136,6 @@ class SynapsesParser:
 
     def get_synapse_uid(self, name):
         return f"{name}-{self.timepoint}"
-
-
-def get_synapse_name(source, destination, connection_type, synapse_id):
-    return f"{source}-{destination}-{connection_type}-{synapse_id}"
 
 
 def is_valid_neuron_for_connection(neuron_name: str, source_neuron: str, position_type: str,

@@ -1,9 +1,9 @@
 import csv
 import json
-from typing import Dict, Tuple, Any, List
+from typing import Dict, Any, List
 
+from ingestion.parsers.models import CphateClusterIteration
 from ingestion.parsers.neuroscan.NeuroScanParser import NeuroScanParser
-from ingestion.parsers.neuroscan.models import CphateClusterIteration
 from ingestion.parsers.promoterdb.PromoterDBParser import PromoterDBParser
 
 
@@ -34,7 +34,12 @@ def _export_to_csv(data: Dict[str, Any], filename: str):
 
         writer.writeheader()
         for item in data.values():
-            writer.writerow(item.__dict__)
+            item_dict = item.__dict__.copy()
+            for key, value in item_dict.items():
+                if isinstance(value, list):
+                    item_dict[key] = json.dumps(value)
+
+            writer.writerow(item_dict)
 
 
 def _export_to_json(data: List[CphateClusterIteration], filename: str):
