@@ -111,7 +111,7 @@ class SynapsesParser:
             position=position,
             zs=zs,
             neuronSite=neuron_site,
-            uid=self.get_synapse_uid(name)
+            uid=name
         )
 
     def get_issues(self):

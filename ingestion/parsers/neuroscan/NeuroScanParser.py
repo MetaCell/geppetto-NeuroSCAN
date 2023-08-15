@@ -102,7 +102,7 @@ class NeuroScanParser:
         for timepoint, context in self.context_per_timepoint.items():
             entities = getattr(context, attribute_name, {})
             for entity_name, entity in entities.items():
-                all_entities[entity.uid] = entity
+                all_entities[f"{entity.name}-{entity.timepoint}"] = entity
         return all_entities
 
     def get_all_neurons(self) -> Dict[str, Neuron]:
@@ -119,6 +119,10 @@ class NeuroScanParser:
         for timepoint, context in self.context_per_timepoint.items():
             cphate_by_timepoint[timepoint] = list(context.cphate.values())
         return cphate_by_timepoint
+
+    def get_all_timepoints(self):
+        return self.context_per_timepoint.keys()
+
 
 def load_wormatlas_data():
     current_directory = os.path.dirname(os.path.abspath(__file__))

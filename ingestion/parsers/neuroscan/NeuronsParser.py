@@ -41,7 +41,7 @@ class NeuronsParser:
         wormatlas_url = self.wormatlas_dict.get(name, '')
         if wormatlas_url == '':
             self.issues.append(Issue(Severity.WARNING, f"Wormatlas url not found for {name}"))
-        self.timepoint_context.neurons[name] = Neuron(uid=self.get_neuron_uid(name), name=name, filename=filename,
+        self.timepoint_context.neurons[name] = Neuron(uid=name, name=name, filename=filename,
                                                       timepoint=self.timepoint, location='', lineage='', metadata='',
                                                       wormatlas=wormatlas_url, embryonic=False)
 

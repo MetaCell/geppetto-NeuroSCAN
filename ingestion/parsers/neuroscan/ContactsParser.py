@@ -89,7 +89,7 @@ class ContactsParser:
 
         self.timepoint_context.contacts[name] = Contact(name=name, neuronA=neuron_a, neuronB=neuron_b,
                                                         timepoint=self.timepoint, filename=filename, weight=weight,
-                                                        metadata='', uid=self.get_contact_uid(name))
+                                                        metadata='', uid=name)
 
     def get_issues(self):
         return self.issues

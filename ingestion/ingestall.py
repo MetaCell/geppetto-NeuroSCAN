@@ -3,6 +3,11 @@ import os
 import shutil
 import subprocess
 
+from ingestion.loaders.contacts import load_contacts
+from ingestion.loaders.cphate import load_cphate
+from ingestion.loaders.neurons import load_neurons
+from ingestion.loaders.promoters import load_promoters
+from ingestion.loaders.synapses import load_synapses
 from ingestion.parsers.DataExporter import DataExporter
 from ingestion.parsers.models import Issue, Severity
 from ingestion.parsers.neuroscan.NeuroScanParser import NeuroScanParser
@@ -74,7 +79,7 @@ def main(root_dir, dry_run=False, transform=False, output_dir="./output"):
         # avi2mp4()
 
     if not dry_run:
-        load_data()
+        load_data(output_dir, neuroscan_parser.get_all_timepoints())
 
 
 def clean(output_dir="output"):
@@ -83,14 +88,13 @@ def clean(output_dir="output"):
     os.makedirs(output_dir)
 
 
-def load_data():
-    # os.chdir(loaders)
-    # subprocess.run(["python", "cphate.py", "--timepoint", os.path.basename(timepoint)])
-    # subprocess.run(["python", "neurons.py"])
-    # subprocess.run(["python", "contacts.py"])
-    # subprocess.run(["python", "synapses.py"])
-    # subprocess.run(["python", "promoters.py"])
-    pass
+def load_data(data_dir, all_timepoints=None):
+    for timepoint in all_timepoints:
+        load_cphate(timepoint, data_dir)
+    load_neurons(data_dir)
+    load_contacts(data_dir)
+    load_synapses(data_dir)
+    load_promoters(data_dir)
 
 
 if __name__ == "__main__":
