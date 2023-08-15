@@ -1,6 +1,7 @@
-from typing import Dict, List
+import csv
+from typing import Dict, List, Any
 
-from ingestion.parsers.models import TimepointContext
+from ingestion.parsers.models import TimepointContext, Severity
 from ingestion.parsers.neuroscan.models import Neuron
 from ingestion.settings import GENERAL_ERRORS, NEUROSCAN_APP, PROMOTER_DB_APP
 
@@ -34,12 +35,10 @@ def log_issues_to_file(issues, file_path):
             f.write("\n")
 
 
-def get_all_neurons(timepoints: Dict[str, TimepointContext]) -> Dict[str, List[Neuron]]:
-    all_neurons = {}
-    for timepoint, context in timepoints.items():
-        for neuron_name, neuron in context.neurons.items():
-            if neuron_name in all_neurons:
-                all_neurons[neuron_name].append(neuron)
-            else:
-                all_neurons[neuron_name] = [neuron]
-    return all_neurons
+def has_error_issues(issues):
+    for issue_list in issues.values():
+        if issue_list:
+            for issue in issue_list:
+                if issue.severity == Severity.ERROR:
+                    return True
+    return False

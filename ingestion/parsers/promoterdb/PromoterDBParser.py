@@ -1,4 +1,5 @@
 import os
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import List
 
@@ -33,7 +34,7 @@ class PromoterDBParser:
         if not os.path.exists(self.app_path):
             raise FileNotFoundError
 
-        self.neurons = neurons
+        self.neurons_dict = get_neurons_by_name(neurons)
         self.issues: List[Issue] = []
         self.promoters = {}
         self.wormbase_dict = load_wormbase_data()
@@ -77,9 +78,9 @@ class PromoterDBParser:
     def _extract_promoters_from_sheet1(self, df):
         for index, row in df.iterrows():
             promoter_name = row[PROMOTER_SHEET1_PROMOTER_COLUMN]
-            promoter = self.get_promoter(promoter_name, row[PROMOTER_SHEET1_NEURONS_COLUMN],
-                                         row[PROMOTER_SHEET1_BEGIN_TIMEPOINT_COLUMN],
-                                         row[PROMOTER_SHEET1_END_TIMEPOINT_COLUMN], [])
+            promoter = self._get_promoter(promoter_name, row[PROMOTER_SHEET1_NEURONS_COLUMN],
+                                          row[PROMOTER_SHEET1_BEGIN_TIMEPOINT_COLUMN],
+                                          row[PROMOTER_SHEET1_END_TIMEPOINT_COLUMN], [])
             self.promoters[promoter_name] = promoter
 
     def _parse_sheet2(self, xls, spreadsheet_path):
@@ -108,9 +109,9 @@ class PromoterDBParser:
                         promoter_name = row[col].strip()
                         neuron_name = row[PROMOTER_SHEET2_NEURON_COLUMN]
 
-                        if neuron_name in self.neurons:
-                            neuron_objs = self.neurons[neuron_name]
-                            for neuron in neuron_objs:
+                        if neuron_name in self.neurons_dict:
+                            neurons = self.neurons_dict[neuron_name]
+                            for neuron in neurons:
                                 neuron.lineage = row[PROMOTER_SHEET2_NAME_COLUMN]
                                 neuron.location = row[PROMOTER_SHEET2_LOCATION_COLUMN]
                                 neuron.embryonic = True
@@ -131,7 +132,7 @@ class PromoterDBParser:
                                 Issue(Severity.WARNING,
                                       f"Promoter '{promoter_name}' found in {PROMOTER_SHEET2} but not in {PROMOTER_SHEET1}.")
                             )
-                            new_promoter = self.get_promoter(promoter_name, None, [neuron_name], None, [])
+                            new_promoter = self._get_promoter(promoter_name, None, [neuron_name], None, [])
                             self.promoters[promoter_name] = new_promoter
 
     def _validate_promoter_folders(self):
@@ -163,8 +164,8 @@ class PromoterDBParser:
                                          f"Extra promoter directory found '{promoter_dir}' "
                                          f"which is not mentioned in the spreadsheet."))
 
-    def get_promoter(self, name, cellular_expression_pattern, expression_begin, expression_termination,
-                     cells_by_lineaging):
+    def _get_promoter(self, name, cellular_expression_pattern, expression_begin, expression_termination,
+                      cells_by_lineaging):
 
         wormbase_id = self.wormbase_dict.get(name, None)
         wormbase_url = ''
@@ -187,6 +188,17 @@ class PromoterDBParser:
 
     def get_issues(self):
         return self.issues
+
+    def get_promoters(self):
+        return self.promoters
+
+
+def get_neurons_by_name(neurons_by_uid):
+    neurons_by_name = defaultdict(list)
+    for uid, neuron in neurons_by_uid.items():
+        name = uid.split('-')[0]
+        neurons_by_name[name].append(neuron)
+    return neurons_by_name
 
 
 def load_wormbase_data():

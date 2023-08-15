@@ -44,8 +44,8 @@ class Contact:
 
 
 @dataclass
-class CphateGroupIteration:
+class CphateClusterIteration:
     i: int
-    g: int
+    c: int
     neurons: List[str]
     objFile: str

@@ -1,4 +1,5 @@
 import os
+from typing import Dict, List, Union, Tuple, Any
 
 import pandas as pd
 
@@ -7,9 +8,9 @@ from ingestion.parsers.neuroscan.ContactsParser import ContactsParser
 from ingestion.parsers.neuroscan.CphateParser import CphateParser
 from ingestion.parsers.neuroscan.NeuronsParser import NeuronsParser
 from ingestion.parsers.neuroscan.SynapsesParser import SynapsesParser
+from ingestion.parsers.neuroscan.models import Neuron, Synapse, Contact, CphateClusterIteration
 from ingestion.settings import NEUROSCAN_APP, NEURONS_FOLDER, SYNAPSES_FOLDER, CONTACTS_FOLDER, CONTACTS_XLS, \
-    CPHATE_FOLDER, \
-    CPHATE_XLS, WORMATLAS_CSV, WORMATLAS_NEURON_COL, WORMATLAS_URL_COL
+    CPHATE_FOLDER, CPHATE_XLS, WORMATLAS_CSV, WORMATLAS_NEURON_COL, WORMATLAS_URL_COL
 
 
 class NeuroScanParser:
@@ -96,6 +97,28 @@ class NeuroScanParser:
     def get_context_per_timepoint(self):
         return self.context_per_timepoint
 
+    def get_all_entities_for_attribute(self, attribute_name: str) -> Dict[str, Any]:
+        all_entities = {}
+        for timepoint, context in self.context_per_timepoint.items():
+            entities = getattr(context, attribute_name, {})
+            for entity_name, entity in entities.items():
+                all_entities[entity.uid] = entity
+        return all_entities
+
+    def get_all_neurons(self) -> Dict[str, Neuron]:
+        return self.get_all_entities_for_attribute("neurons")
+
+    def get_all_synapses(self) -> Dict[str, Synapse]:
+        return self.get_all_entities_for_attribute("synapses")
+
+    def get_all_contacts(self) -> Dict[str, Contact]:
+        return self.get_all_entities_for_attribute("contacts")
+
+    def get_all_cphate_per_timepoint(self) -> Dict[str, List[CphateClusterIteration]]:
+        cphate_by_timepoint = {}
+        for timepoint, context in self.context_per_timepoint.items():
+            cphate_by_timepoint[timepoint] = list(context.cphate.values())
+        return cphate_by_timepoint
 
 def load_wormatlas_data():
     current_directory = os.path.dirname(os.path.abspath(__file__))

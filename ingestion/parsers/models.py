@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Set
 
-from ingestion.parsers.neuroscan.models import Neuron, Synapse, Contact, CphateGroupIteration
+from ingestion.parsers.neuroscan.models import Neuron, Synapse, Contact, CphateClusterIteration
 
 
 class Severity(Enum):
@@ -24,6 +24,10 @@ class NeuroScanIssues:
     cphate: List[Issue] = field(default_factory=list)
     general: List[Issue] = field(default_factory=list)
 
+    def __iter__(self):
+        for attr, value in self.__dict__.items():
+            yield from value
+
 
 @dataclass
 class TimepointContext:
@@ -32,4 +36,4 @@ class TimepointContext:
     neurons: Dict[str, Neuron] = field(default_factory=dict)
     synapses: Dict[str, Synapse] = field(default_factory=dict)
     contacts: Dict[str, Contact] = field(default_factory=dict)
-    cphate: Dict[Tuple[int, int], CphateGroupIteration] = field(default_factory=dict)
+    cphate: Dict[Tuple[int, int], CphateClusterIteration] = field(default_factory=dict)
