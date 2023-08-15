@@ -55,7 +55,7 @@ const MenuControl = ({
     switch (selection) {
       case VIEWER_MENU.devStage: setContent(
         <DevStageMenu
-          timePoint={timePoint}
+          timePoint={currentWidget?.config?.timePoint}
           setTimePoint={setTimePoint}
         />,
       );
