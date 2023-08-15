@@ -58,12 +58,9 @@ class SynapsesParser:
                     zs = file_match.group(5)
                     position = file_match.group(6)
                     neuron_site = ''
-                    if position == SYNAPSE_POST_POSITION_TYPE:
-                        try:
-                            neuron_site = int(file_match.group(7))
-                        except ValueError:
-                            self.issues.append(Issue(Severity.WARNING, f"Neuron site: {neuron_site} is not a number"))
-
+                    if position.lower() != position_type.lower():
+                        self.issues.append(
+                            Issue(Severity.WARNING, f"Synapse {filename} is misplaced in {synapse_folder_path}"))
                     if not is_valid_neuron_for_connection(neuron_name, source_neuron, position_type, dest_neurons):
                         self.issues.append(Issue(Severity.ERROR,
                                                  f"Neuron {neuron_name} seems to be in the incorrect folder "
@@ -86,14 +83,15 @@ class SynapsesParser:
 
                     if are_dest_neuron_valid:
                         post_neuron = None
-                        if connection_type == SYNAPSE_POST_POSITION_TYPE:
-                            neuron_site_idx = None
+                        if position.lower() == SYNAPSE_POST_POSITION_TYPE.lower():
                             try:
-                                neuron_site_idx = int(neuron_site)
+                                neuron_site = int(file_match.group(7))
                             except ValueError:
-                                self.issues.append(Issue(Severity.ERROR, f"Neuron site: {neuron_site} is not a number"))
-                            if neuron_site_idx and len(dest_neurons) >= neuron_site_idx > 0:
-                                post_neuron = dest_neurons[neuron_site_idx - 1]
+                                self.issues.append(
+                                    Issue(Severity.WARNING, f"Neuron site: {neuron_site} is not a number"))
+
+                            if neuron_site and len(dest_neurons) >= neuron_site > 0:
+                                post_neuron = dest_neurons[neuron_site - 1]
                             else:
                                 self.issues.append(Issue(Severity.ERROR, f"Invalid neuron site: {neuron_site}"))
 
