@@ -27,7 +27,7 @@ def main(root_dir, dry_run=False, transform=False, output_dir="./output"):
     }
 
     neuroscan_parser = None
-    neurons = []
+    neurons = {}
 
     try:
         neuroscan_parser = NeuroScanParser(root_dir)
