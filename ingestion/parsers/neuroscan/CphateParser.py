@@ -31,7 +31,7 @@ class CphateParser:
     def parse(self):
         cphate_file_pattern, components, descriptions = get_cphate_regex_components()
 
-        df = pd.read_csv(self.spreadsheet_path)
+        df = pd.read_excel(self.spreadsheet_path)
 
         headers = df.columns.tolist()
         if headers[0] != CPHATE_REQUIRED_COLUMN:
@@ -42,7 +42,8 @@ class CphateParser:
         for header in headers[1:]:
             if not header.startswith(CPHATE_ITERATION_COLUMN_PREFIX):
                 self.issues.append(
-                    Issue(Severity.ERROR, f"Column header {header} does not follow the required format."))
+                    Issue(Severity.ERROR, f"Column header {header} does not follow the required format: "
+                                          f"{CPHATE_ITERATION_COLUMN_PREFIX}{{number}}"))
                 return
 
         grouped_neuron_data: Dict[Tuple[int, int], List[str]] = {}
