@@ -4,7 +4,7 @@ from ingestion.settings import FILE_PREFIX, SYNAPSE_PRE_POSITION_TYPE, SYNAPSE_P
 
 MESH_FILE_TYPE_REG_GROUP = "(gltf|obj)"
 NEURON_NAME_REG_GROUP = r"([\w\s-]+)"
-SYNAPSE_CONNECTION_TYPE_REG_GROUP = "(chemical|electrical)"
+SYNAPSE_CONNECTION_TYPE_REG_GROUP = "(chemical|electrical|undefined)"
 NEURON_COMBINED_NAME_GROUP = r"([\w\s-]+(?:&[\w-]+)*)"
 SYNAPSE_SECTION_REG_GROUP = r"~([A-Za-z])"
 SYNAPSE_ZS_REG_GROUP = r"(_+[\d_]+)"
