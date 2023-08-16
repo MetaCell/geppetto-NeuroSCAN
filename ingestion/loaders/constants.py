@@ -1,2 +1,2 @@
 CSV_ROOT = "../../output"
-DB = './data.db'
+DB = '../../applications/neuroscan/backend/.tmp/data.db'
