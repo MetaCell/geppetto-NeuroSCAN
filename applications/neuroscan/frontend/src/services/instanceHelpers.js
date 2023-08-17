@@ -391,3 +391,6 @@ export const sortedInstances = (instances) => {
   });
   return instances;
 };
+
+export const sortedGroupedIterations = (items) => items.map((innerArray) => innerArray.slice()
+  .sort((a, b) => a.name.localeCompare(b.name)));
