@@ -34,7 +34,7 @@ const Search = (props) => {
 
   const parseTextToTags = (text) => {
     const trimmedText = text.trim();
-    const separators = [',', ' ', '\n'];
+    const separators = [',', '\n', '\t'];
     const splitTags = trimmedText.split(new RegExp(separators.join('|'), 'g'));
     const filteredTags = splitTags.filter((tag) => tag.trim() !== '');
     return filteredTags;
