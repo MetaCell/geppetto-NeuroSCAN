@@ -90,7 +90,7 @@ const Explorer = () => {
       'i',
     ));
 
-    const sortedData = sortedGroupedIterations(iterations);
+    const sortedIterations = sortedGroupedIterations(iterations);
 
     return (
       <StyledTreeItem
@@ -100,7 +100,7 @@ const Explorer = () => {
         labelInfo={instances.length}
         key={viewerId}
       >
-        { sortedData.length === 0
+        { sortedIterations.length === 0
         && [NEURON_TYPE, CONTACT_TYPE, SYNAPSE_TYPE].map((instanceType) => {
           const items = instances.filter((instance) => instance.instanceType === instanceType);
           return (
@@ -114,7 +114,7 @@ const Explorer = () => {
             />
           );
         })}
-        { sortedData.length === 0
+        { sortedIterations.length === 0
         && groups.map((group) => {
           const items = instances.filter((instance) => instance.group === group);
           return (
@@ -127,17 +127,17 @@ const Explorer = () => {
             />
           );
         })}
-        { sortedData.length !== 0
+        { sortedIterations.length !== 0
         && (
           <StyledTreeItem
             nodeId={`${viewerId}_clusters`}
             labelText="Clusters"
             labelIcon={EXPLORER_IMGS[CPHATE_TYPE.toLocaleUpperCase()]}
-            labelInfo={sortedData.length}
+            labelInfo={sortedIterations.length}
             key={`${viewerId}_clusters`}
           >
             {
-              sortedData.map((items) => (
+              sortedIterations.map((items) => (
                 <ExplorerTreeItems
                   viewerId={`${viewerId}`}
                   nodeId={`${viewerId}_cluster_${items[0].i}`}

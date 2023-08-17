@@ -131,7 +131,7 @@ const ColorPickerMenu = ({
     'i',
   ));
 
-  const sortedData = sortedGroupedIterations(iterations);
+  const sortedIterations = sortedGroupedIterations(iterations);
 
   const handleToggle = (event, nodeIds) => {
     setExpanded([nodeIds[0]]);
@@ -183,7 +183,7 @@ const ColorPickerMenu = ({
                 rowItem(SYNAPSE, synapse)
               ))
             }
-            { sortedData.length > 0
+            { sortedIterations.length > 0
               && (
               <TreeView
                 className="scrollbar"
@@ -197,7 +197,7 @@ const ColorPickerMenu = ({
                 expanded={expanded}
               >
                 {
-                  sortedData.map((iteration) => (
+                  sortedIterations.map((iteration) => (
                     <TreeItem
                       nodeId={`iteration-${iteration[0].i}`}
                       label={(
