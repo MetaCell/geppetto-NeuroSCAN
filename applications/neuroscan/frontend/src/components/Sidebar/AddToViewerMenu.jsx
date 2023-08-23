@@ -36,11 +36,11 @@ const AddToViewerMenu = ({
             && viewer.config.type === VIEWERS.InstanceViewer;
           if (isEnabled) {
             const isInstancePresent = (inst) => {
-              let insName = inst.name;
+              let instName = inst.name;
               if (inst.instanceType === 'synapse') {
-                insName = inst.name.replace(/<\/?b>/g, '');
+                instName = inst.name.replace(/<\/?b>/g, '');
               }
-              if (insName === instanceName) {
+              if (instName === instanceName) {
                 isEnabled = false;
                 return true;
               }
