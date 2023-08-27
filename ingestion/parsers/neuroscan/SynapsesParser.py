@@ -3,7 +3,7 @@ import re
 from typing import List
 
 from ingestion.parsers.models import TimepointContext, Issue, Severity, Synapse
-from ingestion.parsers.regex import get_synapse_folder_regex_components, get_synapse_regex_components, \
+from ingestion.parsers.regex import get_synapse_regex_components, \
     get_mismatch_reason
 from ingestion.settings import SYNAPSE_PRE_POSITION_TYPE, SYNAPSE_POST_POSITION_TYPE
 
@@ -20,91 +20,58 @@ class SynapsesParser:
         self.issues: List[Issue] = []
 
     def parse(self):
-        synapse_folder_pattern, synapse_folder_regex_components, \
-        synapse_folder_regex_descriptions = get_synapse_folder_regex_components()
         synapse_file_pattern, synapse_file_regex_components, \
         synapse_file_regex_descriptions = get_synapse_regex_components()
 
-        for synapse_folder in os.listdir(self.synapses_path):
-            synapse_folder_full_path = os.path.join(self.synapses_path, synapse_folder)
-            if not os.path.isdir(synapse_folder_full_path):
-                self.issues.append(Issue(Severity.WARNING, f"{self.synapses_path}{synapse_folder} is not a directory"))
+        for filename in os.listdir(self.synapses_path):
+            file_match = re.match(synapse_file_pattern, filename)
+            if not file_match:
+                self.issues.append(
+                    Issue(Severity.WARNING,
+                          get_mismatch_reason(filename, synapse_file_regex_components,
+                                              synapse_file_regex_descriptions, self.synapses_path)))
                 continue
 
-            folder_match = re.match(synapse_folder_pattern, synapse_folder)
+            source_neuron = file_match.group(1)
+            connection_type = file_match.group(2)
+            dest_neurons = file_match.group(3).split("_")
+            section = file_match.group(4)
+            position = file_match.group(6)
+            neuron_site = ''
 
-            if folder_match:
-                neuron_name = folder_match.group(1)
-                position_type = folder_match.group(2)
-                if neuron_name not in self.timepoint_context.neurons:
-                    self.issues.append(Issue(Severity.ERROR,
-                                             f"Invalid neuron name in synapse folder: "
-                                             f"{neuron_name} in {synapse_folder}"))
+            if source_neuron not in self.timepoint_context.neurons:
+                self.issues.append(Issue(Severity.WARNING,
+                                         f"Invalid source neuron name in synapse filename: "
+                                         f"{source_neuron} in {filename}"))
+                continue
 
-                synapse_folder_path = os.path.join(self.synapses_path, synapse_folder)
-                for filename in os.listdir(synapse_folder_path):
-                    file_match = re.match(synapse_file_pattern, filename)
-                    if not file_match:
+            are_dest_neuron_valid = True
+            for dest_neuron in dest_neurons:
+                if dest_neuron not in self.timepoint_context.neurons:
+                    self.issues.append(Issue(Severity.WARNING,
+                                             f"Invalid destination neuron name {dest_neuron}"
+                                             f" in synapse filename: {filename}"))
+                    are_dest_neuron_valid = False
+
+            if are_dest_neuron_valid:
+                post_neuron = None
+                if position.lower() == SYNAPSE_POST_POSITION_TYPE.lower():
+                    try:
+                        neuron_site = int(file_match.group(7))
+                    except ValueError:
                         self.issues.append(
-                            Issue(Severity.ERROR,
-                                  get_mismatch_reason(filename, synapse_file_regex_components,
-                                                      synapse_file_regex_descriptions, synapse_folder_path)))
-                        continue
+                            Issue(Severity.WARNING, f"Neuron site: {neuron_site} is not a number"))
 
-                    source_neuron = file_match.group(1)
-                    connection_type = file_match.group(2)
-                    dest_neurons = file_match.group(3).split("&")
-                    section = file_match.group(4)
-                    zs = file_match.group(5)
-                    position = file_match.group(6)
-                    neuron_site = ''
-                    if position.lower() != position_type.lower():
-                        self.issues.append(
-                            Issue(Severity.WARNING, f"Synapse {filename} is misplaced in {synapse_folder_path}"))
-                    if not is_valid_neuron_for_connection(neuron_name, source_neuron, position_type, dest_neurons):
-                        self.issues.append(Issue(Severity.ERROR,
-                                                 f"Neuron {neuron_name} seems to be in the incorrect folder "
-                                                 f"{source_neuron}"))
-                        continue
+                    if neuron_site and len(dest_neurons) >= neuron_site > 0:
+                        post_neuron = dest_neurons[neuron_site - 1]
+                    else:
+                        self.issues.append(Issue(Severity.WARNING, f"Invalid neuron site: {neuron_site}"))
 
-                    if source_neuron not in self.timepoint_context.neurons:
-                        self.issues.append(Issue(Severity.ERROR,
-                                                 f"Invalid source neuron name in synapse filename: "
-                                                 f"{source_neuron} in {filename}"))
-                        continue
-
-                    are_dest_neuron_valid = True
-                    for dest_neuron in dest_neurons:
-                        if dest_neuron not in self.timepoint_context.neurons:
-                            self.issues.append(Issue(Severity.ERROR,
-                                                     f"Invalid destination neuron name {dest_neuron}"
-                                                     f" in synapse filename: {filename}"))
-                            are_dest_neuron_valid = False
-
-                    if are_dest_neuron_valid:
-                        post_neuron = None
-                        if position.lower() == SYNAPSE_POST_POSITION_TYPE.lower():
-                            try:
-                                neuron_site = int(file_match.group(7))
-                            except ValueError:
-                                self.issues.append(
-                                    Issue(Severity.WARNING, f"Neuron site: {neuron_site} is not a number"))
-
-                            if neuron_site and len(dest_neurons) >= neuron_site > 0:
-                                post_neuron = dest_neurons[neuron_site - 1]
-                            else:
-                                self.issues.append(Issue(Severity.ERROR, f"Invalid neuron site: {neuron_site}"))
-
-                        self.create_synapse(source_neuron, dest_neurons, post_neuron,
-                                            connection_type, section, position, zs, neuron_site, filename)
-            else:
-                self.issues.append(
-                    Issue(Severity.ERROR,
-                          get_mismatch_reason(synapse_folder, synapse_folder_regex_components,
-                                              synapse_folder_regex_descriptions)))
+                self.create_synapse(source_neuron, dest_neurons, post_neuron,
+                                    connection_type, section, position, neuron_site, filename)
 
     def create_synapse(self, neuron_pre: str, neurons_post: List[str], post_neuron: str, connection_type: str,
-                       section: str, position: str, zs: str, neuron_site: str, filename: str = None):
+                       section: str, position: str, neuron_site: str, filename: str = None):
 
         name, _ = os.path.splitext(filename)
 
@@ -122,7 +89,7 @@ class SynapsesParser:
             neuronPost=neurons_post,
             filename=filename,
             position=position,
-            zs=zs,
+            zs='',
             neuronSite=neuron_site,
             postNeuron=post_neuron,
             uid=name
@@ -134,12 +101,3 @@ class SynapsesParser:
 
     def get_synapse_uid(self, name):
         return f"{name}-{self.timepoint}"
-
-
-def is_valid_neuron_for_connection(neuron_name: str, source_neuron: str, position_type: str,
-                                   dest_neurons: List[str]) -> bool:
-    position_type = position_type.lower()
-    if position_type == SYNAPSE_PRE_POSITION_TYPE.lower():
-        return neuron_name == source_neuron
-    elif position_type == SYNAPSE_POST_POSITION_TYPE.lower():
-        return neuron_name in dest_neurons

@@ -5,10 +5,9 @@ from ingestion.settings import FILE_PREFIX, SYNAPSE_PRE_POSITION_TYPE, SYNAPSE_P
 MESH_FILE_TYPE_REG_GROUP = "(gltf|obj)"
 NEURON_NAME_REG_GROUP = r"([\w\s-]+)"
 SYNAPSE_CONNECTION_TYPE_REG_GROUP = "(chemical|electrical|undefined)"
-NEURON_COMBINED_NAME_GROUP = r"([\w\s-]+(?:&[\w-]+)*)"
-SYNAPSE_SECTION_REG_GROUP = r"~([A-Za-z])"
-SYNAPSE_ZS_REG_GROUP = r"(_+[\d_]+)"
-SYNAPSE_POSITION_TYPE_REG_GROUP = f"(?i)({SYNAPSE_PRE_POSITION_TYPE}|{SYNAPSE_POST_POSITION_TYPE})"
+NEURON_COMBINED_NAME_GROUP = r"([\w\s-]+(?:_[\w-]+)*)"
+SYNAPSE_SECTION_REG_GROUP = r"-([A-Za-z])"
+SYNAPSE_POSITION_TYPE_REG_GROUP = f"_({SYNAPSE_PRE_POSITION_TYPE}|{SYNAPSE_POST_POSITION_TYPE})"
 SYNAPSE_NEURON_SITE_GROUP = r"(\d*)"
 
 
@@ -28,21 +27,6 @@ def get_neuron_regex_components():
     return ''.join(components), components, descriptions
 
 
-def get_synapse_folder_regex_components():
-    components = [
-        NEURON_NAME_REG_GROUP,
-        "_",
-        SYNAPSE_POSITION_TYPE_REG_GROUP,
-        "$"
-    ]
-    descriptions = [
-        "neuron naming pattern",
-        "underscore separator",
-        "synapse positioning pattern"
-    ]
-    return ''.join(components), components, descriptions
-
-
 def get_synapse_regex_components():
     components = [
         "SVV",
@@ -51,7 +35,6 @@ def get_synapse_regex_components():
         SYNAPSE_CONNECTION_TYPE_REG_GROUP,
         NEURON_COMBINED_NAME_GROUP,
         SYNAPSE_SECTION_REG_GROUP,
-        SYNAPSE_ZS_REG_GROUP,
         SYNAPSE_POSITION_TYPE_REG_GROUP,
         SYNAPSE_NEURON_SITE_GROUP,
         fr"\.{MESH_FILE_TYPE_REG_GROUP}$"
@@ -64,7 +47,6 @@ def get_synapse_regex_components():
         "connection pattern",
         "destination neurons pattern",
         "synapse section pattern",
-        "synapse zs pattern",
         "synapse positioning pattern",
         "synapse neuron site pattern",
         "filetype pattern"
