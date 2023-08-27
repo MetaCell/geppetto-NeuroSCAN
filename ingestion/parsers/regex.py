@@ -76,12 +76,12 @@ def get_contact_regex_components():
 
 def get_cphate_regex_components():
     components = [
-        fr"[\w\s]+",
+        fr"[\w\s.]+",
         fr"\.i",
         fr"(\d+)",
         fr"\.c",
         fr"(\d+)",
-        fr"\.[\w\s]+",
+        fr"\.[\w\s.]+",
         fr"\.{MESH_FILE_TYPE_REG_GROUP}$"
     ]
     descriptions = [

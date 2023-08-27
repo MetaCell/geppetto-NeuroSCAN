@@ -13,6 +13,8 @@ class Promoter:
     timePointEnd: int
     cellsByLineaging: str
     otherCells: str
+    information: str
+    expressionPatterns: str
 
 
 @dataclass

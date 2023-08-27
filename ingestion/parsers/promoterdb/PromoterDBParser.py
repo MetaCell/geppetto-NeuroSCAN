@@ -10,8 +10,8 @@ from ingestion.settings import PROMOTER_DB_APP, PROMOTER_XLS, PROMOTER_SHEET1, \
     PROMOTER_SHEET1_BEGIN_TIMEPOINT_COLUMN, PROMOTER_SHEET1_END_TIMEPOINT_COLUMN, PROMOTER_SHEET1_NEURONS_COLUMN, \
     PROMOTER_SHEET1_STRAIN_INFORMATION_COLUMN, PROMOTER_SHEET1_DETAILED_EXPRESSION_PATTERNS_COLUMN, \
     PROMOTER_SHEET2_NEURON_COLUMN, PROMOTER_SHEET2_REQUIRED_COLUMNS, PROMOTER_FOLDER, PROMOTER_FOLDER_PREFIX, \
-    PROMOTER_EXPECTED_FILES, PROMOTER_SHEET2_NAME_COLUMN, PROMOTER_SHEET2_LOCATION_COLUMN, WORMBASE_PROMOTER_COL, \
-    WORMBASE_ID_COL, WORMBASE_CSV, WORMBASE_PREFIX
+    PROMOTER_EXPECTED_FILES, PROMOTER_SHEET2_LOCATION_COLUMN, WORMBASE_PROMOTER_COL, \
+    WORMBASE_ID_COL, WORMBASE_CSV, WORMBASE_PREFIX, PROMOTER_SHEET1_OTHER_CELLS_COLUMN, PROMOTER_SHEET2_LINEAGE_COLUMN
 
 
 class PromoterDBParser:
@@ -66,7 +66,11 @@ class PromoterDBParser:
             promoter_name = row[PROMOTER_SHEET1_PROMOTER_COLUMN]
             promoter = self._get_promoter(promoter_name, row[PROMOTER_SHEET1_NEURONS_COLUMN],
                                           row[PROMOTER_SHEET1_BEGIN_TIMEPOINT_COLUMN],
-                                          row[PROMOTER_SHEET1_END_TIMEPOINT_COLUMN], [])
+                                          row[PROMOTER_SHEET1_END_TIMEPOINT_COLUMN],
+                                          [],
+                                          row[PROMOTER_SHEET1_OTHER_CELLS_COLUMN],
+                                          row[PROMOTER_SHEET1_STRAIN_INFORMATION_COLUMN],
+                                          row[PROMOTER_SHEET1_DETAILED_EXPRESSION_PATTERNS_COLUMN])
             self.promoters[promoter_name] = promoter
 
     def _parse_sheet2(self, xls, spreadsheet_path):
@@ -98,7 +102,7 @@ class PromoterDBParser:
                         if neuron_name in self.neurons_dict:
                             neurons = self.neurons_dict[neuron_name]
                             for neuron in neurons:
-                                neuron.lineage = row[PROMOTER_SHEET2_NAME_COLUMN]
+                                neuron.lineage = row[PROMOTER_SHEET2_LINEAGE_COLUMN]
                                 neuron.location = row[PROMOTER_SHEET2_LOCATION_COLUMN]
                                 neuron.embryonic = True
                             promoter_neurons.add(neuron_name)
@@ -118,7 +122,8 @@ class PromoterDBParser:
                                 Issue(Severity.WARNING,
                                       f"Promoter '{promoter_name}' found in {PROMOTER_SHEET2} but not in {PROMOTER_SHEET1}.")
                             )
-                            new_promoter = self._get_promoter(promoter_name, None, [neuron_name], None, [])
+                            new_promoter = self._get_promoter(promoter_name, None, [neuron_name], None, [], None, None,
+                                                              None)
                             self.promoters[promoter_name] = new_promoter
 
     def _validate_promoter_folders(self):
@@ -151,7 +156,7 @@ class PromoterDBParser:
                                          f"which is not mentioned in the spreadsheet."))
 
     def _get_promoter(self, name, cellular_expression_pattern, expression_begin, expression_termination,
-                      cells_by_lineaging):
+                      cells_by_lineaging, other_cells, information, expression_patterns):
 
         wormbase_id = self.wormbase_dict.get(name, None)
         wormbase_url = ''
@@ -168,7 +173,9 @@ class PromoterDBParser:
             timePointStart=expression_begin,
             timePointEnd=expression_termination,
             cellsByLineaging=" ".join(cells_by_lineaging),
-            otherCells=''
+            otherCells=other_cells,
+            information=information,
+            expressionPatterns=expression_patterns
         )
 
     def get_issues(self):
