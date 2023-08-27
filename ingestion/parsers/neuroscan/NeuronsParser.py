@@ -25,7 +25,7 @@ class NeuronsParser:
             match = re.match(neuron_pattern, filename)
             if not match:
                 self.issues.append(
-                    Issue(Severity.ERROR, get_mismatch_reason(filename, components, descriptions, self.neurons_path)))
+                    Issue(Severity.WARNING, get_mismatch_reason(filename, components, descriptions, self.neurons_path)))
             else:
                 self.create_neuron(match.group(1), filename)
 
