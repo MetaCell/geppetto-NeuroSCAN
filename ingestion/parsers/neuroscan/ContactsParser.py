@@ -34,7 +34,7 @@ class ContactsParser:
         self.parse_filesystem()
 
     def parse_csv(self) -> bool:
-        df = pd.read_csv(self.spreadsheet_path)
+        df = pd.read_excel(self.spreadsheet_path)
 
         necessary_columns = [CONTACTS_XLS_NEURON_A_COL, CONTACTS_XLS_NEURON_B_COL, CONTACTS_XLS_WEIGHT_COL]
         missing_columns = [col for col in necessary_columns if col not in df.columns]
@@ -59,16 +59,16 @@ class ContactsParser:
         for filename in os.listdir(self.contacts_path):
             match = re.match(contact_file_pattern, filename)
             if not match:
-                self.issues.append(Issue(Severity.ERROR, get_mismatch_reason(filename, components, descriptions)))
+                self.issues.append(Issue(Severity.WARNING, get_mismatch_reason(filename, components, descriptions)))
                 continue
             neuron_a = match.group(1)
             neuron_b = match.group(2)
             if neuron_a not in self.timepoint_context.neurons:
-                self.issues.append(Issue(Severity.ERROR,
+                self.issues.append(Issue(Severity.WARNING,
                                          f"Invalid mention to neuron {neuron_a} in {self.contacts_path}"))
                 continue
             if neuron_b not in self.timepoint_context.neurons:
-                self.issues.append(Issue(Severity.ERROR,
+                self.issues.append(Issue(Severity.WARNING,
                                          f"Invalid mention to neuron {neuron_b} in {self.contacts_path}"))
                 continue
 
@@ -76,7 +76,7 @@ class ContactsParser:
             if name in self.contact_info_from_spreadsheet:
                 self.create_contact(neuron_a, neuron_b, self.contact_info_from_spreadsheet[name], filename)
             else:
-                self.issues.append(Issue(Severity.ERROR,
+                self.issues.append(Issue(Severity.WARNING,
                                          f"Contact {name} in {filename} not found in {CONTACTS_XLS}"))
 
     def create_contact(self, neuron_a: str, neuron_b: str, weight: int, filename: str):
