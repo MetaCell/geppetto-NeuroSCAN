@@ -64,6 +64,7 @@ const getWidget = (store, viewerId, viewerType) => {
       name: `${viewerType} ${viewerNumber} (${devStage.name} ${timePoint})`,
       type: viewerType,
       timePoint,
+      highlightSearchedInstances: viewerType === VIEWERS.CphateViewer,
     };
   }
   return {

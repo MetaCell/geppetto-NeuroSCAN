@@ -116,3 +116,10 @@ export const MAIL_CONTACT_BODY = '';
 
 export const CANVAS_STARTED = 'STARTED';
 export const CANVAS_FINISHED = 'FINISHED';
+
+export const GREY_OUT_MESH_COLOR = {
+  r: 128 / 255,
+  g: 128 / 255,
+  b: 128 / 255,
+  a: 0.5,
+};

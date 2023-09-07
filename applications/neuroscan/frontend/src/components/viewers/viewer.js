@@ -1,12 +1,25 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable import/no-cycle */
 import React, { forwardRef, useRef, useState } from 'react';
+import { connect } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
 import { withStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
 import {
   setSelectedInstances,
 } from '../../services/instanceHelpers';
+import { GREY_OUT_MESH_COLOR } from '../../utilities/constants';
+
+function shouldApplyGreyOut(instance, highlightSearchedInstances, searchTerms) {
+  if (instance.color || !highlightSearchedInstances || searchTerms.length === 0) {
+    return false;
+  }
+
+  const isInstanceSearched = searchTerms
+    .some((term) => instance.name.toLowerCase().includes(term.toLowerCase()));
+
+  return !isInstanceSearched;
+}
 
 const styles = () => ({
   canvasContainer: {
@@ -121,11 +134,22 @@ class Viewer extends React.Component {
   initCanvasData() {
     const {
       instances,
+      highlightSearchedInstances,
+      searchTerms,
     } = this.props;
-    return (instances.filter((instance) => !instance.hidden).map((instance) => ({
-      instancePath: instance.uid,
-      color: instance.color,
-    })));
+
+    return instances.filter((instance) => !instance.hidden).map((instance) => {
+      let { color } = instance;
+
+      if (shouldApplyGreyOut(instance, highlightSearchedInstances, searchTerms)) {
+        color = GREY_OUT_MESH_COLOR;
+      }
+
+      return {
+        instancePath: instance.uid,
+        color,
+      };
+    });
   }
 
   render() {
@@ -137,6 +161,7 @@ class Viewer extends React.Component {
       backgroundColor,
       loadingStarted,
       loadingFinished,
+      highlightSearchedInstances,
     } = this.props;
 
     const canvasData = this.initCanvasData();
@@ -165,4 +190,8 @@ class Viewer extends React.Component {
   }
 }
 
-export default withStyles(styles)(Viewer);
+const mapStateToProps = (state) => ({
+  searchTerms: state.search.filters.searchTerms,
+});
+
+export default connect(mapStateToProps)(withStyles(styles)(Viewer));
