@@ -166,7 +166,7 @@ class PromoterDBParser:
             self.issues.append(Issue(Severity.WARNING, f"No wormbase url found for {name}"))
 
         return Promoter(
-            uid=name,
+            uid=clean_uid(name),
             metadata='',
             wormbase=wormbase_url,
             cellularExpressionPattern=cellular_expression_pattern,
@@ -201,3 +201,6 @@ def load_wormbase_data():
     wormbase_dict = {row[WORMBASE_PROMOTER_COL]: row[WORMBASE_ID_COL] for _, row in df.iterrows()}
 
     return wormbase_dict
+
+def clean_uid(uid):
+    return uid.replace(' ', '_').replace('(', '_').replace(')', '_')
