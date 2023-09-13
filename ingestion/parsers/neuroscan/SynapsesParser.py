@@ -5,7 +5,7 @@ from typing import List
 from ingestion.parsers.models import TimepointContext, Issue, Severity, Synapse
 from ingestion.parsers.regex import get_synapse_regex_components, \
     get_mismatch_reason
-from ingestion.settings import SYNAPSE_PRE_POSITION_TYPE, SYNAPSE_POST_POSITION_TYPE
+from ingestion.settings import SYNAPSE_POST_POSITION_TYPE
 
 
 class SynapsesParser:
@@ -45,30 +45,27 @@ class SynapsesParser:
                                          f"{source_neuron} in {filename}"))
                 continue
 
-            are_dest_neuron_valid = True
             for dest_neuron in dest_neurons:
                 if dest_neuron not in self.timepoint_context.neurons:
                     self.issues.append(Issue(Severity.WARNING,
                                              f"Invalid destination neuron name {dest_neuron}"
                                              f" in synapse filename: {filename}"))
-                    are_dest_neuron_valid = False
 
-            if are_dest_neuron_valid:
-                post_neuron = None
-                if position.lower() == SYNAPSE_POST_POSITION_TYPE.lower():
-                    try:
-                        neuron_site = int(file_match.group(7))
-                    except ValueError:
-                        self.issues.append(
-                            Issue(Severity.WARNING, f"Neuron site: {neuron_site} is not a number"))
+            post_neuron = None
+            if position.lower() == SYNAPSE_POST_POSITION_TYPE.lower():
+                try:
+                    neuron_site = int(file_match.group(7))
+                except ValueError:
+                    self.issues.append(
+                        Issue(Severity.WARNING, f"Neuron site: {neuron_site} is not a number"))
 
-                    if neuron_site and len(dest_neurons) >= neuron_site > 0:
-                        post_neuron = dest_neurons[neuron_site - 1]
-                    else:
-                        self.issues.append(Issue(Severity.WARNING, f"Invalid neuron site: {neuron_site}"))
+                if neuron_site and len(dest_neurons) >= neuron_site > 0:
+                    post_neuron = dest_neurons[neuron_site - 1]
+                else:
+                    self.issues.append(Issue(Severity.WARNING, f"Invalid neuron site: {neuron_site}"))
 
-                self.create_synapse(source_neuron, dest_neurons, post_neuron,
-                                    connection_type, section, position, neuron_site, filename)
+            self.create_synapse(source_neuron, dest_neurons, post_neuron,
+                                connection_type, section, position, neuron_site, filename)
 
     def create_synapse(self, neuron_pre: str, neurons_post: List[str], post_neuron: str, connection_type: str,
                        section: str, position: str, neuron_site: str, filename: str = None):
