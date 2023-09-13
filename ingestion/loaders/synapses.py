@@ -6,8 +6,8 @@ from ingestion.loaders.utils import getNeuron, getContact, getSynapse
 from ingestion.loaders.constants import CSV_ROOT, DB
 
 
-def load_synapses(data_dir=CSV_ROOT):
-    con = sqlite3.connect(DB)
+def load_synapses(db_path=DB, data_dir=CSV_ROOT):
+    con = sqlite3.connect(db_path)
     cur = con.cursor()
 
     with con:
@@ -23,13 +23,11 @@ def load_synapses(data_dir=CSV_ROOT):
                     timepoint_index = row.index("timepoint")
                     uid_index = row.index("uid")
                 else:
-
                     timepoint = row[timepoint_index]
+                    uid = row[uid_index]
                     # save neuroPost and remove it from row
                     neuronPost = json.loads(row[neuronPost_index])
                     row.pop(neuronPost_index)
-                    if uid_index > neuronPost_index:
-                        uid_index -= 1
                     # substitute relations to neurons
                     i = 0
                     for field in fields:
@@ -42,7 +40,7 @@ def load_synapses(data_dir=CSV_ROOT):
                                 row[i] = None
                         i += 1
 
-                    synapse = getSynapse(cur, row[uid_index], timepoint)
+                    synapse = getSynapse(cur, uid, timepoint)
                     if not synapse:
                         # new
                         q = f"""
@@ -77,7 +75,7 @@ def load_synapses(data_dir=CSV_ROOT):
                         cur.execute(q, v + wherevalues)
 
                     # process the post neurons and link them to the synapse
-                    synapse = getSynapse(cur, row[uid_index], timepoint)
+                    synapse = getSynapse(cur, uid, timepoint)
                     q = f"delete from synapses__neuron_post where synapse_id=?"
                     cur.execute(q, [synapse[0]])
                     if neuronPost:
