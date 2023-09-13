@@ -5,8 +5,8 @@ from ingestion.loaders.utils import getNeuron
 from ingestion.loaders.constants import CSV_ROOT, DB
 
 
-def load_neurons(data_dir=CSV_ROOT):
-    con = sqlite3.connect(DB)
+def load_neurons(db_path=DB, data_dir=CSV_ROOT):
+    con = sqlite3.connect(db_path)
     cur = con.cursor()
 
     with con:

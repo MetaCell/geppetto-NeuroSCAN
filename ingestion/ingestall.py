@@ -4,6 +4,7 @@ import shutil
 import subprocess
 import zipfile
 
+from ingestion.loaders.constants import DB, CSV_ROOT
 from ingestion.loaders.contacts import load_contacts
 from ingestion.loaders.cphate import load_cphate
 from ingestion.loaders.neurons import load_neurons
@@ -17,7 +18,7 @@ from ingestion.settings import NEUROSCAN_APP, GENERAL_ERRORS, PROMOTER_DB_APP, C
 from utils import log_issues_to_file, has_error_issues
 
 
-def main(root_dir, dry_run=False, transform=False, output_dir="./output"):
+def main(root_dir, dry_run=False, transform=False, output_dir=CSV_ROOT, db_path=DB):
     clean(output_dir)
 
     issues = {
@@ -64,7 +65,7 @@ def main(root_dir, dry_run=False, transform=False, output_dir="./output"):
         transform_avi_to_mp4(os.path.join(root_dir, PROMOTER_DB_APP))
 
     if not dry_run:
-        load_data(output_dir, neuroscan_parser.get_all_timepoints())
+        load_data(db_path, output_dir, neuroscan_parser.get_all_timepoints())
 
 
 def clean(output_dir="output"):
@@ -100,23 +101,25 @@ def zip_cphates(root_directory):
                         print(f"Created zip archive for timepoint {timepoint} in {dev_stage}: {zip_filename}")
 
 
-def load_data(data_dir, all_timepoints=None):
+def load_data(db_path, data_dir, all_timepoints=None):
     for timepoint in all_timepoints:
-        load_cphate(timepoint, data_dir)
-    load_neurons(data_dir)
-    load_contacts(data_dir)
-    load_synapses(data_dir)
-    load_promoters(data_dir)
+        load_cphate(timepoint, db_path, data_dir)
+    load_neurons(db_path, data_dir)
+    load_contacts(db_path, data_dir)
+    load_synapses(db_path, data_dir)
+    load_promoters(db_path, data_dir)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Script to process datasets.")
     parser.add_argument('--root-dir', type=str, required=True, help="Path of the files to ingest")
-    parser.add_argument("--dry-run", action="store_true", help="If set, data ingestion will not occur.")
-    parser.add_argument("--transform", action="store_true", help="If set, data ingestion will not occur.")
-    parser.add_argument("--output-dir", type=str, default='./output',
+    parser.add_argument("--dry-run", action="store_true", help="If set, data ingestion will not occur")
+    parser.add_argument("--transform", action="store_true", help="If set the cphates will be zipped and avi files converted to mp4")
+    parser.add_argument("--output-dir", type=str, default=CSV_ROOT,
                         help="Directory to store output files. Defaults to 'output'.")
+    parser.add_argument("--db-path", type=str, default=DB,
+                        help="Path to the sqlite database file to ingest into")
 
     args = parser.parse_args()
 
-    main(args.root_dir, args.dry_run, args.transform, args.output_dir)
+    main(args.root_dir, args.dry_run, args.transform, args.output_dir, args.db_path)
