@@ -36,7 +36,7 @@ class SynapsesParser:
             connection_type = file_match.group(2)
             dest_neurons = file_match.group(3).split("_")
             section = file_match.group(4)
-            position = file_match.group(6)
+            position = file_match.group(5)
             neuron_site = ''
 
             if source_neuron not in self.timepoint_context.neurons:
@@ -54,7 +54,7 @@ class SynapsesParser:
             post_neuron = None
             if position.lower() == SYNAPSE_POST_POSITION_TYPE.lower():
                 try:
-                    neuron_site = int(file_match.group(7))
+                    neuron_site = int(file_match.group(6))
                 except ValueError:
                     self.issues.append(
                         Issue(Severity.WARNING, f"Neuron site: {neuron_site} is not a number"))

@@ -8,7 +8,7 @@ SYNAPSE_CONNECTION_TYPE_REG_GROUP = "(chemical|electrical|undefined)"
 NEURON_COMBINED_NAME_GROUP = r"([\w\s-]+(?:_[\w-]+)*)"
 SYNAPSE_SECTION_REG_GROUP = r"-([A-Za-z])"
 SYNAPSE_POSITION_TYPE_REG_GROUP = f"_({SYNAPSE_PRE_POSITION_TYPE}|{SYNAPSE_POST_POSITION_TYPE})"
-SYNAPSE_NEURON_SITE_GROUP = r"(\d*)"
+SYNAPSE_NEURON_SITE_GROUP = r"(?<=post)(\d*)?"
 
 
 def get_neuron_regex_components():
