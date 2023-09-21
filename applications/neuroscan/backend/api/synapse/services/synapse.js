@@ -70,7 +70,6 @@ const searchSynapseByTerms = (
 
 module.exports = {
   async find(params, populate) {
-    console.log(params);
     const where = params._where || [];
     const searchTerms = where.find(t => 'searchTerms' in t);
     if (!searchTerms) {
