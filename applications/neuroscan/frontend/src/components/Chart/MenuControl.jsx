@@ -19,6 +19,7 @@ import {
   getInstancesByGroups,
 } from '../../services/instanceHelpers';
 import { updateTimePointViewer } from '../../redux/actions/widget';
+import WarningModal from '../WarningModal';
 
 const MenuControl = ({
   anchorEl, handleClose, open, id, selection, viewerId,
@@ -29,6 +30,10 @@ const MenuControl = ({
 
   const [content, setContent] = useState(null);
   const [timePoint, setTimePoint] = useState(currentWidget?.config?.timePoint || 0);
+
+  const [openWarningModal, setOpenWarningModal] = useState(false);
+  const [instancesBeforeDispatch, setInstancesBeforeDispatch] = useState(null);
+  const [lostInstances, setLostInstances] = useState([]);
 
   const layersList = ['Worm Body', 'Pharynx', 'NerveRing'];
   const downloadFiles = (option) => {
@@ -46,10 +51,23 @@ const MenuControl = ({
   const clusters = getInstancesOfType(instances, CPHATE_TYPE) || [];
 
   useEffect(() => {
+    setInstancesBeforeDispatch(currentWidget);
     if (currentWidget && timePoint !== currentWidget?.timePoint) {
       dispatch(updateTimePointViewer(viewerId, timePoint));
     }
-  }, [timePoint]);
+  }, [timePoint, currentWidget, dispatch, viewerId]);
+
+  useEffect(() => {
+    if (instancesBeforeDispatch && currentWidget && timePoint !== currentWidget?.timePoint) {
+      const instancesBeforeUpdate = instancesBeforeDispatch.config.instances;
+      const lostInstancesArray = instancesBeforeUpdate.filter((item1) => !instances
+        .some((item2) => item2.name === item1.name));
+      if (lostInstancesArray?.length !== 0) {
+        setOpenWarningModal(true);
+        setLostInstances(lostInstancesArray);
+      }
+    }
+  }, [timePoint, currentWidget]);
 
   useEffect(() => {
     switch (selection) {
@@ -81,23 +99,36 @@ const MenuControl = ({
   }, [selection, instances]);
 
   return (
-    <Popover
-      id={id}
-      className="custom-popover"
-      open={open}
-      anchorEl={anchorEl}
-      onClose={handleClose}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'left',
-      }}
-    >
-      { content }
-    </Popover>
+    <>
+      <Popover
+        id={id}
+        className="custom-popover"
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        { content }
+      </Popover>
+      {
+        openWarningModal && (
+        <WarningModal
+          open={openWarningModal}
+          handleClose={() => setOpenWarningModal(false)}
+          instances={lostInstances}
+        />
+        )
+      }
+
+    </>
+
   );
 };
 
