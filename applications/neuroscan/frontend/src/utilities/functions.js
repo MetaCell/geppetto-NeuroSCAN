@@ -73,6 +73,7 @@ export const addToWidget = (
           props: {
             widgetName: widget.name,
             viewerId: newViewerId,
+            hasHighlight: widget.type === VIEWERS.CphateViewer,
           },
         },
         recorderOptions: {
