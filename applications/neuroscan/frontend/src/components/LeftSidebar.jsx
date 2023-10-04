@@ -164,7 +164,7 @@ const LeftSidebar = (props) => {
                     setTimePoint={setTimePoint}
                   />
 
-                  <Results />
+                  <Results timePoint={timePoint} />
 
                   <CPhasePlot timePoint={timePoint} />
                 </AccordionDetails>
