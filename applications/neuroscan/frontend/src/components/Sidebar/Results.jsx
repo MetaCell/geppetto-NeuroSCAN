@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import CircularLoader from '../Common/Loader';
 import AddToViewerMenu from './AddToViewerMenu';
 import SearchResult from '../Common/SearchResult';
@@ -29,15 +29,9 @@ const list = [
   },
 ];
 
-const initialSelectedItems = {
-  neurons: [],
-  contacts: [],
-  synapses: [],
-};
-const Results = ({ timePoint }) => {
+const Results = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [currentItem, setCurrentItem] = React.useState(null);
-  const [selectedItems, setSelectedItems] = useState(initialSelectedItems);
   const dispatch = useDispatch();
 
   const searchesCount = useSelector((state) => state.search.searchesCount);
@@ -53,59 +47,29 @@ const Results = ({ timePoint }) => {
   };
 
   const handleAddToViewer = (viewerId = null) => {
-    if (currentItem) {
-      const instances = [mapToInstance(currentItem)];
-      dispatch(addInstances(viewerId, instances, VIEWERS.InstanceViewer));
-    } else if (Object.values(selectedItems).some((array) => array.length > 0)) {
-      const itemsArray = Object.values(selectedItems).flat();
-      const instances = itemsArray.map((item) => mapToInstance(item));
-      dispatch(addInstances(viewerId, instances, VIEWERS.InstanceViewer));
-    }
+    const instances = [mapToInstance(currentItem)];
+    dispatch(addInstances(viewerId, instances, VIEWERS.InstanceViewer));
     handleClose();
   };
-
-  let buttonComponent = null;
-
-  if (searchesCount > 0) {
-    buttonComponent = <CircularLoader />;
-  } else if (Object.values(selectedItems).some((array) => array.length > 0)) {
-    buttonComponent = (
-      <Button
-        disableElevation
-        aria-haspopup="true"
-        color="primary"
-        variant="contained"
-        onClick={(e) => handleClick(e, null)}
-      >
-        Add Selected
-      </Button>
-    );
-  }
-
-  useEffect(() => {
-    setSelectedItems(initialSelectedItems);
-  }, [timePoint]);
 
   return (
     <Box className="wrap">
       <Typography component="h3">
         Results
-        { buttonComponent }
+        { searchesCount > 0 ? <CircularLoader /> : null }
       </Typography>
       {
-          list.map((record, index) => (
-            <SearchResult
-              key={`results-${index}`}
-              title={record?.title}
-              resultItem={record?.resultItem}
-              image={record?.image}
-              service={record?.service}
-              handleClick={handleClick}
-              selectedItems={selectedItems}
-              setSelectedItems={setSelectedItems}
-            />
-          ))
-        }
+        list.map((record, index) => (
+          <SearchResult
+            key={`results-${index}`}
+            title={record?.title}
+            resultItem={record?.resultItem}
+            image={record?.image}
+            service={record?.service}
+            handleClick={handleClick}
+          />
+        ))
+      }
       <AddToViewerMenu
         handleClose={handleClose}
         handleAddToViewer={handleAddToViewer}
