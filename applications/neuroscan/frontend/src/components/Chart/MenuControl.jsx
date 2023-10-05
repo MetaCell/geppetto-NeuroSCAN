@@ -40,10 +40,10 @@ const MenuControl = ({
     handleClose();
   };
   let instances = [];
-  let addedWidgetsToViewer = [];
+  let addedObjectsToViewer = [];
   if (currentWidget) {
     instances = currentWidget.config.instances;
-    addedWidgetsToViewer = currentWidget.config.addedWidgetsToViewer;
+    addedObjectsToViewer = currentWidget.config.addedObjectsToViewer;
   }
   const groups = getInstancesByGroups(instances);
   const neurons = getInstancesOfType(instances, NEURON_TYPE) || [];
@@ -59,11 +59,11 @@ const MenuControl = ({
 
   useEffect(() => {
     if (currentWidget && timePoint !== currentWidget?.timePoint) {
-      const lostInstancesArray = addedWidgetsToViewer?.filter((item1) => !instances
+      const lostInstancesArray = addedObjectsToViewer?.filter((item1) => !instances
         .some((item2) => item2.name === item1.name));
       setLostInstances(lostInstancesArray);
     }
-  }, [timePoint, addedWidgetsToViewer, instances]);
+  }, [timePoint, addedObjectsToViewer, instances]);
 
   useEffect(() => {
     if (currentWidget && timePoint !== currentWidget?.timePoint && lostInstances.length !== 0) {
