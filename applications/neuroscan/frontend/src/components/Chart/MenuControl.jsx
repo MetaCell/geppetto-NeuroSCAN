@@ -32,7 +32,6 @@ const MenuControl = ({
   const [timePoint, setTimePoint] = useState(currentWidget?.config?.timePoint || 0);
 
   const [openWarningModal, setOpenWarningModal] = useState(false);
-  const [instancesBeforeDispatch, setInstancesBeforeDispatch] = useState(null);
   const [lostInstances, setLostInstances] = useState([]);
 
   const layersList = ['Worm Body', 'Pharynx', 'NerveRing'];
@@ -41,8 +40,10 @@ const MenuControl = ({
     handleClose();
   };
   let instances = [];
+  let addedWidgetsToViewer = [];
   if (currentWidget) {
     instances = currentWidget.config.instances;
+    addedWidgetsToViewer = currentWidget.config.addedWidgetsToViewer;
   }
   const groups = getInstancesByGroups(instances);
   const neurons = getInstancesOfType(instances, NEURON_TYPE) || [];
@@ -51,23 +52,29 @@ const MenuControl = ({
   const clusters = getInstancesOfType(instances, CPHATE_TYPE) || [];
 
   useEffect(() => {
-    setInstancesBeforeDispatch(currentWidget);
     if (currentWidget && timePoint !== currentWidget?.timePoint) {
       dispatch(updateTimePointViewer(viewerId, timePoint));
     }
-  }, [timePoint, currentWidget, dispatch, viewerId]);
+  }, [timePoint]);
 
   useEffect(() => {
-    if (instancesBeforeDispatch && currentWidget && timePoint !== currentWidget?.timePoint) {
-      const instancesBeforeUpdate = instancesBeforeDispatch.config.instances;
-      const lostInstancesArray = instancesBeforeUpdate.filter((item1) => !instances
+    if (currentWidget && timePoint !== currentWidget?.timePoint) {
+      const lostInstancesArray = addedWidgetsToViewer?.filter((item1) => !instances
         .some((item2) => item2.name === item1.name));
-      if (lostInstancesArray?.length !== 0) {
-        setOpenWarningModal(true);
-        setLostInstances(lostInstancesArray);
-      }
+      setLostInstances(lostInstancesArray);
     }
-  }, [timePoint, currentWidget]);
+  }, [timePoint, addedWidgetsToViewer, instances]);
+
+  useEffect(() => {
+    if (currentWidget && timePoint !== currentWidget?.timePoint && lostInstances.length !== 0) {
+      const delay = setTimeout(() => {
+        setOpenWarningModal(true);
+        clearTimeout(delay);
+      }, 1000);
+    } else {
+      setOpenWarningModal(false);
+    }
+  }, [lostInstances]);
 
   useEffect(() => {
     switch (selection) {
@@ -118,13 +125,13 @@ const MenuControl = ({
         { content }
       </Popover>
       {
-        openWarningModal && (
-        <WarningModal
-          open={openWarningModal}
-          handleClose={() => setOpenWarningModal(false)}
-          instances={lostInstances}
-        />
-        )
+          lostInstances?.length !== 0 && openWarningModal && (
+          <WarningModal
+            open={openWarningModal}
+            handleClose={() => setOpenWarningModal(false)}
+            instances={lostInstances}
+          />
+          )
       }
 
     </>

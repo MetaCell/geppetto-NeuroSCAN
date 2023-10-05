@@ -45,6 +45,7 @@ export const addToWidget = (
   widget = null,
   instances,
   cleanInstances = false,
+  addedWidgetsToViewer = [],
 ) => {
   if (widget.id === null) {
     const newViewerId = uuidv4();
@@ -103,6 +104,7 @@ export const addToWidget = (
       colorPickerColor: null,
       highlightSearchedInstances: widget.highlightSearchedInstances,
       instances,
+      addedWidgetsToViewer,
     };
     return addWidget(widgetFromViewerSpec(newWidget));
   }
@@ -112,6 +114,7 @@ export const addToWidget = (
     config: {
       ...widget.config,
       instances: cleanInstances ? instances : widget.config.instances.concat(instances),
+      addedWidgetsToViewer,
     },
   };
   return updateWidget(newWidget);
