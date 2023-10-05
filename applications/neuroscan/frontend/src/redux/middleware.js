@@ -190,12 +190,16 @@ const middleware = (store) => (next) => (action) => {
           const neurons = getInstancesOfType(addedWidgetsToViewer, NEURON_TYPE) || ['-1'];
           const contacts = getInstancesOfType(addedWidgetsToViewer, CONTACT_TYPE) || ['-1'];
           const synapses = getInstancesOfType(addedWidgetsToViewer, SYNAPSE_TYPE) || ['-1'];
+
           neuronService.getByUID(timePoint, neurons.map((n) => n.uidFromDb))
             .then((newNeurons) => {
+              console.log('newNeurons', newNeurons);
               contactService.getByUID(timePoint, contacts.map((n) => n.uidFromDb))
                 .then((newContacts) => {
+                  console.log('newContacts', newContacts);
                   synapseService.getByUID(timePoint, synapses.map((n) => n.uidFromDb))
                     .then((newSynapses) => {
+                      console.log('newSynapses', newSynapses);
                       const newInstances = newNeurons.concat(newContacts.concat(newSynapses))
                         .map((i) => mapToInstance(i));
                       widget.config.timePoint = timePoint; // update the current widget's timepoint
