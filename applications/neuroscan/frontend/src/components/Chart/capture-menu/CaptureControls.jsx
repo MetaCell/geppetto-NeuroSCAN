@@ -161,7 +161,7 @@ const CaptureControls = (props) => {
               />
             </IconButton>
           </Tooltip>
-          {!hasHighlight && (
+          {hasHighlight && (
             <Tooltip title="Highlight" placement="top">
               <IconButton
                 disableRipple
@@ -219,6 +219,7 @@ const CaptureControls = (props) => {
         open={highlightPopoverOpen}
         anchorEl={highlightRef.current}
         onClose={handleHighlightClose}
+        viewerId={viewerId}
       />
 
       <RecordControlModal

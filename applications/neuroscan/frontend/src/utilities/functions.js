@@ -102,8 +102,8 @@ export const addToWidget = (
       rotate: cameraControlsRotateState.STOP,
       backgroundColor: CANVAS_BACKGROUND_COLOR_DARK,
       colorPickerColor: null,
-      highlightSearchedInstances: widget.highlightSearchedInstances,
       instances,
+      highlightedInstances: [],
     };
     return addWidget(widgetFromViewerSpec(newWidget));
   }

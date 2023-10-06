@@ -1,22 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Popover, Box, Typography } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 import SearchBar from '../../../SearchBar';
 import GroupedResults from './GroupedResults';
 
-const HighlightPopover = ({ open, anchorEl, onClose }) => {
-  // State for search terms
+const extractInstanceNames = (name) => name.split(/[ ,]/)
+  .filter((str) => str && !str.startsWith('(') && !str.endsWith(')'))
+  .map((str) => str.trim());
+
+const anchorOriginProps = {
+  vertical: 'bottom',
+  horizontal: 'center',
+};
+
+const transformOriginProps = {
+  vertical: 'top',
+  horizontal: 'left',
+};
+
+const HighlightPopover = ({
+  open, anchorEl, onClose, viewerId,
+}) => {
+  const viewerData = useSelector((state) => state.widgets[viewerId]);
+  const instanceNames = (viewerData?.config?.instances || [])
+    .flatMap((instance) => extractInstanceNames(instance.name));
+  const instanceNamesSet = new Set(instanceNames);
+
   const [searchTerms, setSearchTerms] = useState([]);
 
-  // Method to add a new search term
+  // Memoized variables
+  const allNames = useMemo(() => Array.from(instanceNamesSet), [instanceNamesSet]);
+
+  const options = useMemo(() => {
+    if (searchTerms.length === 0) return allNames;
+
+    return allNames.filter((name) => searchTerms
+      .some((term) => name.toUpperCase().includes(term.toUpperCase())));
+  }, [allNames, searchTerms]);
+
   const addSearchTerm = (term) => {
-    if (!searchTerms.includes(term)) {
-      setSearchTerms((prevTerms) => [...prevTerms, term]);
+    if (!searchTerms.includes(term.toUpperCase())) {
+      setSearchTerms((prevTerms) => [...prevTerms, term.toUpperCase()]);
     }
   };
 
-  // Method to remove a search term
   const removeSearchTerm = (term) => {
-    setSearchTerms((prevTerms) => prevTerms.filter((t) => t !== term));
+    setSearchTerms((prevTerms) => prevTerms.filter((t) => t !== term.toUpperCase()));
   };
 
   return (
@@ -24,14 +53,8 @@ const HighlightPopover = ({ open, anchorEl, onClose }) => {
       open={open}
       anchorEl={anchorEl}
       onClose={onClose}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'left',
-      }}
+      anchorOrigin={anchorOriginProps}
+      transformOrigin={transformOriginProps}
     >
       <Box p={2}>
         <Typography variant="h6">Highlight Neurons</Typography>
@@ -42,7 +65,7 @@ const HighlightPopover = ({ open, anchorEl, onClose }) => {
         addSearchTerm={addSearchTerm}
         removeSearchTerm={removeSearchTerm}
       />
-      <GroupedResults />
+      <GroupedResults viewerId={viewerId} options={options} />
     </Popover>
   );
 };

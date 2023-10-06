@@ -13,7 +13,7 @@ import {
   ROTATE_STOP_ALL,
   updateWidgetConfig,
   INVERT_COLORS_FLASHING,
-  SET_ORIGINAL_COLORS_FLASHING,
+  SET_ORIGINAL_COLORS_FLASHING, TOGGLE_INSTANCE_HIGHLIGHT,
 } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
 import neuronService from '../services/NeuronService';
@@ -64,7 +64,6 @@ const getWidget = (store, viewerId, viewerType) => {
       name: `${viewerType} ${viewerNumber} (${devStage.name} ${timePoint})`,
       type: viewerType,
       timePoint,
-      highlightSearchedInstances: viewerType === VIEWERS.CphateViewer,
     };
   }
   return {
@@ -263,6 +262,21 @@ const middleware = (store) => (next) => (action) => {
             rotate: newRotateState,
           }));
         });
+      break;
+    }
+
+    case TOGGLE_INSTANCE_HIGHLIGHT: {
+      const { viewerId, optionName } = action.payload;
+      const state = store.getState();
+      const currentHighlighted = state.widgets[viewerId]?.config?.highlightedInstances || [];
+      const isCurrentlyHighlighted = currentHighlighted.includes(optionName);
+      const updatedHighlighted = isCurrentlyHighlighted
+        ? currentHighlighted.filter((name) => name !== optionName)
+        : [...currentHighlighted, optionName];
+      store.dispatch(updateWidgetConfig(viewerId, {
+        ...state.widgets[viewerId].config,
+        highlightedInstances: updatedHighlighted,
+      }));
       break;
     }
 
