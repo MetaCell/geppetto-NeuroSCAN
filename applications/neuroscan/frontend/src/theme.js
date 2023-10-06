@@ -1825,6 +1825,15 @@ const theme = createTheme({
         padding: '0 !important',
       },
     },
+    MuiSvgIcon: {
+      root: {
+        fontSize: '1rem',
+      },
+
+      fontSizeSmall: {
+        fontSize: '.5rem',
+      },
+    },
   },
 });
 
