@@ -7,8 +7,7 @@ NEURON_NAME_REG_GROUP = r"([\w\s-]+)"
 SYNAPSE_CONNECTION_TYPE_REG_GROUP = "(chemical|electrical|undefined)"
 NEURON_COMBINED_NAME_GROUP = r"([\w\s-]+(?:_[\w-]+)*)"
 SYNAPSE_SECTION_REG_GROUP = r"-([A-Za-z])"
-SYNAPSE_POSITION_TYPE_REG_GROUP = f"_({SYNAPSE_PRE_POSITION_TYPE}|{SYNAPSE_POST_POSITION_TYPE})"
-SYNAPSE_NEURON_SITE_GROUP = r"(?<=post)(\d*)?"
+SYNAPSE_POSITION_TYPE_REG_GROUP = f"_({SYNAPSE_PRE_POSITION_TYPE}|{SYNAPSE_POST_POSITION_TYPE}(\d+))"
 
 
 def get_neuron_regex_components():
@@ -36,7 +35,6 @@ def get_synapse_regex_components():
         NEURON_COMBINED_NAME_GROUP,
         SYNAPSE_SECTION_REG_GROUP,
         SYNAPSE_POSITION_TYPE_REG_GROUP,
-        SYNAPSE_NEURON_SITE_GROUP,
         fr"\.{MESH_FILE_TYPE_REG_GROUP}$"
     ]
 
@@ -48,7 +46,6 @@ def get_synapse_regex_components():
         "destination neurons pattern",
         "synapse section pattern",
         "synapse positioning pattern",
-        "synapse neuron site pattern",
         "filetype pattern"
     ]
     return ''.join(components), components, descriptions

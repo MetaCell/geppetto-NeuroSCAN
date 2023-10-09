@@ -52,9 +52,9 @@ class SynapsesParser:
                                              f" in synapse filename: {filename}"))
 
             post_neuron = None
-            if position.lower() == SYNAPSE_POST_POSITION_TYPE.lower():
+            if SYNAPSE_POST_POSITION_TYPE.lower() in position.lower():
                 try:
-                    neuron_site = int(file_match.group(6))
+                    neuron_site = int(re.search(r"(\d+)", position).group(1))
                 except ValueError:
                     self.issues.append(
                         Issue(Severity.WARNING, f"Neuron site: {neuron_site} is not a number"))
