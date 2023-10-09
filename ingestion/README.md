@@ -35,18 +35,16 @@ The `ingestall.py` script is designed to parse and process datasets and load dat
 
 ## Dataset Validation
 
-1. Install the necessary packages:
+1. Go back to the root directory and install the necessary packages:
 
  ```
-pip install -r requirements.txt
+cd ..
+pip install -e .
 ```
 
-2. Make sure python knows where to look up for the modules:
-```
-export PYTHONPATH=$PYTHONPATH:/path/to/geppetto-NeuroSCAN
-```
 2. Run the ingestall script with the appropriate arguments:
 
 ```
+cd ingestion
 python ingestall.py --root-dir /path/to/dataset --dry-run --output-dir /path/to/output 
 ```
