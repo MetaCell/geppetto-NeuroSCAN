@@ -1,4 +1,5 @@
 import argparse
+import logging
 import os
 import shutil
 import subprocess
@@ -17,8 +18,12 @@ from ingestion.parsers.promoterdb.PromoterDBParser import PromoterDBParser
 from ingestion.settings import NEUROSCAN_APP, GENERAL_ERRORS, PROMOTER_DB_APP, CPHATE_FOLDER
 from utils import log_issues_to_file, has_error_issues
 
+# Initialize logging
+logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s: %(message)s')
+
 
 def main(root_dir, dry_run=False, transform=False, output_dir=CSV_ROOT, db_path=DB):
+    logging.info("Starting the main process...")
     clean(output_dir)
 
     issues = {
@@ -31,30 +36,35 @@ def main(root_dir, dry_run=False, transform=False, output_dir=CSV_ROOT, db_path=
     neurons = {}
 
     try:
+        logging.info("Initializing NeuroScanParser...")
         neuroscan_parser = NeuroScanParser(root_dir)
     except FileNotFoundError:
         issues[GENERAL_ERRORS].append(Issue(Severity.ERROR, f"{NEUROSCAN_APP} folder not found"))
+        logging.error(f"{NEUROSCAN_APP} folder not found")
 
     if neuroscan_parser:
+        logging.info("Parsing neuroscan...")
         neuroscan_parser.parse()
         issues[NEUROSCAN_APP] = neuroscan_parser.get_issues()
         neurons = neuroscan_parser.get_all_neurons()
 
     promoter_db_parser = None
     try:
+        logging.info("Initializing PromoterDBParser...")
         promoter_db_parser = PromoterDBParser(root_dir, neurons)
     except FileNotFoundError:
         issues[GENERAL_ERRORS].append(Issue(Severity.ERROR, f"{PROMOTER_DB_APP} folder not found"))
+        logging.error(f"{PROMOTER_DB_APP} folder not found")
 
     if promoter_db_parser:
+        logging.info("Parsing promoterdb...")
         promoter_db_parser.parse()
         issues[PROMOTER_DB_APP] = promoter_db_parser.get_issues()
 
     log_issues_to_file(issues, os.path.join(output_dir, "issues.log"))
 
     if has_error_issues(issues):
-        print(f"Critical errors found during validation."
-              f"See {output_dir}/issues.log for details")
+        logging.error(f"Critical errors found during validation. See {output_dir}/issues.log for details")
         return
 
     data_exporter = DataExporter(neuroscan_parser, promoter_db_parser)
@@ -66,6 +76,8 @@ def main(root_dir, dry_run=False, transform=False, output_dir=CSV_ROOT, db_path=
 
     if not dry_run:
         load_data(db_path, output_dir, neuroscan_parser.get_all_timepoints())
+
+    logging.info("Main process completed.")
 
 
 def clean(output_dir="output"):
@@ -114,7 +126,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Script to process datasets.")
     parser.add_argument('--root-dir', type=str, required=True, help="Path of the files to ingest")
     parser.add_argument("--dry-run", action="store_true", help="If set, data ingestion will not occur")
-    parser.add_argument("--transform", action="store_true", help="If set the cphates will be zipped and avi files converted to mp4")
+    parser.add_argument("--transform", action="store_true",
+                        help="If set the cphates will be zipped and avi files converted to mp4")
     parser.add_argument("--output-dir", type=str, default=CSV_ROOT,
                         help="Directory to store output files. Defaults to 'output'.")
     parser.add_argument("--db-path", type=str, default=DB,
