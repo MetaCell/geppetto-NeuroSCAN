@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -14,7 +13,7 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
-import introJs from 'intro.js';
+import IntroJs from 'intro.js';
 import NeuroSCANLogo from '../images/neuroscanLogo.svg';
 import MenuIcon from '../images/hamburger.svg';
 import Toggle from '../images/toggle.svg';
@@ -73,7 +72,6 @@ const Header = (props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openAboutModal, setOpenAboutModal] = useState(false);
-
   const isMenuOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = (event) => {
@@ -84,12 +82,12 @@ const Header = (props) => {
     setAnchorEl(null);
   };
 
-  const handleTutorial = () => {
-    setAnchorEl(null);
-    introJs().start();
+  const handleViewTutorial = (showMessage) => {
+    const intro = new IntroJs();
     if (view?.title === 'NeuroSCAN') {
-      introJs().setOptions({
+      intro.setOptions({
         tooltipClass: 'customTooltip',
+        dontShowAgain: showMessage,
         steps: [{
           element: window.document.querySelector('#search-bar'),
           title: 'Search bar',
@@ -151,10 +149,12 @@ const Header = (props) => {
           <b>Group</b>, <b>Hide</b> and <b>Delete</b> the neuron.`,
           position: 'right',
         }].filter((step) => step.element !== null),
-      }).start();
+      });
+      intro.start();
     } else {
-      introJs().setOptions({
+      intro.setOptions({
         tooltipClass: 'customTooltip',
+        dontShowAgain: true,
         steps: [{
           element: window.document.querySelector('.lineaged-cells'),
           title: 'Lineaged cells',
@@ -175,8 +175,14 @@ const Header = (props) => {
           intro: 'Find information about the <b>promoter</b> (primers, strains, and more) and <b>expression</b>.',
           position: 'up',
         }].filter((step) => step.element !== null),
-      }).start();
+      });
+      intro.start();
     }
+  };
+
+  const handleTutorial = () => {
+    setAnchorEl(null);
+    handleViewTutorial(false);
   };
 
   const handeModalToggle = () => {
@@ -245,6 +251,10 @@ const Header = (props) => {
       </List>
     </Popover>
   );
+
+  useEffect(() => {
+    handleViewTutorial(true);
+  }, []);
 
   return (
     <>

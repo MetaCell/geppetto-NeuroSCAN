@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  Box, Typography, IconButton, Chip,
+  Box, Chip, IconButton, Typography,
 } from '@material-ui/core';
 import ChipInput from 'material-ui-chip-input';
 import MagnifyingGlass from '../../images/magnifying-glass.svg';
@@ -32,6 +32,20 @@ const Search = (props) => {
     return true;
   }
 
+  const parseTextToTags = (text) => {
+    const trimmedText = text.trim();
+    const separators = [',', '\n', '\t'];
+    const splitTags = trimmedText.split(new RegExp(separators.join('|'), 'g'));
+    return splitTags.filter((tag) => tag.trim() !== '');
+  };
+  const handlePaste = (event) => {
+    const clipboardData = event.clipboardData || window.clipboardData;
+    const pastedText = clipboardData.getData('Text');
+    const parsedTags = parseTextToTags(pastedText);
+    setSearchTerms([...searchTerms, ...parsedTags]);
+    event.preventDefault();
+  };
+
   const removeSearchTerm = (value) => {
     const filteredList = searchTerms.filter((item) => item !== value);
     setSearchTerms(filteredList);
@@ -44,6 +58,7 @@ const Search = (props) => {
         <ChipInput
           variant="outlined"
           onBeforeAdd={(chip) => addSearchTerm(chip)}
+          onPaste={(event) => handlePaste(event)}
           defaultValue={[]}
           value={searchTerms}
           placeholder="Search here"

@@ -40,7 +40,7 @@ cd frontend
 REACT_APP_BACKEND_URL=http://localhost:1337 npm run start
 
 #or for using the production strapie server
-REACT_APP_BACKEND_URL=https://yale.metacell.us npm run start
+REACT_APP_BACKEND_URL=https://neuroscan.net npm run start
 ```
 
 ### Test changes made in geppetto-meta repository

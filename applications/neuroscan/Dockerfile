@@ -7,7 +7,7 @@ ARG REACT_APP_BACKEND_URL=''
 
 # YARN REQUIRES GIT BINARY
 RUN apk add git
-RUN yarn global add typescript
+RUN npm install -g typescript
 
 # INSTALL PACKAGES
 RUN mkdir -p /app
@@ -41,8 +41,8 @@ RUN yarn build
 # https://github.com/strapi/strapi-docker/blob/master/examples/custom/Dockerfile
 FROM strapi/base as base
 
-RUN apt-get update -qq && \
-    apt-get install -qq handbrake-cli
+#RUN apt-get update -qq
+#RUN apt-get install -qq handbrake-cli
 
 # Configured by helm chart
 ENV DATABASE_FILENAME .tmp/data.db

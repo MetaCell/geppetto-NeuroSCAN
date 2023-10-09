@@ -1,12 +1,32 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable import/no-cycle */
-import React, { forwardRef, useRef, useState } from 'react';
+import React, { forwardRef, useState } from 'react';
+import { connect } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
 import { withStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
+import { Menu, MenuItem } from '@material-ui/core';
 import {
+  mapToInstance,
   setSelectedInstances,
 } from '../../services/instanceHelpers';
+import {
+  GREY_OUT_MESH_COLOR,
+  VIEWERS,
+} from '../../utilities/constants';
+import { addInstances } from '../../redux/actions/widget';
+import neuronService from '../../services/NeuronService';
+
+function shouldApplyGreyOut(instance, highlightSearchedInstances, searchTerms) {
+  if (instance.color || !highlightSearchedInstances || searchTerms.length === 0) {
+    return false;
+  }
+
+  const isInstanceSearched = searchTerms
+    .some((term) => instance.name.toLowerCase().includes(term.toLowerCase()));
+
+  return !isInstanceSearched;
+}
 
 const styles = () => ({
   canvasContainer: {
@@ -70,6 +90,12 @@ class Viewer extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      contextMenuOpen: false,
+      contextMenuPosition: { top: 0, left: 0 },
+      contextMenuInstance: null,
+    };
+
     this.timeoutRef = React.createRef();
     this.tooltipRef = React.createRef();
 
@@ -79,15 +105,55 @@ class Viewer extends React.Component {
     this.initCanvasData = this.initCanvasData.bind(this);
   }
 
-  onSelection(selectedInstances) {
-    const { viewerId, instances } = this.props;
-    setSelectedInstances(viewerId, instances, selectedInstances);
-  }
-
   onMount(scene) {
     // eslint-disable-next-line no-console
     console.log(scene);
   }
+
+  onSelection(selectedInstances, event) {
+    const { viewerId, instances, type } = this.props;
+    if (selectedInstances.length > 0) {
+      if (event.button === 0) { // left click
+        setSelectedInstances(viewerId, instances, selectedInstances);
+      } else if (event.button === 2 && type === VIEWERS.CphateViewer) { // right click
+        const selectedUid = selectedInstances[0];
+        const selectedInstance = instances.find((i) => i.uid === selectedUid);
+        if (selectedInstance) {
+          this.setState({
+            contextMenuOpen: true,
+            contextMenuPosition: {
+              top: event.clientY,
+              left: event.clientX,
+            },
+            contextMenuInstance: selectedInstance,
+          });
+        }
+      }
+    }
+  }
+
+  handleAddInstancesToNewViewer = async () => {
+    const { addInstancesToNewViewer, timePoint } = this.props;
+    const { contextMenuInstance } = this.state;
+
+    if (contextMenuInstance) {
+      const uids = contextMenuInstance.name.split('(')[0].split(',').map((uid) => uid.trim());
+      try {
+        const fetchedNeurons = await neuronService.getByUID(timePoint, uids);
+
+        const instances = fetchedNeurons.map((neuron) => mapToInstance(neuron));
+
+        addInstancesToNewViewer(instances);
+      } catch (error) {
+        console.error('Failed to fetch neurons or map to instances', error);
+      }
+    }
+    this.handleMenuClose();
+  };
+
+  handleMenuClose = () => {
+    this.setState({ contextMenuOpen: false, contextMenuInstance: null });
+  };
 
   hoverListener(objs, canvasX, canvasY) {
     const obj = objs[0];
@@ -121,11 +187,22 @@ class Viewer extends React.Component {
   initCanvasData() {
     const {
       instances,
+      highlightSearchedInstances,
+      searchTerms,
     } = this.props;
-    return (instances.filter((instance) => !instance.hidden).map((instance) => ({
-      instancePath: instance.uid,
-      color: instance.color,
-    })));
+
+    return instances.filter((instance) => !instance.hidden).map((instance) => {
+      let { color } = instance;
+
+      if (shouldApplyGreyOut(instance, highlightSearchedInstances, searchTerms)) {
+        color = GREY_OUT_MESH_COLOR;
+      }
+
+      return {
+        instancePath: instance.uid,
+        color,
+      };
+    });
   }
 
   render() {
@@ -139,6 +216,8 @@ class Viewer extends React.Component {
       loadingFinished,
     } = this.props;
 
+    const { contextMenuOpen, contextMenuPosition } = this.state;
+
     const canvasData = this.initCanvasData();
     return (
       <div className={classes.canvasContainer}>
@@ -148,6 +227,19 @@ class Viewer extends React.Component {
             ref={this.tooltipRef}
           />
         </div>
+        <Menu
+          keepMounted
+          open={contextMenuOpen}
+          onClose={() => this.handleMenuClose()}
+          anchorReference="anchorPosition"
+          anchorPosition={
+              { top: contextMenuPosition.top, left: contextMenuPosition.left }
+            }
+        >
+          <MenuItem onClick={this.handleAddInstancesToNewViewer}>
+            Add all neurons to New Viewer
+          </MenuItem>
+        </Menu>
         <Canvas
           key={viewerId}
           data={canvasData}
@@ -165,4 +257,15 @@ class Viewer extends React.Component {
   }
 }
 
-export default withStyles(styles)(Viewer);
+const mapDispatchToProps = (dispatch) => ({
+  addInstancesToNewViewer: (instances) => dispatch(
+    addInstances(null, instances, VIEWERS.InstanceViewer),
+  ),
+});
+
+const mapStateToProps = (state) => ({
+  searchTerms: state.search.filters.searchTerms,
+  timePoint: state.search.filters.timePoint,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Viewer));
