@@ -52,18 +52,3 @@ Two scripts are available to take off some work:
 A commit to development branch will trigger the deployment pipeline in Codefresh for the development stage.
 
 
-## Dataset Validation
-0. Go to the ingestion directory:
-```
-cd ingestion
-```
-1. Install the necessary packages:
- ```
-pip install -r requirements.txt
-```
-
-2. Run the ingestall script with the appropriate arguments:
-```
-export PYTHONPATH=$PYTHONPATH:/path/to/geppetto-NeuroSCAN (This tells Python where to look for modules when importing.)
-python ingestall.py --root-dir /path/to/dataset --dry-run --output-dir /path/to/output 
-```
