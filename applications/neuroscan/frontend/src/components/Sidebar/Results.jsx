@@ -60,6 +60,7 @@ const Results = ({ timePoint }) => {
       const itemsArray = Object.values(selectedItems).flat();
       const instances = itemsArray.map((item) => mapToInstance(item));
       dispatch(addInstances(viewerId, instances, VIEWERS.InstanceViewer));
+      setSelectedItems(initialSelectedItems);
     }
     handleClose();
   };

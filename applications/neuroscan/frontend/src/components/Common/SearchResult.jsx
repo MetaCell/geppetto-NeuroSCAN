@@ -23,6 +23,17 @@ const useStyles = makeStyles(() => ({
     filter: 'grayscale(1)',
     pointerEvents: 'none',
   },
+  listItem: {
+    '&:hover': {
+      background: '#F9F5FA !important', // Background color when hovered but not selected
+    },
+    '&.selected': {
+      background: '#F2EBF5', // Background color when selected but not hovered
+    },
+    '&:hover.selected': {
+      background: '#ECDFF2 !important', // Background color when both selected and hovered
+    },
+  },
 }));
 
 const CustomCheckedIcon = ({ fill }) => (
@@ -68,6 +79,11 @@ const SearchResult = (props) => {
   const handleLoadMore = (entity) => {
     dispatch(search.loadMore({ entity }));
   };
+  const handleDeselectItems = (entity) => {
+    const updatedSelectedItems = { ...selectedItems };
+    updatedSelectedItems[entity] = [];
+    setSelectedItems(updatedSelectedItems);
+  };
 
   return (
     <>
@@ -82,7 +98,7 @@ const SearchResult = (props) => {
               selectedItems[resultItem].length === 0
                 ? <Typography variant="caption">{`${count} items`}</Typography>
                 : (
-                  <Button variant="text" onClick={() => setSelectedItems([])}>
+                  <Button variant="text" onClick={() => handleDeselectItems(resultItem)}>
                     <Typography variant="caption">{`Deselect ${selectedItems[resultItem].length} items`}</Typography>
                   </Button>
                 )
@@ -90,10 +106,15 @@ const SearchResult = (props) => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <List component="nav">
+          <List
+            component="nav"
+          >
             {results && results.items.length > 0
               ? results.items.map((item, i) => (
-                <ListItem key={`results-${resultItem}-listitem-${i}`}>
+                <ListItem
+                  key={`results-${resultItem}-listitem-${i}`}
+                  className={`${classes.listItem} ${selectedItems[resultItem].includes(item) ? 'selected' : ''}`}
+                >
                   <ListItemIcon>
                     <Checkbox
                       edge="start"
