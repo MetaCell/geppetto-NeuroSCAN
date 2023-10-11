@@ -90,10 +90,17 @@ const middleware = (store) => (next) => (action) => {
       next(loading(msg, action.type));
       createSimpleInstancesFromInstances(action.instances)
         .then(() => {
+          const widget = getWidget(store, action.viewerId, action.viewerType);
+          const addedObjectsToViewer = Array.isArray(widget?.config?.instances)
+          && widget?.config?.instances.length !== 0
+            ? widget.config.instances.concat(action.instances) : action.instances;
+
           store.dispatch(
             addToWidget(
-              getWidget(store, action.viewerId, action.viewerType),
+              widget,
               action.instances,
+              false,
+              addedObjectsToViewer,
             ),
           );
           next(loadingSuccess(msg, action.type));
@@ -151,7 +158,7 @@ const middleware = (store) => (next) => (action) => {
     case UPDATE_TIMEPOINT_VIEWER: {
       const widget = getWidget(store, action.viewerId);
       const { timePoint } = action;
-      const { instances } = widget.config;
+      const { addedObjectsToViewer } = widget.config;
 
       if (timePoint !== widget.config.timePoint) {
         if (widget.component === VIEWERS.CphateViewer) {
@@ -179,9 +186,9 @@ const middleware = (store) => (next) => (action) => {
               next(raiseError(msg));
             });
         } else {
-          const neurons = getInstancesOfType(instances, NEURON_TYPE) || ['-1'];
-          const contacts = getInstancesOfType(instances, CONTACT_TYPE) || ['-1'];
-          const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || ['-1'];
+          const neurons = getInstancesOfType(addedObjectsToViewer, NEURON_TYPE) || ['-1'];
+          const contacts = getInstancesOfType(addedObjectsToViewer, CONTACT_TYPE) || ['-1'];
+          const synapses = getInstancesOfType(addedObjectsToViewer, SYNAPSE_TYPE) || ['-1'];
 
           neuronService.getByUID(timePoint, neurons.map((n) => n.uidFromDb))
             .then((newNeurons) => {
@@ -200,6 +207,7 @@ const middleware = (store) => (next) => (action) => {
                                 widget,
                                 newInstances,
                                 true,
+                                addedObjectsToViewer,
                               ),
                             );
                         });
