@@ -49,7 +49,7 @@ class ContactsParser:
             neuron_b = row[CONTACTS_XLS_NEURON_B_COL]
             weight = row[CONTACTS_XLS_WEIGHT_COL]
 
-            name = get_contact_name(neuron_a, neuron_b)
+            name = get_contact_id(neuron_a, neuron_b)
             self.contact_info_from_spreadsheet[name] = weight
 
         return True
@@ -72,7 +72,7 @@ class ContactsParser:
                                          f"Invalid mention to neuron {neuron_b} in {self.contacts_path}"))
                 continue
 
-            name = get_contact_name(neuron_a, neuron_b)
+            name = get_contact_id(neuron_a, neuron_b)
             if name in self.contact_info_from_spreadsheet:
                 self.create_contact(neuron_a, neuron_b, self.contact_info_from_spreadsheet[name], filename)
             else:
@@ -80,22 +80,25 @@ class ContactsParser:
                                          f"Contact {name} in {filename} not found in {CONTACTS_XLS}"))
 
     def create_contact(self, neuron_a: str, neuron_b: str, weight: int, filename: str):
-        name = get_contact_name(neuron_a, neuron_b)
-        if name in self.timepoint_context.contacts:
-            old_contact = self.timepoint_context.synapses[name]
-            self.issues.append(Issue(Severity.WARNING, f"Duplicate contact name: {name}. {filename} replaced "
+        contact_id = get_contact_id(neuron_a, neuron_b)
+        if contact_id in self.timepoint_context.contacts:
+            old_contact = self.timepoint_context.synapses[contact_id]
+            self.issues.append(Issue(Severity.WARNING, f"Duplicate contact name: {contact_id}. {filename} replaced "
                                                        f"{old_contact.filename}"))
 
-        self.timepoint_context.contacts[name] = Contact(name=name, neuronA=neuron_a, neuronB=neuron_b,
-                                                        timepoint=self.timepoint, filename=filename, weight=weight,
-                                                        metadata='', uid=name)
+        self.timepoint_context.contacts[contact_id] = Contact(name=get_contact_name(neuron_a, neuron_b),
+                                                              neuronA=neuron_a, neuronB=neuron_b,
+                                                              timepoint=self.timepoint, filename=filename,
+                                                              weight=weight,
+                                                              metadata='', uid=contact_id)
 
     def get_issues(self):
         return self.issues
 
-    def get_contact_uid(self, name):
-        return f"{name}-{self.timepoint}"
+
+def get_contact_id(neuron_a, neuron_b):
+    return f"{neuron_a}-{neuron_b}"
 
 
 def get_contact_name(neuron_a, neuron_b):
-    return f"{neuron_a}-{neuron_b}"
+    return f"{neuron_a} contact from {neuron_b}"
