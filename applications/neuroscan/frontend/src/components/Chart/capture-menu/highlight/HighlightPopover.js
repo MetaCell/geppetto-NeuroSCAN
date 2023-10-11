@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { Popover, Box, Typography } from '@material-ui/core';
+import {
+  Popover, Box, Typography, Divider,
+} from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import SearchBar from '../../../SearchBar';
 import GroupedResults from './GroupedResults';
@@ -55,16 +57,27 @@ const HighlightPopover = ({
       onClose={onClose}
       anchorOrigin={anchorOriginProps}
       transformOrigin={transformOriginProps}
+      className="custom-popover highlight-popover"
     >
-      <Box p={2}>
+      <Box sx={{
+        padding: '1rem .5rem .5rem 1rem',
+      }}
+      >
         <Typography variant="h6">Highlight Neurons</Typography>
       </Box>
-      <SearchBar
-        searchTerms={searchTerms}
-        setSearchTerms={setSearchTerms}
-        addSearchTerm={addSearchTerm}
-        removeSearchTerm={removeSearchTerm}
-      />
+      <Divider />
+      <Box sx={{
+        padding: '.5rem',
+      }}
+      >
+        <SearchBar
+          searchTerms={searchTerms}
+          setSearchTerms={setSearchTerms}
+          addSearchTerm={addSearchTerm}
+          removeSearchTerm={removeSearchTerm}
+        />
+      </Box>
+      <Divider style={{ marginBottom: '0.5rem' }} />
       <GroupedResults viewerId={viewerId} options={options} />
     </Popover>
   );
