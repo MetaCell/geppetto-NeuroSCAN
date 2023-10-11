@@ -14,6 +14,7 @@ function getBaseSearchQuery(timepoint) {
     .select([
       'contacts.id',
       'contacts.uid',
+      'contacts.name',
       'neuronA_content.uid as neuronA_uid',
       'neuronB_content.uid as neuronB_uid'
     ])
@@ -38,25 +39,37 @@ function applySearchConditions(query, terms) {
     });
   } else if (terms.length === 2) {
     query.where(builder => {
-      builder.whereRaw('LOWER(neuronA_content.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
+      builder.where(subBuilder => {
+        subBuilder.whereRaw('LOWER(neuronA_content.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
+          .orWhereRaw('LOWER(neuronB_content.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
+      })
         .andWhere(subBuilder => {
-          subBuilder.whereRaw('LOWER(neuronB_content.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`])
+          subBuilder.whereRaw('LOWER(neuronA_content.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`])
+            .orWhereRaw('LOWER(neuronB_content.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`])
             .orWhereRaw('LOWER(contacts.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`]);
         });
     });
   } else if (terms.length >= 3) {
     query.where(builder => {
-      builder.whereRaw('LOWER(neuronA_content.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
-        .andWhereRaw('LOWER(neuronB_content.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`]);
-
-      terms.slice(2).forEach(term => {
-        builder.orWhereRaw('LOWER(contacts.uid) LIKE ?', [`%${term.toLowerCase()}%`]);
-      });
+      builder.where(subBuilder => {
+        subBuilder.whereRaw('LOWER(neuronA_content.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
+          .orWhereRaw('LOWER(neuronB_content.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
+      })
+        .andWhere(subBuilder => {
+          subBuilder.whereRaw('LOWER(neuronA_content.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`])
+            .orWhereRaw('LOWER(neuronB_content.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`])
+        })
+        .andWhere(subBuilder => {
+          terms.slice(2).forEach(term => {
+            subBuilder.orWhereRaw('LOWER(contacts.uid) LIKE ?', [`%${term.toLowerCase()}%`]);
+          });
+        });
     });
   }
 
   return query;
 }
+
 
 
 module.exports = {
@@ -84,7 +97,6 @@ module.exports = {
       baseQuery = applySearchConditions(baseQuery, terms);
     }
 
-    // Use subquery to count the result
     const countQuery = strapi.connections.default.count('* as total').from(baseQuery.as('subquery'));
 
     const result = await countQuery;
