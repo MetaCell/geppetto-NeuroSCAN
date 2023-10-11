@@ -62,6 +62,10 @@ const GroupedResults = ({ viewerId, options }) => {
     return acc;
   }, { selectedOptions: [], unselectedOptions: [] });
 
+  const handleDeselectClick = () => {
+    selectedOptions.forEach((optionName) => toggleHighlight(optionName));
+  };
+
   return (
     <Box>
       <Accordion>
@@ -74,7 +78,7 @@ const GroupedResults = ({ viewerId, options }) => {
               selectedOptions.length === 0
                 ? <Typography variant="caption">{`${selectedOptions.length} item`}</Typography>
                 : (
-                  <Button variant="text" className={classes.button}>
+                  <Button variant="text" className={classes.button} onClick={handleDeselectClick} disableRipple>
                     <Typography variant="caption">{`Deselect ${selectedOptions.length} ${selectedOptions.length <= 1 ? 'item' : 'items'}`}</Typography>
                   </Button>
                 )
