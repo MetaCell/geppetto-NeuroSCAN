@@ -85,8 +85,6 @@ module.exports = {
 
     query.offset(start).limit(limit);
 
-    console.log(query.toSQL().sql);
-    console.log(query.toSQL().bindings);
     return query;
   },
 
