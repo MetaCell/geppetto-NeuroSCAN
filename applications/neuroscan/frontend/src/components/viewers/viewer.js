@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
 import { withStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
-import { Menu, MenuItem } from '@material-ui/core';
 import {
   mapToInstance,
   setSelectedInstances,
@@ -16,6 +15,7 @@ import {
 } from '../../utilities/constants';
 import { addInstances } from '../../redux/actions/widget';
 import neuronService from '../../services/NeuronService';
+import AddToViewerMenu from '../Sidebar/AddToViewerMenu';
 
 function shouldApplyGreyOut(instance, highlightSearchedInstances, searchTerms) {
   if (instance.color || !highlightSearchedInstances || searchTerms.length === 0) {
@@ -132,8 +132,8 @@ class Viewer extends React.Component {
     }
   }
 
-  handleAddInstancesToNewViewer = async () => {
-    const { addInstancesToNewViewer, timePoint } = this.props;
+  handleAddInstancesToViewer = async (viewerId = null) => {
+    const { addInstancesToViewer, timePoint } = this.props;
     const { contextMenuInstance } = this.state;
 
     if (contextMenuInstance) {
@@ -143,7 +143,7 @@ class Viewer extends React.Component {
 
         const instances = fetchedNeurons.map((neuron) => mapToInstance(neuron));
 
-        addInstancesToNewViewer(instances);
+        addInstancesToViewer(viewerId, instances);
       } catch (error) {
         console.error('Failed to fetch neurons or map to instances', error);
       }
@@ -227,19 +227,14 @@ class Viewer extends React.Component {
             ref={this.tooltipRef}
           />
         </div>
-        <Menu
-          keepMounted
-          open={contextMenuOpen}
-          onClose={() => this.handleMenuClose()}
-          anchorReference="anchorPosition"
-          anchorPosition={
-              { top: contextMenuPosition.top, left: contextMenuPosition.left }
-            }
-        >
-          <MenuItem onClick={this.handleAddInstancesToNewViewer}>
-            Add all neurons to New Viewer
-          </MenuItem>
-        </Menu>
+        {contextMenuOpen && (
+        <AddToViewerMenu
+          handleClose={() => this.handleMenuClose()}
+          handleAddToViewer={this.handleAddInstancesToViewer}
+          useAnchorPosition
+          anchorPosition={{ top: contextMenuPosition.top, left: contextMenuPosition.left }}
+        />
+        )}
         <Canvas
           key={viewerId}
           data={canvasData}
@@ -258,8 +253,8 @@ class Viewer extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addInstancesToNewViewer: (instances) => dispatch(
-    addInstances(null, instances, VIEWERS.InstanceViewer),
+  addInstancesToViewer: (viewerId, instances) => dispatch(
+    addInstances(viewerId, instances, VIEWERS.InstanceViewer),
   ),
 });
 
