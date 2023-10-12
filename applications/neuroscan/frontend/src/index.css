@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.search-bar .MuiInputBase-input {
+  min-width: 3rem;
+}
+
+.search-bar > .MuiIconButton-root {
+  padding: 0;
+  position: absolute;
+  right: 0.625rem;
+  top: 0.75rem;
+}
+
+.search-bar > img {
+  position: absolute;
+  left: 0.625rem;
+  top: 0.75rem;
+}

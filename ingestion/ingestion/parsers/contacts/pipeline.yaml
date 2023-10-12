@@ -1,7 +1,0 @@
-stages:
-  - read_filename_config.json
-  - read_xlsx_config.json
-  - custom_1_./custom_script/__init__.py
-  - join_inner_0_2
-  - custom_3_./convert_timepoints_script/__init__.py
-  - export_4_export_config.json

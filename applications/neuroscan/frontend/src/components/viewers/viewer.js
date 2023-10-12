@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
 import { withStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
-import { Menu, MenuItem } from '@material-ui/core';
 import {
   mapToInstance,
   setSelectedInstances,
@@ -16,16 +15,14 @@ import {
 } from '../../utilities/constants';
 import { addInstances } from '../../redux/actions/widget';
 import neuronService from '../../services/NeuronService';
+import AddToViewerMenu from '../Sidebar/AddToViewerMenu';
 
-function shouldApplyGreyOut(instance, highlightSearchedInstances, searchTerms) {
-  if (instance.color || !highlightSearchedInstances || searchTerms.length === 0) {
+function shouldApplyGreyOut(instance, highlightedInstances) {
+  if (instance.color || highlightedInstances.length === 0) {
     return false;
   }
 
-  const isInstanceSearched = searchTerms
-    .some((term) => instance.name.toLowerCase().includes(term.toLowerCase()));
-
-  return !isInstanceSearched;
+  return !highlightedInstances.some((highlighted) => instance.name.includes(highlighted));
 }
 
 const styles = () => ({
@@ -132,8 +129,8 @@ class Viewer extends React.Component {
     }
   }
 
-  handleAddInstancesToNewViewer = async () => {
-    const { addInstancesToNewViewer, timePoint } = this.props;
+  handleAddInstancesToViewer = async (viewerId = null) => {
+    const { addInstancesToViewer, timePoint } = this.props;
     const { contextMenuInstance } = this.state;
 
     if (contextMenuInstance) {
@@ -143,7 +140,7 @@ class Viewer extends React.Component {
 
         const instances = fetchedNeurons.map((neuron) => mapToInstance(neuron));
 
-        addInstancesToNewViewer(instances);
+        addInstancesToViewer(viewerId, instances);
       } catch (error) {
         console.error('Failed to fetch neurons or map to instances', error);
       }
@@ -185,16 +182,12 @@ class Viewer extends React.Component {
   }
 
   initCanvasData() {
-    const {
-      instances,
-      highlightSearchedInstances,
-      searchTerms,
-    } = this.props;
+    const { instances, highlightedInstances } = this.props;
 
     return instances.filter((instance) => !instance.hidden).map((instance) => {
       let { color } = instance;
 
-      if (shouldApplyGreyOut(instance, highlightSearchedInstances, searchTerms)) {
+      if (shouldApplyGreyOut(instance, highlightedInstances)) {
         color = GREY_OUT_MESH_COLOR;
       }
 
@@ -227,19 +220,14 @@ class Viewer extends React.Component {
             ref={this.tooltipRef}
           />
         </div>
-        <Menu
-          keepMounted
-          open={contextMenuOpen}
-          onClose={() => this.handleMenuClose()}
-          anchorReference="anchorPosition"
-          anchorPosition={
-              { top: contextMenuPosition.top, left: contextMenuPosition.left }
-            }
-        >
-          <MenuItem onClick={this.handleAddInstancesToNewViewer}>
-            Add all neurons to New Viewer
-          </MenuItem>
-        </Menu>
+        {contextMenuOpen && (
+        <AddToViewerMenu
+          handleClose={() => this.handleMenuClose()}
+          handleAddToViewer={this.handleAddInstancesToViewer}
+          useAnchorPosition
+          anchorPosition={{ top: contextMenuPosition.top, left: contextMenuPosition.left }}
+        />
+        )}
         <Canvas
           key={viewerId}
           data={canvasData}
@@ -258,13 +246,12 @@ class Viewer extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addInstancesToNewViewer: (instances) => dispatch(
-    addInstances(null, instances, VIEWERS.InstanceViewer),
+  addInstancesToViewer: (viewerId, instances) => dispatch(
+    addInstances(viewerId, instances, VIEWERS.InstanceViewer),
   ),
 });
 
-const mapStateToProps = (state) => ({
-  searchTerms: state.search.filters.searchTerms,
+const mapStateToProps = (state, ownProps) => ({
   timePoint: state.search.filters.timePoint,
 });
 

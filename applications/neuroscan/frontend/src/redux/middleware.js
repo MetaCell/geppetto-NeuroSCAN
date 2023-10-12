@@ -13,7 +13,7 @@ import {
   ROTATE_STOP_ALL,
   updateWidgetConfig,
   INVERT_COLORS_FLASHING,
-  SET_ORIGINAL_COLORS_FLASHING,
+  SET_ORIGINAL_COLORS_FLASHING, TOGGLE_INSTANCE_HIGHLIGHT,
 } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
 import neuronService from '../services/NeuronService';
@@ -64,7 +64,6 @@ const getWidget = (store, viewerId, viewerType) => {
       name: `${viewerType} ${viewerNumber} (${devStage.name} ${timePoint})`,
       type: viewerType,
       timePoint,
-      highlightSearchedInstances: viewerType === VIEWERS.CphateViewer,
     };
   }
   return {
@@ -91,10 +90,17 @@ const middleware = (store) => (next) => (action) => {
       next(loading(msg, action.type));
       createSimpleInstancesFromInstances(action.instances)
         .then(() => {
+          const widget = getWidget(store, action.viewerId, action.viewerType);
+          const addedObjectsToViewer = Array.isArray(widget?.config?.instances)
+          && widget?.config?.instances.length !== 0
+            ? widget.config.instances.concat(action.instances) : action.instances;
+
           store.dispatch(
             addToWidget(
-              getWidget(store, action.viewerId, action.viewerType),
+              widget,
               action.instances,
+              false,
+              addedObjectsToViewer,
             ),
           );
           next(loadingSuccess(msg, action.type));
@@ -152,7 +158,7 @@ const middleware = (store) => (next) => (action) => {
     case UPDATE_TIMEPOINT_VIEWER: {
       const widget = getWidget(store, action.viewerId);
       const { timePoint } = action;
-      const { instances } = widget.config;
+      const { addedObjectsToViewer } = widget.config;
 
       if (timePoint !== widget.config.timePoint) {
         if (widget.component === VIEWERS.CphateViewer) {
@@ -180,9 +186,9 @@ const middleware = (store) => (next) => (action) => {
               next(raiseError(msg));
             });
         } else {
-          const neurons = getInstancesOfType(instances, NEURON_TYPE) || ['-1'];
-          const contacts = getInstancesOfType(instances, CONTACT_TYPE) || ['-1'];
-          const synapses = getInstancesOfType(instances, SYNAPSE_TYPE) || ['-1'];
+          const neurons = getInstancesOfType(addedObjectsToViewer, NEURON_TYPE) || ['-1'];
+          const contacts = getInstancesOfType(addedObjectsToViewer, CONTACT_TYPE) || ['-1'];
+          const synapses = getInstancesOfType(addedObjectsToViewer, SYNAPSE_TYPE) || ['-1'];
 
           neuronService.getByUID(timePoint, neurons.map((n) => n.uidFromDb))
             .then((newNeurons) => {
@@ -201,6 +207,7 @@ const middleware = (store) => (next) => (action) => {
                                 widget,
                                 newInstances,
                                 true,
+                                addedObjectsToViewer,
                               ),
                             );
                         });
@@ -263,6 +270,21 @@ const middleware = (store) => (next) => (action) => {
             rotate: newRotateState,
           }));
         });
+      break;
+    }
+
+    case TOGGLE_INSTANCE_HIGHLIGHT: {
+      const { viewerId, optionName } = action.payload;
+      const state = store.getState();
+      const currentHighlighted = state.widgets[viewerId]?.config?.highlightedInstances || [];
+      const isCurrentlyHighlighted = currentHighlighted.includes(optionName);
+      const updatedHighlighted = isCurrentlyHighlighted
+        ? currentHighlighted.filter((name) => name !== optionName)
+        : [...currentHighlighted, optionName];
+      store.dispatch(updateWidgetConfig(viewerId, {
+        ...state.widgets[viewerId].config,
+        highlightedInstances: updatedHighlighted,
+      }));
       break;
     }
 

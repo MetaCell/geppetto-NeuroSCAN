@@ -21,40 +21,12 @@ export class ContactService {
   }
 
   async getByUID(timePoint, uids = []) {
-    const query = `timepoint=${timePoint}${uids.map((uid, i) => `${(i === 0) ? '&' : ''}uid_in=${uid}`)}`;
+    const query = `timepoint=${timePoint}${uids.map((uid, i) => `${(i === 0) ? '&' : ''}uid_in=${uid}`).join('&')}`;
     const response = await backendClient.get(`${contactsUrl}?${query}`);
     return response.data.map((contact) => ({
       instanceType: CONTACT_TYPE,
       ...contact,
     }));
-  }
-
-  constructQuery(searchState) {
-    const { searchTerms, timePoint } = searchState.filters;
-    const results = searchState.results.contacts;
-    const andPart = [];
-    andPart.push({ timepoint: timePoint });
-    if (searchTerms.length > 0) {
-      // eslint-disable-next-line no-plusplus
-      for (let idx = 0; idx < Math.min(searchTerms.length, 2); idx++) {
-        andPart.push({
-          _or: [
-            { 'neuronA.uid_contains': searchTerms[idx] },
-            { 'neuronB.uid_contains': searchTerms[idx] },
-          ],
-        });
-      }
-    }
-    if (searchTerms.length === 3) {
-      // 3 terms so search for the third in the contacts UID field
-      andPart.push({ uid_contains: searchTerms[2] });
-    }
-    return qs.stringify({
-      _where: andPart,
-      _sort: 'weight:DESC',
-      _start: results.items.length,
-      _limit: maxRecordsPerFetch,
-    });
   }
 
   async search(searchState) {
@@ -70,6 +42,18 @@ export class ContactService {
     const query = this.constructQuery(searchState);
     const response = await backendClient.get(`${contactsUrl}/count?${query}`);
     return response.data;
+  }
+
+  constructQuery(searchState) {
+    const { searchTerms, timePoint } = searchState.filters;
+    const terms = searchTerms.join(',');
+
+    return qs.stringify({
+      terms,
+      timepoint: timePoint,
+      _start: searchState.results.contacts.items.length,
+      _limit: maxRecordsPerFetch,
+    });
   }
 }
 

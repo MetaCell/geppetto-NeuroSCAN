@@ -65,23 +65,6 @@ const useStyles = makeStyles((theme) => ({
           height: 'auto',
           minHeight: '2.25rem',
         },
-        '& .search-bar': {
-          // marginBottom: '0.5625rem',
-          '& .MuiInputBase-input': {
-            minWidth: '3rem',
-          },
-          '& > .MuiIconButton-root': {
-            padding: '0',
-            position: 'absolute',
-            right: '0.625rem',
-            top: '0.75rem',
-          },
-          '& > img': {
-            position: 'absolute',
-            left: '0.625rem',
-            top: '0.75rem',
-          },
-        },
         '& .MuiAccordion-root:last-child': {
           marginBottom: '0.5625rem',
         },
@@ -164,7 +147,7 @@ const LeftSidebar = (props) => {
                     setTimePoint={setTimePoint}
                   />
 
-                  <Results />
+                  <Results timePoint={timePoint} />
 
                   <CPhasePlot timePoint={timePoint} />
                 </AccordionDetails>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Accordion,
@@ -13,6 +13,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import HTMLViewer from '@metacell/geppetto-meta-ui/html-viewer/HTMLViewer';
+import Checkbox from '@material-ui/core/Checkbox';
 import CHEVRON from '../../images/chevron-right.svg';
 import * as search from '../../redux/actions/search';
 
@@ -22,14 +23,38 @@ const useStyles = makeStyles(() => ({
     filter: 'grayscale(1)',
     pointerEvents: 'none',
   },
+  listItem: {
+    '&:hover': {
+      background: '#F9F5FA !important', // Background color when hovered but not selected
+    },
+    '&.selected': {
+      background: '#F2EBF5', // Background color when selected but not hovered
+    },
+    '&:hover.selected': {
+      background: '#ECDFF2 !important', // Background color when both selected and hovered
+    },
+  },
 }));
 
+const CustomCheckedIcon = ({ fill }) => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path
+      d="M8.25 2.56699C8.0953 2.47767 7.9047 2.47767 7.75 2.56699L3.41987 5.06699C3.26517 5.1563 3.16987 5.32137 3.16987 5.5V10.5C3.16987 10.6786 3.26517 10.8437 3.41987 10.933L7.75 13.433C7.9047 13.5223 8.0953 13.5223 8.25 13.433L12.5801 10.933C12.7348 10.8437 12.8301 10.6786 12.8301 10.5V5.5C12.8301 5.32137 12.7348 5.1563 12.5801 5.06699L8.25 2.56699Z"
+      fill={fill}
+      stroke="#4C276A"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 const SearchResult = (props) => {
   const {
     title,
     resultItem,
     image,
     handleClick,
+    selectedItems,
+    setSelectedItems,
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -38,10 +63,27 @@ const SearchResult = (props) => {
   const searchesCount = useSelector((state) => state.search.searchesCount);
   const count = useSelector((state) => state.search.counters[resultItem]);
 
+  const handleCheckboxChange = (item) => {
+    if (selectedItems[resultItem].includes(item)) {
+      setSelectedItems({
+        ...selectedItems,
+        [resultItem]: selectedItems[resultItem].filter((selectedItem) => selectedItem !== item),
+      });
+    } else {
+      setSelectedItems({
+        ...selectedItems,
+        [resultItem]: [...selectedItems[resultItem], item],
+      });
+    }
+  };
+
   const handleLoadMore = (entity) => {
-    dispatch(search.loadMore({
-      entity,
-    }));
+    dispatch(search.loadMore({ entity }));
+  };
+  const handleDeselectItems = (entity) => {
+    const updatedSelectedItems = { ...selectedItems };
+    updatedSelectedItems[entity] = [];
+    setSelectedItems(updatedSelectedItems);
   };
 
   const listRef = useRef(null);
@@ -78,18 +120,36 @@ const SearchResult = (props) => {
         >
           <Typography variant="h5">
             {title}
-            <Typography variant="caption">{`${count} items`}</Typography>
+            {
+              selectedItems[resultItem].length === 0
+                ? <Typography variant="caption">{`${count} items`}</Typography>
+                : (
+                  <Button variant="text" onClick={() => handleDeselectItems(resultItem)}>
+                    <Typography variant="caption">{`Deselect ${selectedItems[resultItem].length} items`}</Typography>
+                  </Button>
+                )
+             }
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <List component="nav" ref={listRef}>
             {results && results.items.length > 0
               ? results.items.map((item, i) => (
-                <ListItem key={`results-${resultItem}-listitem-${i}`}>
+                <ListItem
+                  key={`results-${resultItem}-listitem-${i}`}
+                  className={`${classes.listItem} ${selectedItems[resultItem].includes(item) ? 'selected' : ''}`}
+                >
                   <ListItemIcon>
-                    <img src={image} width="10" height="10" alt={title} />
+                    <Checkbox
+                      edge="start"
+                      checked={selectedItems[resultItem].includes(item)}
+                      tabIndex={-1}
+                      disableRipple
+                      onChange={() => handleCheckboxChange(item)}
+                      icon={<CustomCheckedIcon fill="none" />}
+                      checkedIcon={<CustomCheckedIcon fill="#77478F" />}
+                    />
                   </ListItemIcon>
-                  {/* <ListItemText primary={item.name} /> */}
                   <ListItemText primary={(
                     <HTMLViewer
                       content={item.name}
@@ -97,7 +157,7 @@ const SearchResult = (props) => {
                         width: '100%', height: '100%', float: 'center',
                       }}
                     />
-                  )}
+                        )}
                   />
                   <Button
                     disableElevation

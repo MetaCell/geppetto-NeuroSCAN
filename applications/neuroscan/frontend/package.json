@@ -36,7 +36,7 @@
   },
   "scripts": {
     "start": "REACT_APP_BACKEND_URL=http://localhost:1337/ craco start",
-    "start:dev": "REACT_APP_BACKEND_URL=https://neuroscan.net/ craco start",
+    "start:dev": "REACT_APP_BACKEND_URL=https://neuroscan.dev.metacell.us/ craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"

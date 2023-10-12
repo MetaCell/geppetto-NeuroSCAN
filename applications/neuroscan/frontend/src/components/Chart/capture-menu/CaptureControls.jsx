@@ -7,8 +7,13 @@ import {
   Tooltip,
   Button, Popover,
 } from '@material-ui/core';
-import { captureControlsActionsStart, captureControlsActionsStop, captureControlsActionsDownloadScreenshot } from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
+import {
+  captureControlsActionsStart,
+  captureControlsActionsStop,
+  captureControlsActionsDownloadScreenshot,
+} from '@metacell/geppetto-meta-ui/capture-controls/CaptureControls';
 import DOWNLOAD from '../../../images/graph/download.svg';
+import HIGHLIGHT from '../../../images/graph/highlight.svg';
 import RECORDING from '../../../images/graph/recording.svg';
 import RECORDING_ACTIVE from '../../../images/graph/recording-active.svg';
 import STOP from '../../../images/graph/stop.svg';
@@ -17,24 +22,28 @@ import DownloadMenu from './DownloadMenu';
 import { DOWNLOAD_OBJS, DOWNLOAD_SCREENSHOT } from '../../../utilities/constants';
 import store from '../../../redux/store';
 import zipService from '../../../services/ZipService';
+import HighlightPopover from './highlight/HighlightPopover';
 
 const CaptureControls = (props) => {
   const {
     captureControlsHandler,
     widgetName,
     viewerId,
+    hasHighlight,
   } = props;
-  const [modalOpen, setModalOpen] = useState(false);
-  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [recordingModalOpen, setRecordingModalOpen] = useState(false);
+  const [downloadPopoverOpen, setDownloadPopoverOpen] = useState(false);
+  const [highlightPopoverOpen, setHighlightPopoverOpen] = useState(false);
   const [recording, setRecording] = useState(false);
   const [timerInterval, setTimerInterval] = useState(null);
   const [timer, setTimer] = useState({ timer: 0, recordingTime: '00:00:00' });
   const downloadRef = useRef();
+  const highlightRef = useRef();
   const videoBlob = useRef(null);
   const stopRecording = () => {
     videoBlob.current = captureControlsHandler(captureControlsActionsStop());
     setRecording(false);
-    setModalOpen(true);
+    setRecordingModalOpen(true);
   };
   const startRecording = () => {
     videoBlob.current = null;
@@ -43,17 +52,26 @@ const CaptureControls = (props) => {
   };
   const handleCloseModal = () => {
     videoBlob.current = null;
-    setModalOpen(false);
+    setRecordingModalOpen(false);
   };
   const handleDownloadOpen = () => {
-    setPopoverOpen(true);
+    setDownloadPopoverOpen(true);
   };
   const handleDownloadClose = () => {
-    setPopoverOpen(false);
+    setDownloadPopoverOpen(false);
   };
   const handleDownloadScreenshot = () => {
     captureControlsHandler(captureControlsActionsDownloadScreenshot(`${widgetName}.png`));
   };
+
+  const handleHighlightOpen = () => {
+    setHighlightPopoverOpen(true);
+  };
+
+  const handleHighlightClose = () => {
+    setHighlightPopoverOpen(false);
+  };
+
   const handleDownloadObjs = () => {
     const state = store.getState();
     const { instances } = state.widgets[viewerId].config;
@@ -86,9 +104,15 @@ const CaptureControls = (props) => {
     let minutes = Math.floor((sec - (hours * 3600)) / 60); // get minutes
     let seconds = sec - (hours * 3600) - (minutes * 60); //  get seconds
     // add 0 if value < 10; Example: 2 => 02
-    if (hours < 10) { hours = `0${hours}`; }
-    if (minutes < 10) { minutes = `0${minutes}`; }
-    if (seconds < 10) { seconds = `0${seconds}`; }
+    if (hours < 10) {
+      hours = `0${hours}`;
+    }
+    if (minutes < 10) {
+      minutes = `0${minutes}`;
+    }
+    if (seconds < 10) {
+      seconds = `0${seconds}`;
+    }
     return `${hours}:${minutes}:${seconds}`;
   };
 
@@ -137,31 +161,46 @@ const CaptureControls = (props) => {
               />
             </IconButton>
           </Tooltip>
+          {hasHighlight && (
+            <Tooltip title="Highlight" placement="top">
+              <IconButton
+                disableRipple
+                ref={highlightRef}
+                key="highlighter"
+                onClick={handleHighlightOpen}
+              >
+                <img
+                  src={HIGHLIGHT}
+                  alt="Highlight neurons"
+                />
+              </IconButton>
+            </Tooltip>
+          )}
         </Box>
 
-        { recording && (
-          <Box className="wrap">
+        {recording && (
+        <Box className="wrap">
+          <img
+            src={RECORDING_ACTIVE}
+            alt="Recording"
+            className="icon-blink"
+          />
+          <Typography>Recording...</Typography>
+          <Typography>{timer?.recordingTime}</Typography>
+          <Button onClick={stopRecording}>
             <img
-              src={RECORDING_ACTIVE}
+              src={STOP}
               alt="Recording"
-              className="icon-blink"
             />
-            <Typography>Recording...</Typography>
-            <Typography>{timer?.recordingTime}</Typography>
-            <Button onClick={stopRecording}>
-              <img
-                src={STOP}
-                alt="Recording"
-              />
-              Stop
-            </Button>
-          </Box>
+            Stop
+          </Button>
+        </Box>
         )}
       </Box>
 
       <Popover
         className="custom-popover"
-        open={popoverOpen}
+        open={downloadPopoverOpen}
         anchorEl={downloadRef.current}
         onClose={handleDownloadClose}
         anchorOrigin={{
@@ -176,8 +215,15 @@ const CaptureControls = (props) => {
         <DownloadMenu downloadFiles={handleDownload} />
       </Popover>
 
+      <HighlightPopover
+        open={highlightPopoverOpen}
+        anchorEl={highlightRef.current}
+        onClose={handleHighlightClose}
+        viewerId={viewerId}
+      />
+
       <RecordControlModal
-        open={modalOpen}
+        open={recordingModalOpen}
         handleClose={handleCloseModal}
         captureControlsHandler={captureControlsHandler}
         videoBlob={videoBlob.current}
