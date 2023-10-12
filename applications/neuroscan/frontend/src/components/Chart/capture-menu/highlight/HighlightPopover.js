@@ -41,9 +41,14 @@ const HighlightPopover = ({
   }, [allNames, searchTerms]);
 
   const addSearchTerm = (term) => {
-    if (!searchTerms.includes(term.toUpperCase())) {
+    if (term.trim() === '') {
+      return false;
+    }
+
+    if (searchTerms.includes(term.toUpperCase())) {
       setSearchTerms((prevTerms) => [...prevTerms, term.toUpperCase()]);
     }
+    return true;
   };
 
   const removeSearchTerm = (term) => {
