@@ -1,14 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  Box, Chip, IconButton, Typography,
+  Box, Typography,
 } from '@material-ui/core';
-import ChipInput from 'material-ui-chip-input';
-import MagnifyingGlass from '../../images/magnifying-glass.svg';
 import DevelopmentalStageFilter from '../Common/DevelopmentalStageFilter';
 import * as search from '../../redux/actions/search';
-import CLOSE from '../../images/icon-close.svg';
-import REMOVE from '../../images/remove.svg';
 import SearchBar from '../SearchBar';
 
 const Search = (props) => {

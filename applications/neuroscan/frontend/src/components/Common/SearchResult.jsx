@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Accordion,
@@ -51,6 +51,7 @@ const SearchResult = (props) => {
   const {
     title,
     resultItem,
+    image,
     handleClick,
     selectedItems,
     setSelectedItems,
@@ -85,6 +86,31 @@ const SearchResult = (props) => {
     setSelectedItems(updatedSelectedItems);
   };
 
+  const listRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        listRef.current
+          && listRef.current.scrollTop + listRef.current.clientHeight
+          >= listRef.current.scrollHeight
+      ) {
+        // Scroll reached the end of the list, load more data
+        handleLoadMore(resultItem);
+      }
+    };
+
+    if (listRef.current) {
+      listRef.current.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (listRef.current) {
+        listRef.current.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [resultItem]);
+
   return (
     <>
       <Accordion className={searchesCount > 0 ? classes.fade : ''} id={`${title}-result`}>
@@ -106,9 +132,7 @@ const SearchResult = (props) => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <List
-            component="nav"
-          >
+          <List component="nav" ref={listRef}>
             {results && results.items.length > 0
               ? results.items.map((item, i) => (
                 <ListItem
@@ -148,9 +172,6 @@ const SearchResult = (props) => {
               ))
               : <div />}
           </List>
-          <Button variant="outlined" onClick={() => handleLoadMore(resultItem)}>
-            See more
-          </Button>
         </AccordionDetails>
       </Accordion>
     </>
