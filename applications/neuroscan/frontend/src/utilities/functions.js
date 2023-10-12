@@ -74,6 +74,7 @@ export const addToWidget = (
           props: {
             widgetName: widget.name,
             viewerId: newViewerId,
+            hasHighlight: widget.type === VIEWERS.CphateViewer,
           },
         },
         recorderOptions: {
@@ -104,6 +105,7 @@ export const addToWidget = (
       colorPickerColor: null,
       highlightSearchedInstances: widget.highlightSearchedInstances,
       instances,
+      highlightedInstances: [],
       addedObjectsToViewer,
     };
     return addWidget(widgetFromViewerSpec(newWidget));

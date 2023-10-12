@@ -114,6 +114,24 @@ const theme = createTheme({
             },
           },
         },
+        '&.highlight-popover': {
+          '& .MuiPopover-paper': {
+            paddingBottom: '1rem',
+          },
+          '& .MuiPaper-root': {
+            transform: 'none !important',
+            '& .MuiInputBase-root': {
+              height: 'auto',
+              minHeight: '2.25rem',
+            },
+            '& .MuiAccordionSummary-root': {
+              padding: '0 1rem',
+              '&:hover': {
+                backgroundColor: '#F9F5FA',
+              },
+            },
+          },
+        },
         '&.custom-popover': {
           '& .MuiPaper-root': {
             transform: 'translateY(0.75rem) translateX(-1.5rem) !important',

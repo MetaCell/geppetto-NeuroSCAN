@@ -17,15 +17,12 @@ import { addInstances } from '../../redux/actions/widget';
 import neuronService from '../../services/NeuronService';
 import AddToViewerMenu from '../Sidebar/AddToViewerMenu';
 
-function shouldApplyGreyOut(instance, highlightSearchedInstances, searchTerms) {
-  if (instance.color || !highlightSearchedInstances || searchTerms.length === 0) {
+function shouldApplyGreyOut(instance, highlightedInstances) {
+  if (instance.color || highlightedInstances.length === 0) {
     return false;
   }
 
-  const isInstanceSearched = searchTerms
-    .some((term) => instance.name.toLowerCase().includes(term.toLowerCase()));
-
-  return !isInstanceSearched;
+  return !highlightedInstances.some((highlighted) => instance.name.includes(highlighted));
 }
 
 const styles = () => ({
@@ -185,16 +182,12 @@ class Viewer extends React.Component {
   }
 
   initCanvasData() {
-    const {
-      instances,
-      highlightSearchedInstances,
-      searchTerms,
-    } = this.props;
+    const { instances, highlightedInstances } = this.props;
 
     return instances.filter((instance) => !instance.hidden).map((instance) => {
       let { color } = instance;
 
-      if (shouldApplyGreyOut(instance, highlightSearchedInstances, searchTerms)) {
+      if (shouldApplyGreyOut(instance, highlightedInstances)) {
         color = GREY_OUT_MESH_COLOR;
       }
 
@@ -258,8 +251,7 @@ const mapDispatchToProps = (dispatch) => ({
   ),
 });
 
-const mapStateToProps = (state) => ({
-  searchTerms: state.search.filters.searchTerms,
+const mapStateToProps = (state, ownProps) => ({
   timePoint: state.search.filters.timePoint,
 });
 
