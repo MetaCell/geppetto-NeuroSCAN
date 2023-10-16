@@ -45,7 +45,7 @@ const HighlightPopover = ({
       return false;
     }
 
-    if (searchTerms.includes(term.toUpperCase())) {
+    if (!searchTerms.includes(term.toUpperCase())) {
       setSearchTerms((prevTerms) => [...prevTerms, term.toUpperCase()]);
     }
     return true;
