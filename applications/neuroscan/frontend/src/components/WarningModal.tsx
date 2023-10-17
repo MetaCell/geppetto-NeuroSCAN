@@ -70,7 +70,7 @@ const WarningModal = (props: any) => {
     <Modal open={open} className="primary-modal" onClose={handleClose}>
       <Box className="modal-dialog">
         <Box className="modal-header">
-          <Typography>Neurons not present</Typography>
+          <Typography>Missing data</Typography>
           <IconButton
             color="inherit"
             onClick={handleClose}
@@ -88,7 +88,7 @@ const WarningModal = (props: any) => {
           }}
         >
           <Typography style={{ marginBottom: '1.5rem' }}>
-            Caution: you are moving in a timepoint where the following neurons are not present.
+            Caution: you are moving in a timepoint where the following data are not present.
             Be aware that if you decide to proceed, these data will be lost.
           </Typography>
           {neurons?.length !== 0 && renderAccordion('Neurons', neurons, NeuronsIcon)}
