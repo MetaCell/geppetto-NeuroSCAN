@@ -12,9 +12,7 @@ function getBaseSearchQuery(timepoint) {
   const knex = strapi.connections.default;
   return knex('contacts')
     .select([
-      'contacts.id',
-      'contacts.uid',
-      'contacts.name',
+      'contacts.*',
       'neuronA_content.uid as neuronA_uid',
       'neuronB_content.uid as neuronB_uid'
     ])
