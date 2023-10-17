@@ -1664,15 +1664,9 @@ const theme = createTheme({
                     display: 'flex',
                     alignItems: 'center',
                     padding: '0.5625rem 0.6875rem',
-                    '&:hover': {
-                      '& .MuiIconButton-root': {
-                        display: 'block',
-                        transition,
-                      },
-                    },
                     '& .MuiIconButton-root': {
                       padding: 0,
-                      display: 'none',
+                      display: 'block',
                       marginLeft: '0.5rem',
                       transition,
                     },
