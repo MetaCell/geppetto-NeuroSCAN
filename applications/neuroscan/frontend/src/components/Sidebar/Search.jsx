@@ -22,6 +22,10 @@ const Search = (props) => {
   }, [searchTerms, timePoint]);
 
   const addSearchTerm = (value) => {
+    if (value.trim() === '') {
+      return false;
+    }
+
     if (searchTerms.indexOf(value) > -1) {
       return false;
     }
