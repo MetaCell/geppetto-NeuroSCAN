@@ -16,6 +16,7 @@ import HTMLViewer from '@metacell/geppetto-meta-ui/html-viewer/HTMLViewer';
 import Checkbox from '@material-ui/core/Checkbox';
 import CHEVRON from '../../images/chevron-right.svg';
 import * as search from '../../redux/actions/search';
+import vars from '../../styles/constants';
 
 const useStyles = makeStyles(() => ({
   fade: {
@@ -29,9 +30,15 @@ const useStyles = makeStyles(() => ({
     },
     '&.selected': {
       background: '#F2EBF5', // Background color when selected but not hovered
+      '& .MuiTypography-root': {
+        color: '#77478F',
+      },
     },
     '&:hover.selected': {
       background: '#ECDFF2 !important', // Background color when both selected and hovered
+      '& .MuiTypography-root': {
+        color: vars.primaryColor,
+      },
     },
   },
 }));
@@ -115,7 +122,7 @@ const SearchResult = (props) => {
     <>
       <Accordion className={searchesCount > 0 ? classes.fade : ''} id={`${title}-result`}>
         <AccordionSummary
-          expandIcon={<img src={CHEVRON} width="4" height="6" alt="CHEVRON" />}
+          expandIcon={<img src={CHEVRON} width="8" height="8" alt="CHEVRON" />}
           IconButtonProps={{ disableRipple: true }}
         >
           <Typography variant="h5">
