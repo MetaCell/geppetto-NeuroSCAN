@@ -59,7 +59,6 @@ export const setOriginalColorSelectedInstances = (instances, selectedUids) => (
       }
       return newInstance;
     }));
-
 const updateInstanceSelected = (instances, selectedUids) => {
   const i = instances.map((instance) => {
     if (selectedUids.find((x) => x === instance.uid)) {
@@ -113,14 +112,17 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
   const colorPickerColor = selectedUids.length > 0
     ? newInstances.find((i) => i.uid === selectedUids[selectedUids.length - 1]).colorOriginal
     : null;
+
   store.dispatch(updateWidgetConfig(
     viewerId, {
       flash: true,
       hidden: false,
       instances: newInstances,
       colorPickerColor,
+      selectedUids,
     },
   ));
+
   let counter = 1;
   const interval = setInterval(() => {
     if (counter === 6) {
@@ -138,6 +140,14 @@ export const deleteSelectedInstances = (viewerId, instances, selectedUids) => {
   store.dispatch(updateWidgetConfig(
     viewerId, {
       instances: newInstances,
+    },
+  ));
+};
+
+export const deleteSelectedUids = (viewerId) => {
+  store.dispatch(updateWidgetConfig(
+    viewerId, {
+      selectedUids: [],
     },
   ));
 };

@@ -21,6 +21,7 @@ import {
 } from '../../../utilities/constants';
 import { getViewersFromWidgets } from '../../../utilities/functions';
 import {
+  deleteSelectedInstances,
   getGroupsFromInstances,
   groupBy, handleSelect, sortedGroupedIterations,
 } from '../../../services/instanceHelpers';
@@ -45,7 +46,6 @@ const Explorer = () => {
 
   const stateLayout = useSelector((state) => state.layout.layout);
   const widgets = useSelector((state) => state.widgets);
-
   const ExplorerTreeItems = (props) => {
     const {
       viewerId,
@@ -156,7 +156,6 @@ const Explorer = () => {
   const handleToggle = (event, nodeIds) => {
     setExpanded(nodeIds);
   };
-
   useEffect(() => {
     setTreeData(getTreeItemsFromData());
     const itemsToSelect = Object.values(widgets)
@@ -178,7 +177,6 @@ const Explorer = () => {
   }, [stateLayout]);
 
   const treeRef = React.createRef();
-
   return (
     <Box className="wrap instances-box">
       {Object.entries(widgets).length === 0 ? (
