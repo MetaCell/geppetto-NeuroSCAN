@@ -6,9 +6,10 @@ import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
 import { withStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
 import {
-  deleteSelectedInstances, deleteSelectedUids,
+  deleteSelectedInstances,
   mapToInstance,
   setSelectedInstances,
+  updateSelectedIns,
 } from '../../services/instanceHelpers';
 import {
   GREY_OUT_MESH_COLOR,
@@ -105,10 +106,7 @@ class Viewer extends React.Component {
   componentDidMount() {
     this.handleDeleteKeyPress = (event) => {
       if ((event.key === 'Delete' || event.key === 'Backspace')) {
-        const selectedItemToDelete = this.findSelectedItemWithSelectedUids();
-        const { config } = selectedItemToDelete;
-        const { instances, viewerId, selectedUids } = config;
-        deleteSelectedInstances(viewerId, instances, selectedUids);
+        console.log('Delete');
       }
     };
     window.addEventListener('keydown', this.handleDeleteKeyPress);
@@ -125,16 +123,12 @@ class Viewer extends React.Component {
 
   onSelection(selectedInstances, event) {
     const {
-      viewerId, instances, type, widgets,
+      viewerId, instances, type,
     } = this.props;
     if (selectedInstances.length > 0) {
       if (event.button === 0) { // left click
-        const selectedItems = Object.values(widgets).find((item) => 'selectedUids' in item.config);
-        if (selectedItems) {
-          const { config } = selectedItems;
-          deleteSelectedUids(config.viewerId, config.instances, []);
-        }
         setSelectedInstances(viewerId, instances, selectedInstances);
+        // updateSelectedIns(viewerId, selectedInstances[0]);
       } else if (event.button === 2 && type === VIEWERS.CphateViewer) { // right click
         const selectedUid = selectedInstances[0];
         const selectedInstance = instances.find((i) => i.uid === selectedUid);
@@ -170,12 +164,6 @@ class Viewer extends React.Component {
 
   handleMenuClose = () => {
     this.setState({ contextMenuOpen: false, contextMenuInstance: null });
-  };
-
-  findSelectedItemWithSelectedUids = () => {
-    const { widgets } = this.props;
-    return Object.values(widgets).find((item) => item.config.selectedUids
-        && item.config.selectedUids.length > 0);
   };
 
   hoverListener(objs, canvasX, canvasY) {
@@ -279,7 +267,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state, ownProps) => ({
   timePoint: state.search.filters.timePoint,
-  widgets: state.widgets,
+  selectedInstances: state.selectedInstances,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Viewer));

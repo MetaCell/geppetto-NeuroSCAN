@@ -1,20 +1,23 @@
 import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import { updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
 import { ADD_DEVSTAGES, receivedDevStages } from './actions/devStages';
-import { raiseError, loading, loadingSuccess } from './actions/misc';
+import { loading, loadingSuccess, raiseError } from './actions/misc';
 import {
   ADD_INSTANCES,
   ADD_INSTANCES_TO_GROUP,
-  SET_INSTANCES_COLOR,
-  UPDATE_TIMEPOINT_VIEWER,
-  UPDATE_BACKGROUND_COLOR_VIEWER,
-  UPDATE_WIDGET_CONFIG,
+  INVERT_COLORS_FLASHING,
   ROTATE_START_ALL,
   ROTATE_STOP_ALL,
+  SET_INSTANCES_COLOR,
+  SET_ORIGINAL_COLORS_FLASHING,
+  TOGGLE_INSTANCE_HIGHLIGHT,
+  UPDATE_BACKGROUND_COLOR_VIEWER,
+  UPDATE_SELECTED_INSTANCES,
+  UPDATE_TIMEPOINT_VIEWER,
+  UPDATE_WIDGET_CONFIG,
   updateWidgetConfig,
-  INVERT_COLORS_FLASHING,
-  SET_ORIGINAL_COLORS_FLASHING, TOGGLE_INSTANCE_HIGHLIGHT,
 } from './actions/widget';
+
 import { DevStageService } from '../services/DevStageService';
 import neuronService from '../services/NeuronService';
 import contactService from '../services/ContactService';
@@ -22,9 +25,7 @@ import synapseService from '../services/SynapseService';
 // eslint-disable-next-line import/no-cycle
 import cphateService from '../services/CphateService';
 import {
-  CONTACT_TYPE,
-  NEURON_TYPE,
-  SYNAPSE_TYPE, VIEWERS,
+  CONTACT_TYPE, NEURON_TYPE, SYNAPSE_TYPE, VIEWERS,
 } from '../utilities/constants';
 // eslint-disable-next-line import/no-cycle
 import { cameraControlsRotateState } from '../components/Chart/CameraControls';
@@ -33,12 +34,12 @@ import { addToWidget } from '../utilities/functions';
 // eslint-disable-next-line import/no-cycle
 import {
   createSimpleInstancesFromInstances,
-  updateInstanceGroup,
-  setInstancesColor,
   getInstancesOfType,
-  mapToInstance,
   invertColorSelectedInstances,
+  mapToInstance,
+  setInstancesColor,
   setOriginalColorSelectedInstances,
+  updateInstanceGroup,
 } from '../services/instanceHelpers';
 
 const devStagesService = new DevStageService();
@@ -287,7 +288,6 @@ const middleware = (store) => (next) => (action) => {
       }));
       break;
     }
-
     default:
       next(action);
   }

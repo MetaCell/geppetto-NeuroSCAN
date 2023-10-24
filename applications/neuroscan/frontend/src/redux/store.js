@@ -18,6 +18,7 @@ const INIT_STATE = {
   misc: {},
   search: SEARCH_DEFAULT_STATUS.search,
   promoterDB: PROMOTERS_DEFAULT_STATUS,
+  selectedInstances: [],
 };
 
 const store = createStore(

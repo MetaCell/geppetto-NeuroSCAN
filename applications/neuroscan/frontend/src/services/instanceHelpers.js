@@ -1,6 +1,11 @@
 /* eslint-disable import/no-cycle */
 import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
-import { invertColorsFlashing, setOriginalColors, updateWidgetConfig } from '../redux/actions/widget';
+import {
+  invertColorsFlashing,
+  setOriginalColors,
+  updateSelectedInstances,
+  updateWidgetConfig,
+} from '../redux/actions/widget';
 import urlService from './UrlService';
 import zipService from './ZipService';
 import store from '../redux/store';
@@ -119,7 +124,6 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
       hidden: false,
       instances: newInstances,
       colorPickerColor,
-      selectedUids,
     },
   ));
 
@@ -133,6 +137,8 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
     }
     counter += 1;
   }, 750);
+
+  store.dispatch(updateSelectedInstances(viewerId, selectedUids));
 };
 
 export const deleteSelectedInstances = (viewerId, instances, selectedUids) => {
@@ -144,11 +150,9 @@ export const deleteSelectedInstances = (viewerId, instances, selectedUids) => {
   ));
 };
 
-export const deleteSelectedUids = (viewerId) => {
-  store.dispatch(updateWidgetConfig(
-    viewerId, {
-      selectedUids: [],
-    },
+export const updateSelectedIns = (viewerId, instance) => {
+  store.dispatch(updateSelectedInstances(
+    viewerId, instance,
   ));
 };
 
