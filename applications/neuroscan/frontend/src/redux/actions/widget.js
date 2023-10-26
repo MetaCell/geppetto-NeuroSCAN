@@ -12,11 +12,12 @@ export const INVERT_COLORS_FLASHING = 'INVERT_COLORS_FLASHING';
 export const SET_ORIGINAL_COLORS_FLASHING = 'SET_ORIGINAL_COLORS_FLASHING';
 export const TOGGLE_INSTANCE_HIGHLIGHT = 'TOGGLE_INSTANCE_HIGHLIGHT';
 
-export const addInstances = ((viewerId, instances, viewerType = null) => ({
+export const addInstances = ((viewerId, instances, viewerType = null, timepoint = null) => ({
   type: ADD_INSTANCES,
   viewerId,
   viewerType,
   instances,
+  timepoint,
 }));
 
 export const addCphate = ((timePoint) => ({

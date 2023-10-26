@@ -10,8 +10,8 @@ const InstanceViewer = connect(
   (dispatch) => ({
     loadingStarted: () => dispatch(canvasUpdateStarted()),
     loadingFinished: () => dispatch(canvasUpdateEnded()),
-    addInstancesToViewer: (viewerId, instances) => dispatch(
-      addInstances(viewerId, instances, VIEWERS.InstanceViewer),
+    addInstancesToViewer: (viewerId, instances, timepoint) => dispatch(
+      addInstances(viewerId, instances, VIEWERS.InstanceViewer, timepoint),
     ),
   }),
 )(Viewer);

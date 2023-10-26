@@ -140,7 +140,7 @@ class Viewer extends React.Component {
 
         const instances = fetchedNeurons.map((neuron) => mapToInstance(neuron));
 
-        addInstancesToViewer(viewerId, instances);
+        addInstancesToViewer(viewerId, instances, timePoint);
       } catch (error) {
         console.error('Failed to fetch neurons or map to instances', error);
       }
