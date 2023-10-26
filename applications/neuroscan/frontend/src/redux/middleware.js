@@ -1,22 +1,20 @@
 import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import { updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
 import { ADD_DEVSTAGES, receivedDevStages } from './actions/devStages';
-import { loading, loadingSuccess, raiseError } from './actions/misc';
+import { raiseError, loading, loadingSuccess } from './actions/misc';
 import {
   ADD_INSTANCES,
   ADD_INSTANCES_TO_GROUP,
-  INVERT_COLORS_FLASHING,
+  SET_INSTANCES_COLOR,
+  UPDATE_TIMEPOINT_VIEWER,
+  UPDATE_BACKGROUND_COLOR_VIEWER,
+  UPDATE_WIDGET_CONFIG,
   ROTATE_START_ALL,
   ROTATE_STOP_ALL,
-  SET_INSTANCES_COLOR,
-  SET_ORIGINAL_COLORS_FLASHING,
-  TOGGLE_INSTANCE_HIGHLIGHT,
-  UPDATE_BACKGROUND_COLOR_VIEWER,
-  UPDATE_TIMEPOINT_VIEWER,
-  UPDATE_WIDGET_CONFIG,
   updateWidgetConfig,
+  INVERT_COLORS_FLASHING,
+  SET_ORIGINAL_COLORS_FLASHING, TOGGLE_INSTANCE_HIGHLIGHT,
 } from './actions/widget';
-
 import { DevStageService } from '../services/DevStageService';
 import neuronService from '../services/NeuronService';
 import contactService from '../services/ContactService';
@@ -24,7 +22,9 @@ import synapseService from '../services/SynapseService';
 // eslint-disable-next-line import/no-cycle
 import cphateService from '../services/CphateService';
 import {
-  CONTACT_TYPE, NEURON_TYPE, SYNAPSE_TYPE, VIEWERS,
+  CONTACT_TYPE,
+  NEURON_TYPE,
+  SYNAPSE_TYPE, VIEWERS,
 } from '../utilities/constants';
 // eslint-disable-next-line import/no-cycle
 import { cameraControlsRotateState } from '../components/Chart/CameraControls';
@@ -33,12 +33,12 @@ import { addToWidget } from '../utilities/functions';
 // eslint-disable-next-line import/no-cycle
 import {
   createSimpleInstancesFromInstances,
-  getInstancesOfType,
-  invertColorSelectedInstances,
-  mapToInstance,
-  setInstancesColor,
-  setOriginalColorSelectedInstances,
   updateInstanceGroup,
+  setInstancesColor,
+  getInstancesOfType,
+  mapToInstance,
+  invertColorSelectedInstances,
+  setOriginalColorSelectedInstances,
 } from '../services/instanceHelpers';
 
 const devStagesService = new DevStageService();
@@ -92,7 +92,7 @@ const middleware = (store) => (next) => (action) => {
         .then(() => {
           const widget = getWidget(store, action.viewerId, action.viewerType);
           const addedObjectsToViewer = Array.isArray(widget?.config?.instances)
-          && widget?.config?.instances.length !== 0
+            && widget?.config?.instances.length !== 0
             ? widget.config.instances.concat(action.instances) : action.instances;
 
           store.dispatch(
@@ -287,6 +287,7 @@ const middleware = (store) => (next) => (action) => {
       }));
       break;
     }
+
     default:
       next(action);
   }
