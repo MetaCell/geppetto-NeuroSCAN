@@ -105,11 +105,8 @@ class Viewer extends React.Component {
   componentDidMount() {
     this.handleDeleteKeyPress = (event) => {
       if ((event.key === 'Delete' || event.key === 'Backspace')) {
-        const { selectedInstanceToDelete, widgets } = this.props;
-        const currentWidget = widgets[selectedInstanceToDelete.viewerId];
-        const { config } = currentWidget;
-        deleteSelectedInstances(selectedInstanceToDelete.viewerId,
-          config?.instances, selectedInstanceToDelete.instance, config?.addedObjectsToViewer);
+        const { selectedInstanceToDelete } = this.props;
+        deleteSelectedInstances(selectedInstanceToDelete.viewerId, selectedInstanceToDelete.uid);
       }
     };
     window.addEventListener('keydown', this.handleDeleteKeyPress);

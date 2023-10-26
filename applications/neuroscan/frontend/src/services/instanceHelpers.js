@@ -144,11 +144,18 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
   store.dispatch(addLastSelectedInstance(viewerId, [newSelectedUid.uid]));
 };
 
-export const deleteSelectedInstances = (viewerId, instances,
-  selectedUids, addedObjectsToViewer) => {
-  const newInstances = instances.filter((instance) => !selectedUids.includes(instance.uid));
-  const newAddedObjectsToViewer = addedObjectsToViewer
+export const deleteSelectedInstances = (viewerId, selectedUids) => {
+  const { selectedInstanceToDelete, widgets } = store.getState();
+
+  // get current viewer config for the selected instance
+  const currentWidget = widgets[selectedInstanceToDelete.viewerId];
+  const { config } = currentWidget;
+
+  // remove selected instances from instances and newAddedObjectsToViewer lists
+  const newInstances = config?.instances.filter((instance) => !selectedUids.includes(instance.uid));
+  const newAddedObjectsToViewer = config?.addedObjectsToViewer
     .filter((obj) => !selectedUids.includes(obj.uid));
+
   store.dispatch(updateWidgetConfig(
     viewerId, {
       instances: newInstances,

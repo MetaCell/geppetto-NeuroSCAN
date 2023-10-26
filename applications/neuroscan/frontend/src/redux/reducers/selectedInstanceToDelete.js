@@ -8,7 +8,7 @@ const selectedInstanceToDeleteReducer = (state = initialState, action) => {
       return {
         ...state,
         viewerId: action.viewerId,
-        instance: action.uid,
+        uid: action.uid,
       };
 
     default:
