@@ -244,15 +244,4 @@ class Viewer extends React.Component {
     );
   }
 }
-
-const mapDispatchToProps = (dispatch) => ({
-  addInstancesToViewer: (viewerId, instances) => dispatch(
-    addInstances(viewerId, instances, VIEWERS.InstanceViewer),
-  ),
-});
-
-const mapStateToProps = (state, ownProps) => ({
-  timePoint: state.search.filters.timePoint,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Viewer));
+export default withStyles(styles)(Viewer);
