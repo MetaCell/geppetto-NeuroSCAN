@@ -394,3 +394,9 @@ export const sortedInstances = (instances) => {
 
 export const sortedGroupedIterations = (items) => items.map((innerArray) => innerArray.slice()
   .sort((a, b) => a.name.localeCompare(b.name)));
+
+export async function fetchDataForEntity(service, timePoint, entities) {
+  if (entities.length === 0) return [];
+  const newEntities = await service.getByUID(timePoint, entities.map((e) => e.uidFromDb));
+  return newEntities;
+}

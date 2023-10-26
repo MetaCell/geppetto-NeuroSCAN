@@ -38,7 +38,7 @@ import {
   getInstancesOfType,
   mapToInstance,
   invertColorSelectedInstances,
-  setOriginalColorSelectedInstances,
+  setOriginalColorSelectedInstances, fetchDataForEntity,
 } from '../services/instanceHelpers';
 
 const devStagesService = new DevStageService();
@@ -74,7 +74,7 @@ const getWidget = (store, viewerId, viewerType, timePoint = null) => {
   };
 };
 
-const middleware = (store) => (next) => (action) => {
+const middleware = (store) => (next) => async (action) => {
   switch (action.type) {
     case ADD_DEVSTAGES: {
       const msg = 'Getting development stages';
@@ -95,7 +95,7 @@ const middleware = (store) => (next) => (action) => {
         .then(() => {
           const widget = getWidget(store, action.viewerId, action.viewerType, action.timepoint);
           const addedObjectsToViewer = Array.isArray(widget?.config?.instances)
-          && widget?.config?.instances.length !== 0
+            && widget?.config?.instances.length !== 0
             ? widget.config.instances.concat(action.instances) : action.instances;
 
           store.dispatch(
@@ -190,34 +190,19 @@ const middleware = (store) => (next) => (action) => {
               next(raiseError(msg));
             });
         } else {
-          const neurons = getInstancesOfType(addedObjectsToViewer, NEURON_TYPE) || ['-1'];
-          const contacts = getInstancesOfType(addedObjectsToViewer, CONTACT_TYPE) || ['-1'];
-          const synapses = getInstancesOfType(addedObjectsToViewer, SYNAPSE_TYPE) || ['-1'];
+          const neurons = getInstancesOfType(addedObjectsToViewer, NEURON_TYPE) || [];
+          const contacts = getInstancesOfType(addedObjectsToViewer, CONTACT_TYPE) || [];
+          const synapses = getInstancesOfType(addedObjectsToViewer, SYNAPSE_TYPE) || [];
 
-          neuronService.getByUID(timePoint, neurons.map((n) => n.uidFromDb))
-            .then((newNeurons) => {
-              contactService.getByUID(timePoint, contacts.map((n) => n.uidFromDb))
-                .then((newContacts) => {
-                  synapseService.getByUID(timePoint, synapses.map((n) => n.uidFromDb))
-                    .then((newSynapses) => {
-                      const newInstances = newNeurons.concat(newContacts.concat(newSynapses))
-                        .map((i) => mapToInstance(i));
-                      widget.config.timePoint = timePoint; // update the current widget's timepoint
-                      createSimpleInstancesFromInstances(newInstances)
-                        .then(() => {
-                          store
-                            .dispatch(
-                              addToWidget(
-                                widget,
-                                newInstances,
-                                true,
-                                addedObjectsToViewer,
-                              ),
-                            );
-                        });
-                    });
-                });
-            });
+          const newNeurons = await fetchDataForEntity(neuronService, timePoint, neurons);
+          const newContacts = await fetchDataForEntity(contactService, timePoint, contacts);
+          const newSynapses = await fetchDataForEntity(synapseService, timePoint, synapses);
+
+          const newInstances = [...newNeurons, ...newContacts, ...newSynapses]
+            .map((i) => mapToInstance(i));
+          widget.config.timePoint = timePoint; // update the current widget's timepoint
+          await createSimpleInstancesFromInstances(newInstances);
+          store.dispatch(addToWidget(widget, newInstances, true, addedObjectsToViewer));
         }
       }
       break;
