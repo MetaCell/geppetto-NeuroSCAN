@@ -3,7 +3,7 @@ import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
 import {
   invertColorsFlashing,
   setOriginalColors,
-  updateSelectedInstances,
+  addLastSelectedInstance,
   updateWidgetConfig,
 } from '../redux/actions/widget';
 import urlService from './UrlService';
@@ -138,21 +138,22 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
     counter += 1;
   }, 750);
 
-  store.dispatch(updateSelectedInstances(viewerId, selectedUids));
+  // Add the last Selected instances uid
+  const newSelectedUid = instances.find((item) => (item.selected === false)
+      && selectedUids.includes(item.uid));
+  store.dispatch(addLastSelectedInstance(viewerId, [newSelectedUid.uid]));
 };
 
-export const deleteSelectedInstances = (viewerId, instances, selectedUids) => {
+export const deleteSelectedInstances = (viewerId, instances,
+  selectedUids, addedObjectsToViewer) => {
   const newInstances = instances.filter((instance) => !selectedUids.includes(instance.uid));
+  const newAddedObjectsToViewer = addedObjectsToViewer
+    .filter((obj) => !selectedUids.includes(obj.uid));
   store.dispatch(updateWidgetConfig(
     viewerId, {
       instances: newInstances,
+      addedObjectsToViewer: newAddedObjectsToViewer,
     },
-  ));
-};
-
-export const updateSelectedIns = (viewerId, instance) => {
-  store.dispatch(updateSelectedInstances(
-    viewerId, instance,
   ));
 };
 

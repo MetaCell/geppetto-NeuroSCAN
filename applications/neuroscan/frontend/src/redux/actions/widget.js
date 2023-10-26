@@ -11,7 +11,7 @@ export const ROTATE_STOP_ALL = 'ROTATE_STOP_ALL';
 export const INVERT_COLORS_FLASHING = 'INVERT_COLORS_FLASHING';
 export const SET_ORIGINAL_COLORS_FLASHING = 'SET_ORIGINAL_COLORS_FLASHING';
 export const TOGGLE_INSTANCE_HIGHLIGHT = 'TOGGLE_INSTANCE_HIGHLIGHT';
-export const UPDATE_SELECTED_INSTANCES = 'UPDATE_SELECTED_INSTANCES';
+export const ADD_LAST_SELECTED_INSTANCE = 'ADD_LAST_SELECTED_INSTANCE';
 
 export const addInstances = ((viewerId, instances, viewerType = null) => ({
   type: ADD_INSTANCES,
@@ -81,8 +81,8 @@ export const toggleInstanceHighlight = (viewerId, optionName) => ({
   type: TOGGLE_INSTANCE_HIGHLIGHT,
   payload: { viewerId, optionName },
 });
-export const updateSelectedInstances = ((viewerId, uids) => ({
-  type: UPDATE_SELECTED_INSTANCES,
+export const addLastSelectedInstance = ((viewerId, uid) => ({
+  type: ADD_LAST_SELECTED_INSTANCE,
   viewerId,
-  uids,
+  uid,
 }));

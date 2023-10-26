@@ -9,7 +9,6 @@ import {
   deleteSelectedInstances,
   mapToInstance,
   setSelectedInstances,
-  updateSelectedIns,
 } from '../../services/instanceHelpers';
 import {
   GREY_OUT_MESH_COLOR,
@@ -106,7 +105,11 @@ class Viewer extends React.Component {
   componentDidMount() {
     this.handleDeleteKeyPress = (event) => {
       if ((event.key === 'Delete' || event.key === 'Backspace')) {
-        console.log('Delete');
+        const { selectedInstanceToDelete, widgets } = this.props;
+        const currentWidget = widgets[selectedInstanceToDelete.viewerId];
+        const { config } = currentWidget;
+        deleteSelectedInstances(selectedInstanceToDelete.viewerId,
+          config?.instances, selectedInstanceToDelete.instance, config?.addedObjectsToViewer);
       }
     };
     window.addEventListener('keydown', this.handleDeleteKeyPress);
@@ -128,7 +131,6 @@ class Viewer extends React.Component {
     if (selectedInstances.length > 0) {
       if (event.button === 0) { // left click
         setSelectedInstances(viewerId, instances, selectedInstances);
-        // updateSelectedIns(viewerId, selectedInstances[0]);
       } else if (event.button === 2 && type === VIEWERS.CphateViewer) { // right click
         const selectedUid = selectedInstances[0];
         const selectedInstance = instances.find((i) => i.uid === selectedUid);
@@ -267,7 +269,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state, ownProps) => ({
   timePoint: state.search.filters.timePoint,
-  selectedInstances: state.selectedInstances,
+  selectedInstanceToDelete: state.selectedInstanceToDelete,
+  widgets: state.widgets,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Viewer));
