@@ -92,7 +92,7 @@ const middleware = (store) => (next) => (action) => {
         .then(() => {
           const widget = getWidget(store, action.viewerId, action.viewerType);
           const addedObjectsToViewer = Array.isArray(widget?.config?.instances)
-          && widget?.config?.instances.length !== 0
+            && widget?.config?.instances.length !== 0
             ? widget.config.instances.concat(action.instances) : action.instances;
 
           store.dispatch(

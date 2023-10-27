@@ -6,6 +6,7 @@ import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
 import { withStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
 import {
+  deleteSelectedInstances,
   mapToInstance,
   setSelectedInstances,
 } from '../../services/instanceHelpers';
@@ -95,11 +96,24 @@ class Viewer extends React.Component {
 
     this.timeoutRef = React.createRef();
     this.tooltipRef = React.createRef();
-
     this.onMount = this.onMount.bind(this);
     this.onSelection = this.onSelection.bind(this);
     this.hoverListener = this.hoverListener.bind(this);
     this.initCanvasData = this.initCanvasData.bind(this);
+  }
+
+  componentDidMount() {
+    this.handleDeleteKeyPress = (event) => {
+      if ((event.key === 'Delete' || event.key === 'Backspace')) {
+        const { selectedInstanceToDelete } = this.props;
+        deleteSelectedInstances(selectedInstanceToDelete.viewerId, selectedInstanceToDelete.uid);
+      }
+    };
+    window.addEventListener('keydown', this.handleDeleteKeyPress);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleDeleteKeyPress);
   }
 
   onMount(scene) {
@@ -108,7 +122,9 @@ class Viewer extends React.Component {
   }
 
   onSelection(selectedInstances, event) {
-    const { viewerId, instances, type } = this.props;
+    const {
+      viewerId, instances, type,
+    } = this.props;
     if (selectedInstances.length > 0) {
       if (event.button === 0) { // left click
         setSelectedInstances(viewerId, instances, selectedInstances);
@@ -132,14 +148,11 @@ class Viewer extends React.Component {
   handleAddInstancesToViewer = async (viewerId = null) => {
     const { addInstancesToViewer, timePoint } = this.props;
     const { contextMenuInstance } = this.state;
-
     if (contextMenuInstance) {
       const uids = contextMenuInstance.name.split('(')[0].split(',').map((uid) => uid.trim());
       try {
         const fetchedNeurons = await neuronService.getByUID(timePoint, uids);
-
         const instances = fetchedNeurons.map((neuron) => mapToInstance(neuron));
-
         addInstancesToViewer(viewerId, instances);
       } catch (error) {
         console.error('Failed to fetch neurons or map to instances', error);
@@ -253,6 +266,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state, ownProps) => ({
   timePoint: state.search.filters.timePoint,
+  selectedInstanceToDelete: state.selectedInstanceToDelete,
+  widgets: state.widgets,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Viewer));
