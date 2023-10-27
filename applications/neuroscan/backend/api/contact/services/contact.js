@@ -79,6 +79,8 @@ module.exports = {
         [`%${terms[0].toLowerCase()}%`]);
 
       query = applySearchConditions(query, terms);
+    }else {
+      query.orderBy('neuronA_content.uid', 'asc');
     }
 
     query.offset(start).limit(limit);
