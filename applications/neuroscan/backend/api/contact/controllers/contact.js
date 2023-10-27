@@ -18,15 +18,22 @@ module.exports = {
       const timepoint = ctx.query.timepoint
 
       entities = await strapi.services.contact.customSearch(timepoint, terms, start, limit);
+      entities = entities.map(entity => {
+        return {
+          ...entity,
+          name: entity.name ? entity.name : `${entity.neuronA_uid} contact from ${entity.neuronB_uid}`
+        };
+      });
     } else{
       entities = await strapi.services.contact.find(ctx.query);
+      entities = entities.map(entity => {
+        return {
+          ...entity,
+          name: entity.name ? entity.name : `${entity.neuronA.uid} contact from ${entity.neuronB.uid}`
+        };
+      });
     }
-    entities = entities.map(entity => {
-      return {
-        ...entity,
-        name: entity.name ? entity.name : `${entity.neuronA_uid} contact from ${entity.neuronB_uid}`
-      };
-    });
+
     return entities.map(entity => {
       return sanitizeEntity(entity, {
         model: strapi.models.contact,
