@@ -215,12 +215,15 @@ const CaptureControls = (props) => {
         <DownloadMenu downloadFiles={handleDownload} />
       </Popover>
 
-      <HighlightPopover
-        open={highlightPopoverOpen}
-        anchorEl={highlightRef.current}
-        onClose={handleHighlightClose}
-        viewerId={viewerId}
-      />
+      {hasHighlight
+          && (
+          <HighlightPopover
+            open={highlightPopoverOpen}
+            anchorEl={highlightRef.current}
+            onClose={handleHighlightClose}
+            viewerId={viewerId}
+          />
+          )}
 
       <RecordControlModal
         open={recordingModalOpen}
