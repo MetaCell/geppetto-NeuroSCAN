@@ -52,7 +52,6 @@ const StyledTreeItem = (props) => {
                   width: '100%', height: '100%', float: 'center',
                 }}
               />
-              {/* {labelText} */}
             </Typography>
             {
               hasExplorerMenu && (
