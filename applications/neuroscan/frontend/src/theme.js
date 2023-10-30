@@ -1519,13 +1519,14 @@ const theme = createTheme({
           width: '100%',
           fontSize: '0.75rem',
           lineHeight: '1rem',
+          marginLeft: '0.25rem',
         },
       },
       expandIcon: {
         color: lightBlackColor,
         order: 1,
-        margin: '0 0.25rem 0 0',
-        padding: '0.25rem 0.19rem 0.25rem 0.313rem',
+        margin: 0,
+        padding: '0.25rem',
         '&.Mui-expanded': {
           transform: 'rotate(90deg)',
         },

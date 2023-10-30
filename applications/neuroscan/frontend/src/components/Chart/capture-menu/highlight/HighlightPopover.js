@@ -12,12 +12,12 @@ const extractInstanceNames = (name) => name.split(/[ ,]/)
 
 const anchorOriginProps = {
   vertical: 'bottom',
-  horizontal: 'center',
+  horizontal: 'left',
 };
 
 const transformOriginProps = {
-  vertical: 'top',
-  horizontal: 'left',
+  vertical: -10,
+  horizontal: 15,
 };
 
 const HighlightPopover = ({

@@ -23,6 +23,11 @@ const useStyles = makeStyles({
       backgroundColor: 'transparent',
     },
   },
+  listItem: {
+    '& .MuiIconButton-root': {
+      padding: '8px !important',
+    },
+  },
   selected: {
     background: vars.selectedBgColor, // Background color when selected but not hovered
     '& .MuiTypography-root': {
@@ -79,7 +84,7 @@ const GroupedResults = ({ viewerId, options }) => {
           button
           key={optionName}
           onClick={() => toggleHighlight(optionName)}
-          className={isOptionSelected(optionName) ? classes.selected : ''}
+          className={`${classes.listItem} ${isOptionSelected(optionName) ? classes.selected : ''}`}
         >
           <ListItemIcon>
             <Checkbox
@@ -114,7 +119,7 @@ const GroupedResults = ({ viewerId, options }) => {
     <Box>
       <Accordion>
         <AccordionSummary
-          expandIcon={<img src={CHEVRON} width="8" height="8" alt="CHEVRON" />}
+          expandIcon={<img src={CHEVRON} width="auto" height="auto" alt="CHEVRON" />}
           className={classes.expanded}
         >
           <Typography variant="h5">
@@ -137,7 +142,7 @@ const GroupedResults = ({ viewerId, options }) => {
 
       <Accordion>
         <AccordionSummary
-          expandIcon={<img src={CHEVRON} width="8" height="8" alt="CHEVRON" />}
+          expandIcon={<img src={CHEVRON} width="auto" height="auto" alt="CHEVRON" />}
         >
           <Typography variant="h5">
             Unselected

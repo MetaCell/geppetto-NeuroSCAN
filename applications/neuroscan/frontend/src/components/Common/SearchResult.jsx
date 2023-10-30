@@ -44,6 +44,9 @@ const useStyles = makeStyles(() => ({
         stroke: '#341C59',
       },
     },
+    '& .MuiIconButton-root': {
+      padding: '8px !important',
+    },
   },
 }));
 
@@ -126,7 +129,7 @@ const SearchResult = (props) => {
     <>
       <Accordion className={searchesCount > 0 ? classes.fade : ''} id={`${title}-result`}>
         <AccordionSummary
-          expandIcon={<img src={CHEVRON} width="8" height="8" alt="CHEVRON" />}
+          expandIcon={<img src={CHEVRON} width="auto" height="auto" alt="CHEVRON" />}
           IconButtonProps={{ disableRipple: true }}
         >
           <Typography variant="h5">
