@@ -5,6 +5,7 @@ import { raiseError, loading, loadingSuccess } from './actions/misc';
 import {
   ADD_INSTANCES,
   ADD_INSTANCES_TO_GROUP,
+  CLONE_VIEWER_WITH_INSTANCES_LIST,
   SET_INSTANCES_COLOR,
   UPDATE_TIMEPOINT_VIEWER,
   UPDATE_BACKGROUND_COLOR_VIEWER,
@@ -43,28 +44,34 @@ import {
 
 const devStagesService = new DevStageService();
 
+const createWidget = (store, timePoint, viewerType) => {
+  const state = store.getState();
+  const { widgets } = state;
+  const devStages = state.devStages.neuroSCAN;
+  const devStage = devStages.find((ds) => ds.begin <= timePoint && ds.end >= timePoint);
+  const viewerNumber = Object.values(widgets).reduce((maxViewerNumber, w) => {
+    const found = w.name.match('^Viewer (?<id>\\d+) .*');
+    if (found && found.length > 0) {
+      const thisViewerNumber = parseInt(found[1], 10);
+      return Math.max(thisViewerNumber + 1, maxViewerNumber);
+    }
+    return maxViewerNumber;
+  }, 1);
+  return {
+    id: null,
+    name: `${viewerType} ${viewerNumber} (${devStage.name} ${timePoint})`,
+    type: viewerType,
+    newWidgetTimePoint: timePoint,
+  };
+};
+
 const getWidget = (store, viewerId, viewerType) => {
   const state = store.getState();
   const { widgets } = state;
   const widget = widgets[viewerId];
   if (!widget) {
-    const { timePoint } = state.search.filters;
-    const devStages = state.devStages.neuroSCAN;
-    const devStage = devStages.find((ds) => ds.begin <= timePoint && ds.end >= timePoint);
-    const viewerNumber = Object.values(widgets).reduce((maxViewerNumber, w) => {
-      const found = w.name.match('^Viewer (?<id>\\d+) .*');
-      if (found && found.length > 0) {
-        const thisViewerNumber = parseInt(found[1], 10);
-        return Math.max(thisViewerNumber + 1, maxViewerNumber);
-      }
-      return maxViewerNumber;
-    }, 1);
-    return {
-      id: null,
-      name: `${viewerType} ${viewerNumber} (${devStage.name} ${timePoint})`,
-      type: viewerType,
-      timePoint,
-    };
+    const timePoint = state.search.filters;
+    return createWidget(store, timePoint, viewerType);
   }
   return {
     ...widget,
@@ -98,6 +105,34 @@ const middleware = (store) => (next) => async (action) => {
           store.dispatch(
             addToWidget(
               widget,
+              action.instances,
+              false,
+              addedObjectsToViewer,
+            ),
+          );
+          next(loadingSuccess(msg, action.type));
+        }, (e) => {
+          next(raiseError(msg));
+        });
+      break;
+    }
+
+    case CLONE_VIEWER_WITH_INSTANCES_LIST: {
+      const msg = 'Cloning viewer and adding instances to the viewer';
+      next(loading(msg, action.type));
+      createSimpleInstancesFromInstances(action.instances)
+        .then(() => {
+          const currentWidget = getWidget(store, action.viewerId, action.viewerType);
+          const cloneWidget = createWidget(
+            store, currentWidget.config.timePoint, currentWidget.config.viewerType,
+          );
+          const addedObjectsToViewer = Array.isArray(cloneWidget?.config?.instances)
+            && cloneWidget?.config?.instances.length !== 0
+            ? cloneWidget.config.instances.concat(action.instances) : action.instances;
+
+          store.dispatch(
+            addToWidget(
+              cloneWidget,
               action.instances,
               false,
               addedObjectsToViewer,
