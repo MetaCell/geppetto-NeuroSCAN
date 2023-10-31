@@ -13,12 +13,11 @@ export const SET_ORIGINAL_COLORS_FLASHING = 'SET_ORIGINAL_COLORS_FLASHING';
 export const TOGGLE_INSTANCE_HIGHLIGHT = 'TOGGLE_INSTANCE_HIGHLIGHT';
 export const ADD_LAST_SELECTED_INSTANCE = 'ADD_LAST_SELECTED_INSTANCE';
 
-export const addInstances = ((viewerId, instances, viewerType = null, timepoint = null) => ({
+export const addInstances = ((viewerId, instances, viewerType = null) => ({
   type: ADD_INSTANCES,
   viewerId,
   viewerType,
   instances,
-  timepoint,
 }));
 
 export const addCphate = ((timePoint) => ({

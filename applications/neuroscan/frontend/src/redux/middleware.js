@@ -43,15 +43,12 @@ import {
 
 const devStagesService = new DevStageService();
 
-const getWidget = (store, viewerId, viewerType, timePoint = null) => {
+const getWidget = (store, viewerId, viewerType) => {
   const state = store.getState();
   const { widgets } = state;
   const widget = widgets[viewerId];
   if (!widget) {
-    if (!timePoint) {
-      // eslint-disable-next-line no-param-reassign
-      timePoint = state.search.filters.timePoint;
-    }
+    const { timePoint } = state.search.filters;
     const devStages = state.devStages.neuroSCAN;
     const devStage = devStages.find((ds) => ds.begin <= timePoint && ds.end >= timePoint);
     const viewerNumber = Object.values(widgets).reduce((maxViewerNumber, w) => {
@@ -93,7 +90,7 @@ const middleware = (store) => (next) => async (action) => {
       next(loading(msg, action.type));
       createSimpleInstancesFromInstances(action.instances)
         .then(() => {
-          const widget = getWidget(store, action.viewerId, action.viewerType, action.timepoint);
+          const widget = getWidget(store, action.viewerId, action.viewerType);
           const addedObjectsToViewer = Array.isArray(widget?.config?.instances)
             && widget?.config?.instances.length !== 0
             ? widget.config.instances.concat(action.instances) : action.instances;
@@ -174,7 +171,6 @@ const middleware = (store) => (next) => async (action) => {
                 const cphateInstances = cphateService.getInstances(cphate);
                 createSimpleInstancesFromInstances(cphateInstances)
                   .then(() => {
-                    widget.config.timePoint = timePoint; // update the current widget's timepoint
                     store
                       .dispatch(
                         addToWidget(
