@@ -153,12 +153,8 @@ class Viewer extends React.Component {
       try {
         const fetchedNeurons = await neuronService.getByUID(timePoint, uids);
         const instances = fetchedNeurons.map((neuron) => mapToInstance(neuron));
-<<<<<<< HEAD
-        addInstancesToViewer(viewerId, instances, timePoint);
-=======
 
         addInstancesToViewer(viewerId, instances);
->>>>>>> parent of dca1ae3 (fix: Fix incorrect timepoint when viewer dev stage changes)
       } catch (error) {
         console.error('Failed to fetch neurons or map to instances', error);
       }
