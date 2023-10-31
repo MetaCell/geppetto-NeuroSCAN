@@ -1,6 +1,11 @@
 /* eslint-disable import/no-cycle */
 import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
-import { invertColorsFlashing, setOriginalColors, updateWidgetConfig } from '../redux/actions/widget';
+import {
+  invertColorsFlashing,
+  setOriginalColors,
+  addLastSelectedInstance,
+  updateWidgetConfig,
+} from '../redux/actions/widget';
 import urlService from './UrlService';
 import zipService from './ZipService';
 import store from '../redux/store';
@@ -59,7 +64,6 @@ export const setOriginalColorSelectedInstances = (instances, selectedUids) => (
       }
       return newInstance;
     }));
-
 const updateInstanceSelected = (instances, selectedUids) => {
   const i = instances.map((instance) => {
     if (selectedUids.find((x) => x === instance.uid)) {
@@ -113,6 +117,7 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
   const colorPickerColor = selectedUids.length > 0
     ? newInstances.find((i) => i.uid === selectedUids[selectedUids.length - 1]).colorOriginal
     : null;
+
   store.dispatch(updateWidgetConfig(
     viewerId, {
       flash: true,
@@ -121,6 +126,7 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
       colorPickerColor,
     },
   ));
+
   let counter = 1;
   const interval = setInterval(() => {
     if (counter === 6) {
@@ -131,13 +137,29 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
     }
     counter += 1;
   }, 750);
+
+  // Add the last Selected instances uid
+  const newSelectedUid = instances.find((item) => (item.selected === false)
+      && selectedUids.includes(item.uid));
+  store.dispatch(addLastSelectedInstance(viewerId, [newSelectedUid.uid]));
 };
 
-export const deleteSelectedInstances = (viewerId, instances, selectedUids) => {
-  const newInstances = instances.filter((instance) => !selectedUids.includes(instance.uid));
+export const deleteSelectedInstances = (viewerId, selectedUids) => {
+  const { selectedInstanceToDelete, widgets } = store.getState();
+
+  // get current viewer config for the selected instance
+  const currentWidget = widgets[selectedInstanceToDelete.viewerId];
+  const { config } = currentWidget;
+
+  // remove selected instances from instances and newAddedObjectsToViewer lists
+  const newInstances = config?.instances.filter((instance) => !selectedUids.includes(instance.uid));
+  const newAddedObjectsToViewer = config?.addedObjectsToViewer
+    .filter((obj) => !selectedUids.includes(obj.uid));
+
   store.dispatch(updateWidgetConfig(
     viewerId, {
       instances: newInstances,
+      addedObjectsToViewer: newAddedObjectsToViewer,
     },
   ));
 };
@@ -394,3 +416,9 @@ export const sortedInstances = (instances) => {
 
 export const sortedGroupedIterations = (items) => items.map((innerArray) => innerArray.slice()
   .sort((a, b) => a.name.localeCompare(b.name)));
+
+export async function fetchDataForEntity(service, timePoint, entities) {
+  if (entities.length === 0) return [];
+  const newEntities = await service.getByUID(timePoint, entities.map((e) => e.uidFromDb));
+  return newEntities;
+}

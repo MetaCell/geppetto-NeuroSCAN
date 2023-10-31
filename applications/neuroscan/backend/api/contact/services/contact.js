@@ -75,10 +75,19 @@ module.exports = {
     let query = getBaseSearchQuery(timepoint);
 
     if (terms.length > 0) {
-      query.orderByRaw("CASE WHEN LOWER(neuronA_content.uid) LIKE ? THEN 0 ELSE 1 END, neuronA_content.uid",
-        [`%${terms[0].toLowerCase()}%`]);
+      query.orderByRaw(`
+      CASE
+        WHEN LOWER(neuronA_content.uid) LIKE ? THEN 0
+        ELSE 1
+      END,
+      neuronA_content.uid ASC,
+      neuronB_content.uid ASC
+    `, [`%${terms[0].toLowerCase()}%`]);
 
       query = applySearchConditions(query, terms);
+    }else {
+      query.orderBy('neuronA_content.uid', 'asc');
+      query.orderBy('neuronB_content.uid', 'asc');
     }
 
     query.offset(start).limit(limit);
