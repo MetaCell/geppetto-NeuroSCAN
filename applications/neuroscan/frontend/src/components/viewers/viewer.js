@@ -145,15 +145,15 @@ class Viewer extends React.Component {
     }
   }
 
-  handleAddInstancesToViewer = async (viewerId = null) => {
-    const { addInstancesToViewer, timePoint } = this.props;
+  handleCloneViewerWithInstancesList = async (viewerId = null) => {
+    const { cloneViewerWithInstancesList, timePoint } = this.props;
     const { contextMenuInstance } = this.state;
     if (contextMenuInstance) {
       const uids = contextMenuInstance.name.split('(')[0].split(',').map((uid) => uid.trim());
       try {
         const fetchedNeurons = await neuronService.getByUID(timePoint, uids);
         const instances = fetchedNeurons.map((neuron) => mapToInstance(neuron));
-        addInstancesToViewer(viewerId, instances);
+        cloneViewerWithInstancesList(viewerId, instances);
       } catch (error) {
         console.error('Failed to fetch neurons or map to instances', error);
       }
@@ -236,7 +236,7 @@ class Viewer extends React.Component {
         {contextMenuOpen && (
         <AddToViewerMenu
           handleClose={() => this.handleMenuClose()}
-          handleAddToViewer={this.handleAddInstancesToViewer}
+          handleAddToViewer={this.handleCloneViewerWithInstancesList}
           useAnchorPosition
           anchorPosition={{ top: contextMenuPosition.top, left: contextMenuPosition.left }}
         />

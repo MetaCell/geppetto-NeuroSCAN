@@ -70,7 +70,7 @@ const getWidget = (store, viewerId, viewerType) => {
   const { widgets } = state;
   const widget = widgets[viewerId];
   if (!widget) {
-    const timePoint = state.search.filters;
+    const { timePoint } = state.search.filters;
     return createWidget(store, timePoint, viewerType);
   }
   return {
