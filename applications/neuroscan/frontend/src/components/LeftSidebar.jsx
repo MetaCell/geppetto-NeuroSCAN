@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     '& .add-element': {
       border: `4px solid ${vars.primaryColor}`,
       '&_head': {
-        padding: '1rem',
+        padding: '0.625rem 1rem 0.625rem 1rem',
         '& .MuiAccordionSummary-root': {
           padding: 0,
         },
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
           minWidth: '1.5rem',
           backgroundColor: vars.filterButtonBg,
           border: 'none',
-          height: '1.5rem',
+          height: '1.375rem',
         },
       },
       '& > .MuiAccordion-root > .MuiAccordionSummary-root': {

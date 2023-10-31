@@ -126,7 +126,7 @@ const theme = createTheme({
               minHeight: '2.25rem',
             },
             '& .MuiAccordionSummary-root': {
-              padding: '0.5rem',
+              padding: '0.5rem 1rem 0.5rem 0.5rem',
               '&:hover': {
                 backgroundColor: selectedExpandedBgColor,
               },
@@ -1526,7 +1526,7 @@ const theme = createTheme({
         color: lightBlackColor,
         order: 1,
         margin: 0,
-        padding: '0.25rem',
+        padding: '0.25rem 0.195rem 0.25rem 0.325rem',
         '&.Mui-expanded': {
           transform: 'rotate(90deg)',
         },
