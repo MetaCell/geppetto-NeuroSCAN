@@ -10,52 +10,42 @@
 
 function getBaseSearchQuery(timepoint) {
   const knex = strapi.connections.default;
-  return knex('contacts')
-    .select([
-      'contacts.*',
-      'neuronA_content.uid as neuronA_uid',
-      'neuronB_content.uid as neuronB_uid'
-    ])
-    .leftJoin('neurons as neuronA_content', function () {
-      this.on('contacts.neuronA', '=', 'neuronA_content.id')
-        .andOn('contacts.timepoint', '=', knex.raw('?', [timepoint]));
-    })
-    .leftJoin('neurons as neuronB_content', function () {
-      this.on('contacts.neuronB', '=', 'neuronB_content.id')
-        .andOn('contacts.timepoint', '=', knex.raw('?', [timepoint]));
-    })
-    .where('contacts.timepoint', timepoint);
+  return knex.select('contacts.id')
+    .from('contacts')
+    .leftJoin('neurons as neuronA', 'contacts.neuronA', '=', 'neuronA.id')
+    .leftJoin('neurons as neuronB', 'contacts.neuronB', '=', 'neuronB.id')
+    .where('contacts.timepoint', timepoint)
 }
 
 function applySearchConditions(query, terms) {
   if (terms.length === 1) {
     const term = terms[0].toLowerCase();
     query.where(builder => {
-      builder.whereRaw('LOWER(neuronA_content.uid) LIKE ?', [`%${term}%`])
-        .orWhereRaw('LOWER(neuronB_content.uid) LIKE ?', [`%${term}%`])
+      builder.whereRaw('LOWER(neuronA.uid) LIKE ?', [`%${term}%`])
+        .orWhereRaw('LOWER(neuronB.uid) LIKE ?', [`%${term}%`])
         .orWhereRaw('LOWER(contacts.uid) LIKE ?', [`%${term}%`]);
     });
   } else if (terms.length === 2) {
     query.where(builder => {
       builder.where(subBuilder => {
-        subBuilder.whereRaw('LOWER(neuronA_content.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
-          .orWhereRaw('LOWER(neuronB_content.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
+        subBuilder.whereRaw('LOWER(neuronA.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
+          .orWhereRaw('LOWER(neuronB.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
       })
         .andWhere(subBuilder => {
-          subBuilder.whereRaw('LOWER(neuronA_content.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`])
-            .orWhereRaw('LOWER(neuronB_content.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`])
+          subBuilder.whereRaw('LOWER(neuronA.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`])
+            .orWhereRaw('LOWER(neuronB.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`])
             .orWhereRaw('LOWER(contacts.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`]);
         });
     });
   } else if (terms.length >= 3) {
     query.where(builder => {
       builder.where(subBuilder => {
-        subBuilder.whereRaw('LOWER(neuronA_content.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
-          .orWhereRaw('LOWER(neuronB_content.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
+        subBuilder.whereRaw('LOWER(neuronA.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
+          .orWhereRaw('LOWER(neuronB.uid) LIKE ?', [`%${terms[0].toLowerCase()}%`])
       })
         .andWhere(subBuilder => {
-          subBuilder.whereRaw('LOWER(neuronA_content.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`])
-            .orWhereRaw('LOWER(neuronB_content.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`])
+          subBuilder.whereRaw('LOWER(neuronA.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`])
+            .orWhereRaw('LOWER(neuronB.uid) LIKE ?', [`%${terms[1].toLowerCase()}%`])
         })
         .andWhere(subBuilder => {
           terms.slice(2).forEach(term => {
@@ -77,22 +67,23 @@ module.exports = {
     if (terms.length > 0) {
       query.orderByRaw(`
       CASE
-        WHEN LOWER(neuronA_content.uid) LIKE ? THEN 0
+        WHEN LOWER(neuronA.uid) LIKE ? THEN 0
         ELSE 1
       END,
-      neuronA_content.uid ASC,
-      neuronB_content.uid ASC
+      neuronA.uid ASC,
+      neuronB.uid ASC
     `, [`%${terms[0].toLowerCase()}%`]);
 
       query = applySearchConditions(query, terms);
     }else {
-      query.orderBy('neuronA_content.uid', 'asc');
-      query.orderBy('neuronB_content.uid', 'asc');
+      query.orderBy('neuronA.uid', 'asc');
+      query.orderBy('neuronB.uid', 'asc');
     }
 
     query.offset(start).limit(limit);
 
-    return query;
+    const ids = await query;
+    return strapi.query('contact').find({ id_in: ids.map(x => x.id), _sort: 'uid' });
   },
 
   async customSearchCount(timepoint, terms) {
