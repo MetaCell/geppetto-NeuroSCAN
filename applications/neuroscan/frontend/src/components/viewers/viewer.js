@@ -145,7 +145,7 @@ class Viewer extends React.Component {
     }
   }
 
-  handleCloneViewerWithInstancesList = async (addToViewerId = null) => {
+  handleAddInstancesToViewer = async (addToViewerId = null) => {
     const {
       addInstancesToViewer,
       cloneViewerWithInstancesList,
@@ -242,7 +242,7 @@ class Viewer extends React.Component {
         {contextMenuOpen && (
         <AddToViewerMenu
           handleClose={() => this.handleMenuClose()}
-          handleAddToViewer={this.handleCloneViewerWithInstancesList}
+          handleAddToViewer={this.handleAddInstancesToViewer}
           useAnchorPosition
           anchorPosition={{ top: contextMenuPosition.top, left: contextMenuPosition.left }}
         />

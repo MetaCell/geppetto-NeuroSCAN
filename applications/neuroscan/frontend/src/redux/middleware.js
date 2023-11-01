@@ -203,6 +203,7 @@ const middleware = (store) => (next) => async (action) => {
                 const cphateInstances = cphateService.getInstances(cphate);
                 createSimpleInstancesFromInstances(cphateInstances)
                   .then(() => {
+                    widget.config.timePoint = timePoint;
                     store
                       .dispatch(
                         addToWidget(
