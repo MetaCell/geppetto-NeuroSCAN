@@ -40,7 +40,7 @@ module.exports = {
       const start = parseInt(ctx.query._start || "0");
       const limit = parseInt(ctx.query._limit || "30");
       const timepoint = ctx.query.timepoint
-      ctx.send(await strapi.services.contact.customSearchCount(timepoint, terms, start, limit));
+      ctx.send(await strapi.services.contact.customSearchCount(timepoint, terms));
     } else {
       if (ctx.query._q) {
         return strapi.services.contact.countSearch(ctx.query);
