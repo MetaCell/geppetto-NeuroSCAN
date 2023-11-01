@@ -14,7 +14,7 @@ import {
   ROTATE_STOP_ALL,
   updateWidgetConfig,
   INVERT_COLORS_FLASHING,
-  SET_ORIGINAL_COLORS_FLASHING, TOGGLE_INSTANCE_HIGHLIGHT,
+  SET_ORIGINAL_COLORS_FLASHING, TOGGLE_INSTANCE_HIGHLIGHT, addInstances,
 } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
 import neuronService from '../services/NeuronService';
@@ -61,21 +61,18 @@ const createWidget = (store, timePoint, viewerType) => {
     id: null,
     name: `${viewerType} ${viewerNumber} (${devStage.name} ${timePoint})`,
     type: viewerType,
-    newWidgetTimePoint: timePoint,
+    timePoint,
   };
 };
 
-const getWidget = (store, viewerId, viewerType) => {
+const getWidget = (store, viewerId) => {
   const state = store.getState();
   const { widgets } = state;
-  const widget = widgets[viewerId];
-  if (!widget) {
-    const { timePoint } = state.search.filters;
-    return createWidget(store, timePoint, viewerType);
+  if (!widgets) {
+    return false;
   }
-  return {
-    ...widget,
-  };
+  const widget = widgets[viewerId];
+  return !widget ? false : { ...widget };
 };
 
 const middleware = (store) => (next) => async (action) => {
@@ -97,7 +94,11 @@ const middleware = (store) => (next) => async (action) => {
       next(loading(msg, action.type));
       createSimpleInstancesFromInstances(action.instances)
         .then(() => {
-          const widget = getWidget(store, action.viewerId, action.viewerType);
+          let widget = getWidget(store, action.viewerId, action.viewerType);
+          if (!widget) {
+            const state = store.getState();
+            widget = createWidget(store, state.search.filters.timePoint, action.viewerType);
+          }
           const addedObjectsToViewer = Array.isArray(widget?.config?.instances)
             && widget?.config?.instances.length !== 0
             ? widget.config.instances.concat(action.instances) : action.instances;
@@ -120,22 +121,18 @@ const middleware = (store) => (next) => async (action) => {
     case CLONE_VIEWER_WITH_INSTANCES_LIST: {
       const msg = 'Cloning viewer and adding instances to the viewer';
       next(loading(msg, action.type));
+      const currentWidget = getWidget(store, action.fromViewerId);
+      const { timePoint } = currentWidget.config;
+
       createSimpleInstancesFromInstances(action.instances)
         .then(() => {
-          const currentWidget = getWidget(store, action.viewerId, action.viewerType);
-          const cloneWidget = createWidget(
-            store, currentWidget.config.timePoint, currentWidget.config.viewerType,
-          );
-          const addedObjectsToViewer = Array.isArray(cloneWidget?.config?.instances)
-            && cloneWidget?.config?.instances.length !== 0
-            ? cloneWidget.config.instances.concat(action.instances) : action.instances;
-
+          const widget = createWidget(store, timePoint, VIEWERS.InstanceViewer);
           store.dispatch(
             addToWidget(
-              cloneWidget,
+              widget,
               action.instances,
               false,
-              addedObjectsToViewer,
+              action.instances,
             ),
           );
           next(loadingSuccess(msg, action.type));

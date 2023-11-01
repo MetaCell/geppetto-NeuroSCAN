@@ -14,7 +14,7 @@ import {
 import Explorer from './Sidebar/Explorer/Explorer';
 import Search from './Sidebar/Search';
 import Results from './Sidebar/Results';
-import CPhasePlot from './Sidebar/CPhasePlot';
+import CPhatePlot from './Sidebar/CPhatePlot';
 import FILTER from '../images/filter.svg';
 import ROTATE from '../images/rotate.svg';
 import ROTATE_PAUSE from '../images/rotate-pause.svg';
@@ -149,7 +149,7 @@ const LeftSidebar = (props) => {
 
                   <Results timePoint={timePoint} />
 
-                  <CPhasePlot timePoint={timePoint} />
+                  <CPhatePlot timePoint={timePoint} />
                 </AccordionDetails>
               </Accordion>
             </Box>

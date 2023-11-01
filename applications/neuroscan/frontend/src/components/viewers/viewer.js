@@ -145,18 +145,24 @@ class Viewer extends React.Component {
     }
   }
 
-  handleCloneViewerWithInstancesList = async (viewerId = null) => {
-    const { cloneViewerWithInstancesList, timePoint } = this.props;
+  handleCloneViewerWithInstancesList = async (addToViewerId = null) => {
+    const {
+      addInstancesToViewer,
+      cloneViewerWithInstancesList,
+      timePoint, viewerId,
+    } = this.props;
     const { contextMenuInstance } = this.state;
     if (contextMenuInstance) {
       const uids = contextMenuInstance.name.split('(')[0].split(',').map((uid) => uid.trim());
-      try {
-        const fetchedNeurons = await neuronService.getByUID(timePoint, uids);
-        const instances = fetchedNeurons.map((neuron) => mapToInstance(neuron));
-        cloneViewerWithInstancesList(viewerId, instances);
-      } catch (error) {
-        console.error('Failed to fetch neurons or map to instances', error);
-      }
+      neuronService.getByUID(timePoint, uids)
+        .then((fetchedNeurons) => {
+          const instances = fetchedNeurons.map((neuron) => mapToInstance(neuron));
+          if (addToViewerId) {
+            addInstancesToViewer(addToViewerId, instances);
+          } else {
+            cloneViewerWithInstancesList(viewerId, instances);
+          }
+        });
     }
     this.handleMenuClose();
   };

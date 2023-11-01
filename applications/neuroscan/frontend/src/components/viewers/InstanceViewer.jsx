@@ -13,8 +13,8 @@ const InstanceViewer = connect(
     addInstancesToViewer: (viewerId, instances) => dispatch(
       addInstances(viewerId, instances, VIEWERS.InstanceViewer),
     ),
-    cloneViewerWithInstancesList: (viewerId, instances) => dispatch(
-      cloneViewerWithInstancesList(viewerId, instances),
+    cloneViewerWithInstancesList: (fromViewerId, instances) => dispatch(
+      cloneViewerWithInstancesList(fromViewerId, instances),
     ),
   }),
 )(Viewer);
