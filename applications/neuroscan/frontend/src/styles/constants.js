@@ -35,6 +35,9 @@ const vars = {
   downloadBgColor: 'rgba(229, 229, 229, 0.4)',
   downloadBorderColor: 'rgba(229, 229, 229, 0.3)',
   buttonConfirmationColor: '#F24822',
+  selectedBgColor: '#F2EBF5',
+  selectedHoverBgColor: '#ECDFF2',
+  selectedExpandedBgColor: '#F9F5FA',
 };
 
 export default vars;

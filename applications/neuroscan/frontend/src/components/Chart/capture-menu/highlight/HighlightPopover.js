@@ -12,12 +12,12 @@ const extractInstanceNames = (name) => name.split(/[ ,]/)
 
 const anchorOriginProps = {
   vertical: 'bottom',
-  horizontal: 'center',
+  horizontal: 'left',
 };
 
 const transformOriginProps = {
-  vertical: 'top',
-  horizontal: 'left',
+  vertical: -10,
+  horizontal: 15,
 };
 
 const HighlightPopover = ({
@@ -73,6 +73,12 @@ const HighlightPopover = ({
       <Divider />
       <Box sx={{
         padding: '.5rem',
+        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+          boxShadow: '0 0 0 0.125rem rgba(76, 39, 106, 0.15)',
+        },
+        '& .MuiOutlinedInput-root': {
+          borderRadius: '0.125rem',
+        },
       }}
       >
         <SearchBar

@@ -8,11 +8,13 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon, Box, Button, makeStyles,
+  Checkbox,
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import CHEVRON from '../../../../images/chevron-right.svg';
 import { ReactComponent as NeuronIcon } from '../../../../images/neuron.svg';
 import { toggleInstanceHighlight } from '../../../../redux/actions/widget';
+import vars from '../../../../styles/constants';
 
 const useStyles = makeStyles({
   button: {
@@ -21,7 +23,46 @@ const useStyles = makeStyles({
       backgroundColor: 'transparent',
     },
   },
+  listItem: {
+    '& .MuiIconButton-root': {
+      padding: '8px !important',
+    },
+  },
+  selected: {
+    background: vars.selectedBgColor, // Background color when selected but not hovered
+    '& .MuiTypography-root': {
+      color: '#77478F',
+    },
+    '&:hover': {
+      background: `${vars.selectedHoverBgColor} !important`,
+      '& .MuiTypography-root': {
+        color: vars.primaryColor,
+      },
+      '& svg path': {
+        fill: vars.primaryColor,
+        stroke: '#341C59',
+      },
+    },
+  },
+  expanded: {
+    '&.Mui-expanded': {
+      background: vars.selectedExpandedBgColor,
+    },
+  },
 });
+
+const CustomCheckedIcon = ({ fill, stroke }) => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path
+      d="M8.25 2.56699C8.0953 2.47767 7.9047 2.47767 7.75 2.56699L3.41987 5.06699C3.26517 5.1563 3.16987 5.32137 3.16987 5.5V10.5C3.16987 10.6786 3.26517 10.8437 3.41987 10.933L7.75 13.433C7.9047 13.5223 8.0953 13.5223 8.25 13.433L12.5801 10.933C12.7348 10.8437 12.8301 10.6786 12.8301 10.5V5.5C12.8301 5.32137 12.7348 5.1563 12.5801 5.06699L8.25 2.56699Z"
+      fill={fill}
+      stroke={stroke}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 const GroupedResults = ({ viewerId, options }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -43,9 +84,17 @@ const GroupedResults = ({ viewerId, options }) => {
           button
           key={optionName}
           onClick={() => toggleHighlight(optionName)}
+          className={`${classes.listItem} ${isOptionSelected(optionName) ? classes.selected : ''}`}
         >
           <ListItemIcon>
-            <NeuronIcon style={isOptionSelected(optionName) ? { fill: '#77478F' } : {}} />
+            <Checkbox
+              edge="start"
+              checked={isOptionSelected(optionName)}
+              tabIndex={-1}
+              disableRipple
+              icon={<CustomCheckedIcon fill="none" stroke="#8C8C8C" />}
+              checkedIcon={<CustomCheckedIcon fill="#77478F" stroke={vars.primaryColor} />}
+            />
           </ListItemIcon>
           <ListItemText primary={optionName} />
         </ListItem>
@@ -70,7 +119,8 @@ const GroupedResults = ({ viewerId, options }) => {
     <Box>
       <Accordion>
         <AccordionSummary
-          expandIcon={<img src={CHEVRON} width="4" height="6" alt="CHEVRON" />}
+          expandIcon={<img src={CHEVRON} width="auto" height="auto" alt="CHEVRON" />}
+          className={classes.expanded}
         >
           <Typography variant="h5">
             Selected
@@ -91,7 +141,9 @@ const GroupedResults = ({ viewerId, options }) => {
       </Accordion>
 
       <Accordion>
-        <AccordionSummary expandIcon={<img src={CHEVRON} width="4" height="6" alt="CHEVRON" />}>
+        <AccordionSummary
+          expandIcon={<img src={CHEVRON} width="auto" height="auto" alt="CHEVRON" />}
+        >
           <Typography variant="h5">
             Unselected
             <Typography variant="caption">

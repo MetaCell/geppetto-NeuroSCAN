@@ -16,6 +16,7 @@ import HTMLViewer from '@metacell/geppetto-meta-ui/html-viewer/HTMLViewer';
 import Checkbox from '@material-ui/core/Checkbox';
 import CHEVRON from '../../images/chevron-right.svg';
 import * as search from '../../redux/actions/search';
+import vars from '../../styles/constants';
 
 const useStyles = makeStyles(() => ({
   fade: {
@@ -25,23 +26,36 @@ const useStyles = makeStyles(() => ({
   },
   listItem: {
     '&:hover': {
-      background: '#F9F5FA !important', // Background color when hovered but not selected
+      background: `${vars.selectedExpandedBgColor} !important`, // Background color when hovered but not selected
     },
     '&.selected': {
-      background: '#F2EBF5', // Background color when selected but not hovered
+      background: vars.selectedBgColor, // Background color when selected but not hovered
+      '& .MuiTypography-root': {
+        color: '#77478F',
+      },
     },
     '&:hover.selected': {
-      background: '#ECDFF2 !important', // Background color when both selected and hovered
+      background: `${vars.selectedHoverBgColor} !important`, // Background color when both selected and hovered
+      '& .MuiTypography-root': {
+        color: vars.primaryColor,
+      },
+      '& svg path': {
+        fill: vars.primaryColor,
+        stroke: '#341C59',
+      },
+    },
+    '& .MuiIconButton-root': {
+      padding: '8px !important',
     },
   },
 }));
 
-const CustomCheckedIcon = ({ fill }) => (
+const CustomCheckedIcon = ({ fill, stroke }) => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
     <path
       d="M8.25 2.56699C8.0953 2.47767 7.9047 2.47767 7.75 2.56699L3.41987 5.06699C3.26517 5.1563 3.16987 5.32137 3.16987 5.5V10.5C3.16987 10.6786 3.26517 10.8437 3.41987 10.933L7.75 13.433C7.9047 13.5223 8.0953 13.5223 8.25 13.433L12.5801 10.933C12.7348 10.8437 12.8301 10.6786 12.8301 10.5V5.5C12.8301 5.32137 12.7348 5.1563 12.5801 5.06699L8.25 2.56699Z"
       fill={fill}
-      stroke="#4C276A"
+      stroke={stroke}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
@@ -92,8 +106,8 @@ const SearchResult = (props) => {
     const handleScroll = () => {
       if (
         listRef.current
-          && listRef.current.scrollTop + listRef.current.clientHeight
-          >= listRef.current.scrollHeight
+        && listRef.current.scrollTop + listRef.current.clientHeight
+        >= listRef.current.scrollHeight
       ) {
         // Scroll reached the end of the list, load more data
         handleLoadMore(resultItem);
@@ -115,7 +129,7 @@ const SearchResult = (props) => {
     <>
       <Accordion className={searchesCount > 0 ? classes.fade : ''} id={`${title}-result`}>
         <AccordionSummary
-          expandIcon={<img src={CHEVRON} width="4" height="6" alt="CHEVRON" />}
+          expandIcon={<img src={CHEVRON} width="auto" height="auto" alt="CHEVRON" />}
           IconButtonProps={{ disableRipple: true }}
         >
           <Typography variant="h5">
@@ -128,7 +142,7 @@ const SearchResult = (props) => {
                     <Typography variant="caption">{`Deselect ${selectedItems[resultItem].length} items`}</Typography>
                   </Button>
                 )
-             }
+            }
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -146,8 +160,8 @@ const SearchResult = (props) => {
                       tabIndex={-1}
                       disableRipple
                       onChange={() => handleCheckboxChange(item)}
-                      icon={<CustomCheckedIcon fill="none" />}
-                      checkedIcon={<CustomCheckedIcon fill="#77478F" />}
+                      icon={<CustomCheckedIcon fill="none" stroke="#8C8C8C" />}
+                      checkedIcon={<CustomCheckedIcon fill="#77478F" stroke={vars.primaryColor} />}
                     />
                   </ListItemIcon>
                   <ListItemText primary={(
@@ -157,7 +171,7 @@ const SearchResult = (props) => {
                         width: '100%', height: '100%', float: 'center',
                       }}
                     />
-                        )}
+                  )}
                   />
                   <Button
                     disableElevation
