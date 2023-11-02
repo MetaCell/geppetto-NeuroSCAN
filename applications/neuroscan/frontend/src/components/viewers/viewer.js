@@ -145,18 +145,24 @@ class Viewer extends React.Component {
     }
   }
 
-  handleAddInstancesToViewer = async (viewerId = null) => {
-    const { addInstancesToViewer, timePoint } = this.props;
+  handleAddInstancesToViewer = async (addToViewerId = null) => {
+    const {
+      addInstancesToViewer,
+      cloneViewerWithInstancesList,
+      timePoint, viewerId,
+    } = this.props;
     const { contextMenuInstance } = this.state;
     if (contextMenuInstance) {
       const uids = contextMenuInstance.name.split('(')[0].split(',').map((uid) => uid.trim());
-      try {
-        const fetchedNeurons = await neuronService.getByUID(timePoint, uids);
-        const instances = fetchedNeurons.map((neuron) => mapToInstance(neuron));
-        addInstancesToViewer(viewerId, instances);
-      } catch (error) {
-        console.error('Failed to fetch neurons or map to instances', error);
-      }
+      neuronService.getByUID(timePoint, uids)
+        .then((fetchedNeurons) => {
+          const instances = fetchedNeurons.map((neuron) => mapToInstance(neuron));
+          if (addToViewerId) {
+            addInstancesToViewer(addToViewerId, instances);
+          } else {
+            cloneViewerWithInstancesList(viewerId, instances);
+          }
+        });
     }
     this.handleMenuClose();
   };
@@ -257,17 +263,4 @@ class Viewer extends React.Component {
     );
   }
 }
-
-const mapDispatchToProps = (dispatch) => ({
-  addInstancesToViewer: (viewerId, instances) => dispatch(
-    addInstances(viewerId, instances, VIEWERS.InstanceViewer),
-  ),
-});
-
-const mapStateToProps = (state, ownProps) => ({
-  timePoint: state.search.filters.timePoint,
-  selectedInstanceToDelete: state.selectedInstanceToDelete,
-  widgets: state.widgets,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Viewer));
+export default withStyles(styles)(Viewer);

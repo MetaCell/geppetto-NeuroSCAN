@@ -46,11 +46,20 @@ export class ContactService {
 
   constructQuery(searchState) {
     const { searchTerms, timePoint } = searchState.filters;
-    const terms = searchTerms.join(',');
-
+    if (searchTerms.length > 0) {
+      const terms = searchTerms.join(',');
+      return qs.stringify({
+        terms,
+        timepoint: timePoint,
+        _start: searchState.results.contacts.items.length,
+        _limit: maxRecordsPerFetch,
+      });
+    }
     return qs.stringify({
-      terms,
-      timepoint: timePoint,
+      _where: [
+        { timepoint: timePoint },
+        { _or: searchTerms.map((term) => ({ uid_contains: term })) },
+      ],
       _start: searchState.results.contacts.items.length,
       _limit: maxRecordsPerFetch,
     });

@@ -1,4 +1,5 @@
 export const ADD_INSTANCES = 'ADD_INSTANCES';
+export const CLONE_VIEWER_WITH_INSTANCES_LIST = 'CLONE_VIEWER_CLONE_INSTANCES_LIST';
 export const ADD_CPHATE = 'ADD_CPHATE';
 export const ADD_INSTANCES_TO_GROUP = 'ADD_INSTANCES_TO_GROUP';
 export const SET_INSTANCES_COLOR = 'SET_INSTANCES_COLOR';
@@ -17,6 +18,12 @@ export const addInstances = ((viewerId, instances, viewerType = null) => ({
   type: ADD_INSTANCES,
   viewerId,
   viewerType,
+  instances,
+}));
+
+export const cloneViewerWithInstancesList = ((fromViewerId, instances) => ({
+  type: CLONE_VIEWER_WITH_INSTANCES_LIST,
+  fromViewerId,
   instances,
 }));
 

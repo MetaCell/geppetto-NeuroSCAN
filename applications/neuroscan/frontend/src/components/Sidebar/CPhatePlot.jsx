@@ -4,7 +4,7 @@ import { Typography, Box } from '@material-ui/core';
 import { addCphate } from '../../redux/actions/widget';
 import PLUS from '../../images/plus.svg';
 
-const CPhasePlot = ({ timePoint }) => {
+const CPhatePlot = ({ timePoint }) => {
   const dispatch = useDispatch();
 
   const createCphateViewer = async () => {
@@ -21,4 +21,4 @@ const CPhasePlot = ({ timePoint }) => {
   );
 };
 
-export default CPhasePlot;
+export default CPhatePlot;
