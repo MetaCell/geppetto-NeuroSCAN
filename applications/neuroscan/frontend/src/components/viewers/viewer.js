@@ -1,7 +1,6 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable import/no-cycle */
 import React, { forwardRef, useState } from 'react';
-import { connect } from 'react-redux';
 import Canvas from '@metacell/geppetto-meta-ui/3d-canvas/Canvas';
 import { withStyles } from '@material-ui/core/styles';
 import './cameraControls.css';
@@ -14,7 +13,6 @@ import {
   GREY_OUT_MESH_COLOR,
   VIEWERS,
 } from '../../utilities/constants';
-import { addInstances } from '../../redux/actions/widget';
 import neuronService from '../../services/NeuronService';
 import AddToViewerMenu from '../Sidebar/AddToViewerMenu';
 
