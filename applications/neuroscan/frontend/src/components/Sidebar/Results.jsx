@@ -70,7 +70,6 @@ const Results = ({ timePoint }) => {
   };
 
   const handleAddToViewer = async (viewerId = null) => {
-    console.log(viewerId);
     if (currentItem) {
       const instances = [mapToInstance(currentItem)];
       dispatch(addInstances(viewerId, instances, VIEWERS.InstanceViewer));
