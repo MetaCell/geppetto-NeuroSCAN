@@ -8,12 +8,23 @@ import { raiseError, loading, loadingSuccess } from './actions/misc';
 import { VIEWERS } from '../utilities/constants';
 
 const searchMiddleware = (store) => (next) => (action) => {
+  const processChunks = (state, entity, totalCount, offset = 0) => {
+    const maxLimit = 500;
+    const remainingCount = totalCount - offset;
+    const chunkLimit = Math.min(maxLimit, remainingCount);
+
+    if (chunkLimit > 0) {
+      doGetAll(store.dispatch, { ...state.search, limit: chunkLimit, offset }, [entity]);
+      processChunks(state, entity, totalCount, offset + maxLimit);
+    }
+  };
+
   switch (action.type) {
     case search.GET_ALL: {
       const { entity } = action.data;
       next(action);
       const state = store.getState();
-      doGetAll(store.dispatch, { ...state.search, limit: state.search.counters[entity] }, [entity]);
+      processChunks(state, entity, state.search.counters[entity]);
       break;
     }
     case search.UPDATE_FILTERS: {

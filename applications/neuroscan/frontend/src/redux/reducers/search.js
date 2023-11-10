@@ -73,14 +73,17 @@ export default (state = SEARCH_DEFAULT_STATUS, action) => {
       };
     }
 
-    case search.SET_ALL:
-    {
+    case search.SET_ALL: {
+      const key = Object.keys(action.data)[0];
+      const { items } = Object.values(action.data)[0];
       return {
         ...state,
         searchesCount: state.searchesCount - 1,
         allItems: {
           ...state.allItems,
-          ...action.data,
+          [key]: {
+            items: [...state.allItems[key].items, ...items],
+          },
         },
       };
     }

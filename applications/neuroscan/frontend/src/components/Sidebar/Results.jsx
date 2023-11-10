@@ -51,15 +51,33 @@ const Results = ({ timePoint }) => {
     setCurrentItem(null);
     setAnchorEl(null);
   };
+  const processInstancesInChunks = async (viewerId, instances) => {
+    const maxChunkSize = 200;
+    const totalInstances = instances.length;
 
-  const handleAddToViewer = (viewerId = null) => {
+    const processChunk = async (startIndex) => {
+      const endIndex = Math.min(startIndex + maxChunkSize, totalInstances);
+      const chunk = instances.slice(startIndex, endIndex);
+
+      dispatch(addInstances(viewerId, chunk, VIEWERS.InstanceViewer));
+      console.log(viewerId);
+      if (endIndex < totalInstances) {
+        await processChunk(endIndex);
+      }
+    };
+
+    await processChunk(0);
+  };
+
+  const handleAddToViewer = async (viewerId = null) => {
+    console.log(viewerId);
     if (currentItem) {
       const instances = [mapToInstance(currentItem)];
       dispatch(addInstances(viewerId, instances, VIEWERS.InstanceViewer));
     } else if (Object.values(selectedItems).some((array) => array.length > 0)) {
       const itemsArray = Object.values(selectedItems).flat();
       const instances = itemsArray.map((item) => mapToInstance(item));
-      dispatch(addInstances(viewerId, instances, VIEWERS.InstanceViewer));
+      await processInstancesInChunks(viewerId, instances);
       setSelectedItems(initialSelectedItems);
     }
     handleClose();
