@@ -17,6 +17,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import CHEVRON from '../../images/chevron-right.svg';
 import * as search from '../../redux/actions/search';
 import vars from '../../styles/constants';
+import { getAll } from '../../redux/actions/search';
 
 const useStyles = makeStyles(() => ({
   fade: {
@@ -74,14 +75,19 @@ const SearchResult = (props) => {
   const dispatch = useDispatch();
 
   const results = useSelector((state) => state.search.results[resultItem]);
+  const allItems = useSelector((state) => state.search.allItems[resultItem]);
   const searchesCount = useSelector((state) => state.search.searchesCount);
   const count = useSelector((state) => state.search.counters[resultItem]);
+  const [isHovered, setIsHovered] = useState(false);
 
+  const isItemSelected = (obj1, obj2) => Object.keys(obj1).length === Object.keys(obj2).length
+      && Object.keys(obj1).every((key) => obj1[key] === obj2[key]);
   const handleCheckboxChange = (item) => {
-    if (selectedItems[resultItem].includes(item)) {
+    if (selectedItems[resultItem].some((obj) => isItemSelected(obj, item))) {
       setSelectedItems({
         ...selectedItems,
-        [resultItem]: selectedItems[resultItem].filter((selectedItem) => selectedItem !== item),
+        [resultItem]: selectedItems[resultItem]
+          .filter((selectedItem) => !isItemSelected(selectedItem, item)),
       });
     } else {
       setSelectedItems({
@@ -90,7 +96,6 @@ const SearchResult = (props) => {
       });
     }
   };
-
   const handleLoadMore = (entity) => {
     dispatch(search.loadMore({ entity }));
   };
@@ -101,6 +106,18 @@ const SearchResult = (props) => {
   };
 
   const listRef = useRef(null);
+  const handleSelectAll = (entity) => {
+    dispatch(search.getAll({ entity: resultItem }));
+  };
+
+  useEffect(() => {
+    if (allItems?.items?.length > 0) {
+      setSelectedItems({
+        ...selectedItems,
+        [resultItem]: allItems.items,
+      });
+    }
+  }, [allItems]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -136,7 +153,18 @@ const SearchResult = (props) => {
             {title}
             {
               selectedItems[resultItem].length === 0
-                ? <Typography variant="caption">{`${count} items`}</Typography>
+                ? (
+                  <Button
+                    variant="text"
+                    onClick={handleSelectAll}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                  >
+                    <Typography variant="caption">
+                      {isHovered ? `Select ${count} items` : `${count} items`}
+                    </Typography>
+                  </Button>
+                )
                 : (
                   <Button variant="text" onClick={() => handleDeselectItems(resultItem)}>
                     <Typography variant="caption">{`Deselect ${selectedItems[resultItem].length} items`}</Typography>
@@ -151,12 +179,13 @@ const SearchResult = (props) => {
               ? results.items.map((item, i) => (
                 <ListItem
                   key={`results-${resultItem}-listitem-${i}`}
-                  className={`${classes.listItem} ${selectedItems[resultItem].includes(item) ? 'selected' : ''}`}
+                  className={`${classes.listItem} ${selectedItems[resultItem]
+                    .some((obj) => isItemSelected(obj, item)) ? 'selected' : ''}`}
                 >
                   <ListItemIcon>
                     <Checkbox
                       edge="start"
-                      checked={selectedItems[resultItem].includes(item)}
+                      checked={selectedItems[resultItem].some((obj) => isItemSelected(obj, item))}
                       tabIndex={-1}
                       disableRipple
                       onChange={() => handleCheckboxChange(item)}

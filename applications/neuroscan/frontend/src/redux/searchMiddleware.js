@@ -1,5 +1,6 @@
 import * as search from './actions/search';
 import doSearch from '../services/helpers';
+import doGetAll from '../services/getAllHelper';
 // eslint-disable-next-line import/no-cycle
 import cphateService from '../services/CphateService';
 import { ADD_CPHATE, addInstances } from './actions/widget';
@@ -8,6 +9,13 @@ import { VIEWERS } from '../utilities/constants';
 
 const searchMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
+    case search.GET_ALL: {
+      const { entity } = action.data;
+      next(action);
+      const state = store.getState();
+      doGetAll(store.dispatch, { ...state.search, limit: state.search.counters[entity] }, [entity]);
+      break;
+    }
     case search.UPDATE_FILTERS: {
       next(action);
       const state = store.getState();

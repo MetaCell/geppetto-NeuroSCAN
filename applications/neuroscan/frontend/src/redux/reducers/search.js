@@ -30,6 +30,17 @@ export const SEARCH_DEFAULT_STATUS = {
         items: [],
       },
     },
+    allItems: {
+      neurons: {
+        items: [],
+      },
+      contacts: {
+        items: [],
+      },
+      synapses: {
+        items: [],
+      },
+    },
   },
 };
 
@@ -58,6 +69,18 @@ export default (state = SEARCH_DEFAULT_STATUS, action) => {
           synapses: {
             items: [],
           },
+        },
+      };
+    }
+
+    case search.SET_ALL:
+    {
+      return {
+        ...state,
+        searchesCount: state.searchesCount - 1,
+        allItems: {
+          ...state.allItems,
+          ...action.data,
         },
       };
     }
