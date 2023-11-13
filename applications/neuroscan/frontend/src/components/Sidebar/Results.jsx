@@ -10,6 +10,8 @@ import SYNAPSES from '../../images/synapses.svg';
 import { addInstances } from '../../redux/actions/widget';
 import { mapToInstance } from '../../services/instanceHelpers';
 import { VIEWERS } from '../../utilities/constants';
+import { createWidget } from '../../redux/middleware';
+import { addToWidget } from '../../utilities/functions';
 
 const list = [
   {
@@ -38,10 +40,11 @@ const Results = ({ timePoint }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [currentItem, setCurrentItem] = React.useState(null);
   const [selectedItems, setSelectedItems] = useState(initialSelectedItems);
+  const [firstChunkSent, setFirstChunkSent] = useState(false);
   const dispatch = useDispatch();
 
   const searchesCount = useSelector((state) => state.search.searchesCount);
-
+  const widgets = useSelector((state) => state.widgets);
   const handleClick = (event, selectedItem) => {
     setCurrentItem(selectedItem);
     setAnchorEl(event.currentTarget);
@@ -54,19 +57,22 @@ const Results = ({ timePoint }) => {
   const processInstancesInChunks = async (viewerId, instances) => {
     const maxChunkSize = 200;
     const totalInstances = instances.length;
+    const id = 'test';
 
-    const processChunk = async (startIndex) => {
-      const endIndex = Math.min(startIndex + maxChunkSize, totalInstances);
-      const chunk = instances.slice(startIndex, endIndex);
-
-      dispatch(addInstances(viewerId, chunk, VIEWERS.InstanceViewer));
-      console.log(viewerId);
-      if (endIndex < totalInstances) {
-        await processChunk(endIndex);
-      }
+    const widget = {
+      id: null,
+      name: 'test',
+      type: VIEWERS.InstanceViewer,
+      timePoint: 0,
     };
 
-    await processChunk(0);
+    dispatch(addToWidget(
+      widget,
+      [],
+      true,
+      [],
+    ));
+    setFirstChunkSent(true);
   };
 
   const handleAddToViewer = async (viewerId = null) => {
@@ -103,6 +109,30 @@ const Results = ({ timePoint }) => {
   useEffect(() => {
     setSelectedItems(initialSelectedItems);
   }, [timePoint]);
+
+  useEffect(() => {
+    if (Object.keys(widgets).length > 0 && firstChunkSent) {
+      const maxChunkSize = 100;
+
+      const viewerId = Object.keys(widgets)[0];
+      const itemsArray = Object.values(selectedItems).flat();
+      const instances = itemsArray.map((item) => mapToInstance(item));
+      const totalInstances = instances.length;
+      const processChunk = async (startIndex) => {
+        const endIndex = Math.min(startIndex + maxChunkSize, totalInstances);
+        const chunk = instances.slice(startIndex, endIndex);
+
+        dispatch(addInstances(viewerId, chunk, VIEWERS.InstanceViewer));
+        if (endIndex < totalInstances) {
+          setTimeout(() => {
+            processChunk(endIndex);
+          }, 5000);
+        }
+      };
+      setFirstChunkSent(false);
+      processChunk(0);
+    }
+  }, [widgets, firstChunkSent]);
 
   return (
     <Box className="wrap">

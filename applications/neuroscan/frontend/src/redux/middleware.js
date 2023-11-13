@@ -44,7 +44,7 @@ import {
 
 const devStagesService = new DevStageService();
 
-const createWidget = (store, timePoint, viewerType) => {
+export const createWidget = (store, timePoint, viewerType) => {
   const state = store.getState();
   const { widgets } = state;
   const devStages = state.devStages.neuroSCAN;
