@@ -16,8 +16,8 @@ const doGetAllNeurons = async (dispatch, searchState) => {
     dispatch(
       search.setAll({
         neurons: {
-          ...searchState.allItems.neurons,
-          items: searchState.allItems.neurons.items.concat(data),
+          ...searchState.allItems.neurons.items,
+          items: data,
         },
       }),
     );
@@ -36,8 +36,8 @@ const doGetAllSynapses = async (dispatch, searchState) => {
     dispatch(
       search.setAll({
         synapses: {
-          ...searchState.results.synapses,
-          items: searchState.results.synapses.items.concat(data),
+          ...searchState.results.synapses.items,
+          items: data,
         },
       }),
     );
@@ -56,8 +56,8 @@ const doGetAllContacts = async (dispatch, searchState) => {
     dispatch(
       search.setAll({
         contacts: {
-          ...searchState.results.contacts,
-          items: searchState.results.contacts.items.concat(data),
+          ...searchState.results.contacts.items,
+          items: data,
         },
       }),
     );

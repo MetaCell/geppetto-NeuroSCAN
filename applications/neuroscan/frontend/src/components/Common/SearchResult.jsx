@@ -80,14 +80,14 @@ const SearchResult = (props) => {
   const count = useSelector((state) => state.search.counters[resultItem]);
   const [isHovered, setIsHovered] = useState(false);
 
-  const isItemSelected = (obj1, obj2) => Object.keys(obj1).length === Object.keys(obj2).length
-      && Object.keys(obj1).every((key) => obj1[key] === obj2[key]);
+  const isItemSelected = (item) => selectedItems[resultItem]
+    .some((selectedItem) => selectedItem.uid === item.uid);
   const handleCheckboxChange = (item) => {
-    if (selectedItems[resultItem].some((obj) => isItemSelected(obj, item))) {
+    if (isItemSelected(item)) {
       setSelectedItems({
         ...selectedItems,
         [resultItem]: selectedItems[resultItem]
-          .filter((selectedItem) => !isItemSelected(selectedItem, item)),
+          .filter((selectedItem) => selectedItem.uid !== item.uid),
       });
     } else {
       setSelectedItems({
@@ -99,14 +99,15 @@ const SearchResult = (props) => {
   const handleLoadMore = (entity) => {
     dispatch(search.loadMore({ entity }));
   };
-  const handleDeselectItems = (entity) => {
+  const handleDeselectAllSelectedItems = (entity) => {
     const updatedSelectedItems = { ...selectedItems };
     updatedSelectedItems[entity] = [];
     setSelectedItems(updatedSelectedItems);
+    dispatch(search.deselectAll({ entity: resultItem }));
   };
 
   const listRef = useRef(null);
-  const handleSelectAll = (entity) => {
+  const handleSelectAll = () => {
     dispatch(search.getAll({ entity: resultItem }));
   };
 
@@ -142,6 +143,8 @@ const SearchResult = (props) => {
     };
   }, [resultItem]);
 
+  console.log(selectedItems);
+
   return (
     <>
       <Accordion className={searchesCount > 0 ? classes.fade : ''} id={`${title}-result`}>
@@ -166,7 +169,7 @@ const SearchResult = (props) => {
                   </Button>
                 )
                 : (
-                  <Button variant="text" onClick={() => handleDeselectItems(resultItem)}>
+                  <Button variant="text" onClick={() => handleDeselectAllSelectedItems(resultItem)}>
                     <Typography variant="caption">{`Deselect ${selectedItems[resultItem].length} items`}</Typography>
                   </Button>
                 )
@@ -179,13 +182,12 @@ const SearchResult = (props) => {
               ? results.items.map((item, i) => (
                 <ListItem
                   key={`results-${resultItem}-listitem-${i}`}
-                  className={`${classes.listItem} ${selectedItems[resultItem]
-                    .some((obj) => isItemSelected(obj, item)) ? 'selected' : ''}`}
+                  className={`${classes.listItem} ${isItemSelected(item) ? 'selected' : ''}`}
                 >
                   <ListItemIcon>
                     <Checkbox
                       edge="start"
-                      checked={selectedItems[resultItem].some((obj) => isItemSelected(obj, item))}
+                      checked={isItemSelected(item)}
                       tabIndex={-1}
                       disableRipple
                       onChange={() => handleCheckboxChange(item)}

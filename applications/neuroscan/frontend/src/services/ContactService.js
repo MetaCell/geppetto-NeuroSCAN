@@ -41,7 +41,11 @@ export class ContactService {
   }
 
   async getAll(searchState) {
-    const query = this.constructQuery({ ...searchState, limit: searchState.limit });
+    const query = this.constructQuery({
+      ...searchState,
+      start: searchState.start,
+      limit: searchState.limit,
+    });
     const response = await backendClient.get(`${contactsUrl}?${query}`);
     return response.data.map((contact) => ({
       instanceType: CONTACT_TYPE,
@@ -62,7 +66,7 @@ export class ContactService {
       return qs.stringify({
         terms,
         timepoint: timePoint,
-        _start: searchState?.limit ? 0 : searchState.results.contacts.items.length,
+        _start: searchState?.limit ? searchState.start : searchState.results.contacts.items.length,
         _limit: searchState?.limit || maxRecordsPerFetch,
       });
     }
@@ -71,7 +75,7 @@ export class ContactService {
         { timepoint: timePoint },
         { _or: searchTerms.map((term) => ({ uid_contains: term })) },
       ],
-      _start: searchState?.limit ? 0 : searchState.results.contacts.items.length,
+      _start: searchState?.limit ? searchState.start : searchState.results.contacts.items.length,
       _limit: searchState?.limit || maxRecordsPerFetch,
     });
   }

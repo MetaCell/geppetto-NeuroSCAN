@@ -63,7 +63,7 @@ export class SynapseService {
     return qs.stringify({
       _where: andPart,
       _sort: 'uid:ASC',
-      _start: searchState?.limit ? 0 : results.items.length,
+      _start: searchState?.limit ? searchState?.start : results.items.length,
       _limit: searchState?.limit || maxRecordsPerFetch,
     });
   }
@@ -78,7 +78,11 @@ export class SynapseService {
   }
 
   async getAll(searchState) {
-    const query = this.constructQuery({ ...searchState, limit: searchState.limit });
+    const query = this.constructQuery({
+      ...searchState,
+      start: searchState.start,
+      limit: searchState.limit,
+    });
     const response = await backendClient.get(`${synapsesBackendUrl}?${query}`);
     return response.data.map((synapse) => ({
       instanceType: SYNAPSE_TYPE,

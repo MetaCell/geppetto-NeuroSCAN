@@ -8,14 +8,15 @@ import { raiseError, loading, loadingSuccess } from './actions/misc';
 import { VIEWERS } from '../utilities/constants';
 
 const searchMiddleware = (store) => (next) => (action) => {
-  const processChunks = (state, entity, totalCount, offset = 0) => {
+  const processChunks = (state, entity, totalCount, start = 0) => {
     const maxLimit = 500;
-    const remainingCount = totalCount - offset;
+    const remainingCount = totalCount - start;
     const chunkLimit = Math.min(maxLimit, remainingCount);
 
     if (chunkLimit > 0) {
-      doGetAll(store.dispatch, { ...state.search, limit: chunkLimit, offset }, [entity]);
-      processChunks(state, entity, totalCount, offset + maxLimit);
+      const actualLimit = Math.min(chunkLimit, remainingCount);
+      doGetAll(store.dispatch, { ...state.search, limit: actualLimit, start }, [entity]);
+      processChunks(state, entity, totalCount, start + actualLimit);
     }
   };
 

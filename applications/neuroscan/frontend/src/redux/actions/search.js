@@ -5,6 +5,7 @@ export const START_SEARCH = 'START_SEARCH';
 export const LOAD_MORE = 'LOAD_MORE';
 export const SET_ALL = 'SET_ALL';
 export const GET_ALL = 'GET_ALL';
+export const DESELECT_ALL = 'DESELECT_ALL';
 
 export const updateFilters = (filter) => ({
   type: UPDATE_FILTERS,
@@ -23,6 +24,11 @@ export const loadMore = (data) => ({
 
 export const getAll = (data) => ({
   type: GET_ALL,
+  data,
+});
+
+export const deselectAll = (data) => ({
+  type: DESELECT_ALL,
   data,
 });
 export const setAll = (data) => ({
