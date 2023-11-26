@@ -143,8 +143,6 @@ const SearchResult = (props) => {
     };
   }, [resultItem]);
 
-  console.log(selectedItems);
-
   return (
     <>
       <Accordion className={searchesCount > 0 ? classes.fade : ''} id={`${title}-result`}>
