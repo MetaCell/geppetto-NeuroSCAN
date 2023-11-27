@@ -334,11 +334,43 @@ const removeDuplicates = (arr) => arr.filter(
   },
 );
 
+// this project runs on node 14, so settimeout is not wrapped in a promise yet.
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
 export const createSimpleInstancesFromInstances = (instances) => {
   // filter out already existing instances
   const newInstances = instances.filter(
     (instance) => !window.Instances.find((i) => i.wrappedObj.id === instance.uid),
   );
+  // if newInstance size is bigger than 100, create simple instances in batches
+  if (newInstances.length > 100) {
+    const results = [];
+    const batches = [];
+    const batchSize = 100;
+    for (let i = 0; i < newInstances.length; i += batchSize) {
+      batches.push(newInstances.slice(i, i + batchSize));
+    }
+
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve) => {
+      // run promise all for each batch with await
+      while (batches.length >= 1) {
+        // eslint-disable-next-line no-loop-func, no-await-in-loop
+        results.push(await Promise.all(
+          // create geppetto simple instances from the instances
+          batches[0].map((instance) => createSimpleInstance(instance)),
+        ));
+        delay(5000);
+        batches.shift();
+      }
+      resolve(results);
+    }).then((newSimpleInstances) => {
+      // add the new simple instances to geppetto
+      window.Instances = removeDuplicates([...window.Instances, ...newSimpleInstances.flat()]);
+      window.GEPPETTO.Manager.augmentInstancesArray(window.Instances);
+    });
+  }
+
   return Promise.all(
     // create geppetto simple instances from the instances
     newInstances.map((instance) => createSimpleInstance(instance)),

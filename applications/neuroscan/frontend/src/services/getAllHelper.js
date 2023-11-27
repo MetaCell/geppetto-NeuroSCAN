@@ -2,6 +2,8 @@ import neuronService from './NeuronService';
 import contactService from './ContactService';
 import synapseService from './SynapseService';
 import * as search from '../redux/actions/search';
+import { loading, loadingSuccess } from '../redux/actions/misc';
+import { SET_ALL } from '../redux/actions/search';
 
 const checkSearchState = (searchState) => {
   const { filters } = searchState;
@@ -18,6 +20,7 @@ const checkSearchState = (searchState) => {
 };
 
 const doGetAllNeurons = async (dispatch, searchState) => {
+  dispatch(loading('Adding all instances', SET_ALL));
   const items = [];
   const counter = await neuronService.totalCount(searchState);
   const maxLimit = checkSearchState(searchState) ? 100 : 500;
@@ -47,9 +50,11 @@ const doGetAllNeurons = async (dispatch, searchState) => {
       },
     }),
   );
+  dispatch(loadingSuccess('Adding all instances', SET_ALL));
 };
 
 const doGetAllSynapses = async (dispatch, searchState) => {
+  dispatch(loading('Adding all instances', SET_ALL));
   const items = [];
   const counter = await synapseService.totalCount(searchState);
   const maxLimit = checkSearchState(searchState) ? 100 : 500;
@@ -79,9 +84,11 @@ const doGetAllSynapses = async (dispatch, searchState) => {
       },
     }),
   );
+  dispatch(loadingSuccess('Adding all instances', SET_ALL));
 };
 
 const doGetAllContacts = async (dispatch, searchState) => {
+  dispatch(loading('Adding all instances', SET_ALL));
   const items = [];
   const counter = await contactService.totalCount(searchState);
   const maxLimit = checkSearchState(searchState) ? 100 : 500;
@@ -111,6 +118,7 @@ const doGetAllContacts = async (dispatch, searchState) => {
       },
     }),
   );
+  dispatch(loadingSuccess('Adding all instances', SET_ALL));
 };
 
 export default async (dispatch, searchState, entities = ['neurons', 'contacts', 'synapses']) => {
