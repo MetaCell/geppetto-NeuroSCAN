@@ -14,7 +14,7 @@ import {
   ROTATE_STOP_ALL,
   updateWidgetConfig,
   INVERT_COLORS_FLASHING,
-  SET_ORIGINAL_COLORS_FLASHING, TOGGLE_INSTANCE_HIGHLIGHT, addInstances,
+  SET_ORIGINAL_COLORS_FLASHING, TOGGLE_INSTANCE_HIGHLIGHT,
 } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
 import neuronService from '../services/NeuronService';
@@ -83,7 +83,7 @@ const middleware = (store) => (next) => async (action) => {
       devStagesService.getDevStages().then((stages) => {
         store.dispatch(receivedDevStages(stages));
         next(loadingSuccess(msg, action.type));
-      }, (e) => {
+      }, () => {
         next(raiseError(msg));
       });
       break;
@@ -99,20 +99,25 @@ const middleware = (store) => (next) => async (action) => {
             const state = store.getState();
             widget = createWidget(store, state.search.filters.timePoint, action.viewerType);
           }
+          const filteredNewInstances = Array.isArray(widget?.config?.instances)
+          && widget?.config?.instances.length !== 0
+            ? action.instances.filter((item2) => !widget.config.instances
+              .some((item1) => item1.uid === item2.uid)) : action.instances;
+
           const addedObjectsToViewer = Array.isArray(widget?.config?.instances)
-            && widget?.config?.instances.length !== 0
-            ? widget.config.instances.concat(action.instances) : action.instances;
+          && widget?.config?.instances.length !== 0
+            ? widget.config.instances.concat(filteredNewInstances) : action.instances;
 
           store.dispatch(
             addToWidget(
               widget,
-              action.instances,
+              filteredNewInstances,
               false,
               addedObjectsToViewer,
             ),
           );
           next(loadingSuccess(msg, action.type));
-        }, (e) => {
+        }, () => {
           next(raiseError(msg));
         });
       break;

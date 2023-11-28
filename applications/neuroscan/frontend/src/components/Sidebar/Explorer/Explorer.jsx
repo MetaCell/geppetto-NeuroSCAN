@@ -56,6 +56,7 @@ const Explorer = () => {
       nodeId,
       ...other
     } = props;
+
     return (
       <StyledTreeItem
         nodeId={nodeId || `${viewerId}_${treeType}`}
