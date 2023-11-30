@@ -11,7 +11,7 @@ const SearchBar = ({
   const [inputValue, setInputValue] = useState('');
 
   return (
-    <Box position="relative" className="search-bar">
+    <Box position="relative" className="search-bar" id="search-bar">
       <img src={MagnifyingGlass} alt="MagnifyingGlass" />
       <ChipInput
         variant="outlined"
