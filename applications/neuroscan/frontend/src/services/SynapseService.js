@@ -1,5 +1,7 @@
 import qs from 'qs';
-import { SYNAPSE_TYPE, backendClient, maxRecordsPerFetch } from '../utilities/constants';
+import {
+  SYNAPSE_TYPE, backendClient, maxRecordsPerFetch, NEURON_TYPE,
+} from '../utilities/constants';
 
 const synapsesBackendUrl = '/synapses';
 
@@ -61,13 +63,26 @@ export class SynapseService {
     return qs.stringify({
       _where: andPart,
       _sort: 'uid:ASC',
-      _start: results.items.length,
-      _limit: maxRecordsPerFetch,
+      _start: searchState?.limit ? searchState?.start : results.items.length,
+      _limit: searchState?.limit || maxRecordsPerFetch,
     });
   }
 
   async search(searchState) {
     const query = this.constructQuery(searchState);
+    const response = await backendClient.get(`${synapsesBackendUrl}?${query}`);
+    return response.data.map((synapse) => ({
+      instanceType: SYNAPSE_TYPE,
+      ...synapse,
+    }));
+  }
+
+  async getAll(searchState) {
+    const query = this.constructQuery({
+      ...searchState,
+      start: searchState.start,
+      limit: searchState.limit,
+    });
     const response = await backendClient.get(`${synapsesBackendUrl}?${query}`);
     return response.data.map((synapse) => ({
       instanceType: SYNAPSE_TYPE,

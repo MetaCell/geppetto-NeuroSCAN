@@ -88,8 +88,8 @@ const WarningModal = (props: any) => {
           }}
         >
           <Typography style={{ marginBottom: '1.5rem' }}>
-            Caution: you are moving in a timepoint where the following data are not present.
-            Be aware that if you decide to proceed, these data will be lost.
+            Warning: you moved to a timepoint where the following data are not present
+            and will be lost from the current viewer.
           </Typography>
           {neurons?.length !== 0 && renderAccordion('Neurons', neurons, NeuronsIcon)}
           {contacts?.length !== 0 && renderAccordion('Contacts', contacts, ContactsIcon)}

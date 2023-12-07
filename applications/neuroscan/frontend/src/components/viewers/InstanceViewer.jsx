@@ -7,6 +7,7 @@ import { VIEWERS } from '../../utilities/constants';
 
 const InstanceViewer = connect(
   (state) => ({
+    timePoint: state.search.filters.timePoint,
     selectedInstanceToDelete: state.selectedInstanceToDelete,
   }),
   (dispatch) => ({

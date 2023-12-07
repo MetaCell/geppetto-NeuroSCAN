@@ -10,6 +10,7 @@ import SYNAPSES from '../../images/synapses.svg';
 import { addInstances } from '../../redux/actions/widget';
 import { mapToInstance } from '../../services/instanceHelpers';
 import { VIEWERS } from '../../utilities/constants';
+import * as search from '../../redux/actions/search';
 
 const list = [
   {
@@ -41,7 +42,6 @@ const Results = ({ timePoint }) => {
   const dispatch = useDispatch();
 
   const searchesCount = useSelector((state) => state.search.searchesCount);
-
   const handleClick = (event, selectedItem) => {
     setCurrentItem(selectedItem);
     setAnchorEl(event.currentTarget);
@@ -52,7 +52,7 @@ const Results = ({ timePoint }) => {
     setAnchorEl(null);
   };
 
-  const handleAddToViewer = (viewerId = null) => {
+  const handleAddToViewer = async (viewerId = null) => {
     if (currentItem) {
       const instances = [mapToInstance(currentItem)];
       dispatch(addInstances(viewerId, instances, VIEWERS.InstanceViewer));
@@ -61,6 +61,7 @@ const Results = ({ timePoint }) => {
       const instances = itemsArray.map((item) => mapToInstance(item));
       dispatch(addInstances(viewerId, instances, VIEWERS.InstanceViewer));
       setSelectedItems(initialSelectedItems);
+      Object.keys(selectedItems).forEach((key) => dispatch(search.deselectAll({ entity: key })));
     }
     handleClose();
   };

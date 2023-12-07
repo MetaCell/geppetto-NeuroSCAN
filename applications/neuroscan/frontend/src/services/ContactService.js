@@ -1,5 +1,7 @@
 import qs from 'qs';
-import { CONTACT_TYPE, backendClient, maxRecordsPerFetch } from '../utilities/constants';
+import {
+  CONTACT_TYPE, backendClient, maxRecordsPerFetch, SYNAPSE_TYPE,
+} from '../utilities/constants';
 
 const contactsUrl = '/contacts';
 
@@ -38,6 +40,19 @@ export class ContactService {
     }));
   }
 
+  async getAll(searchState) {
+    const query = this.constructQuery({
+      ...searchState,
+      start: searchState.start,
+      limit: searchState.limit,
+    });
+    const response = await backendClient.get(`${contactsUrl}?${query}`);
+    return response.data.map((contact) => ({
+      instanceType: CONTACT_TYPE,
+      ...contact,
+    }));
+  }
+
   async totalCount(searchState) {
     const query = this.constructQuery(searchState);
     const response = await backendClient.get(`${contactsUrl}/count?${query}`);
@@ -51,8 +66,8 @@ export class ContactService {
       return qs.stringify({
         terms,
         timepoint: timePoint,
-        _start: searchState.results.contacts.items.length,
-        _limit: maxRecordsPerFetch,
+        _start: searchState?.limit ? searchState.start : searchState.results.contacts.items.length,
+        _limit: searchState?.limit || maxRecordsPerFetch,
       });
     }
     return qs.stringify({
@@ -60,8 +75,8 @@ export class ContactService {
         { timepoint: timePoint },
         { _or: searchTerms.map((term) => ({ uid_contains: term })) },
       ],
-      _start: searchState.results.contacts.items.length,
-      _limit: maxRecordsPerFetch,
+      _start: searchState?.limit ? searchState.start : searchState.results.contacts.items.length,
+      _limit: searchState?.limit || maxRecordsPerFetch,
     });
   }
 }
