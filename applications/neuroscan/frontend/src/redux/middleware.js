@@ -1,7 +1,11 @@
 import * as layoutActions from '@metacell/geppetto-meta-client/common/layout/actions';
 import { updateWidget } from '@metacell/geppetto-meta-client/common/layout/actions';
 import { ADD_DEVSTAGES, receivedDevStages } from './actions/devStages';
-import { raiseError, loading, loadingSuccess } from './actions/misc';
+import {
+  loading,
+  raiseError,
+  loadingSuccess,
+} from './actions/misc';
 import {
   ADD_INSTANCES,
   ADD_INSTANCES_TO_GROUP,
@@ -14,7 +18,9 @@ import {
   ROTATE_STOP_ALL,
   updateWidgetConfig,
   INVERT_COLORS_FLASHING,
-  SET_ORIGINAL_COLORS_FLASHING, TOGGLE_INSTANCE_HIGHLIGHT,
+  SET_ORIGINAL_COLORS_FLASHING,
+  TOGGLE_INSTANCE_HIGHLIGHT,
+  DELETE_FROM_WIDGET,
 } from './actions/widget';
 import { DevStageService } from '../services/DevStageService';
 import neuronService from '../services/NeuronService';
@@ -224,6 +230,9 @@ const middleware = (store) => (next) => async (action) => {
               next(raiseError(msg));
             });
         } else {
+          const msg = 'Updating viewer timepoint';
+          next(loading(msg, action.type));
+          next(addToWidget(widget, [], false, addedObjectsToViewer));
           const neurons = getInstancesOfType(addedObjectsToViewer, NEURON_TYPE) || [];
           const contacts = getInstancesOfType(addedObjectsToViewer, CONTACT_TYPE) || [];
           const synapses = getInstancesOfType(addedObjectsToViewer, SYNAPSE_TYPE) || [];
@@ -237,8 +246,19 @@ const middleware = (store) => (next) => async (action) => {
           widget.config.timePoint = timePoint; // update the current widget's timepoint
           await createSimpleInstancesFromInstances(newInstances);
           store.dispatch(addToWidget(widget, newInstances, true, addedObjectsToViewer));
+          next(loadingSuccess(msg, action.type));
         }
       }
+      break;
+    }
+
+    case DELETE_FROM_WIDGET: {
+      const widget = getWidget(store, action.viewerId);
+      const { addedObjectsToViewer } = widget.config;
+      const msg = 'Removing from widget';
+      next(loading(msg, action.type));
+      store.dispatch(addToWidget(widget, [], true, addedObjectsToViewer));
+      next(loadingSuccess(msg, action.type));
       break;
     }
 

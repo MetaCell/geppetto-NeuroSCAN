@@ -18,7 +18,7 @@ import {
   getInstancesOfType,
   getInstancesByGroups,
 } from '../../services/instanceHelpers';
-import { updateTimePointViewer } from '../../redux/actions/widget';
+import { updateTimePointViewer, deleteFromWidget } from '../../redux/actions/widget';
 import WarningModal from '../WarningModal';
 
 const MenuControl = ({
@@ -52,13 +52,18 @@ const MenuControl = ({
   const clusters = getInstancesOfType(instances, CPHATE_TYPE) || [];
 
   useEffect(() => {
-    if (currentWidget && timePoint !== currentWidget?.timePoint) {
+    if (currentWidget && timePoint !== currentWidget?.config?.timePoint) {
+      /* TODO: this below is just an hack, it requires a new geppetto
+       * version but we are not supporting this anymore. */
+      dispatch(deleteFromWidget(viewerId));
+      // This below is the only line should stay in this condition
       dispatch(updateTimePointViewer(viewerId, timePoint));
+      // end of the hack
     }
   }, [timePoint]);
 
   useEffect(() => {
-    if (currentWidget && timePoint !== currentWidget?.timePoint) {
+    if (currentWidget && timePoint !== currentWidget?.timePoint && instances.length !== 0) {
       const lostInstancesArray = addedObjectsToViewer?.filter((item1) => !instances
         .some((item2) => item2.name === item1.name));
       setLostInstances(lostInstancesArray);
@@ -66,7 +71,9 @@ const MenuControl = ({
   }, [timePoint, addedObjectsToViewer, instances]);
 
   useEffect(() => {
-    if (currentWidget && timePoint !== currentWidget?.timePoint && lostInstances.length !== 0) {
+    if (currentWidget
+      && timePoint !== currentWidget?.timePoint
+      && lostInstances.length !== 0) {
       const delay = setTimeout(() => {
         setOpenWarningModal(true);
         clearTimeout(delay);
