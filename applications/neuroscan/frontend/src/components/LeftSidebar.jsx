@@ -14,7 +14,7 @@ import {
 import Explorer from './Sidebar/Explorer/Explorer';
 import Search from './Sidebar/Search';
 import Results from './Sidebar/Results';
-import CPhasePlot from './Sidebar/CPhasePlot';
+import CPhatePlot from './Sidebar/CPhatePlot';
 import FILTER from '../images/filter.svg';
 import ROTATE from '../images/rotate.svg';
 import ROTATE_PAUSE from '../images/rotate-pause.svg';
@@ -42,13 +42,24 @@ const useStyles = makeStyles((theme) => ({
     '& .add-element': {
       border: `4px solid ${vars.primaryColor}`,
       '&_head': {
-        paddingRight: '1rem',
+        padding: '0.625rem 1rem 0.625rem 1rem',
+        '& .MuiAccordionSummary-root': {
+          padding: 0,
+        },
+        '& .MuiAccordionSummary-root.Mui-expanded': {
+          minHeight: 'auto',
+        },
+        '& .MuiTypography-root': {
+          fontSize: '0.75rem',
+          lineHeight: '1rem',
+          height: 'auto',
+        },
         '& > .MuiButton-root': {
           padding: '0',
           minWidth: '1.5rem',
           backgroundColor: vars.filterButtonBg,
           border: 'none',
-          height: '1.5rem',
+          height: '1.375rem',
         },
       },
       '& > .MuiAccordion-root > .MuiAccordionSummary-root': {
@@ -64,23 +75,6 @@ const useStyles = makeStyles((theme) => ({
         '& .MuiFormControl-root .MuiOutlinedInput-root': {
           height: 'auto',
           minHeight: '2.25rem',
-        },
-        '& .search-bar': {
-          // marginBottom: '0.5625rem',
-          '& .MuiInputBase-input': {
-            minWidth: '3rem',
-          },
-          '& > .MuiIconButton-root': {
-            padding: '0',
-            position: 'absolute',
-            right: '0.625rem',
-            top: '0.75rem',
-          },
-          '& > img': {
-            position: 'absolute',
-            left: '0.625rem',
-            top: '0.75rem',
-          },
         },
         '& .MuiAccordion-root:last-child': {
           marginBottom: '0.5625rem',
@@ -164,9 +158,9 @@ const LeftSidebar = (props) => {
                     setTimePoint={setTimePoint}
                   />
 
-                  <Results />
+                  <Results timePoint={timePoint} />
 
-                  <CPhasePlot timePoint={timePoint} />
+                  <CPhatePlot timePoint={timePoint} />
                 </AccordionDetails>
               </Accordion>
             </Box>

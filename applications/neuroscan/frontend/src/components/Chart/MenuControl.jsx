@@ -18,7 +18,8 @@ import {
   getInstancesOfType,
   getInstancesByGroups,
 } from '../../services/instanceHelpers';
-import { updateTimePointViewer } from '../../redux/actions/widget';
+import { updateTimePointViewer, deleteFromWidget } from '../../redux/actions/widget';
+import WarningModal from '../WarningModal';
 
 const MenuControl = ({
   anchorEl, handleClose, open, id, selection, viewerId,
@@ -30,14 +31,19 @@ const MenuControl = ({
   const [content, setContent] = useState(null);
   const [timePoint, setTimePoint] = useState(currentWidget?.config?.timePoint || 0);
 
+  const [openWarningModal, setOpenWarningModal] = useState(false);
+  const [lostInstances, setLostInstances] = useState([]);
+
   const layersList = ['Worm Body', 'Pharynx', 'NerveRing'];
   const downloadFiles = (option) => {
     console.log(`selected option: ${option}`);
     handleClose();
   };
   let instances = [];
+  let addedObjectsToViewer = [];
   if (currentWidget) {
     instances = currentWidget.config.instances;
+    addedObjectsToViewer = currentWidget.config.addedObjectsToViewer;
   }
   const groups = getInstancesByGroups(instances);
   const neurons = getInstancesOfType(instances, NEURON_TYPE) || [];
@@ -46,16 +52,42 @@ const MenuControl = ({
   const clusters = getInstancesOfType(instances, CPHATE_TYPE) || [];
 
   useEffect(() => {
-    if (currentWidget && timePoint !== currentWidget?.timePoint) {
+    if (currentWidget && timePoint !== currentWidget?.config?.timePoint) {
+      /* TODO: this below is just an hack, it requires a new geppetto
+       * version but we are not supporting this anymore. */
+      dispatch(deleteFromWidget(viewerId));
+      // This below is the only line should stay in this condition
       dispatch(updateTimePointViewer(viewerId, timePoint));
+      // end of the hack
     }
   }, [timePoint]);
+
+  useEffect(() => {
+    if (currentWidget && timePoint !== currentWidget?.timePoint && instances.length !== 0) {
+      const lostInstancesArray = addedObjectsToViewer?.filter((item1) => !instances
+        .some((item2) => item2.name === item1.name));
+      setLostInstances(lostInstancesArray);
+    }
+  }, [timePoint, addedObjectsToViewer, instances]);
+
+  useEffect(() => {
+    if (currentWidget
+      && timePoint !== currentWidget?.timePoint
+      && lostInstances.length !== 0) {
+      const delay = setTimeout(() => {
+        setOpenWarningModal(true);
+        clearTimeout(delay);
+      }, 1000);
+    } else {
+      setOpenWarningModal(false);
+    }
+  }, [lostInstances]);
 
   useEffect(() => {
     switch (selection) {
       case VIEWER_MENU.devStage: setContent(
         <DevStageMenu
-          timePoint={timePoint}
+          timePoint={currentWidget?.config?.timePoint}
           setTimePoint={setTimePoint}
         />,
       );
@@ -81,23 +113,36 @@ const MenuControl = ({
   }, [selection, instances]);
 
   return (
-    <Popover
-      id={id}
-      className="custom-popover"
-      open={open}
-      anchorEl={anchorEl}
-      onClose={handleClose}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'left',
-      }}
-    >
-      { content }
-    </Popover>
+    <>
+      <Popover
+        id={id}
+        className="custom-popover"
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        { content }
+      </Popover>
+      {
+          lostInstances?.length !== 0 && openWarningModal && (
+          <WarningModal
+            open={openWarningModal}
+            handleClose={() => setOpenWarningModal(false)}
+            instances={lostInstances}
+          />
+          )
+      }
+
+    </>
+
   );
 };
 

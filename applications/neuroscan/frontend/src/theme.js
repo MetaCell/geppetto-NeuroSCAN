@@ -35,6 +35,7 @@ const {
   downloadBgColor,
   downloadBorderColor,
   buttonConfirmationColor,
+  selectedExpandedBgColor,
 } = vars;
 
 const theme = createTheme({
@@ -110,6 +111,24 @@ const theme = createTheme({
             '&.Mui-selected': {
               '&:before': {
                 opacity: '1',
+              },
+            },
+          },
+        },
+        '&.highlight-popover': {
+          '& .MuiPopover-paper': {
+            paddingBottom: '1rem',
+          },
+          '& .MuiPaper-root': {
+            transform: 'none !important',
+            '& .MuiInputBase-root': {
+              height: 'auto',
+              minHeight: '2.25rem',
+            },
+            '& .MuiAccordionSummary-root': {
+              padding: '0.5rem 1rem 0.5rem 0.5rem',
+              '&:hover': {
+                backgroundColor: selectedExpandedBgColor,
               },
             },
           },
@@ -1443,7 +1462,7 @@ const theme = createTheme({
             margin: '0.5625rem auto',
           },
           '& .MuiListItem-root': {
-            padding: '0 1rem 0 2.0625rem',
+            padding: '0 1rem 0 1.625rem',
             height: '2rem',
             '& .MuiButton-root': {
               height: '1.5rem',
@@ -1460,7 +1479,7 @@ const theme = createTheme({
             },
             '& .MuiListItemIcon-root': {
               minWidth: '0.0625rem',
-              marginRight: '0.5rem',
+              // marginRight: '0.5rem',
             },
             '& .MuiListItemText-root': {
               margin: '0',
@@ -1498,13 +1517,16 @@ const theme = createTheme({
           display: 'flex',
           alignItems: 'center',
           width: '100%',
+          fontSize: '0.75rem',
+          lineHeight: '1rem',
+          marginLeft: '0.25rem',
         },
       },
       expandIcon: {
         color: lightBlackColor,
         order: 1,
-        margin: '0 0.5rem 0 0',
-        padding: '0',
+        margin: 0,
+        padding: '0.25rem 0.195rem 0.25rem 0.325rem',
         '&.Mui-expanded': {
           transform: 'rotate(90deg)',
         },
@@ -1560,7 +1582,7 @@ const theme = createTheme({
             },
           },
           '& .MuiAccordionSummary-root': {
-            padding: '0 1rem',
+            padding: '0.5rem',
           },
           '& .search-bar': {
             '& + .MuiBox-root': {
@@ -1646,15 +1668,9 @@ const theme = createTheme({
                     display: 'flex',
                     alignItems: 'center',
                     padding: '0.5625rem 0.6875rem',
-                    '&:hover': {
-                      '& .MuiIconButton-root': {
-                        display: 'block',
-                        transition,
-                      },
-                    },
                     '& .MuiIconButton-root': {
                       padding: 0,
-                      display: 'none',
+                      display: 'block',
                       marginLeft: '0.5rem',
                       transition,
                     },
@@ -1823,6 +1839,15 @@ const theme = createTheme({
       },
       gutters: {
         padding: '0 !important',
+      },
+    },
+    MuiSvgIcon: {
+      root: {
+        fontSize: '1rem',
+      },
+
+      fontSizeSmall: {
+        fontSize: '.5rem',
       },
     },
   },

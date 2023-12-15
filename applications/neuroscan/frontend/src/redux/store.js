@@ -12,12 +12,14 @@ import promotersSearchMiddleware from './promotersSearchMiddleware';
 import { SEARCH_DEFAULT_STATUS } from './reducers/search';
 import { DEVSTAGES_DEFAULT_STATUS } from './reducers/devStages';
 import { PROMOTERS_DEFAULT_STATUS } from './reducers/promoters';
+import { MISC_DEFAULT_STATUS } from './reducers/misc';
 
 const INIT_STATE = {
   devStages: DEVSTAGES_DEFAULT_STATUS,
-  misc: {},
+  misc: MISC_DEFAULT_STATUS,
   search: SEARCH_DEFAULT_STATUS.search,
   promoterDB: PROMOTERS_DEFAULT_STATUS,
+  selectedInstanceToDelete: {},
 };
 
 const store = createStore(

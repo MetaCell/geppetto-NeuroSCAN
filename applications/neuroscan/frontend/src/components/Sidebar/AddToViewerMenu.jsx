@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import MENU_CHECKMARK_ON from '../../images/menu-checkmark-on.svg';
 import PLUS from '../../images/plus-white.svg';
+// eslint-disable-next-line import/no-cycle
 import { getViewersFromWidgets } from '../../utilities/functions';
 import { VIEWERS } from '../../utilities/constants';
 
@@ -19,7 +20,12 @@ const useStyles = makeStyles(() => ({
 }));
 
 const AddToViewerMenu = ({
-  anchorEl, handleClose, handleAddToViewer, fullMenu = true,
+  anchorEl,
+  handleClose,
+  handleAddToViewer,
+  fullMenu = true,
+  useAnchorPosition = false,
+  anchorPosition = { top: 0, left: 0 },
 }) => {
   const classes = useStyles();
   const timePoint = useSelector((state) => state.search.filters.timePoint);
@@ -36,7 +42,11 @@ const AddToViewerMenu = ({
             && viewer.config.type === VIEWERS.InstanceViewer;
           if (isEnabled) {
             const isInstancePresent = (inst) => {
-              if (inst.name === instanceName) {
+              let instName = inst.name;
+              if (inst.instanceType === 'synapse') {
+                instName = inst.name.replace(/<\/?b>/g, '');
+              }
+              if (instName === instanceName) {
                 isEnabled = false;
                 return true;
               }
@@ -63,9 +73,11 @@ const AddToViewerMenu = ({
       className="custom-popover dark right"
       anchorEl={anchorEl}
       keepMounted
-      open={Boolean(anchorEl)}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={useAnchorPosition ? true : Boolean(anchorEl)}
+      anchorReference={useAnchorPosition ? 'anchorPosition' : undefined}
+      anchorPosition={useAnchorPosition ? anchorPosition : undefined}
+      anchorOrigin={useAnchorPosition ? undefined : { vertical: 'top', horizontal: 'right' }}
+      transformOrigin={useAnchorPosition ? undefined : { vertical: 'top', horizontal: 'right' }}
       onClose={handleClose}
       getContentAnchorEl={null}
     >

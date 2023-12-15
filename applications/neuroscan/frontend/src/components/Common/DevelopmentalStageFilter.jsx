@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   makeStyles,
   Box,
@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import DOWN from '../../images/chevron-down.svg';
 import vars from '../../styles/constants';
+import * as search from '../../redux/actions/search';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -47,12 +48,14 @@ const sliderMarker = <img width="6" height="4" src={DOWN} alt="DOWN" />;
 const DevelopmentalStageFilter = (props) => {
   const { timePoint, setTimePoint } = props;
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [sliderVal, setSliderVal] = React.useState(timePoint);
   const devStages = useSelector((state) => state.devStages.neuroSCAN);
 
   const handleChange = (e, value) => {
     setTimePoint(value);
+    dispatch(search.deselectAll());
   };
 
   const marks = devStages

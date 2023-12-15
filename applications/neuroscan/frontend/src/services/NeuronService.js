@@ -26,7 +26,7 @@ export class NeuronService {
   }
 
   async getByUID(timePoint, uids = []) {
-    const query = `timepoint=${timePoint}${uids.map((uid) => `&uid_in=${uid}`)}`;
+    const query = `timepoint=${timePoint}${uids.map((uid) => `&uid_in=${uid}`).join('')}`;
     const response = await backendClient.get(`${neuronsBackendUrl}?${query}`);
     return response.data.map((neuron) => ({
       instanceType: NEURON_TYPE,
@@ -43,13 +43,26 @@ export class NeuronService {
         { _or: searchTerms.map((term) => ({ uid_contains: term })) },
       ],
       _sort: 'uid:ASC',
-      _start: results.items.length,
-      _limit: maxRecordsPerFetch,
+      _start: searchState?.limit ? searchState.start : results.items.length,
+      _limit: searchState?.limit || maxRecordsPerFetch,
     });
   }
 
   async search(searchState) {
     const query = this.constructQuery(searchState);
+    const response = await backendClient.get(`${neuronsBackendUrl}?${query}`);
+    return response.data.map((neuron) => ({
+      instanceType: NEURON_TYPE,
+      ...neuron,
+    }));
+  }
+
+  async getAll(searchState) {
+    const query = this.constructQuery({
+      ...searchState,
+      start: searchState.start,
+      limit: searchState.limit,
+    });
     const response = await backendClient.get(`${neuronsBackendUrl}?${query}`);
     return response.data.map((neuron) => ({
       instanceType: NEURON_TYPE,

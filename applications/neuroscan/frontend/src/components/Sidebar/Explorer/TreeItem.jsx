@@ -6,6 +6,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import HTMLViewer from '@metacell/geppetto-meta-ui/html-viewer/HTMLViewer';
 import DOWN from '../../../images/chevron-down.svg';
 import ExplorerMenu from './ExplorerMenu';
 
@@ -45,7 +46,12 @@ const StyledTreeItem = (props) => {
               <img src={LabelIcon} alt="" />
             </Box>
             <Typography variant="body2" className="labelText" onClick={onClick}>
-              {labelText}
+              <HTMLViewer
+                content={labelText}
+                style={{
+                  width: '100%', height: '100%', float: 'center',
+                }}
+              />
             </Typography>
             {
               hasExplorerMenu && (

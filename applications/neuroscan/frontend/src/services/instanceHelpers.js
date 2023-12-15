@@ -1,6 +1,11 @@
 /* eslint-disable import/no-cycle */
 import SimpleInstance from '@metacell/geppetto-meta-core/model/SimpleInstance';
-import { invertColorsFlashing, setOriginalColors, updateWidgetConfig } from '../redux/actions/widget';
+import {
+  invertColorsFlashing,
+  setOriginalColors,
+  addLastSelectedInstance,
+  updateWidgetConfig,
+} from '../redux/actions/widget';
 import urlService from './UrlService';
 import zipService from './ZipService';
 import store from '../redux/store';
@@ -59,7 +64,6 @@ export const setOriginalColorSelectedInstances = (instances, selectedUids) => (
       }
       return newInstance;
     }));
-
 const updateInstanceSelected = (instances, selectedUids) => {
   const i = instances.map((instance) => {
     if (selectedUids.find((x) => x === instance.uid)) {
@@ -113,6 +117,7 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
   const colorPickerColor = selectedUids.length > 0
     ? newInstances.find((i) => i.uid === selectedUids[selectedUids.length - 1]).colorOriginal
     : null;
+
   store.dispatch(updateWidgetConfig(
     viewerId, {
       flash: true,
@@ -121,6 +126,7 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
       colorPickerColor,
     },
   ));
+
   let counter = 1;
   const interval = setInterval(() => {
     if (counter === 6) {
@@ -131,13 +137,29 @@ export const setSelectedInstances = (viewerId, instances, selectedUids) => {
     }
     counter += 1;
   }, 750);
+
+  // Add the last Selected instances uid
+  const newSelectedUid = instances.find((item) => (item.selected === false)
+      && selectedUids.includes(item.uid));
+  store.dispatch(addLastSelectedInstance(viewerId, [newSelectedUid.uid]));
 };
 
-export const deleteSelectedInstances = (viewerId, instances, selectedUids) => {
-  const newInstances = instances.filter((instance) => !selectedUids.includes(instance.uid));
+export const deleteSelectedInstances = (viewerId, selectedUids) => {
+  const { selectedInstanceToDelete, widgets } = store.getState();
+
+  // get current viewer config for the selected instance
+  const currentWidget = widgets[selectedInstanceToDelete.viewerId];
+  const { config } = currentWidget;
+
+  // remove selected instances from instances and newAddedObjectsToViewer lists
+  const newInstances = config?.instances.filter((instance) => !selectedUids.includes(instance.uid));
+  const newAddedObjectsToViewer = config?.addedObjectsToViewer
+    .filter((obj) => !selectedUids.includes(obj.uid));
+
   store.dispatch(updateWidgetConfig(
     viewerId, {
       instances: newInstances,
+      addedObjectsToViewer: newAddedObjectsToViewer,
     },
   ));
 };
@@ -312,11 +334,43 @@ const removeDuplicates = (arr) => arr.filter(
   },
 );
 
+// this project runs on node 14, so settimeout is not wrapped in a promise yet.
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
 export const createSimpleInstancesFromInstances = (instances) => {
   // filter out already existing instances
   const newInstances = instances.filter(
     (instance) => !window.Instances.find((i) => i.wrappedObj.id === instance.uid),
   );
+  // if newInstance size is bigger than 100, create simple instances in batches
+  if (newInstances.length > 100) {
+    const results = [];
+    const batches = [];
+    const batchSize = 100;
+    for (let i = 0; i < newInstances.length; i += batchSize) {
+      batches.push(newInstances.slice(i, i + batchSize));
+    }
+
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve) => {
+      // run promise all for each batch with await
+      while (batches.length >= 1) {
+        // eslint-disable-next-line no-loop-func, no-await-in-loop
+        results.push(await Promise.all(
+          // create geppetto simple instances from the instances
+          batches[0].map((instance) => createSimpleInstance(instance)),
+        ));
+        delay(5000);
+        batches.shift();
+      }
+      resolve(results);
+    }).then((newSimpleInstances) => {
+      // add the new simple instances to geppetto
+      window.Instances = removeDuplicates([...window.Instances, ...newSimpleInstances.flat()]);
+      window.GEPPETTO.Manager.augmentInstancesArray(window.Instances);
+    });
+  }
+
   return Promise.all(
     // create geppetto simple instances from the instances
     newInstances.map((instance) => createSimpleInstance(instance)),
@@ -376,3 +430,27 @@ export const handleSelect = (viewerId, selectedInstance, widgets) => {
     setSelectedInstances(viewerId, instances, [selectedInstance.uid]);
   }
 };
+
+export const sortedInstances = (instances) => {
+  instances.sort((a, b) => {
+    const neuronsA = a.neurons.join('');
+    const neuronsB = b.neurons.join('');
+    return neuronsA.localeCompare(neuronsB);
+  });
+
+  instances.forEach((obj) => {
+    if (obj.neurons.length > 1) {
+      obj.neurons.sort();
+    }
+  });
+  return instances;
+};
+
+export const sortedGroupedIterations = (items) => items.map((innerArray) => innerArray.slice()
+  .sort((a, b) => a.name.localeCompare(b.name)));
+
+export async function fetchDataForEntity(service, timePoint, entities) {
+  if (entities.length === 0) return [];
+  const newEntities = await service.getByUID(timePoint, entities.map((e) => e.uidFromDb));
+  return newEntities;
+}

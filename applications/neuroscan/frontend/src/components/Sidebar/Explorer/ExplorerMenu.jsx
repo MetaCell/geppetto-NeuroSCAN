@@ -27,10 +27,10 @@ const ExplorerMenu = ({
     handleMenuClose();
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = async () => {
     if (viewerId) {
-      const { instances } = widgets[viewerId].config;
-      deleteSelectedInstances(viewerId, instances, [instance.uid]);
+      await handleSelect(viewerId, instance, widgets);
+      deleteSelectedInstances(viewerId, [instance.uid]);
     }
     handleMenuClose();
   };

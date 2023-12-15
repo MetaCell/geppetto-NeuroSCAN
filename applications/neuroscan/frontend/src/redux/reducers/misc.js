@@ -5,6 +5,7 @@ import {
   CANVAS_UPDATE_STARTED,
   CANVAS_UPDATE_ENDED,
 } from '../actions/misc';
+
 import { CANVAS_STARTED, CANVAS_FINISHED } from '../../utilities/constants';
 
 export const MISC_DEFAULT_STATUS = {};

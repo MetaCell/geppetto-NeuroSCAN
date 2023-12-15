@@ -92,10 +92,20 @@
   line-height: 1.375rem;
   letter-spacing: 0.01rem;
   color: #161616;
+  margin-bottom: .5rem;
+}
+
+.customTooltip .introjs-dontShowAgain {
+  padding: 0 1rem;
+}
+
+.customTooltip .introjs-skipbutton {
+  right: 1rem;
+  top: auto;
 }
 
 .customTooltip .introjs-bullets {
-  padding: 0 1rem 1rem;
+  padding: 1rem;
 }
 .customTooltip .introjs-bullets ul {
   display: flex;

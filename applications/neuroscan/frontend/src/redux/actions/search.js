@@ -3,6 +3,9 @@ export const UPDATE_RESULTS = 'UPDATE_RESULTS';
 export const UPDATE_COUNTERS = 'UPDATE_COUNTERS';
 export const START_SEARCH = 'START_SEARCH';
 export const LOAD_MORE = 'LOAD_MORE';
+export const SET_ALL = 'SET_ALL';
+export const GET_ALL = 'GET_ALL';
+export const DESELECT_ALL = 'DESELECT_ALL';
 
 export const updateFilters = (filter) => ({
   type: UPDATE_FILTERS,
@@ -16,6 +19,20 @@ export const updateResults = (data) => ({
 
 export const loadMore = (data) => ({
   type: LOAD_MORE,
+  data,
+});
+
+export const getAll = (data) => ({
+  type: GET_ALL,
+  data,
+});
+
+export const deselectAll = (data) => ({
+  type: DESELECT_ALL,
+  data,
+});
+export const setAll = (data) => ({
+  type: SET_ALL,
   data,
 });
 

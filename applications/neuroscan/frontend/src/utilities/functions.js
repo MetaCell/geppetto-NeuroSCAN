@@ -45,6 +45,7 @@ export const addToWidget = (
   widget = null,
   instances,
   cleanInstances = false,
+  addedObjectsToViewer = [],
 ) => {
   if (widget.id === null) {
     const newViewerId = uuidv4();
@@ -73,6 +74,7 @@ export const addToWidget = (
           props: {
             widgetName: widget.name,
             viewerId: newViewerId,
+            hasHighlight: widget.type === VIEWERS.CphateViewer,
           },
         },
         recorderOptions: {
@@ -101,7 +103,10 @@ export const addToWidget = (
       rotate: cameraControlsRotateState.STOP,
       backgroundColor: CANVAS_BACKGROUND_COLOR_DARK,
       colorPickerColor: null,
+      highlightSearchedInstances: widget.highlightSearchedInstances,
       instances,
+      highlightedInstances: [],
+      addedObjectsToViewer,
     };
     return addWidget(widgetFromViewerSpec(newWidget));
   }
@@ -111,6 +116,7 @@ export const addToWidget = (
     config: {
       ...widget.config,
       instances: cleanInstances ? instances : widget.config.instances.concat(instances),
+      addedObjectsToViewer,
     },
   };
   return updateWidget(newWidget);

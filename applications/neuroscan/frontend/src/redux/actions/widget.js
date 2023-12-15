@@ -1,4 +1,5 @@
 export const ADD_INSTANCES = 'ADD_INSTANCES';
+export const CLONE_VIEWER_WITH_INSTANCES_LIST = 'CLONE_VIEWER_CLONE_INSTANCES_LIST';
 export const ADD_CPHATE = 'ADD_CPHATE';
 export const ADD_INSTANCES_TO_GROUP = 'ADD_INSTANCES_TO_GROUP';
 export const SET_INSTANCES_COLOR = 'SET_INSTANCES_COLOR';
@@ -10,11 +11,20 @@ export const ROTATE_START_ALL = 'ROTATE_START_ALL';
 export const ROTATE_STOP_ALL = 'ROTATE_STOP_ALL';
 export const INVERT_COLORS_FLASHING = 'INVERT_COLORS_FLASHING';
 export const SET_ORIGINAL_COLORS_FLASHING = 'SET_ORIGINAL_COLORS_FLASHING';
+export const TOGGLE_INSTANCE_HIGHLIGHT = 'TOGGLE_INSTANCE_HIGHLIGHT';
+export const ADD_LAST_SELECTED_INSTANCE = 'ADD_LAST_SELECTED_INSTANCE';
+export const DELETE_FROM_WIDGET = 'DELETE_FROM_WIDGET';
 
 export const addInstances = ((viewerId, instances, viewerType = null) => ({
   type: ADD_INSTANCES,
   viewerId,
   viewerType,
+  instances,
+}));
+
+export const cloneViewerWithInstancesList = ((fromViewerId, instances) => ({
+  type: CLONE_VIEWER_WITH_INSTANCES_LIST,
+  fromViewerId,
   instances,
 }));
 
@@ -73,4 +83,20 @@ export const setOriginalColors = ((viewerId, uids) => ({
   type: SET_ORIGINAL_COLORS_FLASHING,
   viewerId,
   uids,
+}));
+
+export const toggleInstanceHighlight = (viewerId, optionName) => ({
+  type: TOGGLE_INSTANCE_HIGHLIGHT,
+  payload: { viewerId, optionName },
+});
+
+export const addLastSelectedInstance = ((viewerId, uid) => ({
+  type: ADD_LAST_SELECTED_INSTANCE,
+  viewerId,
+  uid,
+}));
+
+export const deleteFromWidget = ((viewerId, uids) => ({
+  type: DELETE_FROM_WIDGET,
+  viewerId,
 }));

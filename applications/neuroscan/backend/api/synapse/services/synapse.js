@@ -19,7 +19,7 @@ const searchSynapseByTerms = (
 
   return termsPre.reduce((r, t, i) => {
     return `${r} ${i != 0 ? 'UNION ': ''}
-  select * 
+  select *
   from (
     select s.*, n_pre.uid as neuronPre_uid
     from synapses as s
@@ -28,7 +28,8 @@ const searchSynapseByTerms = (
     where s.timepoint = ${timepoint}
     and upper(n_pre.uid) like '%${t}%'
     ${type.length > 0 ? `and type in ('${type.join("','")}')` : ''}
-    ${postNeuron ? `and upper(n_post.uid) like '%${postNeuron.toUpperCase()}%'` : ''}
+    ${(postNeuron && !neuronPre) ? `and upper(n_post.uid) like '%${postNeuron.toUpperCase()}%'` : ''}
+    ${(!postNeuron && neuronPre) ? `and upper(n_pre.uid) like '%${neuronPre.toUpperCase()}%' and s.position = 'pre'` : ''}
     and ${terms.length - 1} <= (
       select count(1)
       from (
@@ -69,7 +70,6 @@ const searchSynapseByTerms = (
 
 module.exports = {
   async find(params, populate) {
-    console.log(params);
     const where = params._where || [];
     const searchTerms = where.find(t => 'searchTerms' in t);
     if (!searchTerms) {
@@ -78,7 +78,7 @@ module.exports = {
 
     const limit = params._limit || null;
     const offset = params._start || null;
-  
+
     const query = `
     select *
     from (

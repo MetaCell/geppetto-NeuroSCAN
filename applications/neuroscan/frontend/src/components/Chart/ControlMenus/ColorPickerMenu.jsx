@@ -19,7 +19,7 @@ import SYNAPSE from '../../../images/synapse.svg';
 import CONTACT from '../../../images/contact.svg';
 import CLUSTER from '../../../images/cluster.svg';
 // eslint-disable-next-line import/no-cycle
-import { groupBy } from '../../../services/instanceHelpers';
+import { groupBy, sortedGroupedIterations } from '../../../services/instanceHelpers';
 
 const ColorPickerMenu = ({
   dispatch,
@@ -131,6 +131,8 @@ const ColorPickerMenu = ({
     'i',
   ));
 
+  const sortedIterations = sortedGroupedIterations(iterations);
+
   const handleToggle = (event, nodeIds) => {
     setExpanded([nodeIds[0]]);
   };
@@ -181,7 +183,7 @@ const ColorPickerMenu = ({
                 rowItem(SYNAPSE, synapse)
               ))
             }
-            { iterations.length > 0
+            { sortedIterations.length > 0
               && (
               <TreeView
                 className="scrollbar"
@@ -195,7 +197,7 @@ const ColorPickerMenu = ({
                 expanded={expanded}
               >
                 {
-                  iterations.map((iteration) => (
+                  sortedIterations.map((iteration) => (
                     <TreeItem
                       nodeId={`iteration-${iteration[0].i}`}
                       label={(
